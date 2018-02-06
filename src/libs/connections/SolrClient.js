@@ -1,3 +1,4 @@
+import {} from 'dotenv/config'
 import solr from 'solr-client'
 import bluebird from 'bluebird'
 
