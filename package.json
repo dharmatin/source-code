@@ -1,0 +1,34 @@
+{
+  "name": "new-launch-api",
+  "version": "1.0.0",
+  "description": "for newlaunch API",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha ./test/unit --require babel-register --require babel-polyfill",
+    "start": "nodemon --exec babel-node ./src/bin/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^5.0.0",
+    "express-decorators": "^1.0.0",
+    "mocha": "^5.0.0",
+    "morgan": "^1.9.0",
+    "sinon": "^4.2.2"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "solr-client": "^0.7.0"
+  }
+}

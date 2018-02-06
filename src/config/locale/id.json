@@ -1,0 +1,16 @@
+{
+    "not_found": "Tidak ditemukan",
+    "error": {
+        "500": "Terjadi gangguan pada sistem"
+    },
+    "property_type": {
+        "ho": "Rumah",
+        "ap": "Apartemen",
+        "la": "Tanah",
+        "sh": "Ruko",
+        "of": "Perkantoran",
+        "wa": "Gudang",
+        "fa": "Pabrik",
+        "cs": "Ruang Usaha"
+    }
+}

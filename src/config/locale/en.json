@@ -1,0 +1,16 @@
+{
+    "not_found": "Not found",
+    "error": {
+        "500": "Internal system error"
+    },
+    "property_type": {
+        "ho": "House",
+        "ap": "Apartmen",
+        "la": "Land",
+        "sh": "Shophouse",
+        "of": "Office",
+        "wa": "Warehouse",
+        "fa": "Factory",
+        "cs": "Commercial Space"
+    }
+}
