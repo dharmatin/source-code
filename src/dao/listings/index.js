@@ -6,6 +6,6 @@ export default {
   search: async(id) => {
     const conditionQ = id ? `id:${id}` : '*:*';
     const queryListingById = listingClient.createQuery().q(conditionQ).start(0).rows(10);
-    await listingClient.searchAsync(queryListingById);
+    return listingClient.searchAsync(queryListingById);
   }
 };
