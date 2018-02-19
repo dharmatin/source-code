@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import config from '../../config/index';
-import Address from './address';
-import Utility from './utility';
+import { getAddress } from './address';
+import { slugify } from './utility';
 
-function getDeveloper(param, lang) {
+export function getDeveloper(param, lang) {
   const response = {
     organisations: []
   };
@@ -12,10 +12,18 @@ function getDeveloper(param, lang) {
     type: 'Developer',
     name: param.developer_name,
     website: getDeveloperLink(param, lang),
-    contact: getDeveloperContact(param)
+    contact: getDeveloperContact(param),
+    brandColor: param.developer_brandcolor
   });
 
-  _.merge(response.organisations[0], Address.getDeveloperAddress(param));
+  _.merge(response.organisations[0],
+    getAddress({
+      city: param.developer_city,
+      district: param.developer_district,
+      province: param.developer_province,
+      address: param.developer_address
+    })
+  );
 
   return response;
 }
@@ -23,9 +31,9 @@ function getDeveloper(param, lang) {
 function getDeveloperLink(param, lang) {
   let formatUrl = '';
   if (lang === 'id') {
-    formatUrl = '/properti-baru/developer/' + Utility.slugify(param.developer_name) + '/' + param.developer_company_id;
+    formatUrl = '/properti-baru/developer/' + slugify(param.developer_name) + '/' + param.developer_company_id;
   } else {
-    formatUrl = '/en/new-property/developer/' + Utility.slugify(param.developer_name) + '/' + param.developer_company_id;
+    formatUrl = '/en/new-property/developer/' + slugify(param.developer_name) + '/' + param.developer_company_id;
   }
 
   return config.url.newlaunch + formatUrl;
@@ -70,5 +78,3 @@ function getDeveloperContact(param) {
 
   return response;
 }
-
-module.exports = getDeveloper;

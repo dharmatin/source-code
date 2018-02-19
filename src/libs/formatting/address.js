@@ -1,46 +1,54 @@
 import _ from 'lodash';
 
-export class Address {
-  getAddress(pdpSolr, withMapCoordinate = false) {
-    const response = {
-      address: {
-        formattedAddress: pdpSolr.district_name + ', ' + pdpSolr.city_name + ', ' + pdpSolr.province_name
-      }
+export function getAddress(area) {
+  const response = {};
+  const address = {
+    formattedAddress: ''
+  };
+
+  if (!_.isNil(area.address)) {
+    address.formattedAddress += area.address + ', ';
+  }
+
+  if (!_.isNil(area.district)) {
+    address.formattedAddress += area.district + ', ';
+  }
+
+  if (!_.isNil(area.city)) {
+    address.formattedAddress += area.city + ', ';
+  }
+
+  if (!_.isNil(area.province)) {
+    address.formattedAddress += area.province + ', ';
+  }
+
+  if (!_.isEmpty(address)) address.formattedAddress = _.trim(address.formattedAddress, ', ');
+
+  response.address = address;
+
+  if (!_.isNil(area.mapCoordinate)) {
+    const mapCoordinate = {
+      lat: area.mapCoordinate[0] === '0.0000000000' ? null : area.mapCoordinate[0],
+      lng: area.mapCoordinate[1] === '0.0000000000' ? null : area.mapCoordinate[1]
     };
-
-    if (withMapCoordinate === true) {
-      const splitCoordinate = _.split(pdpSolr.latlng, ',');
-      const mapCoordinate = {
-        lat: !_.includes('0.0000000000', splitCoordinate[0]) ? splitCoordinate[0] : null,
-        lng: !_.includes('0.0000000000', splitCoordinate[1]) ? splitCoordinate[1] : null
-      };
-
-      _.merge(response.address, mapCoordinate);
-    }
-
-    return response;
+    _.merge(response.address, mapCoordinate);
   }
-
-  getDeveloperAddress(pdpSolr) {
-    
-  }
-
-  getMultiLanguageAddress(pdpSolr) {
-    const levelLocation = {
-      level1: !_.isNil(pdpSolr.province_name) ? pdpSolr.province_name : '',
-      level2: !_.isNil(pdpSolr.city_name) ? pdpSolr.city_name : '',
-      level3: !_.isNil(pdpSolr.district_name) ? pdpSolr.district_name : ''
-    }
-
-    const response = {
-      multilanguagePlace: {
-        "en-GB": levelLocation,
-        "id-ID": levelLocation
-      }
-    }
-
-    return response;
-  }
+  return response;
 }
 
-export default new Address();
+export function getMultiLanguageAddress(area) {
+  const levelLocation = {
+    level1: !_.isNil(area.province) ? area.province : '',
+    level2: !_.isNil(area.city) ? area.city : '',
+    level3: !_.isNil(area.district) ? area.district : ''
+  };
+
+  const response = {
+    multilanguagePlace: {
+      'en-GB': levelLocation,
+      'id-ID': levelLocation
+    }
+  };
+
+  return response;
+}

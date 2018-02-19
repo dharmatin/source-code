@@ -1,49 +1,56 @@
 import _ from 'lodash';
-import Utility from './formatting/utility';
-import getDeveloper from './formatting/developer';
-import Address from './formatting/address';
+import { toISOFormatting } from './formatting/utility';
+import { getGeneral, getAttributes, getCover, getLogo } from './formatting/project';
+import { getDeveloper } from './formatting/developer';
+import { getAddress, getMultiLanguageAddress } from './formatting/address';
 
 let responseData = {};
-function pdpFormatResponse(response, lang) {
+export default function pdpFormatResponse(responsePDP, lang) {
   const responseData = {};
 
+  const response = responsePDP.docs[0];
+
   _.merge(responseData,
-    getAttributes(response.docs[0]),
-    getGeneral(response.docs[0]),
-    getDeveloper(response.docs[0], lang),
-    getCover(response.docs[0]),
-    Address.getAddress(response.docs[0], true),
-    Address.getMultiLanguageAddress(response.docs[0])
+    getGeneral({
+      id: response.id,
+      title: response.tagline,
+      projectName: response.project_name,
+      description: response.description,
+      companyId: response.developer_company_id,
+      propertyType: response.property_type,
+      updatedAt: response.updated_date
+    }),
+    getLogo(response.logo),
+    getAttributes({
+      totalUnits: response.qty_unit,
+      availableUnits: response.stock,
+      completionDate: response.completion_date,
+      builtUp: ''
+    }),
+    getDeveloper({
+      id: response.developer_company_id,
+      type: 'Developer',
+      name: response.developer_name,
+      brandColor: response.developer_brandcolor,
+      organisationName: response.developer_name,
+      
+    }, lang),
+    getCover(response.image),
+    getAddress({
+      district: response.district_name,
+      city: response.city_name,
+      province: response.province_name,
+      mapCoordinate: _.split(response.latlng, ',')
+    }),
+    getMultiLanguageAddress({
+      district: response.district_name,
+      city: response.city_name,
+      province: response.province_name
+    })
   );
-  // console.log(responseData);
   // responseData.medias = getMedias(response.docs[0]);
-  /* responseData.prices = getPrices(response);
-	responseData.cover = getCover(response);
-	responseData.attributes = getAttributes(response);
-	responseData.organisations = getOrganisations(response); */
-  // responseData = getAttributes(response.docs[0]);
-  // responseData.push(getGeneral(response.docs[0]));
   return responseData;
 }
-
-function getAttributes(solrPdpResponse) {
-  const response = {
-    attributes: {
-      totalUnits: solrPdpResponse.qty_unit,
-      availableUnits: solrPdpResponse.stock,
-      completionDate: '',
-    }
-  };
-
-  return response;
-}
-
-/* function setMedia(params) {
-	return {
-		type: params.type,
-		url: params.
-	};
-} */
 
 function getMedias(solrPdpResponse) {
   // let medias = [];
@@ -58,42 +65,6 @@ function getMedias(solrPdpResponse) {
   // console.log(response.listing_images);
 }
 
-function getGeneral(solrPdpResponse) {
-  return {
-    id: solrPdpResponse.id,
-    title: solrPdpResponse.tagline,
-    projectName: solrPdpResponse.project_name,
-    description: solrPdpResponse.description,
-    propertyType: solrPdpResponse.developer_company_id === '0' ? 'Project' : solrPdpResponse.property_type,
-    updatedAt: Utility.toISOFormatting(solrPdpResponse.updated_date)
-  };
-}
-
-function getCover(solrPdpResponse) {
-  const response = {
-    cover: {
-      type: 'image',
-      urlTemplate: JSON.parse(solrPdpResponse.image)[0]
-    }
-  };
-
-  return response;
-}
-
-function getOrganisations(param) {
-
-}
-
-function getLogo() {
-
-}
-
-function getLocationLanguageLevel() {
-
-}
-
 function getPrices() {
 
 }
-
-module.exports = pdpFormatResponse;
