@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import config from '../../config/index';
-import getAddress from './address';
+import Address from './address';
 import Utility from './utility';
 
 function getDeveloper(param, lang) {
@@ -12,9 +12,10 @@ function getDeveloper(param, lang) {
     type: 'Developer',
     name: param.developer_name,
     website: getDeveloperLink(param, lang),
-    address: getAddress(param),
     contact: getDeveloperContact(param)
   });
+
+  _.merge(response.organisations[0], Address.getDeveloperAddress(param));
 
   return response;
 }

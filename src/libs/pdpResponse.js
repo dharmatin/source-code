@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Utility from './formatting/utility';
 import getDeveloper from './formatting/developer';
-import getAddress from './formatting/address';
+import Address from './formatting/address';
 
 let responseData = {};
 function pdpFormatResponse(response, lang) {
@@ -11,8 +11,9 @@ function pdpFormatResponse(response, lang) {
     getAttributes(response.docs[0]),
     getGeneral(response.docs[0]),
     getDeveloper(response.docs[0], lang),
-		getCover(response.docs[0]),
-		getAddress(response.docs[0], true)
+    getCover(response.docs[0]),
+    Address.getAddress(response.docs[0], true),
+    Address.getMultiLanguageAddress(response.docs[0])
   );
   // console.log(responseData);
   // responseData.medias = getMedias(response.docs[0]);
