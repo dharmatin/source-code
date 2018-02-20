@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import config from '../../config/index';
 import { toISOFormatting } from './utility';
 
@@ -43,6 +44,46 @@ export function getLogo(logo) {
       url: config.image.baseUrl + '/' + JSON.parse(logo)[0]
     }
   };
+
+  return response;
+}
+
+export function getFloorPlanImages(floorPlans) {
+  const response = {
+    floorPlanImages: []
+  };
+
+  const floorPlan = {
+    type: '',
+    urlTemplate: ''
+  };
+
+  _.map(floorPlans, (img) => {
+    floorPlan.type = 'image';
+    floorPlan.urlTemplate = _.trim(img, '"');
+
+    response.floorPlanImages.push(floorPlan);
+  });
+
+  return response;
+}
+
+export function getMedias(images) {
+  const response = {
+    medias: []
+  };
+
+  const image = {
+    type: '',
+    urlTemplate: ''
+  };
+
+  _.map(images, (img) => {
+    image.type = 'image';
+    image.urlTemplate = _.trim(img, '"');
+
+    response.medias.push(image);
+  });
 
   return response;
 }

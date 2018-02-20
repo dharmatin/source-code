@@ -3,25 +3,32 @@ import config from '../../config/index';
 import { getAddress } from './address';
 import { slugify } from './utility';
 
-export function getDeveloper(param, lang) {
+export function getDeveloper(dataDeveloper, lang) {
   const response = {
     organisations: []
   };
   response.organisations.push({
-    id: param.developer_company_id,
+    id: dataDeveloper.id,
     type: 'Developer',
-    name: param.developer_name,
-    website: getDeveloperLink(param, lang),
-    contact: getDeveloperContact(param),
-    brandColor: param.developer_brandcolor
+    name: dataDeveloper.name,
+    website: getDeveloperLink({
+      name: dataDeveloper.name,
+      id: dataDeveloper.id,
+    }, lang),
+    contact: getDeveloperContact({
+      mainContact: dataDeveloper.mainContact,
+      secondaryContact: dataDeveloper.secondaryContact,
+      email: dataDeveloper.email
+    }),
+    brandColor: dataDeveloper.brandColor
   });
-
+  
   _.merge(response.organisations[0],
     getAddress({
-      city: param.developer_city,
-      district: param.developer_district,
-      province: param.developer_province,
-      address: param.developer_address
+      city: dataDeveloper.city,
+      district: dataDeveloper.district,
+      province: dataDeveloper.province,
+      address: dataDeveloper.address
     })
   );
 
@@ -31,32 +38,32 @@ export function getDeveloper(param, lang) {
 function getDeveloperLink(param, lang) {
   let formatUrl = '';
   if (lang === 'id') {
-    formatUrl = '/properti-baru/developer/' + slugify(param.developer_name) + '/' + param.developer_company_id;
+    formatUrl = '/properti-baru/developer/' + slugify(param.name) + '/' + param.id;
   } else {
-    formatUrl = '/en/new-property/developer/' + slugify(param.developer_name) + '/' + param.developer_company_id;
+    formatUrl = '/en/new-property/developer/' + slugify(param.name) + '/' + param.id;
   }
 
   return config.url.newlaunch + formatUrl;
 }
 
-function getDeveloperPhone(param) {
+function getDeveloperPhone(phones) {
   let phone = {};
   const response = {
     phones: []
   };
 
-  if (param.developer_contactno1 !== '') {
+  if (phones.mainContact !== '') {
     phone = {
       label: 'LandLine',
-      number: param.developer_contactno1.toString()
+      number: phones.mainContact.toString()
     };
     response.phones.push(phone);
   }
 
-  if (param.developer_contactno1 !== '') {
+  if (phones.secondaryContact !== '') {
     phone = {
       label: 'LandLine',
-      number: param.developer_contactno2.toString()
+      number: phones.secondaryContact.toString()
     };
     response.phones.push(phone);
   }
@@ -64,17 +71,23 @@ function getDeveloperPhone(param) {
   return response;
 }
 
-function getDeveloperEmail(param) {
+function getDeveloperEmail(email) {
   const response = {};
   response.emails = [
-    param.developer_email
+    email
   ];
 
   return response;
 }
 
-function getDeveloperContact(param) {
-  return _.assign(getDeveloperPhone(param), getDeveloperEmail(param));
+function getDeveloperContact(contact) {
+  return _.assign(
+    getDeveloperPhone({
+      mainContact: contact.mainContact,
+      secondaryContact: contact.mainContact
+    }),
+    getDeveloperEmail(contact.email)
+  );
 
   return response;
 }

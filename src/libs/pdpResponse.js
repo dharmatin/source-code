@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { toISOFormatting } from './formatting/utility';
-import { getGeneral, getAttributes, getCover, getLogo } from './formatting/project';
+import { getGeneral, getAttributes, getCover, getLogo, getFloorPlanImages, getMedias } from './formatting/project';
 import { getDeveloper } from './formatting/developer';
 import { getAddress, getMultiLanguageAddress } from './formatting/address';
 
@@ -29,11 +29,15 @@ export default function pdpFormatResponse(responsePDP, lang) {
     }),
     getDeveloper({
       id: response.developer_company_id,
-      type: 'Developer',
       name: response.developer_name,
       brandColor: response.developer_brandcolor,
-      organisationName: response.developer_name,
-      
+      name: response.developer_name,
+      email: response.developer_email,
+      mainContact: response.developer_contactno1,
+      secondaryContact: response.developer_contactno2,
+      city: response.developer_city,
+      province: response.developer_province,
+      district: response.developer_district,
     }, lang),
     getCover(response.image),
     getAddress({
@@ -46,23 +50,12 @@ export default function pdpFormatResponse(responsePDP, lang) {
       district: response.district_name,
       city: response.city_name,
       province: response.province_name
-    })
+    }),
+    getFloorPlanImages(response.all_image_floorplan),
+    getMedias(response.all_image)
   );
   // responseData.medias = getMedias(response.docs[0]);
   return responseData;
-}
-
-function getMedias(solrPdpResponse) {
-  // let medias = [];
-  // let images = _map(JSON.parse(response.listing_images)).map({
-  //	medias.push(media)
-  // });
-
-  /* let videos = response.video;
-	let image_floorplans = response.image_floorplan;
-	let 360_videos = response.360_video;
-	let image_siteplans = response.image_siteplan; */
-  // console.log(response.listing_images);
 }
 
 function getPrices() {
