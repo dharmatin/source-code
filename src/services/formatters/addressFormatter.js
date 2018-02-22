@@ -1,31 +1,30 @@
 import _ from 'lodash';
 
-export function getAddressInfo(area) {
-  const response = {};
+export const getAddressInfo = area => {
   const {district, city, province, address, mapCoordinate} = area;
-
   let formattedAddress = '';
+
   if (!_.isNil(address)) formattedAddress += address + ', ';
   formattedAddress += district + ', ';
   formattedAddress += city + ', ';
   formattedAddress += province;
 
-  response.address = {formattedAddress: formattedAddress};
-
+  let coordinate = {};
   if (!_.isNil(mapCoordinate)) {
-    const coordinate = {};
     const [lat, lng] = mapCoordinate;
 
-    if (lat !== '0.0000000000') coordinate.lat = lat;
-    if (lng !== '0.0000000000') coordinate.lng = lng;
+    if (lat !== '0.0000000000' && lng !== '0.0000000000') {
+      coordinate.lat = lat;
+      coordinate.lng = lng;
+    }
 
-    _.merge(response.address, coordinate);
+    if (_.isEmpty(coordinate)) coordinate = null;
   }
 
-  return response;
-}
+  return {address: { formattedAddress }};
+};
 
-export function getMultiLanguageAddressInfo(area) {
+export const getMultiLanguageAddressInfo = area => {
   const levelLocation = {
     level1: !_.isNil(area.province) ? area.province : '',
     level2: !_.isNil(area.city) ? area.city : '',
@@ -40,4 +39,4 @@ export function getMultiLanguageAddressInfo(area) {
   };
 
   return response;
-}
+};

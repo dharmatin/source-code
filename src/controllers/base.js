@@ -1,5 +1,7 @@
 export default class BaseController {
-  constructor() {
-    this.lang = 'id';
+  lang = 'id';
+
+  getLanguage = () => {
+    return this.lang;
   }
 }

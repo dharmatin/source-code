@@ -6,9 +6,6 @@ import validateInput from '../middleware/validation';
 
 @web.basePath('/listings')
 class ListingsController extends BaseController {
-  constructor() {
-    super();
-  }
 
   @web.get('/')
   async findAllProjects(req, res, next) {
@@ -19,8 +16,8 @@ class ListingsController extends BaseController {
   @web.get('/:id')
   async findAllProjectByIdAction(req, res) {
     try {
-      console.log(this.lang);
-      const listings = await listingService.getListings(req.params.id, this.lang);
+      console.log(this.getLanguage());
+      const listings = await listingService.getListingForPPP(req.params.id, this.lang);
       res.send(listings);
     } catch (e) {
       console.log(e);

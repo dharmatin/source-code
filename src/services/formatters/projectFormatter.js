@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import config from '../../config/index';
-import { toISOFormatting, slugify } from './utility';
+import { toISOFormatting, slugify } from '../../libs/utility';
 
-export function getGeneralInfo(dataGeneral, lang) {
+export const getGeneralInfo = (dataGeneral, lang) => {
   const {id, projectName, city, website, title, description, updatedAt} = dataGeneral;
 
   const response = {
@@ -15,8 +15,9 @@ export function getGeneralInfo(dataGeneral, lang) {
     shareLink: getProjectLink({
       projectName: projectName,
       city: city,
-      id: id
-    }, lang)
+      id: id,
+      lang: lang
+    })
   };
 
   if (!_.isEmpty(website)) {
@@ -24,24 +25,35 @@ export function getGeneralInfo(dataGeneral, lang) {
   }
 
   return response;
-}
+};
 
-export function getAttributesInfo(dataAttributes) {
-  const response = {
-    attributes: {
-      totalUnits: dataAttributes.totalUnits,
-      availableUnits: dataAttributes.availableUnits,
-      completionDate: dataAttributes.completionDate,
-      builtUp: '',
-      architectName: dataAttributes.architectName,
-      contractorName: dataAttributes.contractorName
-    }
+export const getAttributesInfo = dataAttributes => {
+  const attributes = {
+    totalUnits: dataAttributes.totalUnits,
+    availableUnits: dataAttributes.availableUnits,
+    builtUp: '',
   };
 
-  return response;
-}
+  if (!_.isEmpty(dataAttributes.completionDate)) {
+    attributes.completionDate = dataAttributes.completionDate;
+  }
 
-export function getCover(imageCover) {
+  if (!_.isEmpty(dataAttributes.promotion)) {
+    attributes.promotion = dataAttributes.promotion;
+  }
+
+  if (!_.isEmpty(dataAttributes.architectName)) {
+    attributes.architectName = dataAttributes.architectName;
+  }
+
+  if (!_.isEmpty(dataAttributes.contractorName)) {
+    attributes.contractorName = dataAttributes.contractorName;
+  }
+
+  return { attributes: attributes };
+};
+
+export const getCover = imageCover => {
   const response = {
     cover: {
       type: 'image',
@@ -50,9 +62,9 @@ export function getCover(imageCover) {
   };
 
   return response;
-}
+};
 
-export function getLogo(logo) {
+export const getLogo = logo => {
   const response = {
     logo: {
       type: 'image',
@@ -61,9 +73,9 @@ export function getLogo(logo) {
   };
 
   return response;
-}
+};
 
-export function getFloorPlanImages(floorPlansWithDescription) {
+export const getFloorPlanImages = floorPlansWithDescription => {
   const response = {
     floorPlanImages: []
   };
@@ -83,9 +95,9 @@ export function getFloorPlanImages(floorPlansWithDescription) {
   });
 
   return response;
-}
+};
 
-export function getListingImages(imagesWithDescription) {
+export const getListingImages = imagesWithDescription => {
   const response = {
     medias: []
   };
@@ -106,10 +118,10 @@ export function getListingImages(imagesWithDescription) {
   });
 
   return response;
-}
+};
 
-export function getProjectLink(param, lang) {
-  const {projectName, city, id} = param;
+export const getProjectLink = param => {
+  const {projectName, city, id, lang} = param;
 
   let formatUrl = '';
   if (lang === 'id') {
@@ -119,9 +131,9 @@ export function getProjectLink(param, lang) {
   }
 
   return config.url.newlaunch + formatUrl;
-}
+};
 
-export const getYoutubeIds = (youtubeLinks) => {
+export const getYoutubeIds = youtubeLinks => {
   const youtubeIds = [];
 
   _.map(_.compact(youtubeLinks), (item) => {
@@ -132,7 +144,7 @@ export const getYoutubeIds = (youtubeLinks) => {
   return !_.isEmpty(youtubeIds) ? {youtubeIds: youtubeIds} : null;
 };
 
-export const getThreeSixtyVideos = (threeSixtyLinks) => {
+export const getThreeSixtyVideos = threeSixtyLinks => {
   const video360s = [];
 
   _.map(_.compact(threeSixtyLinks), (item) => {
@@ -141,4 +153,8 @@ export const getThreeSixtyVideos = (threeSixtyLinks) => {
   });
 
   return !_.isEmpty(video360s) ? {video360s: video360s} : null;
+};
+
+export const getBannerSponsorship = param => {
+  return !_.isNil(param.link) ? {banner: param} : null;
 };
