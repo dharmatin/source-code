@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { getGeneralInfo, getAttributesInfo, getCover, getLogo, getFloorPlanImages, getListingImages } from './formatting/project';
+import { getGeneralInfo, getAttributesInfo, getCover, getLogo, getFloorPlanImages, 
+  getListingImages, getYoutubeIds, getThreeSixtyVideos } from './formatting/project';
 import { getDeveloperInfo } from './formatting/developer';
 import { getAddressInfo, getMultiLanguageAddressInfo } from './formatting/address';
 
@@ -55,7 +56,9 @@ export default function pdpFormatResponse(responsePDP, lang) {
       province: response.province_name
     }),
     getFloorPlanImages(response.all_image_floorplan),
-    getListingImages(response.all_listing_images)
+    getListingImages(response.all_listing_images),
+    getYoutubeIds(response.all_video),
+    getThreeSixtyVideos(response.all_360_video)
   );
   // responseData.medias = getMedias(response.docs[0]);
   return responseData;

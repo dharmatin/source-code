@@ -120,3 +120,25 @@ export function getProjectLink(param, lang) {
 
   return config.url.newlaunch + formatUrl;
 }
+
+export const getYoutubeIds = (youtubeLinks) => {
+  const youtubeIds = [];
+
+  _.map(_.compact(youtubeLinks), (item) => {
+    const [description, url] = _.split(item, ';');
+    youtubeIds.push(url);
+  });
+
+  return !_.isEmpty(youtubeIds) ? {youtubeIds: youtubeIds} : null;
+};
+
+export const getThreeSixtyVideos = (threeSixtyLinks) => {
+  const video360s = [];
+
+  _.map(_.compact(threeSixtyLinks), (item) => {
+    const [description, url] = _.split(item, ';');
+    video360s.push(url);
+  });
+
+  return !_.isEmpty(video360s) ? {video360s: video360s} : null;
+};
