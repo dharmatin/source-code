@@ -1,25 +1,40 @@
 import _ from 'lodash';
 import config from '../../config/index';
-import { toISOFormatting } from './utility';
+import { toISOFormatting, slugify } from './utility';
 
-export function getGeneral(dataGeneral) {
-  return {
-    id: dataGeneral.id,
-    title: dataGeneral.tagline,
-    projectName: dataGeneral.projectName,
-    description: dataGeneral.description,
+export function getGeneralInfo(dataGeneral, lang) {
+  const {id, projectName, city, website, title, description, updatedAt} = dataGeneral;
+
+  const response = {
+    id: id,
+    title: title,
+    projectName: projectName,
+    description: description,
     propertyType: dataGeneral.companyId === '0' ? 'Project' : dataGeneral.propertyType,
-    updatedAt: toISOFormatting(dataGeneral.updatedAt)
+    updatedAt: toISOFormatting(updatedAt),
+    shareLink: getProjectLink({
+      projectName: projectName,
+      city: city,
+      id: id
+    }, lang)
   };
+
+  if (!_.isEmpty(website)) {
+    _.assign(response, {website: website});
+  }
+
+  return response;
 }
 
-export function getAttributes(dataAttributes) {
+export function getAttributesInfo(dataAttributes) {
   const response = {
     attributes: {
       totalUnits: dataAttributes.totalUnits,
       availableUnits: dataAttributes.availableUnits,
       completionDate: dataAttributes.completionDate,
-      builtUp: ''
+      builtUp: '',
+      architectName: dataAttributes.architectName,
+      contractorName: dataAttributes.contractorName
     }
   };
 
@@ -48,7 +63,7 @@ export function getLogo(logo) {
   return response;
 }
 
-export function getFloorPlanImages(floorPlans) {
+export function getFloorPlanImages(floorPlansWithDescription) {
   const response = {
     floorPlanImages: []
   };
@@ -58,9 +73,11 @@ export function getFloorPlanImages(floorPlans) {
     urlTemplate: ''
   };
 
-  _.map(floorPlans, (img) => {
+  _.map(floorPlansWithDescription, (item) => {
+    const [description, img] = _.split(item, ';');
     floorPlan.type = 'image';
     floorPlan.urlTemplate = _.trim(img, '"');
+    floorPlan.description = description;
 
     response.floorPlanImages.push(floorPlan);
   });
@@ -68,22 +85,38 @@ export function getFloorPlanImages(floorPlans) {
   return response;
 }
 
-export function getMedias(images) {
+export function getListingImages(imagesWithDescription) {
   const response = {
     medias: []
   };
 
   const image = {
     type: '',
-    urlTemplate: ''
+    urlTemplate: '',
+    description: ''
   };
 
-  _.map(images, (img) => {
+  _.map(imagesWithDescription, (item) => {
+    const [description, img] = _.split(item, ';');
     image.type = 'image';
     image.urlTemplate = _.trim(img, '"');
+    image.description = description;
 
     response.medias.push(image);
   });
 
   return response;
+}
+
+export function getProjectLink(param, lang) {
+  const {projectName, city, id} = param;
+
+  let formatUrl = '';
+  if (lang === 'id') {
+    formatUrl = '/properti/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
+  } else {
+    formatUrl = '/en/property/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
+  }
+
+  return config.url.newlaunch + formatUrl;
 }

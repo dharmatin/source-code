@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import config from '../../config/index';
-import { getAddress } from './address';
+import { getAddressInfo } from './address';
 import { slugify } from './utility';
 
-export function getDeveloper(dataDeveloper, lang) {
+export function getDeveloperInfo(dataDeveloper, lang) {
   const response = {
     organisations: []
   };
@@ -18,13 +18,14 @@ export function getDeveloper(dataDeveloper, lang) {
     contact: getDeveloperContact({
       mainContact: dataDeveloper.mainContact,
       secondaryContact: dataDeveloper.secondaryContact,
-      email: dataDeveloper.email
+      email: dataDeveloper.email,
+      whatsapp: dataDeveloper.whatsapp
     }),
     brandColor: dataDeveloper.brandColor
   });
-  
+
   _.merge(response.organisations[0],
-    getAddress({
+    getAddressInfo({
       city: dataDeveloper.city,
       district: dataDeveloper.district,
       province: dataDeveloper.province,
@@ -35,7 +36,7 @@ export function getDeveloper(dataDeveloper, lang) {
   return response;
 }
 
-function getDeveloperLink(param, lang) {
+export function getDeveloperLink(param, lang) {
   let formatUrl = '';
   if (lang === 'id') {
     formatUrl = '/properti-baru/developer/' + slugify(param.name) + '/' + param.id;
@@ -43,7 +44,7 @@ function getDeveloperLink(param, lang) {
     formatUrl = '/en/new-property/developer/' + slugify(param.name) + '/' + param.id;
   }
 
-  return config.url.newlaunch + formatUrl;
+  return config.url.base + formatUrl;
 }
 
 function getDeveloperPhone(phones) {
@@ -55,7 +56,7 @@ function getDeveloperPhone(phones) {
   if (phones.mainContact !== '') {
     phone = {
       label: 'LandLine',
-      number: phones.mainContact.toString()
+      number: '+' + phones.mainContact.toString()
     };
     response.phones.push(phone);
   }
@@ -63,7 +64,15 @@ function getDeveloperPhone(phones) {
   if (phones.secondaryContact !== '') {
     phone = {
       label: 'LandLine',
-      number: phones.secondaryContact.toString()
+      number: '+' + phones.secondaryContact.toString()
+    };
+    response.phones.push(phone);
+  }
+
+  if (phones.whatsapp !== '') {
+    phone = {
+      label: 'Whatsapp',
+      number: phones.whatsapp.toString()
     };
     response.phones.push(phone);
   }
@@ -84,10 +93,9 @@ function getDeveloperContact(contact) {
   return _.assign(
     getDeveloperPhone({
       mainContact: contact.mainContact,
-      secondaryContact: contact.mainContact
+      secondaryContact: contact.mainContact,
+      whatsapp: contact.whatsapp
     }),
     getDeveloperEmail(contact.email)
   );
-
-  return response;
 }
