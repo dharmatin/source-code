@@ -7,7 +7,6 @@ import { getChildListingsInfo } from './childListingFormatter';
 export default (responsePPP, responseChildListings, lang) => {
   const dataPPP = responsePPP.docs[0];
   const dataChildListings = responseChildListings.docs;
-  _.merge(dataPPP, lang);
 
   return _.merge({},
     projectFormatter.getGeneralInfo({
@@ -64,7 +63,7 @@ export default (responsePPP, responseChildListings, lang) => {
       province: dataPPP.developer_province,
       district: dataPPP.developer_district,
       address: dataPPP.developer_address
-    }),
-    getChildListingsInfo(dataChildListings)
+    }, lang),
+    getChildListingsInfo(dataChildListings, lang)
   );
 };

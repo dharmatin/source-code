@@ -1,7 +1,10 @@
-export default class BaseController {
-  lang = 'id';
+import * as web from 'express-decorators';
 
-  getLanguage = () => {
-    return this.lang;
+export default class BaseController {
+  @web.use()
+  async detectLanguage(request, response, next) {
+    this.lang = request.acceptsLanguages('en', 'id');
+    this.translator = require('../locale/' + this.lang + '.json');
+    next();
   }
 }

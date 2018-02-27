@@ -1,8 +1,9 @@
+// @flow
 import _ from 'lodash';
 import config from '../../config/index';
 import { toISOFormatting, slugify } from '../../libs/utility';
 
-export const getGeneralInfo = (dataGeneral, lang) => {
+export const getGeneralInfo = (dataGeneral: Object) => {
   const {id, projectName, city, website, title, description, updatedAt} = dataGeneral;
 
   const response = {
@@ -16,7 +17,7 @@ export const getGeneralInfo = (dataGeneral, lang) => {
       projectName: projectName,
       city: city,
       id: id,
-      lang: lang
+      lang: dataGeneral.lang
     })
   };
 
@@ -27,12 +28,12 @@ export const getGeneralInfo = (dataGeneral, lang) => {
   return response;
 };
 
-export const getAttributesInfo = dataAttributes => {
-  const attributes = {
-    totalUnits: dataAttributes.totalUnits,
-    availableUnits: dataAttributes.availableUnits,
-    builtUp: '',
-  };
+export const getAttributesInfo = (dataAttributes: any) => {
+  const attributes = {};
+
+  attributes.totalUnits = dataAttributes.totalUnits;
+  attributes.availableUnits = dataAttributes.availableUnits;
+  attributes.builtUp = '';
 
   if (!_.isEmpty(dataAttributes.completionDate)) {
     attributes.completionDate = dataAttributes.completionDate;
@@ -53,7 +54,8 @@ export const getAttributesInfo = dataAttributes => {
   return { attributes: attributes };
 };
 
-export const getCover = imageCover => {
+export const getCover = (imageCover: string) => {
+  console.log(imageCover);
   const response = {
     cover: {
       type: 'image',
@@ -64,7 +66,7 @@ export const getCover = imageCover => {
   return response;
 };
 
-export const getLogo = logo => {
+export const getLogo = (logo: string) => {
   const response = {
     logo: {
       type: 'image',
@@ -75,15 +77,12 @@ export const getLogo = logo => {
   return response;
 };
 
-export const getFloorPlanImages = floorPlansWithDescription => {
+export const getFloorPlanImages = (floorPlansWithDescription: Array<string>) => {
   const response = {
     floorPlanImages: []
   };
 
-  const floorPlan = {
-    type: '',
-    urlTemplate: ''
-  };
+  const floorPlan = {};
 
   _.map(floorPlansWithDescription, (item) => {
     const [description, img] = _.split(item, ';');
@@ -97,7 +96,7 @@ export const getFloorPlanImages = floorPlansWithDescription => {
   return response;
 };
 
-export const getListingImages = imagesWithDescription => {
+export const getListingImages = (imagesWithDescription: Array<string>) => {
   const response = {
     medias: []
   };
@@ -120,8 +119,8 @@ export const getListingImages = imagesWithDescription => {
   return response;
 };
 
-export const getProjectLink = param => {
-  const {projectName, city, id, lang} = param;
+export const getProjectLink = (obj: {projectName: string, city: string, id: number, lang: string}): string => {
+  const {projectName, city, id, lang} = obj;
 
   let formatUrl = '';
   if (lang === 'id') {
@@ -133,7 +132,7 @@ export const getProjectLink = param => {
   return config.url.newlaunch + formatUrl;
 };
 
-export const getYoutubeIds = youtubeLinks => {
+export const getYoutubeIds = (youtubeLinks: Array<string>) => {
   const youtubeIds = [];
 
   _.map(_.compact(youtubeLinks), (item) => {
@@ -144,7 +143,7 @@ export const getYoutubeIds = youtubeLinks => {
   return !_.isEmpty(youtubeIds) ? {youtubeIds: youtubeIds} : null;
 };
 
-export const getThreeSixtyVideos = threeSixtyLinks => {
+export const getThreeSixtyVideos = (threeSixtyLinks: Array<string>) => {
   const video360s = [];
 
   _.map(_.compact(threeSixtyLinks), (item) => {
@@ -155,6 +154,6 @@ export const getThreeSixtyVideos = threeSixtyLinks => {
   return !_.isEmpty(video360s) ? {video360s: video360s} : null;
 };
 
-export const getBannerSponsorship = param => {
-  return !_.isNil(param.link) ? {banner: param} : null;
+export const getBannerSponsorship = ({link, title}: {|link: string, title: string|}) => {
+  return !_.isNil(link) ? {banner: {link: link, title: title}} : null;
 };

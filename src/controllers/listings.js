@@ -16,7 +16,6 @@ class ListingsController extends BaseController {
   @web.get('/:id')
   async findAllProjectByIdAction(req, res) {
     try {
-      console.log(this.getLanguage());
       const listings = await listingService.getListingForPPP(req.params.id, this.lang);
       res.send(listings);
     } catch (e) {

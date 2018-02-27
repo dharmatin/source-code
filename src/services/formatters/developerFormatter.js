@@ -1,25 +1,27 @@
+// @flow
 import _ from 'lodash';
 import config from '../../config/index';
 import { getAddressInfo } from './addressFormatter';
 import { slugify } from '../../libs/utility';
 
-export const getDeveloperInfo = dataDeveloper => {
-  const organisation = {
-    id: dataDeveloper.id,
-    type: 'Developer',
+export const getDeveloperInfo = (dataDeveloper: Object, lang: string) => {
+  const organisation = {};
+
+  organisation.id = dataDeveloper.id;
+  organisation.type = 'Developer';
+  organisation.name = dataDeveloper.name;
+  organisation.website = getDeveloperLink({
     name: dataDeveloper.name,
-    website: getDeveloperLink({
-      name: dataDeveloper.name,
-      id: dataDeveloper.id
-    }),
-    contact: getDeveloperContact({
-      mainContact: dataDeveloper.mainContact,
-      secondaryContact: dataDeveloper.secondaryContact,
-      email: dataDeveloper.email,
-      additionalEmail: dataDeveloper.additionalEmail,
-      whatsapp: dataDeveloper.whatsapp
-    })
-  };
+    id: dataDeveloper.id
+  }, lang);
+
+  organisation.contact = getDeveloperContact({
+    mainContact: dataDeveloper.mainContact,
+    secondaryContact: dataDeveloper.secondaryContact,
+    email: dataDeveloper.email,
+    additionalEmail: dataDeveloper.additionalEmail,
+    whatsapp: dataDeveloper.whatsapp
+  });
 
   if (!_.isEmpty(dataDeveloper.brandColor)) {
     organisation.brandColor = dataDeveloper.brandColor;
@@ -37,18 +39,18 @@ export const getDeveloperInfo = dataDeveloper => {
   return {organisations: [{...organisation}]};
 };
 
-export const getDeveloperLink = param => {
+export const getDeveloperLink = (obj: {name: string, id: number}, lang: string): string => {
   let formatUrl = '';
-  if (param.lang === 'id') {
-    formatUrl = '/properti-baru/developer/' + slugify(param.name) + '/' + param.id;
+  if (lang === 'id') {
+    formatUrl = '/properti-baru/developer/' + slugify(obj.name) + '/' + obj.id;
   } else {
-    formatUrl = '/en/new-property/developer/' + slugify(param.name) + '/' + param.id;
+    formatUrl = '/en/new-property/developer/' + slugify(obj.name) + '/' + obj.id;
   }
 
   return config.url.base + formatUrl;
 };
 
-const getDeveloperPhone = developerPhones => {
+const getDeveloperPhone = (developerPhones: Object) => {
   let phone = {};
   const phones = [];
 
@@ -79,7 +81,7 @@ const getDeveloperPhone = developerPhones => {
   return {phones: phones};
 };
 
-const getDeveloperContact = contact => {
+const getDeveloperContact = (contact: Object) => {
   return _.assign(
     getDeveloperPhone({
       mainContact: contact.mainContact,

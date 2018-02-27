@@ -1,0 +1,12 @@
+[ignore]
+./node_modules/
+./src/locale/
+[include]
+./src/*.js
+[libs]
+
+[lints]
+
+[options]
+
+[strict]
