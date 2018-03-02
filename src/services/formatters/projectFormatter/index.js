@@ -1,25 +1,32 @@
 // @flow
+import config from '../../../config';
 import _ from 'lodash';
-import config from '../../config/index';
-import { toISOFormatting, slugify } from '../../libs/utility';
+import { toISOFormatting, slugify } from '../../../libs/utility';
+import type {GeneralInfo, ProjectLink} from './types';
 
-export const getGeneralInfo = (dataGeneral: Object) => {
-  const {id, projectName, city, website, title, description, updatedAt} = dataGeneral;
+export const getGeneralInfo = (dataGeneral: GeneralInfo): GeneralInfo => {
+  const {id, title, subtitle, description, city, featureDescription, website, updatedAt} = dataGeneral;
+  const response = {};
 
-  const response = {
-    id: id,
-    title: title,
-    projectName: projectName,
-    description: description,
-    propertyType: dataGeneral.companyId === '0' ? 'Project' : dataGeneral.propertyType,
-    updatedAt: toISOFormatting(updatedAt),
-    shareLink: getProjectLink({
-      projectName: projectName,
-      city: city,
-      id: id,
-      lang: dataGeneral.lang
-    })
-  };
+  response.channels = ['new'];
+  response.description = description;
+  response.id = id;
+  response.subtitle = subtitle;
+  response.title = title;
+  response.propertyType = dataGeneral.companyId === '0' ? 'Project' : dataGeneral.propertyType;
+  response.updatedAt = toISOFormatting(updatedAt);
+
+  if (!_.isEmpty(featureDescription)) {
+    let responseFeatureDescription = '';
+    _.map(featureDescription, (values) => {
+      let dataFeatureDescription = _.split(values, ':');
+      responseFeatureDescription += '<b>' + dataFeatureDescription[0] + '</b>' +
+				'<p>' + dataFeatureDescription[0] + '</p>' + '<br/><br/> ';
+    });
+
+    responseFeatureDescription = _.trimEnd(responseFeatureDescription, '<br/><br/>');
+    _.assign(response, {featureDescription: responseFeatureDescription});
+  }
 
   if (!_.isEmpty(website)) {
     _.assign(response, {website: website});
@@ -54,8 +61,7 @@ export const getAttributesInfo = (dataAttributes: any) => {
   return { attributes: attributes };
 };
 
-export const getCover = (imageCover: string) => {
-  console.log(imageCover);
+export const getImageCover = (imageCover: string): Object => {
   const response = {
     cover: {
       type: 'image',
@@ -119,8 +125,8 @@ export const getListingImages = (imagesWithDescription: Array<string>) => {
   return response;
 };
 
-export const getProjectLink = (obj: {projectName: string, city: string, id: number, lang: string}): string => {
-  const {projectName, city, id, lang} = obj;
+export const getProjectLink = (obj: ProjectLink, lang: string): string => {
+  const {projectName, city, id} = obj;
 
   let formatUrl = '';
   if (lang === 'id') {
@@ -154,6 +160,37 @@ export const getThreeSixtyVideos = (threeSixtyLinks: Array<string>) => {
   return !_.isEmpty(video360s) ? {video360s: video360s} : null;
 };
 
-export const getBannerSponsorship = ({link, title}: {|link: string, title: string|}) => {
+export const getBannerSponsorship = ({link, title}: {|link?: string, title: string|}): ?Object => {
   return !_.isNil(link) ? {banner: {link: link, title: title}} : null;
 };
+
+export const getFeatures = (facilities: Array<string>): Object => {
+  const responseFeatures = [];
+  const responseMedia = {};
+
+  _.map(facilities, (facility) => {
+    let dataFacility = _.split(facility, ':');
+
+    responseMedia.description = dataFacility[0];
+    responseMedia.media = {
+      type: 'image',
+      urlTemplate: config.image.sharpieUrl + '/premium/${width}x${height}-${scale}/' + JSON.parse(dataFacility[1])[0]
+    };
+    responseFeatures.push(responseMedia);
+  });
+
+  return {features: responseFeatures};
+};
+
+export const getTierOfProject = (isPremium: number, isGTS: number): number => {
+  if (isPremium === 0) {
+    return config.tier.standard;
+  } else {
+    if (isGTS === 1) {
+      return config.tier.featured;
+    } else {
+      return config.tier.premium;
+    }
+  }
+}
+;

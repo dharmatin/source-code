@@ -1,0 +1,1 @@
+export type ImageCover = {cover: {type: string, urlTemplate: string}};

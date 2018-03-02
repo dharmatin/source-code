@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as projectFormatter from './projectFormatter';
 
 export const getChildListingsInfo = (childListings: Array<Object>, lang: string) => {
-  const listings = [];
+  /*const listings = [];
   const itemListing = {};
   _.map(childListings, (listing) => {
     _.merge(itemListing,
@@ -23,5 +23,5 @@ export const getChildListingsInfo = (childListings: Array<Object>, lang: string)
     //console.log(listing);
   });
 
-  return {listings: listings};
+  return {listings: listings}; */
 };

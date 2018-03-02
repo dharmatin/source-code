@@ -10,6 +10,7 @@ export const getDeveloperInfo = (dataDeveloper: Object, lang: string) => {
   organisation.id = dataDeveloper.id;
   organisation.type = 'Developer';
   organisation.name = dataDeveloper.name;
+  organisation.logo = getLogoDeveloper(dataDeveloper.logo);
   organisation.website = getDeveloperLink({
     name: dataDeveloper.name,
     id: dataDeveloper.id
@@ -23,8 +24,8 @@ export const getDeveloperInfo = (dataDeveloper: Object, lang: string) => {
     whatsapp: dataDeveloper.whatsapp
   });
 
-  if (!_.isEmpty(dataDeveloper.brandColor)) {
-    organisation.brandColor = dataDeveloper.brandColor;
+  if (!_.isEmpty(dataDeveloper.color)) {
+    organisation.color = dataDeveloper.color;
   }
 
   _.merge(organisation,
@@ -90,4 +91,13 @@ const getDeveloperContact = (contact: Object) => {
     }),
     {emails: [contact.email, contact.additionalEmail]}
   );
+};
+
+export const getLogoDeveloper = (logo: string) => {
+  const response = {
+    type: 'image',
+    url: config.image.baseUrl + '/' + logo
+  };
+
+  return response;
 };

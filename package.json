@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha ./test/unit --require babel-register --require babel-polyfill",
+    "prestart": "npm run flow",
     "start": "cross-env NODE_ENV=local nodemon --exec babel-node ./src/bin/server.js",
     "flow": "flow"
   },

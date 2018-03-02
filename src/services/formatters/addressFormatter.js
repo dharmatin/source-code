@@ -1,6 +1,8 @@
+// @flow
 import _ from 'lodash';
 
-export const getAddressInfo = area => {
+export const getAddressInfo = (area: Object): Object => {
+  const responseAddress = {}; 
   const {district, city, province, address, mapCoordinate} = area;
   let formattedAddress = '';
 
@@ -9,22 +11,22 @@ export const getAddressInfo = area => {
   formattedAddress += city + ', ';
   formattedAddress += province;
 
+  responseAddress.formattedAddress = formattedAddress;
+
   let coordinate = {};
   if (!_.isNil(mapCoordinate)) {
     const [lat, lng] = mapCoordinate;
 
     if (lat !== '0.0000000000' && lng !== '0.0000000000') {
-      coordinate.lat = lat;
-      coordinate.lng = lng;
+      responseAddress.lat = lat;
+      responseAddress.lng = lng;
     }
-
-    if (_.isEmpty(coordinate)) coordinate = null;
   }
 
-  return {address: { formattedAddress }};
+  return {address: responseAddress};
 };
 
-export const getMultiLanguageAddressInfo = area => {
+export const getMultiLanguageAddressInfo = (area: Object): Object => {
   const levelLocation = {
     level1: !_.isNil(area.province) ? area.province : '',
     level2: !_.isNil(area.city) ? area.city : '',
