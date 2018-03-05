@@ -1,13 +1,12 @@
 import listingCore from '../dao/listings';
-import projectProfileFormatter from './projectProfilePage/formatters';
-import {notFoundFormatter} from './invalidResponse/formatters/invalidResponseFormatter';
+import {getProjectProfileFormatter} from './formatters/projectProfileFormatter';
 
 export class ListingService {
   constructor(listings) {
     this.listings = listings;
   }
 
-  async getListingForPPP(id, lang) {
+  async getProjectProfile(id, lang) {
     const result = await this.listings.searchProject(id);
     const status = result.responseHeader.status;
     if (status !== 0) {
@@ -19,11 +18,8 @@ export class ListingService {
     if (childListingStatus !== 0) {
       throw new Error('Solr search Child listing error!');
     }
-    if (result.response.numFound === 0) {
-      //return notFoundFormatter(); 
-      return {};
-    }
-    return projectProfileFormatter(result.response, childListingResult.response, lang);
+
+    return getProjectProfileFormatter(result.response, childListingResult.response, lang);
   }
 }
 

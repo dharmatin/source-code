@@ -12,12 +12,17 @@ function badRequestResponse() {
     .json(data);
 }
 
-function notFoundResponse(res, data) {
-  res
+export const notFoundResponse = response => {
+  response
     .setHeader('Content-Type', 'application/json')
     .status(200)
-    .json(data);
-}
+    .json({
+      error: {
+        code: '3001',
+        message: 'Not Found'
+      }
+    });
+};
 
 function internalServerErrorResponse(res, msg) {
   res
