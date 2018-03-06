@@ -11,7 +11,7 @@ import * as mediaFormatter from '../mediaFormatter';
 import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
 
-export const getProjectProfileFormatter = (projectListing: Object, childListings: Object, lang: string): Object => {
+export const getProjectProfileFormatter = (projectListing: Object, childListings: Object, lang: string): ProjectProfilePage => {
   if (projectListing.numFound === 0) {
     return {};
   } else {

@@ -12,5 +12,10 @@ export default {
     const conditionQ = id ? `parent_id:${id}` : '*:*';
     const queryListingById = listingClient.createQuery().q(conditionQ).start(0).rows(100);
     return listingClient.searchAsync(queryListingById);
+  },
+  searchProjectByOrganisation: async(id) => {
+    const conditionQ = id ? `developer_company_id:${id}` : '*:*';
+    const queryListingById = listingClient.createQuery().q(conditionQ).start(0).rows(100);
+    return listingClient.searchAsync(queryListingById);
   }
 };

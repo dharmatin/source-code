@@ -4,12 +4,12 @@ import projectProfileService from '../services/projectProfileService';
 import _ from 'lodash';
 import {notFoundResponse, internalServerErrorResponse, successResponse} from '../libs/response';
 
-@web.basePath('/listing/v1/listings')
+@web.basePath('/organisation/v1/organisations')
 class ListingsController extends BaseController {
-  @web.get('/:id')
-  async findAllProjectProfilePageByIdAction(req, res) {
+  @web.get('/:organisationId/projects')
+  async findAllProjectByOrganisationIdAction(req, res) {
     try {
-      const listings = await projectProfileService.getProjectProfile(req.params.id, this.lang);
+      const listings = await projectProfileService.searchProjectByOrganisation(req.params.organisationId, this.lang);
       if (_.isEmpty(listings)) {
         notFoundResponse(res);
       }

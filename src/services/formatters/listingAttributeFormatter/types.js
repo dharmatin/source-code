@@ -8,6 +8,7 @@ export type Attributes = {
 	contractorName?: string,
 	downloadUrl?: string,
 	electricity?: string,
+	internet?: string,
 	landArea?: string,
 	phoneLine?: string
 };

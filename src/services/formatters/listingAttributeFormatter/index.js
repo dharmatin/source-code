@@ -1,6 +1,6 @@
 // @flow
 import _ from 'lodash';
-import type {Attributes} from '../listingAttributeFormatter/types';
+import type {Attributes} from './types';
 import config from '../../../config';
 
 export const getAttributesInfo = (dataAttributes: Object): Attributes => {

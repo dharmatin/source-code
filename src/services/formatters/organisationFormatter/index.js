@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import config from '../../../config';
 import {slugify} from '../../../libs/utility';
-import type {Organisation} from '../organisationFormatter/types';
+import type {Organisation} from './types';
 import * as mediaFormatter from '../mediaFormatter';
 import * as contactFormatter from '../contactFormatter';
 import * as addressFormatter from '../addressFormatter';
