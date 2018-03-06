@@ -9,9 +9,6 @@ export const getAttributesInfo = (dataAttributes: Object): Attributes => {
   if (!_.isNil(dataAttributes.totalUnits)) {
     attributes.totalUnits = dataAttributes.totalUnits.toString();
   }
-  if (!_.isNil(dataAttributes.builtUp)) {
-    attributes.builtUp = dataAttributes.builtUp.toString();
-  }
 
   if (!_.isNil(dataAttributes.builtUp)) {
     attributes.builtUp = dataAttributes.builtUp.toString();

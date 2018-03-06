@@ -38,6 +38,11 @@ const projectFormatter = (projectProfilePage: Object, lang: string): Listing => 
 
   response.cover = mediaFormatter.getImageCover(JSON.parse(projectProfilePage.image)[0]);
   response.description = projectProfilePage.description;
+
+  if (!_.isEmpty(projectProfilePage.project_brandcolor)) {
+    response.color = projectProfilePage.project_brandcolor;
+  }
+
   response.id = projectProfilePage.id;
   response.title = projectProfilePage.project_name;
   response.subtitle = projectProfilePage.tagline;
