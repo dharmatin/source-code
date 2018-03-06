@@ -143,8 +143,7 @@ const childListingFormatter = (childListings: Array<Object>, lang: string): Arra
     dataListing.title = listing.subproject_name;
     dataListing.subtitle = listing.tagline;
     dataListing.description = _.join(JSON.parse(listing.description), '\n');
-    dataListing.medias = [];
-    //dataListing.medias = mediaFormatter.getListingImages(listing.listing_images);
+    dataListing.medias = mediaFormatter.getListingImages(listing.listing_images_ar);
     listings.push(dataListing);
   });
   return listings;
