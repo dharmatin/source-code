@@ -2,7 +2,7 @@ import * as web from 'express-decorators';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import _ from 'lodash';
-import notFoundResponse from '../libs/response';
+import {notFoundResponse, internalServerErrorResponse, successResponse} from '../libs/response';
 
 @web.basePath('/listings')
 class ListingsController extends BaseController {
@@ -11,11 +11,11 @@ class ListingsController extends BaseController {
     try {
       const listings = await projectProfileService.getProjectProfile(req.params.id, this.lang);
       if (_.isEmpty(listings)) {
-        return notFoundResponse(res);
+        notFoundResponse(res);
       }
-      res.send(listings);
+      successResponse(res, listings);
     } catch (e) {
-      res.status(500).send(e);
+      internalServerErrorResponse(res, e);
       throw new Error(e);
     }
   }

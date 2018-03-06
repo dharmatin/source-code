@@ -2,13 +2,14 @@
 import _ from 'lodash';
 import type {Media} from './types';
 import config from '../../../config';
+import {getYoutubeId} from '../../../libs/utility';
 
 export const getFloorPlanImages = (floorPlansWithDescription: Array<string>): Array<Media> => {
   const floorPlanImages = [];
-  const floorPlan = {};
 
   _.map(floorPlansWithDescription, (item) => {
-    const [description, img] = _.split(item, ';');
+    const floorPlan = {};
+    const [img, description] = _.split(item, ';');
     floorPlan.type = 'image';
     floorPlan.urlTemplate = config.image.sharpieUrl + '/premium/${width}x${height}-${scale}/' + _.trim(img, '"');
     floorPlan.description = description;
@@ -29,17 +30,14 @@ export const getImageCover = (image: string): Media => {
 export const getListingImages = (imagesWithDescription: Array<string>): Array<Media> => {
   const medias = [];
 
-  const image = {
-    type: '',
-    urlTemplate: '',
-    description: ''
-  };
-
   _.map(imagesWithDescription, (item) => {
-    const [description, img] = _.split(item, ';');
+    const image = {};
+    const [img, description] = _.split(item, ';');
     image.type = 'image';
     image.urlTemplate = config.image.sharpieUrl + '/premium/${width}x${height}-${scale}/' + _.trim(img, '"');
-    image.description = description;
+    if (!_.isEmpty(description)) {
+      image.description = description;
+    }
 
     medias.push(image);
   });
@@ -51,7 +49,7 @@ export const getThreeSixtyVideos = (threeSixtyLinks: Array<string>): Array<strin
   const image360s = [];
 
   _.map(_.compact(threeSixtyLinks), (item) => {
-    const [description, url] = _.split(item, ';');
+    const [url, description] = _.split(item, ';');
     image360s.push(url);
   });
 
@@ -62,8 +60,8 @@ export const getYoutubeIds = (youtubeLinks: Array<string>): Array<string> => {
   const youtubeIds = [];
 
   _.map(_.compact(youtubeLinks), (item) => {
-    const [description, url] = _.split(item, ';');
-    youtubeIds.push(url);
+    const [url, description] = _.split(item, ';');
+    youtubeIds.push(getYoutubeId(url));
   });
 
   return youtubeIds;

@@ -6,8 +6,9 @@ import config from '../../../config';
 export const getAttributesInfo = (dataAttributes: Object): Attributes => {
   const attributes = {};
 
-  attributes.totalUnits = dataAttributes.totalUnits.toString();
-
+  if (!_.isNil(dataAttributes.totalUnits)) {
+    attributes.totalUnits = dataAttributes.totalUnits.toString();
+  }
   if (!_.isNil(dataAttributes.builtUp)) {
     attributes.builtUp = dataAttributes.builtUp.toString();
   }
@@ -24,8 +25,12 @@ export const getAttributesInfo = (dataAttributes: Object): Attributes => {
     attributes.carPark = dataAttributes.carPark.toString();
   }
 
-  if (!_.isNil(dataAttributes.phoneLine)) {
+  if (!_.isNil(dataAttributes.phoneLine) && !_.isEmpty(dataAttributes.phoneLine)) {
     attributes.phoneLine = dataAttributes.phoneLine.toString();
+  }
+
+  if (!_.isNil(dataAttributes.internet)) {
+    attributes.internet = dataAttributes.internet.toString();
   }
 
   if (!_.isNil(dataAttributes.bathRoom)) {
@@ -37,7 +42,7 @@ export const getAttributesInfo = (dataAttributes: Object): Attributes => {
   }
 
   if (!_.isNil(dataAttributes.landArea)) {
-    attributes.landArea = dataAttributes.landArea;
+    attributes.landArea = dataAttributes.landArea.toString();
   }
 
   if (!_.isEmpty(dataAttributes.completionDate)) {

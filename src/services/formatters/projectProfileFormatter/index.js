@@ -15,15 +15,16 @@ export const getProjectProfileFormatter = (projectListing: Object, childListings
   if (projectListing.numFound === 0) {
     return {};
   } else {
-    childListingFormatter(childListings.docs, lang);
-    return _.merge({}, projectFormatter(projectListing.docs[0], lang));
-    // childListingResponse
+    return _.merge({}, 
+      projectFormatter(projectListing.docs[0], lang), 
+      {properties: childListingFormatter(childListings.docs, lang)} 
+    );
   }
 };
 
 const projectFormatter = (projectProfilePage: Object, lang: string): Listing => {
   const response = {};
-  const featureDescription = projectProfilePage['lang' + '_key_point'];
+  const featureDescription = projectProfilePage[lang + '_key_point'];
   response.channels = ['new'];
 
   const banner = listingFormatter.getBannerSponsorship({
@@ -80,8 +81,8 @@ const projectFormatter = (projectProfilePage: Object, lang: string): Listing => 
   }, lang);
 
   response.prices = priceFormatter.getPrices({
-    price_min: projectProfilePage.price_min,
-    price_max: projectProfilePage.price_max
+    priceMin: projectProfilePage.price_min,
+    priceMax: projectProfilePage.price_max
   });
 
   response.shareLink = listingFormatter.getProjectProfilePageLink({
@@ -122,11 +123,29 @@ const projectFormatter = (projectProfilePage: Object, lang: string): Listing => 
 };
 
 const childListingFormatter = (childListings: Array<Object>, lang: string): Array<Listing> => {
-  const listings = [];
-  const listing = {};
+  let listings = [];
   _.map(childListings, listing => {
-
+    const dataListing = {};
+    dataListing.prices = priceFormatter.getPrices({
+      priceMin: listing.price_sort,
+      priceMax: listing.price_sort
+    });
+    dataListing.attributes = listingAttributeFormatter.getAttributesInfo({
+      internet: listing.conectivity,
+      landArea: listing.land_size,
+      builtUp: listing.building_size,
+      bedroom: listing.bedroom,
+      bathroom: listing.bathroom,
+      electricity: listing.electricity,
+      phoneLine: listing.phoneline
+    });
+    dataListing.id = listing.id;
+    dataListing.title = listing.subproject_name;
+    dataListing.subtitle = listing.tagline;
+    dataListing.description = _.join(JSON.parse(listing.description), '\n');
+    dataListing.medias = [];
+    //dataListing.medias = mediaFormatter.getListingImages(listing.listing_images);
+    listings.push(dataListing);
   });
-
   return listings;
 };

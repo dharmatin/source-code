@@ -1,20 +1,20 @@
-function successResponse(res, data) {
-  res
-    .setHeader('Content-Type', 'application/json')
+export const successResponse = (response, data) => {
+  response
+    .set('Content-Type', 'application/json')
     .status(200)
     .json(data);
-}
+};
 
-function badRequestResponse() {
-  res
-    .setHeader('Content-Type', 'application/json')
-    .status(200)
-    .json(data);
-}
+export const badRequestResponse = (response) => {
+  response
+    .set('Content-Type', 'application/json')
+    .status(400)
+    .send('Bad request');
+};
 
 export const notFoundResponse = response => {
   response
-    .setHeader('Content-Type', 'application/json')
+    .set('Content-Type', 'application/json')
     .status(200)
     .json({
       error: {
@@ -24,11 +24,9 @@ export const notFoundResponse = response => {
     });
 };
 
-function internalServerErrorResponse(res, msg) {
-  res
-    .setHeader('Content-Type', 'application/json')
+export const internalServerErrorResponse = (response, msg) => {
+  response
+    .set('Content-Type', 'application/json')
     .status(500)
     .json(msg);
-}
-
-module.exports = successResponse;
+};

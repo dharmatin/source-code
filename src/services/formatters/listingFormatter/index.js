@@ -22,9 +22,9 @@ export const getTierOfPrimaryListing = (isPremium: number, isGTS: number): numbe
 
 export const getFeatures = (facilities: Array<string>): Array<Features> => {
   const responseFeatures = [];
-  const medias = {};
 
   _.map(facilities, (facility) => {
+    const medias = {};
     let dataFacility = _.split(facility, ':');
 
     medias.description = dataFacility[0];

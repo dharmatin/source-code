@@ -18,10 +18,10 @@ export type Features = {
 };
 
 export type Listing = {
-	address: Address,
+	address?: Address,
 	attributes: Attributes,
 	banner?: BannerSponsorship,
-	channels: Array<string>,
+	channels?: Array<string>,
 	completionDate?: string,
 	color?: string,
 	cover?: Media,
@@ -32,19 +32,19 @@ export type Listing = {
 	id: string,
 	Image360s?: Array<string>,
 	listers?: Array<Lister>,
-	logo: Media,
+	logo?: Media,
 	medias: Array<Media>,
-	multilanguagePlace: MultiLanguagePlace,
+	multilanguagePlace?: MultiLanguagePlace,
 	organisations?: Array<Organisation>,
 	prices: Array<Price>,
 	promotion?: string,
-	propertyType: string,
-	shareLink: string,
+	propertyType?: string,
+	shareLink?: string,
 	subtitle: string,
-	tier: number,
+	tier?: number,
 	title: string,
 	totalUnits?: string,
 	unitTypeCategory?: string,
-	updatedAt: Date,
+	updatedAt?: string,
 	youtubeIds?: Array<string>
 };
