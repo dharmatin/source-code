@@ -131,7 +131,7 @@ const childListingFormatter = (childListings: Array<Object>, lang: string): Arra
   let listings = [];
   _.map(childListings, listing => {
     const dataListing = {};
-    dataListing.prices = priceFormatter.getPrices({
+    dataListing.price = priceFormatter.getPrice({
       priceMin: listing.price_sort,
       priceMax: listing.price_sort
     });
