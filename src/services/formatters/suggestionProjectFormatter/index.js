@@ -38,7 +38,7 @@ const suggestionProjects = (projectListings: Array<Object>, lang: string): Array
     dataListing.description = listing.description;
     dataListing.cover = mediaFormatter.getImageCover(JSON.parse(listing.image)[0]);
     dataListing.logo = mediaFormatter.getLogo(JSON.parse(listing.logo)[0], config.image.baseUrl);
-    dataListing.multilanguagePlace = addressFormatter.getMultiLanguageAddressInfo({
+    dataListing.multilanguagePlace = addressFormatter.formatterMultiLanguageAddressInfo({
       district: listing.district_name,
       city: listing.city_name,
       province: listing.province_name
@@ -64,17 +64,14 @@ const suggestionProjects = (projectListings: Array<Object>, lang: string): Array
       logo: listing.developer_logo
     }, lang);
 
-    dataListing.attributes = {};
-    
-    /*dataListing.attributes = listingAttributeFormatter.getAttributesInfo({
-      internet: listing.conectivity,
+    dataListing.attributes = listingAttributeFormatter.formatterAttributesInfo({
       landArea: listing.land_size,
-      builtUp: listing.building_size,
-      bedroom: listing.bedroom,
-      bathroom: listing.bathroom,
-      electricity: listing.electricity,
-      phoneLine: listing.phoneline
-    });*/
+      builtUpMin: listing.building_size_min,
+      builtUpMax: listing.building_size_max,
+      landAreaMin: listing.land_size_min,
+      landAreaMax: listing.land_size_max,
+      numberSeparator: config.separator.number[lang]
+    });
 
     listings.push(dataListing);
   });
