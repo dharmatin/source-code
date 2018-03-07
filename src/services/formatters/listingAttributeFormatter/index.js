@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import type {Attributes} from './types';
 import config from '../../../config';
+import {formatterToLocalizeNumber} from '../../../libs/utility';
 
 export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
   const attribute = {};
@@ -11,14 +12,22 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
   }
 
   if (!_.isNil(dataAttributes.builtUpMin) && !_.isNil(dataAttributes.builtUpMax)) {
-    attribute.builtUp = dataAttributes.builtUpMin.toString();
+    if (dataAttributes.builtUpMin > 0 && dataAttributes.builtUpMax > 0) {
+      let builtUpRange = formatterToLocalizeNumber(dataAttributes.builtUpMin, dataAttributes.lang) + ' - ' +
+          formatterToLocalizeNumber(dataAttributes.builtUpMax, dataAttributes.lang);
+
+      if (dataAttributes.lang === 'en') {
+        attribute.builtUp = 'From ' + builtUpRange;
+      } else {
+        attribute.builtUp = 'Dari ' + builtUpRange;
+      }
+    }
   } else if (!_.isNil(dataAttributes.builtUp)) {
-    //console.log(dataAttributes.builtUp.toLocaleString(['ban', 'id']));
-    attribute.builtUp = dataAttributes.builtUp.toString();
+    attribute.builtUp = formatterToLocalizeNumber(dataAttributes.builtUp, dataAttributes.lang).toString();
   }
 
   if (!_.isEmpty(dataAttributes.downloadURL)) {
-    attribute.downloadURL =  config.image.baseUrl + '/' + dataAttributes.downloadURL;
+    attribute.downloadURL = config.image.baseUrl + '/' + dataAttributes.downloadURL;
   }
 
   if (!_.isNil(dataAttributes.carPark)) {
@@ -42,9 +51,18 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
   }
 
   if (!_.isNil(dataAttributes.landAreaMin) && !_.isNil(dataAttributes.landAreaMax)) {
-    attribute.landArea = dataAttributes.landArea.toString();
+    if (dataAttributes.landAreaMin > 0 && dataAttributes.landAreaMax > 0) {
+      let landAreaRange = formatterToLocalizeNumber(dataAttributes.landAreaMin, dataAttributes.lang) + ' - ' +
+            formatterToLocalizeNumber(dataAttributes.landAreaMax, dataAttributes.lang);
+
+      if (dataAttributes.lang === 'en') {
+        attribute.landArea = 'From ' + landAreaRange;
+      } else {
+        attribute.landArea = 'Dari ' + landAreaRange;
+      }
+    }
   } else if (!_.isNil(dataAttributes.landArea)) {
-    attribute.landArea = dataAttributes.landArea.toString();
+    attribute.landArea = formatterToLocalizeNumber(dataAttributes.landArea, dataAttributes.lang).toString();
   }
 
   if (!_.isEmpty(dataAttributes.completionDate)) {
@@ -62,6 +80,6 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
   if (!_.isEmpty(dataAttributes.contractorName)) {
     attribute.contractorName = dataAttributes.contractorName;
   }
-  
+
   return attribute;
 };

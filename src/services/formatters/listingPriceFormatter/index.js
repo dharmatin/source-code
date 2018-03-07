@@ -1,7 +1,7 @@
 // @flow
 import type {Price} from './types';
 
-export const getPrices = (dataPrice: Object): Array<Price> => {
+export const formatterPrices = (dataPrice: Object): Array<Price> => {
   const price = {};
   price.type = 'new';
   price.currency = 'IDR';
@@ -11,7 +11,7 @@ export const getPrices = (dataPrice: Object): Array<Price> => {
   return [{...price}];
 };
 
-export const getPrice = (dataPrice: Object): Price => {
+export const formatterPrice = (dataPrice: Object): Price => {
   const price = {};
   price.type = 'new';
   price.currency = 'IDR';

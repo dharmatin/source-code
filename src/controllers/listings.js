@@ -2,21 +2,21 @@ import * as web from 'express-decorators';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import _ from 'lodash';
-import {notFoundResponse, internalServerErrorResponse, successResponse} from '../libs/responseHandler';
+import {handlerNotFound, handlerInternalServerError, handlerSuccess} from '../libs/responseHandler';
 
 @web.basePath('/listing/v1/listings')
 class ListingsController extends BaseController {
+
   @web.get('/:id')
   async findAllProjectProfilePageByIdAction(req, res, next) {
     try {
-      console.log("ttt");
       const listings = await projectProfileService.getProjectProfile(req.params.id, this.lang);
       if (_.isEmpty(listings)) {
-        notFoundResponse(res);
+        handlerNotFound(res);
       }
-      successResponse(res, listings);
+      handlerSuccess(res, listings);
     } catch (e) {
-      internalServerErrorResponse(res, e);
+      handlerInternalServerError(res, e);
       throw new Error(e);
     }
   }

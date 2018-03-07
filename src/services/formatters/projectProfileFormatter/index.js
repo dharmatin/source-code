@@ -11,7 +11,7 @@ import * as mediaFormatter from '../mediaFormatter';
 import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
 
-export const getProjectProfileFormatter = (projectListing: Object, childListings: Object, lang: string): ProjectProfilePage => {
+export const formatterProjectProfile = (projectListing: Object, childListings: Object, lang: string): ProjectProfilePage => {
   if (projectListing.numFound === 0) {
     return {};
   } else {
@@ -27,7 +27,7 @@ const formatterProject = (projectProfilePage: Object, lang: string): Listing => 
   const featureDescription = projectProfilePage[lang + '_key_point'];
   response.channels = ['new'];
 
-  const banner = listingFormatter.getBannerSponsorship({
+  const banner = listingFormatter.formatterBannerSponsorship({
     link: projectProfilePage.url_sponsor,
     title: projectProfilePage['sponsor_name_' + lang]
   });
@@ -36,7 +36,7 @@ const formatterProject = (projectProfilePage: Object, lang: string): Listing => 
     response.banner = banner;
   }
 
-  response.cover = mediaFormatter.getImageCover(JSON.parse(projectProfilePage.image)[0]);
+  response.cover = mediaFormatter.formatterImageCover(JSON.parse(projectProfilePage.image)[0]);
   response.description = projectProfilePage.description;
 
   if (!_.isEmpty(projectProfilePage.project_brandcolor)) {
@@ -46,7 +46,7 @@ const formatterProject = (projectProfilePage: Object, lang: string): Listing => 
   response.id = projectProfilePage.id;
   response.title = projectProfilePage.project_name;
   response.subtitle = projectProfilePage.tagline;
-  response.propertyType = listingFormatter.getPropertyType(projectProfilePage.subtype);
+  response.propertyType = listingFormatter.formatterPropertyType(projectProfilePage.subtype);
   response.address = addressFormatter.formatterAddressInfo({
     district: projectProfilePage.district_name,
     city: projectProfilePage.city_name,
@@ -63,14 +63,14 @@ const formatterProject = (projectProfilePage: Object, lang: string): Listing => 
   });
 
   // response.listers = {};
-  response.logo = mediaFormatter.getLogo(JSON.parse(projectProfilePage.logo)[0], config.image.baseUrl);
+  response.logo = mediaFormatter.formatterLogo(JSON.parse(projectProfilePage.logo)[0], config.image.baseUrl);
   response.multilanguagePlace = addressFormatter.formatterMultiLanguageAddressInfo({
     district: projectProfilePage.district_name,
     city: projectProfilePage.city_name,
     province: projectProfilePage.province_name
   });
 
-  response.organisations = organisationFormatter.getDeveloperInfo({
+  response.organisations = organisationFormatter.formatterDeveloperInfo({
     id: projectProfilePage.developer_company_id,
     name: projectProfilePage.developer_name,
     color: projectProfilePage.developer_brandcolor,
@@ -86,45 +86,43 @@ const formatterProject = (projectProfilePage: Object, lang: string): Listing => 
     logo: projectProfilePage.developer_logo
   }, lang);
 
-  response.prices = priceFormatter.getPrices({
+  response.prices = priceFormatter.formatterPrices({
     priceMin: projectProfilePage.price_min,
     priceMax: projectProfilePage.price_max
   });
 
-  response.shareLink = listingFormatter.getProjectProfilePageLink({
+  response.shareLink = listingFormatter.formatterProjectProfilePageLink({
     projectName: projectProfilePage.project_name,
     city: projectProfilePage.city_name,
     id: projectProfilePage.id
   }, lang);
-  response.tier = listingFormatter.getTierOfPrimaryListing(projectProfilePage.is_premium, projectProfilePage.is_gts);
+  response.tier = listingFormatter.formatterTierOfPrimaryListing(projectProfilePage.is_premium, projectProfilePage.is_gts);
   response.updatedAt = toISOFormatting(projectProfilePage.updated_date);
-  response.medias = mediaFormatter.getListingImages(projectProfilePage.all_listing_images);
+  response.medias = mediaFormatter.formatterListingImages(projectProfilePage.all_listing_images);
 
-  const youtubeIds = mediaFormatter.getYoutubeIds(projectProfilePage.all_video);
+  const youtubeIds = mediaFormatter.formatterYoutubeIds(projectProfilePage.all_video);
   if (!_.isEmpty(youtubeIds)) {
     response.youtubeIds = youtubeIds;
   }
 
   if (!_.isEmpty(featureDescription)) {
-    const formattedDescriptions = _.map(featureDescription, desc => {
+    response.featureDescription = _.map(featureDescription, desc => {
       const descriptions = _.split(desc, ':');
       return `<b>${descriptions[0]}</b><p>${descriptions[1]}</p>`;
     }).join('</br></br>');
-
-    response.featureDescription = formattedDescriptions;
   }
 
   if (!_.isEmpty(projectProfilePage.website)) {
     response.website = projectProfilePage.website;
   }
 
-  const image360s = mediaFormatter.getThreeSixtyVideos(projectProfilePage.all_360_video);
+  const image360s = mediaFormatter.formatterThreeSixtyVideos(projectProfilePage.all_360_video);
   if (!_.isEmpty(image360s)) {
     response.image360s = image360s;
   }
 
-  response.floorPlanImages = mediaFormatter.getFloorPlanImages(projectProfilePage.all_image_floorplan);
-  response.features = listingFormatter.getFeatures(projectProfilePage[lang + '_project_facilities']);
+  response.floorPlanImages = mediaFormatter.formatterFloorPlanImages(projectProfilePage.all_image_floorplan);
+  response.features = listingFormatter.formatterFeatures(projectProfilePage[lang + '_project_facilities']);
   return response;
 };
 
@@ -132,7 +130,7 @@ const formatterChildListing = (childListings: Array<Object>, lang: string): Arra
   let listings = [];
   _.map(childListings, listing => {
     const dataListing = {};
-    dataListing.price = priceFormatter.getPrice({
+    dataListing.price = priceFormatter.formatterPrice({
       priceMin: listing.price_sort,
       priceMax: listing.price_sort
     });
@@ -143,14 +141,14 @@ const formatterChildListing = (childListings: Array<Object>, lang: string): Arra
       bedroom: listing.bedroom,
       bathroom: listing.bathroom,
       electricity: listing.electricity,
-      phoneLine: listing.phoneline
-      //numberSeparator: config.separator.number[lang]
+      phoneLine: listing.phoneline,
+      lang: lang
     });
     dataListing.id = listing.id;
     dataListing.title = listing.subproject_name;
     dataListing.subtitle = listing.tagline;
     dataListing.description = _.join(JSON.parse(listing.description), '\n');
-    dataListing.medias = mediaFormatter.getListingImages(listing.listing_images_ar);
+    dataListing.medias = mediaFormatter.formatterListingImages(listing.listing_images_ar);
     listings.push(dataListing);
   });
   return listings;

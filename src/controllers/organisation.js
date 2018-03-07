@@ -1,22 +1,23 @@
 import * as web from 'express-decorators';
+import _ from 'lodash';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
-import _ from 'lodash';
-import {notFoundResponse, internalServerErrorResponse, successResponse} from '../libs/responseHandler';
+import {handlerNotFound, handlerInternalServerError, handlerSuccess} from '../libs/responseHandler';
 
 @web.basePath('/organisation/v1/organisations')
 class OrganisationController extends BaseController {
-  @web.get('/:id/:projects')
+
+  @web.get('/:id/projects')
   async findAllProjectByOrganisationIdAction(req, res) {
-    console.log("ss");
     try {
-      const listings = await projectProfileService.searchProjectByOrganisation(req.params.id, this.lang);
+      const excludeProjectId = !_.isNil(req.query.excludeProject) ? req.query.excludeProject : '';
+      const listings = await projectProfileService.searchProjectByOrganisation(req.params.id, excludeProjectId, this.lang);
       if (_.isEmpty(listings)) {
-        notFoundResponse(res);
+        handlerNotFound(res);
       }
-      successResponse(res, listings);
+      handlerSuccess(res, listings);
     } catch (e) {
-      internalServerErrorResponse(res, e);
+      handlerInternalServerError(res);
       throw new Error(e);
     }
   }

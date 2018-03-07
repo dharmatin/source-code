@@ -4,11 +4,11 @@ import type {BannerSponsorship, Features} from './types';
 import config from '../../../config';
 import {slugify} from '../../../libs/utility';
 
-export const getBannerSponsorship = (banner: Object): BannerSponsorship => {
+export const formatterBannerSponsorship = (banner: Object): BannerSponsorship => {
   return !_.isNil(banner.link) ? banner : {};
 };
 
-export const getTierOfPrimaryListing = (isPremium: number, isGTS: number): number => {
+export const formatterTierOfPrimaryListing = (isPremium: number, isGTS: number): number => {
   if (isPremium === 0) {
     return config.tier.standard;
   } else {
@@ -20,7 +20,7 @@ export const getTierOfPrimaryListing = (isPremium: number, isGTS: number): numbe
   }
 };
 
-export const getFeatures = (facilities: Array<string>): Array<Features> => {
+export const formatterFeatures = (facilities: Array<string>): Array<Features> => {
   const responseFeatures = [];
 
   _.map(facilities, (facility) => {
@@ -39,15 +39,15 @@ export const getFeatures = (facilities: Array<string>): Array<Features> => {
   return responseFeatures;
 };
 
-export const getPropertyType = (propertyType: Array<string>): string => {
+export const formatterPropertyType = (propertyType: Array<string>): string => {
   const propertyTypeResponse = _.map(propertyType, (item) => {
     return `${config.propertyType[item]}`;
-  }).join('/');
+  }).join(' / ');
 
   return propertyTypeResponse;
 };
 
-export const getProjectProfilePageLink = (projectProfile: Object, lang: string): string => {
+export const formatterProjectProfilePageLink = (projectProfile: Object, lang: string): string => {
   const {projectName, city, id} = projectProfile;
 
   let formatUrl = '';

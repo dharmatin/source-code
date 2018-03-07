@@ -1,6 +1,6 @@
 // @flow
 import _ from 'lodash';
-import type { Address, MultiLanguagePlace } from './types';
+import type {Address, MultiLanguagePlace} from './types';
 
 export const formatterAddressInfo = (area: Object): Address => {
   const addressInfo = {};
