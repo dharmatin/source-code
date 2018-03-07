@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha ./test/unit --require babel-register --require babel-polyfill",
+    "test:unit": "cross-env NODE_ENV=local mocha --require babel-register --require babel-polyfill ./tests/unit/*.spec.js",
     "prestart": "npm run flow",
     "start": "cross-env NODE_ENV=local nodemon --exec babel-node ./src/bin/server.js",
     "flow": "flow"
@@ -38,7 +39,8 @@
     "mocha": "^5.0.0",
     "morgan": "^1.9.0",
     "nodemon": "^1.15.1",
-    "sinon": "^4.2.2"
+    "sinon": "^4.2.2",
+    "sinon-chai": "^3.0.0"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
