@@ -1,10 +1,10 @@
 import Redis from '../libs/connections/RedisClient';
-import { unAuthorizedResponse } from '../libs/response';
+import { unAuthorizedResponse } from '../libs/responseHandler';
 
 const REDIS_DB = 1;
 const KEY_PREFIX = 'oauth_access_tokens';
 
-export const UserInfo = ((req, res, next) => {
+export const UserInfo = (() => {
   const getUserInfo = async(token) => {
     const {client: redisClient} = new Redis(REDIS_DB);
     redisClient.selectAsync(REDIS_DB);
