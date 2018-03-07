@@ -30,3 +30,15 @@ export const internalServerErrorResponse = (response, msg) => {
     .status(500)
     .json(msg);
 };
+
+export const unAuthorizedResponse = (response) => {
+  response
+    .set('Content-Type', 'application/json')
+    .status(401)
+    .json({
+      error: {
+        code: 401,
+        message: 'Unauthorized'
+      }
+    });
+};
