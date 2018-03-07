@@ -1,5 +1,5 @@
 import Redis from '../libs/connections/RedisClient';
-import { unAuthorizedResponse } from '../libs/response';
+import { unAuthorizedResponse } from '../libs/responseHandler';
 
 const REDIS_DB = 1;
 const KEY_PREFIX = 'oauth_access_tokens';
