@@ -3,60 +3,67 @@ import _ from 'lodash';
 import type {Attributes} from './types';
 import config from '../../../config';
 
-export const getAttributesInfo = (dataAttributes: Object): Attributes => {
-  const attributes = {};
+export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
+  const attribute = {};
 
   if (!_.isNil(dataAttributes.totalUnits)) {
-    attributes.totalUnits = dataAttributes.totalUnits.toString();
+    attribute.totalUnits = dataAttributes.totalUnits.toString();
   }
 
-  if (!_.isNil(dataAttributes.builtUp)) {
-    attributes.builtUp = dataAttributes.builtUp.toString();
+  if (!_.isNil(dataAttributes.builtUpMin) && !_.isNil(dataAttributes.builtUpMax)) {  
+    //dataAttributes.numberSeparator
+
+    attribute.builtUp = dataAttributes.builtUp.toLocaleString(['ban', 'id']).toString();
+  } else if (!_.isNil(dataAttributes.builtUp)) {
+    console.log(dataAttributes.builtUp.toLocaleString(['ban', 'id']));
+    attribute.builtUp = dataAttributes.builtUp.toLocaleString(['ban', 'id']).toString();
   }
 
   if (!_.isEmpty(dataAttributes.downloadURL)) {
-    attributes.downloadURL =  config.image.baseUrl + '/' + dataAttributes.downloadURL;
+    attribute.downloadURL =  config.image.baseUrl + '/' + dataAttributes.downloadURL;
   }
 
   if (!_.isNil(dataAttributes.carPark)) {
-    attributes.carPark = dataAttributes.carPark.toString();
+    attribute.carPark = dataAttributes.carPark.toString();
   }
 
   if (!_.isNil(dataAttributes.phoneLine) && !_.isEmpty(dataAttributes.phoneLine)) {
-    attributes.phoneLine = dataAttributes.phoneLine.toString();
+    attribute.phoneLine = dataAttributes.phoneLine.toString();
   }
 
   if (!_.isNil(dataAttributes.internet)) {
-    attributes.internet = dataAttributes.internet.toString();
+    attribute.internet = dataAttributes.internet.toString();
   }
 
   if (!_.isNil(dataAttributes.bathRoom)) {
-    attributes.bathRoom = dataAttributes.bathRoom.toString();
+    attribute.bathRoom = dataAttributes.bathRoom.toString();
   }
 
   if (!_.isNil(dataAttributes.bedRoom)) {
-    attributes.bedRoom = dataAttributes.bedRoom.toString();
+    attribute.bedRoom = dataAttributes.bedRoom.toString();
   }
 
-  if (!_.isNil(dataAttributes.landArea)) {
-    attributes.landArea = dataAttributes.landArea.toString();
+  if (!_.isNil(dataAttributes.landAreaMin) && !_.isNil(dataAttributes.landAreaMax)) {
+    attribute.landArea = dataAttributes.landArea.toString();
+  } else if (!_.isNil(dataAttributes.landArea)) {
+    attribute.landArea = dataAttributes.landArea.toString();
   }
 
   if (!_.isEmpty(dataAttributes.completionDate)) {
-    attributes.completionDate = dataAttributes.completionDate;
+    attribute.completionDate = dataAttributes.completionDate;
   }
 
   if (!_.isEmpty(dataAttributes.promotion)) {
-    attributes.promotion = dataAttributes.promotion;
+    attribute.promotion = dataAttributes.promotion;
   }
 
   if (!_.isEmpty(dataAttributes.architectName)) {
-    attributes.architectName = dataAttributes.architectName;
+    attribute.architectName = dataAttributes.architectName;
   }
 
   if (!_.isEmpty(dataAttributes.contractorName)) {
-    attributes.contractorName = dataAttributes.contractorName;
+    attribute.contractorName = dataAttributes.contractorName;
   }
-
-  return attributes;
+  
+  return attribute;
 };

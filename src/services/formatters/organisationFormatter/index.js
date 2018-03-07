@@ -12,7 +12,7 @@ export const getDeveloperInfo = (dataDeveloper: Object, lang: string): Array<Org
   const organisation = {};
 
   organisation.id = dataDeveloper.id;
-  organisation.type = 'Developer';
+  organisation.type = 'developer';
   organisation.name = dataDeveloper.name;
   organisation.logo = mediaFormatter.getLogo(dataDeveloper.logo, config.image.baseUrl);
   organisation.website = getDeveloperLink({
@@ -32,7 +32,7 @@ export const getDeveloperInfo = (dataDeveloper: Object, lang: string): Array<Org
     organisation.color = dataDeveloper.color;
   }
 
-  organisation.address = addressFormatter.getAddressInfo({
+  organisation.address = addressFormatter.formatterAddressInfo({
     city: dataDeveloper.city,
     district: dataDeveloper.district,
     province: dataDeveloper.province,

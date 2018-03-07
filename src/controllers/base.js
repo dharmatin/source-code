@@ -7,13 +7,4 @@ export default class BaseController {
     this.translator = require('../locale/' + this.lang + '.json');
     next();
   }
-
-  notFoundFormatter = () => {
-    return {
-      error: {
-        code: '3001',
-        message: 'Not Found'
-      }
-    };
-  }
 }

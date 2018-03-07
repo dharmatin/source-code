@@ -2,10 +2,10 @@ import * as web from 'express-decorators';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import _ from 'lodash';
-import {notFoundResponse, internalServerErrorResponse, successResponse} from '../libs/response';
+import {notFoundResponse, internalServerErrorResponse, successResponse} from '../libs/responseHandler';
 
 @web.basePath('/listing/v1/listings')
-class ListingsController extends BaseController {
+class ListingsController  {
   @web.get('/:id')
   async findAllProjectProfilePageByIdAction(req, res) {
     try {
