@@ -16,13 +16,13 @@ export const getProjectProfileFormatter = (projectListing: Object, childListings
     return {};
   } else {
     return _.merge({}, 
-      projectFormatter(projectListing.docs[0], lang), 
-      {properties: childListingFormatter(childListings.docs, lang)} 
+      formatterProject(projectListing.docs[0], lang), 
+      {properties: formatterChildListing(childListings.docs, lang)} 
     );
   }
 };
 
-const projectFormatter = (projectProfilePage: Object, lang: string): Listing => {
+const formatterProject = (projectProfilePage: Object, lang: string): Listing => {
   const response = {};
   const featureDescription = projectProfilePage[lang + '_key_point'];
   response.channels = ['new'];
@@ -47,13 +47,13 @@ const projectFormatter = (projectProfilePage: Object, lang: string): Listing => 
   response.title = projectProfilePage.project_name;
   response.subtitle = projectProfilePage.tagline;
   response.propertyType = listingFormatter.getPropertyType(projectProfilePage.subtype);
-  response.address = addressFormatter.getAddressInfo({
+  response.address = addressFormatter.formatterAddressInfo({
     district: projectProfilePage.district_name,
     city: projectProfilePage.city_name,
     province: projectProfilePage.province_name,
     geoCoordinate: _.split(projectProfilePage.latlng, ',')
   });
-  response.attributes = listingAttributeFormatter.getAttributesInfo({
+  response.attributes = listingAttributeFormatter.formatterAttributesInfo({
     totalUnits: projectProfilePage.qty_unit,
     completionDate: projectProfilePage.completion_date,
     architectName: projectProfilePage.architect_name,
@@ -64,11 +64,12 @@ const projectFormatter = (projectProfilePage: Object, lang: string): Listing => 
 
   // response.listers = {};
   response.logo = mediaFormatter.getLogo(JSON.parse(projectProfilePage.logo)[0], config.image.baseUrl);
-  response.multilanguagePlace = addressFormatter.getMultiLanguageAddressInfo({
+  response.multilanguagePlace = addressFormatter.formatterMultiLanguageAddressInfo({
     district: projectProfilePage.district_name,
     city: projectProfilePage.city_name,
     province: projectProfilePage.province_name
   });
+
   response.organisations = organisationFormatter.getDeveloperInfo({
     id: projectProfilePage.developer_company_id,
     name: projectProfilePage.developer_name,
@@ -127,7 +128,7 @@ const projectFormatter = (projectProfilePage: Object, lang: string): Listing => 
   return response;
 };
 
-const childListingFormatter = (childListings: Array<Object>, lang: string): Array<Listing> => {
+const formatterChildListing = (childListings: Array<Object>, lang: string): Array<Listing> => {
   let listings = [];
   _.map(childListings, listing => {
     const dataListing = {};
@@ -135,7 +136,7 @@ const childListingFormatter = (childListings: Array<Object>, lang: string): Arra
       priceMin: listing.price_sort,
       priceMax: listing.price_sort
     });
-    dataListing.attributes = listingAttributeFormatter.getAttributesInfo({
+    dataListing.attributes = listingAttributeFormatter.formatterAttributesInfo({
       internet: listing.conectivity,
       landArea: listing.land_size,
       builtUp: listing.building_size,
@@ -143,6 +144,7 @@ const childListingFormatter = (childListings: Array<Object>, lang: string): Arra
       bathroom: listing.bathroom,
       electricity: listing.electricity,
       phoneLine: listing.phoneline
+      //numberSeparator: config.separator.number[lang]
     });
     dataListing.id = listing.id;
     dataListing.title = listing.subproject_name;
