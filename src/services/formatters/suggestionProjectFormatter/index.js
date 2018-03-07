@@ -69,8 +69,8 @@ const suggestionProjects = (projectListings: Array<Object>, lang: string): Array
       builtUpMin: listing.building_size_min,
       builtUpMax: listing.building_size_max,
       landAreaMin: listing.land_size_min,
-      landAreaMax: listing.land_size_max,
-      numberSeparator: config.separator.number[lang]
+      landAreaMax: listing.land_size_max
+      //numberSeparator: config.separator.number[lang]
     });
 
     listings.push(dataListing);

@@ -6,10 +6,11 @@ import {notFoundResponse, internalServerErrorResponse, successResponse} from '..
 
 @web.basePath('/organisation/v1/organisations')
 class OrganisationController extends BaseController {
-  @web.get('/:organisationId/projects')
+  @web.get('/:id/:projects')
   async findAllProjectByOrganisationIdAction(req, res) {
+    console.log("ss");
     try {
-      const listings = await projectProfileService.searchProjectByOrganisation(req.params.organisationId, this.lang);
+      const listings = await projectProfileService.searchProjectByOrganisation(req.params.id, this.lang);
       if (_.isEmpty(listings)) {
         notFoundResponse(res);
       }

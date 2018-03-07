@@ -10,13 +10,11 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
     attribute.totalUnits = dataAttributes.totalUnits.toString();
   }
 
-  if (!_.isNil(dataAttributes.builtUpMin) && !_.isNil(dataAttributes.builtUpMax)) {  
-    //dataAttributes.numberSeparator
-
-    attribute.builtUp = dataAttributes.builtUp.toLocaleString(['ban', 'id']).toString();
+  if (!_.isNil(dataAttributes.builtUpMin) && !_.isNil(dataAttributes.builtUpMax)) {
+    attribute.builtUp = dataAttributes.builtUpMin.toString();
   } else if (!_.isNil(dataAttributes.builtUp)) {
-    console.log(dataAttributes.builtUp.toLocaleString(['ban', 'id']));
-    attribute.builtUp = dataAttributes.builtUp.toLocaleString(['ban', 'id']).toString();
+    //console.log(dataAttributes.builtUp.toLocaleString(['ban', 'id']));
+    attribute.builtUp = dataAttributes.builtUp.toString();
   }
 
   if (!_.isEmpty(dataAttributes.downloadURL)) {
