@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import type { Address, MultiLanguagePlace } from './types';
 
-export const getAddressInfo = (area: Object): Address => {
+export const formatterAddressInfo = (area: Object): Address => {
   const addressInfo = {};
   const {address, city, district, geoCoordinate, province} = area;
   let formattedAddress = '';
@@ -29,7 +29,7 @@ export const getAddressInfo = (area: Object): Address => {
   return addressInfo;
 };
 
-export const getMultiLanguageAddressInfo = (area: Object): MultiLanguagePlace => {
+export const formatterMultiLanguageAddressInfo = (area: Object): MultiLanguagePlace => {
   const levelLocation = {
     level1: area.province,
     level2: area.city,
