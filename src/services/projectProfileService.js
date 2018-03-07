@@ -1,7 +1,7 @@
 // @flow
 import listingCore from '../dao/listings';
-import {getProjectProfileFormatter} from './formatters/projectProfileFormatter';
-import {getSuggestionProjectsFormatter} from './formatters/suggestionProjectFormatter';
+import {formatterProjectProfile} from './formatters/projectProfileFormatter';
+import {formatterSuggestionProjects} from './formatters/suggestionProjectFormatter';
 
 export class ListingService {
   listings: Object;
@@ -23,17 +23,17 @@ export class ListingService {
       throw new Error('Solr search Child listing error!');
     }
 
-    return getProjectProfileFormatter(result.response, childListingResult.response, lang);
+    return formatterProjectProfile(result.response, childListingResult.response, lang);
   }
 
-  async searchProjectByOrganisation(organisationId: string, lang: string): Object {
-    const result = await this.listings.searchProjectByOrganisation(organisationId);
+  async searchProjectByOrganisation(organisationId: string, excludeProjectId: string, lang: string): Object {
+    const result = await this.listings.searchProjectByOrganisation(organisationId, excludeProjectId);
     const status = result.responseHeader.status;
     if (status !== 0) {
       throw new Error('Solr search error!');
     }
 
-    return getSuggestionProjectsFormatter(result.response, lang);
+    return formatterSuggestionProjects(result.response, lang);
   }
 }
 

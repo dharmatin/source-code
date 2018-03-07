@@ -4,7 +4,7 @@ import type {Media} from './types';
 import config from '../../../config';
 import {getYoutubeId} from '../../../libs/utility';
 
-export const getFloorPlanImages = (floorPlansWithDescription: Array<string>): Array<Media> => {
+export const formatterFloorPlanImages = (floorPlansWithDescription: Array<string>): Array<Media> => {
   const floorPlanImages = [];
 
   _.map(floorPlansWithDescription, (item) => {
@@ -20,14 +20,14 @@ export const getFloorPlanImages = (floorPlansWithDescription: Array<string>): Ar
   return floorPlanImages;
 };
 
-export const getImageCover = (image: string): Media => {
+export const formatterImageCover = (image: string): Media => {
   return {
     type: 'image',
     urlTemplate: config.image.sharpieUrl + '/premium/${width}x${height}-${scale}/' + image
   };
 };
 
-export const getListingImages = (imagesWithDescription: Array<string>): Array<Media> => {
+export const formatterListingImages = (imagesWithDescription: Array<string>): Array<Media> => {
   const medias = [];
 
   _.map(imagesWithDescription, (item) => {
@@ -45,7 +45,7 @@ export const getListingImages = (imagesWithDescription: Array<string>): Array<Me
   return medias;
 };
 
-export const getThreeSixtyVideos = (threeSixtyLinks: Array<string>): Array<string> => {
+export const formatterThreeSixtyVideos = (threeSixtyLinks: Array<string>): Array<string> => {
   const image360s = [];
 
   _.map(_.compact(threeSixtyLinks), (item) => {
@@ -56,7 +56,7 @@ export const getThreeSixtyVideos = (threeSixtyLinks: Array<string>): Array<strin
   return image360s;
 };
 
-export const getYoutubeIds = (youtubeLinks: Array<string>): Array<string> => {
+export const formatterYoutubeIds = (youtubeLinks: Array<string>): Array<string> => {
   const youtubeIds = [];
 
   _.map(_.compact(youtubeLinks), (item) => {
@@ -67,7 +67,7 @@ export const getYoutubeIds = (youtubeLinks: Array<string>): Array<string> => {
   return youtubeIds;
 };
 
-export const getLogo = (logo: string, baseUrl: string): Media => {
+export const formatterLogo = (logo: string, baseUrl: string): Media => {
   const response = {
     type: 'image',
     url: baseUrl + '/' + logo

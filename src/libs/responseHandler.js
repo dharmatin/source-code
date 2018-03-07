@@ -1,18 +1,18 @@
-export const successResponse = (response, data) => {
-  response
+export const handlerSuccess = (response, data) => {
+  return response
     .set('Content-Type', 'application/json')
     .status(200)
-    .json(data);
+    .send(data);
 };
 
-export const badRequestResponse = (response) => {
+export const handlerBadRequest = (response) => {
   response
     .set('Content-Type', 'application/json')
     .status(400)
     .send('Bad request');
 };
 
-export const notFoundResponse = response => {
+export const handlerNotFound = response => {
   response
     .set('Content-Type', 'application/json')
     .status(200)
@@ -24,11 +24,11 @@ export const notFoundResponse = response => {
     });
 };
 
-export const internalServerErrorResponse = (response, msg) => {
-  response
+export const handlerInternalServerError = (response) => {
+  return response
     .set('Content-Type', 'application/json')
     .status(500)
-    .json(msg);
+    .send('Internal Server Error');
 };
 
 export const unAuthorizedResponse = (response) => {

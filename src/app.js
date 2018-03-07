@@ -1,9 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import setRouting from './routes';
 import logger from 'morgan';
 import setMiddleware from './middleware';
-
 const app = express();
 
 app.use(logger('dev'));

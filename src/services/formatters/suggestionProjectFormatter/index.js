@@ -11,17 +11,17 @@ import * as mediaFormatter from '../mediaFormatter';
 import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
 
-export const getSuggestionProjectsFormatter = (projectListing: Object, lang: string): SuggestionProject => {
+export const formatterSuggestionProjects = (projectListing: Object, lang: string): SuggestionProject => {
   if (projectListing.numFound === 0) {
     return {};
   } else {
     return {
-      items: suggestionProjects(projectListing.docs, lang)
+      items: formatterRelatedProjects(projectListing.docs, lang)
     };
   }
 };
 
-const suggestionProjects = (projectListings: Array<Object>, lang: string): Array<Listing> => {
+const formatterRelatedProjects = (projectListings: Array<Object>, lang: string): Array<Listing> => {
   let listings = [];
   _.map(projectListings, listing => {
     const dataListing = {};
@@ -29,26 +29,26 @@ const suggestionProjects = (projectListings: Array<Object>, lang: string): Array
     dataListing.id = listing.id;
     dataListing.title = listing.project_name;
     dataListing.channels = ['new'];
-    dataListing.tier = listingFormatter.getTierOfPrimaryListing(listing.is_premium, listing.is_gts);
-    dataListing.shareLink = listingFormatter.getProjectProfilePageLink({
+    dataListing.tier = listingFormatter.formatterTierOfPrimaryListing(listing.is_premium, listing.is_gts);
+    dataListing.shareLink = listingFormatter.formatterProjectProfilePageLink({
       projectName: listing.project_name,
       city: listing.city_name,
       id: listing.id
     }, lang);
     dataListing.description = listing.description;
-    dataListing.cover = mediaFormatter.getImageCover(JSON.parse(listing.image)[0]);
-    dataListing.logo = mediaFormatter.getLogo(JSON.parse(listing.logo)[0], config.image.baseUrl);
+    dataListing.cover = mediaFormatter.formatterImageCover(JSON.parse(listing.image)[0]);
+    dataListing.logo = mediaFormatter.formatterLogo(JSON.parse(listing.logo)[0], config.image.baseUrl);
     dataListing.multilanguagePlace = addressFormatter.formatterMultiLanguageAddressInfo({
       district: listing.district_name,
       city: listing.city_name,
       province: listing.province_name
     });
-    dataListing.prices = priceFormatter.getPrices({
+    dataListing.prices = priceFormatter.formatterPrices({
       priceMin: listing.price_min,
       priceMax: listing.price_max
     });
 
-    dataListing.organisations = organisationFormatter.getDeveloperInfo({
+    dataListing.organisations = organisationFormatter.formatterDeveloperInfo({
       id: listing.developer_company_id,
       name: listing.developer_name,
       color: listing.developer_brandcolor,
@@ -70,7 +70,7 @@ const suggestionProjects = (projectListings: Array<Object>, lang: string): Array
       builtUpMax: listing.building_size_max,
       landAreaMin: listing.land_size_min,
       landAreaMax: listing.land_size_max,
-      numberSeparator: config.separator.number[lang]
+      lang: lang
     });
 
     listings.push(dataListing);

@@ -7,20 +7,20 @@ import * as mediaFormatter from '../mediaFormatter';
 import * as contactFormatter from '../contactFormatter';
 import * as addressFormatter from '../addressFormatter';
 
-export const getDeveloperInfo = (dataDeveloper: Object, lang: string): Array<Organisation> => {
+export const formatterDeveloperInfo = (dataDeveloper: Object, lang: string): Array<Organisation> => {
   const organisations = [];
   const organisation = {};
 
   organisation.id = dataDeveloper.id;
   organisation.type = 'developer';
   organisation.name = dataDeveloper.name;
-  organisation.logo = mediaFormatter.getLogo(dataDeveloper.logo, config.image.baseUrl);
-  organisation.website = getDeveloperLink({
+  organisation.logo = mediaFormatter.formatterLogo(dataDeveloper.logo, config.image.baseUrl);
+  organisation.website = formatterDeveloperLink({
     name: dataDeveloper.name,
     id: dataDeveloper.id
   }, lang);
 
-  organisation.contact = contactFormatter.getContactInfo({
+  organisation.contact = contactFormatter.formatterContactInfo({
     mainContact: dataDeveloper.mainContact,
     secondaryContact: dataDeveloper.secondaryContact,
     email: dataDeveloper.email,
@@ -44,7 +44,7 @@ export const getDeveloperInfo = (dataDeveloper: Object, lang: string): Array<Org
   return organisations;
 };
 
-export const getDeveloperLink = (developer: Object, lang: string): string => {
+export const formatterDeveloperLink = (developer: Object, lang: string): string => {
   let formatUrl = '';
   if (lang === 'id') {
     formatUrl = '/properti-baru/developer/' + slugify(developer.name) + '/' + developer.id;

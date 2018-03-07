@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import type {Phone, Contact} from './types';
 
-const getPhoneInfo = (dataPhones: Object): Array<Phone> => {
+const formatterPhoneInfo = (dataPhones: Object): Array<Phone> => {
   const phones = [];
   const phone = {};
 
@@ -27,7 +27,7 @@ const getPhoneInfo = (dataPhones: Object): Array<Phone> => {
   return phones;
 };
 
-const getEmails = (mainEmail: string, additionalEmail: string): Array<string> => {
+const formatterEmailInfo = (mainEmail: string, additionalEmail: string): Array<string> => {
   const emails = [];
   emails.push(mainEmail);
 
@@ -38,13 +38,13 @@ const getEmails = (mainEmail: string, additionalEmail: string): Array<string> =>
   return emails;
 };
 
-export const getContactInfo = (dataContact: Object): Contact => {
+export const formatterContactInfo = (dataContact: Object): Contact => {
   return {
-    phones: getPhoneInfo({
+    phones: formatterPhoneInfo({
       mainContact: dataContact.mainContact,
       secondaryContact: dataContact.mainContact,
       whatsapp: dataContact.whatsapp
     }),
-    emails: getEmails(dataContact.email, dataContact.additionalEmail)
+    emails: formatterEmailInfo(dataContact.email, dataContact.additionalEmail)
   };
 };
