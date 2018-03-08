@@ -1,38 +1,19 @@
-import Redis from '../libs/connections/RedisClient';
-import { unAuthorizedResponse } from '../libs/responseHandler';
+
+// @flow
+import userInfoTokenService from '../services/userInfoTokenService';
+import { handlerUnauthorized } from '../libs/responseHandler';
 import _ from 'lodash';
 
-const REDIS_DB = 1;
-const KEY_PREFIX = 'oauth_access_tokens';
+export const setUserInfoToken = async(req: any, res: any, next: any) => {
+  const token = !_.isNil(req.get('Authorization')) ? req.get('Authorization') : '';
+  const userInfo = await userInfoTokenService.getUserInfoToken(token);
 
-export const UserInfo = (() => {
-  const getUserInfo = async(token) => {
-    const {client: redisClient} = new Redis(REDIS_DB);
-    redisClient.selectAsync(REDIS_DB);
-    const user = await redisClient.getAsync(`${KEY_PREFIX}:${token}`);
-    redisClient.quit();
-
-    return JSON.parse(user);
-  };
-
-  return {
-    getUserInfo: getUserInfo
-  };
-})();
-
-const tokenMiddleware = async(req, res, next) => {
-  const token = !_.isNaN(req.get('Authorization')) ? req.get('Authorization') : null;
-  const user = await UserInfo.getUserInfo(token);
-  if (token) {
-    if (user) {
-      req.userInfo = user;
-      next();
-    } else {
-      unAuthorizedResponse(res);
-    }
+  if (_.isEmpty(userInfo)) {
+    handlerUnauthorized(res);
   } else {
+    req.userInfo = userInfo;
     next();
   }
 };
 
-export default tokenMiddleware;
+export default setUserInfoToken;

@@ -1,22 +1,23 @@
 import * as web from 'express-decorators';
 import BaseController from './base';
-import ReferralService from '../services/referralService';
+import referralService from '../services/referralService';
+import projectProfileService from '../services/projectProfileService';
 
 import {handlerNotFound, handlerInternalServerError, handlerSuccess} from '../libs/responseHandler';
 
 @web.basePath('/referral/v1/referrals')
 class ReferralsController extends BaseController {
-  @web.post('/:listing_id/apply')
+  @web.post('/:listingId/apply')
   async requestReferral(req, res) {
     try {
-      const listingID = req.params.listing_id;
-      handlerSuccess(res, await ReferralService.requestReferral({
-        userId: req.userInfo.user_id,
-        adsProjectId: listingID.substring(3),
-        propertyType: listingID.substring(0, 2),
-        propertyCategory: listingID.substring(2, 3),
-        referralStatus: -1
-      }));
+      const listing = await projectProfileService.getProjectProfile(req.params.listingId, this.lang);
+      const referral =  await referralService.requestReferral({
+        developerId: listing.organisations[0].id,
+        adsProjectId: listing.id.substring(3),
+        userId: '123123'
+      });
+
+      handlerSuccess(res, referral);
     } catch (e) {
       handlerInternalServerError(res, e);
       throw new Error(e);

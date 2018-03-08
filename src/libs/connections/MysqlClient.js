@@ -1,8 +1,11 @@
-import config from '../../config/index';
+// @flow
+import config from '../../config';
 import Sequelize from 'sequelize';
 
 export default class MysqlClient {
-  constructor(databaseName = 'default') {
+  client: Object;
+
+  constructor(databaseName: string = 'default') {
     this.client = new Sequelize({
       database: config.mysql.database[databaseName],
       username: config.mysql.username,

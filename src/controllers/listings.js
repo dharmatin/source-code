@@ -10,7 +10,7 @@ class ListingsController extends BaseController {
   @web.get('/:id')
   async findAllProjectProfilePageByIdAction(req, res, next) {
     try {
-      const listings = await projectProfileService.getProjectProfile(req.params.id, this.lang);
+      const listings = await projectProfileService.getProjectProfile(req.params.id, req.lang);
       if (_.isEmpty(listings)) {
         handlerNotFound(res);
       }

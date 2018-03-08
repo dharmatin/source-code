@@ -6,15 +6,14 @@ import {formatterToLocalizeNumber} from '../../../libs/utility';
 
 export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
   const attribute = {};
-
   if (!_.isNil(dataAttributes.totalUnits)) {
     attribute.totalUnits = dataAttributes.totalUnits.toString();
   }
 
   if (!_.isNil(dataAttributes.builtUpMin) && !_.isNil(dataAttributes.builtUpMax)) {
     if (dataAttributes.builtUpMin > 0 && dataAttributes.builtUpMax > 0) {
-      let builtUpRange = formatterToLocalizeNumber(dataAttributes.builtUpMin, dataAttributes.lang) + ' - ' +
-          formatterToLocalizeNumber(dataAttributes.builtUpMax, dataAttributes.lang);
+      let builtUpRange = dataAttributes.builtUpMin.toLocaleString(dataAttributes.lang) + ' - ' +
+        dataAttributes.builtUpMax.toLocaleString(dataAttributes.lang);
 
       if (dataAttributes.lang === 'en') {
         attribute.builtUp = 'From ' + builtUpRange;
@@ -23,7 +22,7 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
       }
     }
   } else if (!_.isNil(dataAttributes.builtUp)) {
-    attribute.builtUp = formatterToLocalizeNumber(dataAttributes.builtUp, dataAttributes.lang).toString();
+    attribute.builtUp = dataAttributes.builtUp.toLocaleString(dataAttributes.lang);
   }
 
   if (!_.isEmpty(dataAttributes.downloadURL)) {
@@ -52,8 +51,8 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
 
   if (!_.isNil(dataAttributes.landAreaMin) && !_.isNil(dataAttributes.landAreaMax)) {
     if (dataAttributes.landAreaMin > 0 && dataAttributes.landAreaMax > 0) {
-      let landAreaRange = formatterToLocalizeNumber(dataAttributes.landAreaMin, dataAttributes.lang) + ' - ' +
-            formatterToLocalizeNumber(dataAttributes.landAreaMax, dataAttributes.lang);
+      let landAreaRange = dataAttributes.landAreaMin.toLocaleString(dataAttributes.lang) + ' - ' +
+        dataAttributes.landAreaMax.toLocaleString(dataAttributes.lang);
 
       if (dataAttributes.lang === 'en') {
         attribute.landArea = 'From ' + landAreaRange;
@@ -62,7 +61,7 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
       }
     }
   } else if (!_.isNil(dataAttributes.landArea)) {
-    attribute.landArea = formatterToLocalizeNumber(dataAttributes.landArea, dataAttributes.lang).toString();
+    attribute.landArea = dataAttributes.landArea.toLocaleString(dataAttributes.lang);
   }
 
   if (!_.isEmpty(dataAttributes.completionDate)) {
