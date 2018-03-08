@@ -10,8 +10,9 @@ export class UserInfoTokenService {
 	}
 
 	async getUserInfoToken(token: string): Object {
-		try {
+	  try {
 	    const result = await this.userInfo.searchUserByToken(token);
+
 	    return formatterUserInfoToken(result);
 	  } catch (e) {
 	    throw new Error('Redis search error!');
