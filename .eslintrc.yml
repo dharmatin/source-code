@@ -46,6 +46,9 @@ rules:
     - "never"
   no-tabs:
     0
+  no-mixed-spaces-and-tabs: 
+    - 2
+    - "smart-tabs"
   flowtype/generic-spacing:
     - 2
     - "never"
