@@ -24,7 +24,8 @@ export default class MysqlClient {
       define: {
         freezeTableName: true,
         timestamps: false
-      }
+      },
+      logging: config.isProduction ? '' : console.log
     });
   }
 }
