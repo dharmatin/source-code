@@ -6,7 +6,8 @@ export default class RedisClient {
   constructor(db) {
     this.client = bluebird.promisifyAll(redis.createClient({
       host: config.redis.host,
-      port: config.redis.port
+      port: config.redis.port,
+      db: db
     }));
   }
 }

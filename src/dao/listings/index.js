@@ -20,7 +20,7 @@ export default {
     if (!_.isEmpty(excludeProjectId)) {
       conditionQ += ` AND -id:${excludeProjectId}`;
     }
-    console.log(conditionQ);
+
     const queryListingById = listingClient.createQuery().q(conditionQ).start(0).rows(100);
     return listingClient.searchAsync(queryListingById);
   }

@@ -22,11 +22,11 @@ export class ListingService {
     if (childListingStatus !== 0) {
       throw new Error('Solr search Child listing error!');
     }
-
+  
     return formatterProjectProfile(result.response, childListingResult.response, lang);
   }
 
-  async searchProjectByOrganisation(organisationId: string, excludeProjectId: string, lang: string): Object {
+  async getProjectByOrganisation(organisationId: string, excludeProjectId: string, lang: string): Object {
     const result = await this.listings.searchProjectByOrganisation(organisationId, excludeProjectId);
     const status = result.responseHeader.status;
     if (status !== 0) {

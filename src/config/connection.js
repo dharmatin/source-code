@@ -5,7 +5,7 @@ const common = {
       port: '8080'
     },
     redis: {
-      host: '10.201.30.25',
+      host: 'id-stgredis.3bvdiw.ng.0001.apse1.cache.amazonaws.com',
       port: 6379
     }
   },

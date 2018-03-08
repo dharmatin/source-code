@@ -128,12 +128,14 @@ const formatterProject = (projectProfilePage: Object, lang: string): Listing => 
 
 const formatterChildListing = (childListings: Array<Object>, lang: string): Array<Listing> => {
   let listings = [];
+
   _.map(childListings, listing => {
     const dataListing = {};
     dataListing.price = priceFormatter.formatterPrice({
       priceMin: listing.price_sort,
       priceMax: listing.price_sort
     });
+
     dataListing.attributes = listingAttributeFormatter.formatterAttributesInfo({
       internet: listing.conectivity,
       landArea: listing.land_size,

@@ -11,7 +11,9 @@ class OrganisationController extends BaseController {
   async findAllProjectByOrganisationIdAction(req, res) {
     try {
       const excludeProjectId = !_.isNil(req.query.excludeProject) ? req.query.excludeProject : '';
-      const listings = await projectProfileService.searchProjectByOrganisation(req.params.id, excludeProjectId, this.lang);
+      const translator = req.app.get('translator');
+      
+      const listings = await projectProfileService.getProjectByOrganisation(req.params.id, excludeProjectId, req.lang);
       if (_.isEmpty(listings)) {
         handlerNotFound(res);
       }
