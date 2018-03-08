@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import getPort from 'get-port';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
@@ -7,6 +6,7 @@ import userInfo from '../fixture/userInfo.json';
 
 chai.use(chaiHttp);
 const requester = chai.request(app);
+const {expect} = chai;
 
 describe('Authentication Middleware', () => {
   let server;
