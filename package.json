@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha ./test/unit --require babel-register --require babel-polyfill",
     "test:unit": "cross-env NODE_ENV=local mocha --require babel-register --require babel-polyfill ./tests/unit/*.spec.js",
-    "test:integration": "cross-env NODE_ENV=local mocha ./tests/integration/*.spec.js --require babel-register --require babel-polyfill",
+    "test:integration": "cross-env NODE_ENV=local mocha ./tests/integration/*.spec.js --require babel-register --require babel-polyfill --exit",
     "prestart": "npm run flow",
     "start": "cross-env NODE_ENV=local nodemon --exec babel-node --icu-data-dir=node_modules/full-icu ./src/bin/server.js ",
     "flow": "flow"
