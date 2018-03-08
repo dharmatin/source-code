@@ -15,9 +15,9 @@ export const formatterProjectProfile = (projectListing: Object, childListings: O
   if (projectListing.numFound === 0) {
     return {};
   } else {
-    return _.merge({}, 
-      formatterProject(projectListing.docs[0], lang), 
-      {properties: formatterChildListing(childListings.docs, lang)} 
+    return _.merge({},
+      formatterProject(projectListing.docs[0], lang),
+      {properties: formatterChildListing(childListings.docs, lang)}
     );
   }
 };
