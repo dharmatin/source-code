@@ -1,9 +1,10 @@
+
 // @flow
 import userInfoTokenService from '../services/userInfoTokenService';
 import { handlerUnauthorized } from '../libs/responseHandler';
 import _ from 'lodash';
 
-export const tokenMiddleware = async(req: any, res: any, next: any) => {
+export const setUserInfoToken = async(req: any, res: any, next: any) => {
   const token = !_.isNil(req.get('Authorization')) ? req.get('Authorization') : '';
   const userInfo = await userInfoTokenService.getUserInfoToken(token);
 
@@ -15,4 +16,4 @@ export const tokenMiddleware = async(req: any, res: any, next: any) => {
   }
 };
 
-export default tokenMiddleware;
+export default setUserInfoToken;

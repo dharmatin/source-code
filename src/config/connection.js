@@ -7,6 +7,15 @@ const common = {
     redis: {
       host: 'id-stgredis.3bvdiw.ng.0001.apse1.cache.amazonaws.com',
       port: 6379
+    },
+    mysql: {
+      username: 'webmaster',
+      password: 'FbY35D7h',
+      host: '10.201.30.25',
+      port: '3306',
+      database: {
+        default: 'ds_realcs'
+      }
     }
   },
   staging: {
@@ -17,6 +26,15 @@ const common = {
     redis: {
       host: 'id-stgredis.3bvdiw.ng.0001.apse1.cache.amazonaws.com',
       port: 6379
+    },
+    mysql: {
+      username: 'webmaster',
+      password: 'FbY35D7h',
+      host: '10.201.30.25',
+      port: '3306',
+      database: {
+        default: 'ds_realcs'
+      }
     }
   },
   production: {
@@ -27,6 +45,15 @@ const common = {
     redis: {
       host: 'id-redis.3bvdiw.ng.0001.apse1.cache.amazonaws.com',
       port: 6379
+    },
+    mysql: {
+      username: 'webmaster',
+      password: 'FbY35D7h',
+      host: '10.201.30.25',
+      port: '3306',
+      database: {
+        default: 'ds_realcs'
+      }
     }
   },
   test: {}

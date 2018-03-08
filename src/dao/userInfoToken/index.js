@@ -7,8 +7,7 @@ export default {
     const KEY_PREFIX = 'oauth_access_tokens';
     const {client: redisClient} = new Redis(REDIS_DB);
     const client = redisClient.getAsync(`${KEY_PREFIX}:${token}`);
-    //console.log(client);
-    //redisClient.quit();
+    redisClient.quit();
 
     return client;
   }

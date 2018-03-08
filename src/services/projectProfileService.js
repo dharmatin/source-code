@@ -22,7 +22,7 @@ export class ListingService {
     if (childListingStatus !== 0) {
       throw new Error('Solr search Child listing error!');
     }
-  
+
     return formatterProjectProfile(result.response, childListingResult.response, lang);
   }
 
