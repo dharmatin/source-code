@@ -30,3 +30,15 @@ export const handlerInternalServerError = (response) => {
     .status(500)
     .send('Internal Server Error');
 };
+
+export const unAuthorizedResponse = (response) => {
+  response
+    .set('Content-Type', 'application/json')
+    .status(401)
+    .json({
+      error: {
+        code: 401,
+        message: 'Unauthorized'
+      }
+    });
+};
