@@ -87,4 +87,4 @@ rules:
 settings:
   flowtype:
     onlyFilesWithFlowAnnotation:
-      false
+      true
