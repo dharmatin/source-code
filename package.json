@@ -9,7 +9,8 @@
     "test:integration": "cross-env NODE_ENV=local mocha ./tests/integration/*.spec.js --require babel-register --require babel-polyfill --exit",
     "prestart": "npm run flow",
     "start": "cross-env NODE_ENV=local NODE_ICU_DATA=./node_modules/full-icu nodemon --exec babel-node ./src/bin/server.js ",
-    "flow": "flow"
+    "flow": "flow",
+    "eslint": "eslint"
   },
   "author": "",
   "license": "ISC",
