@@ -1,5 +1,6 @@
 import Redis from '../libs/connections/RedisClient';
 import { unAuthorizedResponse } from '../libs/responseHandler';
+import _ from 'lodash';
 
 const REDIS_DB = 1;
 const KEY_PREFIX = 'oauth_access_tokens';
@@ -20,7 +21,7 @@ export const UserInfo = (() => {
 })();
 
 const tokenMiddleware = async(req, res, next) => {
-  const token = typeof req.get('Authorization') !== 'undefined' ? req.get('Authorization') : null;
+  const token = !_.isNaN(req.get('Authorization')) ? req.get('Authorization') : null;
   const user = await UserInfo.getUserInfo(token);
   if (token) {
     if (user) {
