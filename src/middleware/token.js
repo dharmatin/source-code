@@ -25,11 +25,13 @@ const tokenMiddleware = async(req, res, next) => {
   if (token) {
     if (user) {
       req.userInfo = user;
+      next();
     } else {
       unAuthorizedResponse(res);
     }
+  } else {
+    next();
   }
-  next();
 };
 
 export default tokenMiddleware;
