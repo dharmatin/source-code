@@ -3,7 +3,9 @@ import getPort from 'get-port';
 import bluebird from 'bluebird';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 import app from '../../src/app';
+import { UserInfo } from '../../src/middleware/token';
 
 chai.use(chaiHttp);
 const requester = chai.request(app);
@@ -32,12 +34,17 @@ describe('Authentication Middleware', () => {
         });
     });
     it('Should return status code 200 if Authorization header is valid', (done) => {
+      const baseReponse = {
+        access_token: 'valid_token'
+      };
+      const stub = sinon.stub(UserInfo, 'getUserInfo').callsFake(() => baseReponse);
       requester
         .get('/listing/v1/listings/nps499')
-        .set('Authorization', '0dfae60d85ee68de796e0c9adaa49943eb125180')
+        .set('Authorization', 'valid_token')
         .end((err, res) => {
           expect(err).to.be.a('null');
           expect(res).have.status(200);
+          stub.restore();
           done();
         });
     });
