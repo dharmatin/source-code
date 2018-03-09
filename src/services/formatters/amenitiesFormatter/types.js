@@ -1,5 +1,5 @@
 // @flow
-export type Amenities = {
+export type Amenity = {
   name: string,
   distance: string,
   poiCategoryName: string

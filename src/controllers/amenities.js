@@ -6,11 +6,10 @@ import {handlerNotFound, handlerInternalServerError, handlerSuccess} from '../li
 
 @web.basePath('/v1/amenities')
 class AmenitiesController extends BaseController {
-
   @web.get('/:id')
   async getAllAmenitiesByIdAction(req, res, next) {
     try {
-      const amenities = await projectProfileService.getAmenitiesById(req.params.id, this.lang);
+      const amenities = await projectProfileService.getAmenitiesById(req.params.id, req.lang);
       if (_.isEmpty(amenities)) {
         handlerNotFound(res);
       }
