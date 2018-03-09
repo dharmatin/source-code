@@ -16,7 +16,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('*', setTranslator);
-// app.use('*', setUserInfoToken);
+app.use('*', setUserInfoToken);
 
 web.register(app, baseController);
 web.register(app, listingController);
