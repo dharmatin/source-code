@@ -4,7 +4,7 @@ import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import {handlerNotFound, handlerInternalServerError, handlerSuccess} from '../libs/responseHandler';
 
-@web.basePath('/amenities/v1')
+@web.basePath('/v1/amenities')
 class AmenitiesController extends BaseController {
 
   @web.get('/:id')

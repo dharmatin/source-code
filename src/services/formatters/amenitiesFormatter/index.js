@@ -14,6 +14,6 @@ export const formatterMultiLanguageAmenities = (listing: Object, lang: string): 
       }
     });
   }else{
-    return {}
+    return []
   }
 };
