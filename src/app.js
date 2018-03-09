@@ -8,6 +8,7 @@ import baseController from './controllers/base';
 import listingController from './controllers/listings';
 import organisationController from './controllers/organisation';
 import referralController from './controllers/referrals';
+import amenitiesController from './controllers/amenities';
 
 const app = express();
 
@@ -21,6 +22,7 @@ web.register(app, baseController);
 web.register(app, listingController);
 web.register(app, organisationController);
 web.register(app, referralController);
+web.register(app, amenitiesController);
 
 app.use('*', (req, res, next) => {
   res.status(400).send('No page found!');
