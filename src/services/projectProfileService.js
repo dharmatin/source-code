@@ -2,6 +2,7 @@
 import listingCore from '../dao/listings';
 import {formatterProjectProfile} from './formatters/projectProfileFormatter';
 import {formatterSuggestionProjects} from './formatters/suggestionProjectFormatter';
+import {formatterMultiLanguageAmenities} from './formatters/amenitiesFormatter';
 
 export class ListingService {
   listings: Object;
@@ -34,6 +35,17 @@ export class ListingService {
     }
 
     return formatterSuggestionProjects(result.response, lang);
+  }
+
+  async getAmenitiesById(id: string, lang: string): Object {
+    const result = await this.listings.searchProject(id);
+    //return result;
+    const status = result.responseHeader.status;
+    if (status !== 0) {
+      throw new Error('Solr error get amenities');
+    }
+
+    return formatterMultiLanguageAmenities(result.response, lang);
   }
 }
 
