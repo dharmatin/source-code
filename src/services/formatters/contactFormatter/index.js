@@ -1,6 +1,6 @@
 // @flow
 import _ from 'lodash';
-import type {Phone, Contact} from './types';
+import type { Phone, Contact } from './types';
 
 const formatterPhoneInfo = (dataPhones: Object): Array<Phone> => {
   const phones = [];
@@ -27,7 +27,10 @@ const formatterPhoneInfo = (dataPhones: Object): Array<Phone> => {
   return phones;
 };
 
-const formatterEmailInfo = (mainEmail: string, additionalEmail: string): Array<string> => {
+const formatterEmailInfo = (
+  mainEmail: string,
+  additionalEmail: string
+): Array<string> => {
   const emails = [];
   emails.push(mainEmail);
 
@@ -43,8 +46,8 @@ export const formatterContactInfo = (dataContact: Object): Contact => {
     phones: formatterPhoneInfo({
       mainContact: dataContact.mainContact,
       secondaryContact: dataContact.mainContact,
-      whatsapp: dataContact.whatsapp
+      whatsapp: dataContact.whatsapp,
     }),
-    emails: formatterEmailInfo(dataContact.email, dataContact.additionalEmail)
+    emails: formatterEmailInfo(dataContact.email, dataContact.additionalEmail),
   };
 };

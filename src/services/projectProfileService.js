@@ -1,8 +1,8 @@
 // @flow
 import listingCore from '../dao/listings';
-import {formatterProjectProfile} from './formatters/projectProfileFormatter';
-import {formatterSuggestionProjects} from './formatters/suggestionProjectFormatter';
-import {formatterMultiLanguageAmenities} from './formatters/amenitiesFormatter';
+import { formatterProjectProfile } from './formatters/projectProfileFormatter';
+import { formatterSuggestionProjects } from './formatters/suggestionProjectFormatter';
+import { formatterMultiLanguageAmenities } from './formatters/amenitiesFormatter';
 
 export class ListingService {
   listings: Object;
@@ -24,11 +24,22 @@ export class ListingService {
       throw new Error('Solr search Child listing error!');
     }
 
-    return formatterProjectProfile(result.response, childListingResult.response, lang);
+    return formatterProjectProfile(
+      result.response,
+      childListingResult.response,
+      lang
+    );
   }
 
-  async getProjectByOrganisation(organisationId: string, excludeProjectId: string, lang: string): Object {
-    const result = await this.listings.searchProjectByOrganisation(organisationId, excludeProjectId);
+  async getProjectByOrganisation(
+    organisationId: string,
+    excludeProjectId: string,
+    lang: string
+  ): Object {
+    const result = await this.listings.searchProjectByOrganisation(
+      organisationId,
+      excludeProjectId
+    );
     const status = result.responseHeader.status;
     if (status !== 0) {
       throw new Error('Solr search error!');

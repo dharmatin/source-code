@@ -1,5 +1,5 @@
 // @flow
-import type {UserInfoToken} from './types';
+import type { UserInfoToken } from './types';
 
 export const formatterUserInfoToken = (userInfo: Object): UserInfoToken => {
   const response = {};

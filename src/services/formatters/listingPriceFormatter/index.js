@@ -1,5 +1,5 @@
 // @flow
-import type {Price} from './types';
+import type { Price } from './types';
 
 export const formatterPrices = (dataPrice: Object): Array<Price> => {
   const price = {};
@@ -8,7 +8,7 @@ export const formatterPrices = (dataPrice: Object): Array<Price> => {
   price.min = Number(dataPrice.priceMin);
   price.max = Number(dataPrice.priceMax);
 
-  return [{...price}];
+  return [{ ...price }];
 };
 
 export const formatterPrice = (dataPrice: Object): Price => {

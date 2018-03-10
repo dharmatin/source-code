@@ -19,13 +19,13 @@ export default class MysqlClient {
         max: 5,
         min: 0,
         idle: 10000,
-        acquire: 30000
+        acquire: 30000,
       },
       define: {
         freezeTableName: true,
-        timestamps: false
+        timestamps: false,
       },
-      logging: config.isProduction ? '' : console.log
+      logging: config.isProduction ? '' : console.log,
     });
   }
 }
