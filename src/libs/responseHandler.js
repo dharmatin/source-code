@@ -6,7 +6,7 @@ export const handlerSuccess = (response, data) => {
     .end();
 };
 
-export const handlerBadRequest = (response) => {
+export const handlerBadRequest = response => {
   response
     .set('Content-Type', 'application/json')
     .status(400)
@@ -21,13 +21,13 @@ export const handlerNotFound = response => {
     .send({
       error: {
         code: '3001',
-        message: 'Not Found'
-      }
+        message: 'Not Found',
+      },
     })
     .end();
 };
 
-export const handlerInternalServerError = (response) => {
+export const handlerInternalServerError = response => {
   return response
     .set('Content-Type', 'application/json')
     .status(500)
@@ -35,15 +35,15 @@ export const handlerInternalServerError = (response) => {
     .end();
 };
 
-export const handlerUnauthorized = (response) => {
+export const handlerUnauthorized = response => {
   response
     .set('Content-Type', 'application/json')
     .status(401)
     .send({
       error: {
         code: 401,
-        message: 'Unauthorized'
-      }
+        message: 'Unauthorized',
+      },
     })
     .end();
 };

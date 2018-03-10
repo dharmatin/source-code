@@ -4,6 +4,7 @@
   "description": "for newlaunch API",
   "main": "app.js",
   "scripts": {
+    "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\"",
     "test": "mocha ./test/unit --require babel-register --require babel-polyfill",
     "test:unit": "cross-env NODE_ENV=local mocha --require babel-register --require babel-polyfill ./tests/unit/*.spec.js --exit",
     "test:integration": "cross-env NODE_ENV=local mocha ./tests/integration/*.spec.js --require babel-register --require babel-polyfill --exit",
@@ -45,6 +46,7 @@
     "mocha": "^5.0.0",
     "morgan": "^1.9.0",
     "nodemon": "^1.15.1",
+    "prettier": "^1.11.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "sinon": "^4.2.2",

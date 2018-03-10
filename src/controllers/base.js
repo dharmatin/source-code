@@ -1,3 +1,2 @@
-export default class BaseController {
-
-}
+// @flow
+export default class BaseController {}
