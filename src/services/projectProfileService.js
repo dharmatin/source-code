@@ -49,7 +49,7 @@ export class ListingService {
   }
 
   async getAmenitiesById(id: string, lang: string): Object {
-    const result = await this.listings.searchProject(id);
+    const result = await this.listings.searchProjectAccessByProjectId(id);
     const status = result.responseHeader.status;
     if (status !== 0) {
       throw new Error('Solr error get amenities');
