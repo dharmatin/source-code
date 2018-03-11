@@ -32,4 +32,12 @@ export default {
       .rows(100);
     return listingClient.searchAsync(queryListingById);
   },
+  searchProjectAccessByProjectId: async (id: string) => {
+    const conditionQ = `id:${id}`;
+    const queryProjectAccess = listingClient
+      .createQuery()
+      .q(conditionQ)
+      .matchFilter('en_project_access', '[* TO *]');
+    return listingClient.searchAsync(queryProjectAccess);
+  },
 };
