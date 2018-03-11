@@ -6,8 +6,12 @@ export const formatterMultiLanguageAmenities = (
   listing: Object,
   lang: string
 ): Array<Amenity> => {
-  if (listing.numFound > 0 && !_.isEmpty(listing.docs[0].en_project_access)) {
-    return _.map(listing.docs[0].en_project_access, function(row) {
+  if (listing.numFound > 0) {
+    const projectAccess =
+      lang == 'en'
+        ? listing.docs[0].en_project_access
+        : listing.docs[0].id_project_access;
+    return _.map(projectAccess, function(row) {
       let field = row.split(':');
       return {
         name: field[1],
