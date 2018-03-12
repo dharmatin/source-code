@@ -1,14 +1,19 @@
 // @flow
 import _ from 'lodash';
-import type {BannerSponsorship, Features} from './types';
+import type { BannerSponsorship, Features } from './types';
 import config from '../../../config';
-import {slugify} from '../../../libs/utility';
+import { slugify } from '../../../libs/utility';
 
-export const formatterBannerSponsorship = (banner: Object): BannerSponsorship => {
+export const formatterBannerSponsorship = (
+  banner: Object
+): BannerSponsorship => {
   return !_.isNil(banner.link) ? banner : {};
 };
 
-export const formatterTierOfPrimaryListing = (isPremium: number, isGTS: number): number => {
+export const formatterTierOfPrimaryListing = (
+  isPremium: number,
+  isGTS: number
+): number => {
   if (isPremium === 0) {
     return config.tier.standard;
   } else {
@@ -20,10 +25,12 @@ export const formatterTierOfPrimaryListing = (isPremium: number, isGTS: number):
   }
 };
 
-export const formatterFeatures = (facilities: Array<string>): Array<Features> => {
+export const formatterFeatures = (
+  facilities: Array<string>
+): Array<Features> => {
   const responseFeatures = [];
 
-  _.map(facilities, (facility) => {
+  _.map(facilities, facility => {
     const medias = {};
     let dataFacility = _.split(facility, ':');
 
@@ -31,7 +38,10 @@ export const formatterFeatures = (facilities: Array<string>): Array<Features> =>
     medias.title = dataFacility[0];
     medias.media = {
       type: 'image',
-      urlTemplate: config.image.sharpieUrl + '/premium/${width}x${height}-${scale}/' + JSON.parse(dataFacility[1])[0]
+      urlTemplate:
+        config.image.sharpieUrl +
+        '/premium/${width}x${height}-${scale}/' +
+        JSON.parse(dataFacility[1])[0],
     };
     responseFeatures.push(medias);
   });
@@ -40,21 +50,26 @@ export const formatterFeatures = (facilities: Array<string>): Array<Features> =>
 };
 
 export const formatterPropertyType = (propertyType: Array<string>): string => {
-  const propertyTypeResponse = _.map(propertyType, (item) => {
+  const propertyTypeResponse = _.map(propertyType, item => {
     return `${config.propertyType[item]}`;
   }).join(' / ');
 
   return propertyTypeResponse;
 };
 
-export const formatterProjectProfilePageLink = (projectProfile: Object, lang: string): string => {
-  const {projectName, city, id} = projectProfile;
+export const formatterProjectProfilePageLink = (
+  projectProfile: Object,
+  lang: string
+): string => {
+  const { projectName, city, id } = projectProfile;
 
   let formatUrl = '';
   if (lang === 'id') {
-    formatUrl = '/properti/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
+    formatUrl =
+      '/properti/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
   } else {
-    formatUrl = '/en/property/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
+    formatUrl =
+      '/en/property/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
   }
 
   return config.url.newlaunch + formatUrl;

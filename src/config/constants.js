@@ -2,7 +2,7 @@ const constants = {
   tier: {
     premium: 4,
     featured: 2,
-    standard: 1
+    standard: 1,
   },
   propertyType: {
     ho: 'house',
@@ -12,8 +12,8 @@ const constants = {
     sh: 'shophouse',
     of: 'office',
     fa: 'factory',
-    cs: 'commercialspace'
-  }
+    cs: 'commercialspace',
+  },
 };
 
 export default constants;

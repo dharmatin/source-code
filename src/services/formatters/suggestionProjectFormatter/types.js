@@ -1,6 +1,6 @@
 // @flow
-import type {Listing} from '../listingFormatter/types';
+import type { Listing } from '../listingFormatter/types';
 
 export type SuggestionProject = {
-	project?: Array<Listing>
+  project?: Array<Listing>,
 };

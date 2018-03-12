@@ -7,11 +7,13 @@ export default class SolrClient {
   client: Object;
 
   constructor(core: string) {
-    this.client = bluebird.promisifyAll(solr.createClient({
-      host: config.solr.host,
-      port: config.solr.port,
-      core: core,
-      path: '/solr-slave'
-    }));
+    this.client = bluebird.promisifyAll(
+      solr.createClient({
+        host: config.solr.host,
+        port: config.solr.port,
+        core: core,
+        path: '/solr-slave',
+      })
+    );
   }
 }

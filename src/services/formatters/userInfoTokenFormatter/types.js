@@ -1,3 +1,4 @@
+// @flow
 export type UserInfoToken = {
 	userGroup: string,
 	userID: string,
