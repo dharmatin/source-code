@@ -16,8 +16,8 @@ describe('User Info Token Formatter', () => {
     expect(format).is.an('object').have.property('accessToken').is.a('string');
   });
 
-  it('Should return an empty object of UserInfoToken, if userInfo object is null', () => {
-    const format: UserInfoToken = formatterUserInfoToken(null);
+  it('Should return an empty object of UserInfoToken, if userInfo object is empty', () => {
+    const format: UserInfoToken = formatterUserInfoToken({});
     expect(format).is.an('object').that.is.empty;
   });
 });
