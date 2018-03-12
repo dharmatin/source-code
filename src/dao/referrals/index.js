@@ -73,7 +73,7 @@ class ReferralDao {
       {
         userId: userId,
         referralStatus: -1,
-        createdDate: Sequelize.fn('NOW')
+        createdDate: Sequelize.fn('NOW', 3)
       },
       this._formatingListing(listingId)
     );
