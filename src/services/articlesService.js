@@ -2,7 +2,7 @@
 import articleCore from '../dao/articles';
 import { formatterArticles } from './formatters/formatterArticles';
 
-export class ArticleService {
+export class ArticlesService {
   articles: Object;
 
   constructor(articles: Object) {
@@ -16,8 +16,8 @@ export class ArticleService {
       throw new Error('Solr search error !');
     }
 
-    return formatterArticles(result);
+    return formatterArticles(result, params);
   }
 }
 
-export default new ArticleService(articleCore);
+export default new ArticlesService(articleCore);

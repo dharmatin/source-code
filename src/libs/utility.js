@@ -1,5 +1,6 @@
 // @flow
 import _ from 'lodash';
+import serialization from 'php-serialization';
 
 export const toISOFormatting = (strDate: string): string => {
   const dateFormatted = new Date(strDate);
@@ -33,4 +34,13 @@ export const formatterToLocalizeNumber = (
   }
 
   return localizeNumber.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+};
+
+export const getNewsThumbnail = (serializeImage: any): string => {
+  // const replace = serializeImage.replace(/\\/g, '');
+  // console.log('REPLACE', serializeImage);
+  const unserializeImage = serialization.unserialize(serializeImage);
+  // const image = _.split(unserializeImage, ';');
+  console.log(unserializeImage.key);
+  return 'abc';
 };

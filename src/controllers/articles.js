@@ -20,13 +20,13 @@ class ArticlesController extends BaseController {
 
       let params = {
         category: req.params.category,
-        project_name: listings.listings[0].project_name,
-        developer_name: listings.listings[0].developer_name,
+        projectName: listings.listings[0].project_name,
+        developerName: listings.listings[0].developer_name,
         start: queryString.pageToken,
         rows: queryString.pageSize
       };
 
-      const articles = await articlesService.getArticlesByCategory(params, this.lang);
+      const articles = await articlesService.getArticlesByCategory(params, req.lang);
 
       if (_.isEmpty(articles)) {
         handlerNotFound(res);
