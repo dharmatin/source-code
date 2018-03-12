@@ -11,7 +11,7 @@ export class UserInfoTokenService {
 
   async getUserInfoToken(token: string): Object {
     try {
-      const result = await this.userInfo.searchUserByToken(token);
+      const result: Object = await this.userInfo.searchUserByToken(token);
 
       return formatterUserInfoToken(result);
     } catch (e) {
