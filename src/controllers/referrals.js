@@ -1,30 +1,29 @@
 import * as web from 'express-decorators';
+import _ from 'lodash';
 import BaseController from './base';
 import referralService from '../services/referralService';
-import projectProfileService from '../services/projectProfileService';
 
 import {
-  handlerNotFound,
   handlerInternalServerError,
   handlerSuccess,
+  handlerUnauthorized,
 } from '../libs/responseHandler';
 
-@web.basePath('/referral/v1/referrals')
+@web.basePath('/v1/referrals/listings')
 class ReferralsController extends BaseController {
+  @web.use()
+  async handlerUserInfo(req, res, next) {
+    if (_.isEmpty(req.userInfo)) {
+      handlerUnauthorized(res);
+    } else {
+      next();
+    }
+  }
+
   @web.post('/:listingId/apply')
   async requestReferral(req, res) {
     try {
-      const listing = await projectProfileService.getProjectProfile(
-        req.params.listingId,
-        this.lang
-      );
-      const referral = await referralService.requestReferral({
-        developerId: listing.organisations[0].id,
-        adsProjectId: listing.id.substring(3),
-        userId: '123123',
-      });
-
-      handlerSuccess(res, referral);
+      handlerSuccess(res, await referralService.requestReferral(req.userInfo.userID, req.params.listingId));
     } catch (e) {
       handlerInternalServerError(res, e);
       throw new Error(e);
