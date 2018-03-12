@@ -17,7 +17,7 @@ describe('User Info Token Formatter', () => {
   });
 
   it('Should return an empty object of UserInfoToken, if userInfo object is empty', () => {
-    const format: UserInfoToken = formatterUserInfoToken(null);
+    const format: UserInfoToken = formatterUserInfoToken({});
     expect(format).is.an('object').that.is.empty;
   });
 });
