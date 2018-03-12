@@ -4,10 +4,10 @@ import { handlerUnauthorized } from '../libs/responseHandler';
 import _ from 'lodash';
 
 export const setUserInfoToken = async(req: any, res: any, next: any): any => {
-  const token = !_.isNil(req.get('Authorization')) ?
+  const token: string = !_.isNil(req.get('Authorization')) ?
     req.get('Authorization') :
     '';
-  const userInfo = await userInfoTokenService.getUserInfoToken(token);
+  const userInfo: Object = !_.isEmpty(token) ? await userInfoTokenService.getUserInfoToken(token) : null;
   if (!_.isEmpty(token) && _.isEmpty(userInfo)) {
     handlerUnauthorized(res);
   } else {
