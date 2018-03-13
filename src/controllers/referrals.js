@@ -7,6 +7,7 @@ import {
   handleInternalServerError,
   handleSuccess,
   handleUnauthorized,
+  handleNotFound
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/referrals/listings')
@@ -30,6 +31,21 @@ class ReferralsController extends BaseController {
           req.params.listingId
         )
       );
+    } catch (e) {
+      handleInternalServerError(res, e);
+      throw new Error(e);
+    }
+  }
+
+  @web.get('/:listingId')
+  async requestReferralList(req, res) {
+    try {
+      const referralList = await referralService.getReferralList(req.params.listingId);
+
+      if (_.isEmpty(referralList)) {
+        handleNotFound(res);
+      }
+      handleSuccess(res, referralList);
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);
