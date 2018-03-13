@@ -16,7 +16,13 @@ class ArticlesController extends BaseController {
         handleNotFound(res);
       }
 
-      const articles = await articlesService.getArticlesByTags(queryString);
+      const params = {
+        page: Number(queryString.pageToken) || 1,
+        limit: Number(queryString.pageSize) || 4,
+        projectId: queryString.projectId
+      }
+
+      const articles = await articlesService.getArticlesByTags(params);
 
       if (_.isEmpty(articles)) {
         handleNotFound(res);
