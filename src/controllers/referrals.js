@@ -3,26 +3,17 @@ import _ from 'lodash';
 import BaseController from './base';
 import referralService from '../services/referralService';
 import referralApprovalService from '../services/referralApprovalService';
+import { handleUserGroupCustomer, handleUserGroupDeveloper } from '../middleware/userGroup';
 
 import {
   handleInternalServerError,
   handleSuccess,
-  handleUnauthorized,
   handleResponseMessage
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/referrals/listings')
 class ReferralsController extends BaseController {
-  @web.use()
-  async handleUserInfo(req, res, next) {
-    if (_.isEmpty(req.userInfo)) {
-      handleUnauthorized(res);
-    } else {
-      next();
-    }
-  }
-
-  @web.post('/:listingId/apply')
+  @web.post('/:listingId/apply', [handleUserGroupCustomer])
   async requestReferral(req, res) {
     try {
       handleSuccess(
@@ -38,7 +29,7 @@ class ReferralsController extends BaseController {
     }
   }
 
-  @web.post('/:listingId/listers/:listerId')
+  @web.post('/:listingId/listers/:listerId', [handleUserGroupDeveloper])
   async approveReferral(req, res) {
     try {
       const result = await referralApprovalService.requestApprove(req.params.listerId, req.params.listingId);
