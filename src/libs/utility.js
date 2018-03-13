@@ -1,5 +1,6 @@
 // @flow
 import _ from 'lodash';
+import config from '../config';
 
 export const toISOFormatting = (strDate: string): string => {
   const dateFormatted = new Date(strDate);
@@ -21,6 +22,22 @@ export const slugify = (strUrl: string): string => {
 export const getYoutubeId = (youtubeUrl: string): string => {
   const url = youtubeUrl.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
   return !_.isNil(url[2]) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+};
+
+export const getUrlSharpie = (srcS3Image: string, isPremimum: boolean = false): string => {
+  const baseUrl = config.image.sharpieUrl + '/' + (isPremimum ? 'premium/' : '') + '${width}x${height}-${scale}';
+  return baseUrl + '/' + srcS3Image;
+};
+
+export const getDateTimeISO = (date: string): string => {
+  const validateDateTime = date.slice(0, -2);
+  const explodeDateTime = validateDateTime.split(' ');
+  return explodeDateTime[0] + 'T' + explodeDateTime[1] + '+07:00';
+};
+
+export const getFirstParagraph = (html: string): string => {
+  const paragraph = html.match(/<\s*?p\b[^>]*>(.+)<\/p\b[^>]*>/g);
+  return paragraph[0].replace(/<[^>]+>/ig, '');
 };
 
 export const extractListingId = (adsId: string): Object => {

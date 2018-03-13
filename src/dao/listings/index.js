@@ -42,5 +42,5 @@ export default {
       .q(conditionQ)
       .matchFilter('en_project_access', '[* TO *]');
     return listingClient.searchAsync(queryProjectAccess);
-  },
+  }
 };
