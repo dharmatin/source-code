@@ -61,6 +61,12 @@ const formatProject = (projectProfilePage: Object): Listing => {
     geoCoordinate: _.split(projectProfilePage.latlng, ','),
   });
   response.attributes = listingAttributeFormatter.formatAttributesInfo({
+    bedRoomMin: projectProfilePage.bedroom_min,
+    bedRoomMax: projectProfilePage.bedroom_max,
+    bathRoomMin: projectProfilePage.bathroom_min,
+    bathRoomMax: projectProfilePage.bathroom_max,
+    carParkMin: projectProfilePage.garage_min,
+    carParkMax: projectProfilePage.garage_max,
     totalUnits: projectProfilePage.qty_unit,
     completionDate: projectProfilePage.completion_date,
     architectName: projectProfilePage.architect_name,
@@ -148,9 +154,13 @@ const formatProject = (projectProfilePage: Object): Listing => {
     response.image360s = image360s;
   }
 
-  response.floorPlanImages = mediaFormatter.formatFloorPlanImages(
+  const floorPlanImages = mediaFormatter.formatFloorPlanImages(
     projectProfilePage.all_image_floorplan
   );
+  if (!_.isEmpty(floorPlanImages)) {
+    response.floorPlanImages  = floorPlanImages;
+  }
+  
   response.features = listingFormatter.formatFeatures(
     projectProfilePage[config.lang + '_project_facilities']
   );
@@ -184,8 +194,30 @@ const formatChildListing = (
     dataListing.title = listing.tagline;
     dataListing.unitTypeCategory = listing.subproject_name; 
     dataListing.medias = mediaFormatter.formatListingImages(
-      listing.listing_images_ar
+      listing.unit_listing_images
     );
+
+    const youtubeIds = mediaFormatter.formatYoutubeIds(
+      listing.unit_video
+    );
+    if (!_.isEmpty(youtubeIds)) {
+      dataListing.youtubeIds = youtubeIds;
+    }
+
+    const image360s = mediaFormatter.formatThreeSixtyVideos(
+      listing.unit_360_video
+    );
+    if (!_.isEmpty(image360s)) {
+      dataListing.image360s = image360s;
+    }
+
+    const floorPlanImages = mediaFormatter.formatFloorPlanImages(
+      listing.unit_image_floorplan
+    );
+    if (!_.isEmpty(floorPlanImages)) {
+      dataListing.floorPlanImages  = floorPlanImages;
+    }
+
     listings.push(dataListing);
   });
   return listings;
