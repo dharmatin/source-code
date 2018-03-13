@@ -49,6 +49,7 @@ const formatProject = (projectProfilePage: Object, lang: string): Listing => {
   }
 
   response.id = projectProfilePage.id;
+  response.isReferralActive = Boolean(projectProfilePage.is_referral);
   response.title = projectProfilePage.project_name;
   response.subtitle = projectProfilePage.tagline;
   response.propertyType = listingFormatter.formatPropertyType(
