@@ -178,10 +178,11 @@ const formatChildListing = (
       electricity: listing.electricity,
       phoneLine: listing.phoneline
     });
+    
     dataListing.id = listing.id;
-    dataListing.title = listing.subproject_name;
-    dataListing.subtitle = listing.tagline;
     dataListing.description = _.join(JSON.parse(listing.description), '\n');
+    dataListing.title = listing.tagline;
+    dataListing.unitTypeCategory = listing.subproject_name; 
     dataListing.medias = mediaFormatter.formatListingImages(
       listing.listing_images_ar
     );
