@@ -46,26 +46,19 @@ export const formatFeatures = (facilities: Array<string>): Array<Features> => {
 
 export const formatPropertyType = (propertyType: Array<string>): string => {
   const propertyTypeResponse = _.map(propertyType, item => {
-    return `${config.propertyType[item]}`;
+    return `${config.translator.long_property_type[config.propertyType[item]]}`;
   }).join(' / ');
 
   return propertyTypeResponse;
 };
 
 export const formatProjectProfilePageLink = (
-  projectProfile: Object,
-  lang: string
+  projectProfile: Object
 ): string => {
   const { projectName, city, id } = projectProfile;
 
-  let formatUrl = '';
-  if (lang === 'id') {
-    formatUrl =
-      '/properti/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
-  } else {
-    formatUrl =
-      '/en/property/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
-  }
-
+  let formatUrl = config.lang === 'id' ? '/properti/' : '/en/property/';
+  formatUrl += slugify(city) + '/' + slugify(projectName) + '/' + id;
+  
   return config.url.newlaunch + formatUrl;
 };

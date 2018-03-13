@@ -11,7 +11,7 @@ export class ListingService {
     this.listings = listings;
   }
 
-  async getProjectProfile(id: string, lang: string): Object {
+  async getProjectProfile(id: string): Object {
     const result = await this.listings.searchProject(id);
     const status = result.responseHeader.status;
     if (status !== 0) {
@@ -26,15 +26,13 @@ export class ListingService {
 
     return formatProjectProfile(
       result.response,
-      childListingResult.response,
-      lang
+      childListingResult.response
     );
   }
 
   async getProjectByOrganisation(
     organisationId: string,
-    excludeProjectId: string,
-    lang: string
+    excludeProjectId: string
   ): Object {
     const result = await this.listings.searchProjectByOrganisation(
       organisationId,
@@ -45,17 +43,17 @@ export class ListingService {
       throw new Error('Solr search error!');
     }
 
-    return formatSuggestionProjects(result.response, lang);
+    return formatSuggestionProjects(result.response);
   }
 
-  async getAmenitiesById(id: string, lang: string): Object {
+  async getAmenitiesById(id: string): Object {
     const result = await this.listings.searchProjectAccessByProjectId(id);
     const status = result.responseHeader.status;
     if (status !== 0) {
       throw new Error('Solr get amenities not found');
     }
 
-    return formatMultiLanguageAmenities(result.response, lang);
+    return formatMultiLanguageAmenities(result.response);
   }
 }
 

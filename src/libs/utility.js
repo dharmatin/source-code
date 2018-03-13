@@ -52,3 +52,4 @@ export const getReferralCode = (): string => {
 
   return (time).toString(36).toLocaleUpperCase();
 };
+

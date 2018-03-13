@@ -3,7 +3,7 @@
     "error": {
         "500": "Terjadi gangguan pada sistem"
     },
-    "property_type": {
+    "short_property_type": {
         "ho": "Rumah",
         "ap": "Apartemen",
         "la": "Tanah",
@@ -12,5 +12,16 @@
         "wa": "Gudang",
         "fa": "Pabrik",
         "cs": "Ruang Usaha"
-    }
+    },
+    "long_property_type": {
+        "house": "Rumah",
+        "apartment": "Apartemen",
+        "land": "Tanah",
+        "shophouse": "Ruko",
+        "office": "Perkantoran",
+        "warehouse": "Gudang",
+        "factory": "Pabrik",
+        "commercialspace": "Ruang Usaha"
+    },
+    "from": "Dari"
 }
