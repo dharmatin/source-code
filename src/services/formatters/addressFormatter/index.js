@@ -4,7 +4,7 @@ import type { Address, MultiLanguagePlace } from './types';
 
 export const formatAddressInfo = (area: Object): Address => {
   const addressInfo = {};
-  const {address, city, district, geoCoordinate, province} = area;
+  const { address, city, district, geoCoordinate, province } = area;
   let formattedAddress = '';
 
   if (!_.isNil(address)) {
@@ -29,15 +29,17 @@ export const formatAddressInfo = (area: Object): Address => {
   return addressInfo;
 };
 
-export const formatMultiLanguageAddressInfo = (area: Object): MultiLanguagePlace => {
+export const formatMultiLanguageAddressInfo = (
+  area: Object
+): MultiLanguagePlace => {
   const levelLocation = {
     level1: area.province,
     level2: area.city,
-    level3: area.district
+    level3: area.district,
   };
 
   return {
     'en-GB': levelLocation,
-    'id-ID': levelLocation
+    'id-ID': levelLocation,
   };
 };

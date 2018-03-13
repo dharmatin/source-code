@@ -23,7 +23,13 @@ class ReferralsController extends BaseController {
   @web.post('/:listingId/apply')
   async requestReferral(req, res) {
     try {
-      handleSuccess(res, await referralService.requestReferral(req.userInfo.userID, req.params.listingId));
+      handleSuccess(
+        res,
+        await referralService.requestReferral(
+          req.userInfo.userID,
+          req.params.listingId
+        )
+      );
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);

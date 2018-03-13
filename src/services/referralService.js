@@ -23,7 +23,7 @@ export class ReferralService {
       }
     }
 
-    return {message: message};
+    return { message: message };
   }
 }
 

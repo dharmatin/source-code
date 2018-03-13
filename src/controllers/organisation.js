@@ -8,7 +8,7 @@ import {
   handleSuccess,
 } from '../libs/responseHandler';
 
-@web.basePath('/organisation/v1/organisations')
+@web.basePath('/v1/organisations')
 class OrganisationController extends BaseController {
   @web.get('/:id/projects')
   async findAllProjectByOrganisationIdAction(req, res) {
