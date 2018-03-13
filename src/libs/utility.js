@@ -35,7 +35,7 @@ export const formatterToLocalizeNumber = (
   return localizeNumber.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
 };
 
-export const getAdsIdDescription = (adsId: string): Object => {
+export const extractAdsId = (adsId: string): Object => {
   const id = adsId.substr(3);
   const category = adsId.substr(2, 1);
   const type = adsId.substr(0, 2);
@@ -52,4 +52,3 @@ export const getReferralCode = (): string => {
 
   return (time).toString(36).toLocaleUpperCase();
 };
-
