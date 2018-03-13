@@ -1,37 +1,42 @@
 // @flow
 import _ from 'lodash';
+import Serialization from 'php-serialization';
 import type { Article } from './types';
-import { getNewsThumbnail } from '../../../libs/utility';
+import { getUrlSharpie, getFormaterISO, getSnippet } from '../../../libs/utility';
 
 export const formatterArticles = (
   articleLists: Object,
   params: Object
 ): Array<Article> => {
-  const article = [];
+  const articles = [];
   _.map(articleLists, item => {
     _.map(item.docs, doc => {
+      const unserializeImage = Serialization.unserialize(doc.meta_image_amazon);
       const articleList = {};
       articleList.kind = 'article';
       articleList.id = doc.id;
       articleList.url = doc.title;
-      articleList.thumbnail = getNewsThumbnail(doc.meta_image_amazon);
-      articleList.cover = '';
+      articleList.cover = {
+        media: {
+          type: 'image',
+          url: getUrlSharpie(unserializeImage.key)
+        }
+      };
       articleList.title = doc.title;
-      articleList.snippet = '';
-      articleList.body = doc.content;
-      articleList.createdAt = doc.post_date;
-      articleList.updatedAt = doc.post_modified;
-      articleList.publishedAt = doc.pubdate;
+      articleList.snippet = getSnippet(doc.content);
+      articleList.createdAt = getFormaterISO(doc.post_date);
+      articleList.updatedAt = getFormaterISO(doc.post_modified);
+      articleList.publishedAt = getFormaterISO(doc.pubdate);
 
-      article.push(articleList);
+      articles.push(articleList);
     });
   });
 
   return [{
-    title: 'nes',
-    kind: 'sdfdsf',
-    articles: article,
-    nextPageToken: 1,
-    totalCount: 10,
+    title: 'news',
+    kind: 'article#list',
+    articles,
+    nextPageToken: Number(params.start) + 1,
+    totalCount: articleLists.response.numFound,
   }];
 };

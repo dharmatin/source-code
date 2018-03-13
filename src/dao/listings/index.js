@@ -39,10 +39,5 @@ export default {
       .q(conditionQ)
       .matchFilter('en_project_access', '[* TO *]');
     return listingClient.searchAsync(queryProjectAccess);
-  },
-  searchProjectByid: async(id: string) => {
-    const conditionQ = `type:"np" AND -developer_company_id:0 AND status:"Online" AND id:${id}`;
-    const queryListingById = listingClient.createQuery().q(conditionQ);
-    return listingClient.searchAsync(queryListingById);
   }
 };

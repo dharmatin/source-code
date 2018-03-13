@@ -1,6 +1,5 @@
 // @flow
 import _ from 'lodash';
-import serialization from 'php-serialization';
 
 export const toISOFormatting = (strDate: string): string => {
   const dateFormatted = new Date(strDate);
@@ -36,11 +35,21 @@ export const formatterToLocalizeNumber = (
   return localizeNumber.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
 };
 
-export const getNewsThumbnail = (serializeImage: any): string => {
-  // const replace = serializeImage.replace(/\\/g, '');
-  // console.log('REPLACE', serializeImage);
-  const unserializeImage = serialization.unserialize(serializeImage);
-  // const image = _.split(unserializeImage, ';');
-  console.log(unserializeImage.key);
-  return 'abc';
+export const getUrlSharpie = (srcS3Image: string): string => {
+  const baseUrl = 'https://img.rea-asia.com/rumah123/premium/${width}x${height}-${scale}';
+  return baseUrl + '/' + srcS3Image;
+};
+
+export const getFormaterISO = (date: string): string => {
+  const validateDateTime = date.slice(0, -2);
+  const explodeDateTime = validateDateTime.split(' ');
+  return explodeDateTime[0] + 'T' + explodeDateTime[1] + '+07:00';
+};
+
+export const getSnippet = (html: string): string => {
+  const splitHtml = html.split('<p');
+  const validateHtml = '<p' + splitHtml[1];
+  const regex = /(<([^>]+)>)/ig;
+  const cleanContent = validateHtml.replace(regex, '');
+  return cleanContent.replace('\r\n', '');
 };
