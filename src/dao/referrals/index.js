@@ -2,6 +2,8 @@
 import Sequelize from 'sequelize';
 import _ from 'lodash';
 import MysqlClient from '../../libs/connections/MysqlClient';
+import type { AgentReferral } from './type';
+
 const DATABASE_NAME = 'default';
 const { client: ReferralClient } = new MysqlClient(DATABASE_NAME);
 
@@ -63,7 +65,7 @@ class ReferralDao {
     });
   }
 
-  async insertReferral(values: Object): Object {
+  async insertReferral(values: AgentReferral): Object {
     const referral = await this.referral;
     return referral.create(values);
   }
@@ -115,6 +117,27 @@ class ReferralDao {
       return result.get();
     }
     return result;
+  }
+
+  async updateRefferalById(id: number, value: AgentReferral): Promise<Array<number>> {
+    const affectedRow = await this.referral.update(value, {
+      where: {agentReferralId: id}
+    });
+
+    return affectedRow;
+  }
+
+  async getLatestReferralRequest(parameters: Object): Promise<AgentReferral> {
+    const referral = await this.referral.findOne({
+      where: {
+        userId: parameters.userId,
+        adsProjectId: parameters.adsProjectId,
+        referralStatus: parameters.referralStatus
+      },
+      order: [['createdDate', 'DESC']]
+    });
+
+    return referral.get();
   }
 }
 
