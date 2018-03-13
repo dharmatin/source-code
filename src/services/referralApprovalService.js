@@ -31,24 +31,23 @@ export class ReferralApprovalService {
   }
 
   async isApproved(): Promise<boolean> {
-    const referral = await this.getLatestRefferalId();
-    const affectedRowsUpdated = await this.updateLatestReferral(referral);
-
-    return affectedRowsUpdated > 0;
+    const referral = await this.getLatestRefferal();
+    if (!_.isNil(referral)) {
+      const affectedRowsUpdated = await this.updateLatestReferral(referral);
+      return affectedRowsUpdated > 0;
+    } else {
+      return false;
+    }
   }
 
-  async getLatestRefferalId(): Promise<AgentReferral> {
-    try {
-      const referral: AgentReferral = await referralDao.getLatestReferralRequest({
-        userId: this.getListerId(),
-        adsProjectId: this.getListingId(),
-        referralStatus: STATUS.PENDING
-      });
+  async getLatestRefferal(): Promise<AgentReferral> {
+    const referral: AgentReferral = await referralDao.getLatestReferralRequest({
+      userId: this.getListerId(),
+      adsProjectId: this.getListingId(),
+      referralStatus: STATUS.PENDING
+    });
 
-      return referral;
-    } catch (e) {
-      throw new Error(`Search latest referral id is null`);
-    }
+    return referral;
   }
   async updateLatestReferral(referral: AgentReferral): Promise<number> {
     const approvedData: Object = {
