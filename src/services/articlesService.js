@@ -34,7 +34,7 @@ export class ArticlesService {
       throw new Error('Solr error article not found!');
     }
 
-    return formatterArticles(result, articleParams);
+    return formatterArticles(result.response, articleParams);
   }
 }
 

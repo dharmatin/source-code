@@ -2,41 +2,38 @@
 import _ from 'lodash';
 import Serialization from 'php-serialization';
 import type { Article } from './types';
-import { getUrlSharpie, getDateTimeISO, getSnippetTagParagraph } from '../../../libs/utility';
+import { getUrlSharpie, getDateTimeISO, getFirstParagraph, slugify } from '../../../libs/utility';
+import config from '../../../config';
 
 export const formatterArticles = (
   articleLists: Object,
   params: Object
-): Array<Article> => {
-  const articles = [];
-  _.map(articleLists, item => {
-    _.map(item.docs, doc => {
-      const unserializeImage = Serialization.unserialize(doc.meta_image_amazon);
-      const articleList = {};
-      articleList.kind = 'article';
-      articleList.id = doc.id;
-      articleList.url = doc.title;
-      articleList.cover = {
+): Article => {
+  const articles = _.map(articleLists.docs, (item): Object => {
+    const unserializeImage = Serialization.unserialize(item.meta_image_amazon);
+    return {
+      kind: 'article',
+      id: item.id,
+      url: config.url.article + '/' + slugify(item.title) + '-' + item.id,
+      cover: {
         media: {
           type: 'image',
           url: getUrlSharpie(unserializeImage.key)
         }
-      };
-      articleList.title = doc.title;
-      articleList.snippet = getSnippetTagParagraph(doc.content);
-      articleList.createdAt = getDateTimeISO(doc.post_date);
-      articleList.updatedAt = getDateTimeISO(doc.post_modified);
-      articleList.publishedAt = getDateTimeISO(doc.pubdate);
-
-      articles.push(articleList);
-    });
+      },
+      title: item.title,
+      snippet: getFirstParagraph(item.content),
+      createdAt: getDateTimeISO(item.post_date),
+      updatedAt: getDateTimeISO(item.post_modified),
+      publishedAt: getDateTimeISO(item.pubdate)
+    }
   });
 
-  return [{
+  return {
     title: 'news',
     kind: 'article#list',
     articles,
     nextPageToken: Number(params.start) + 1,
-    totalCount: articleLists.response.numFound,
-  }];
+    totalCount: articleLists.numFound,
+  };
 };

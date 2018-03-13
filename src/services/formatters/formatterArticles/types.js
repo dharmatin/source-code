@@ -2,7 +2,7 @@
 export type Article = {
     title: string,
     kind: string,
-    articles: any,
+    articles: Array<Object>,
     nextPageToken: number,
     totalCount: number
   };
