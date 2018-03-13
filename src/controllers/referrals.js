@@ -4,17 +4,17 @@ import BaseController from './base';
 import referralService from '../services/referralService';
 
 import {
-  handlerInternalServerError,
-  handlerSuccess,
-  handlerUnauthorized,
+  handleInternalServerError,
+  handleSuccess,
+  handleUnauthorized,
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/referrals/listings')
 class ReferralsController extends BaseController {
   @web.use()
-  async handlerUserInfo(req, res, next) {
+  async handleUserInfo(req, res, next) {
     if (_.isEmpty(req.userInfo)) {
-      handlerUnauthorized(res);
+      handleUnauthorized(res);
     } else {
       next();
     }
@@ -23,9 +23,9 @@ class ReferralsController extends BaseController {
   @web.post('/:listingId/apply')
   async requestReferral(req, res) {
     try {
-      handlerSuccess(res, await referralService.requestReferral(req.userInfo.userID, req.params.listingId));
+      handleSuccess(res, await referralService.requestReferral(req.userInfo.userID, req.params.listingId));
     } catch (e) {
-      handlerInternalServerError(res, e);
+      handleInternalServerError(res, e);
       throw new Error(e);
     }
   }

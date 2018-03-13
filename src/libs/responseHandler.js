@@ -1,4 +1,4 @@
-export const handlerSuccess = (response, data) => {
+export const handleSuccess = (response, data) => {
   return response
     .set('Content-Type', 'application/json')
     .status(200)
@@ -6,7 +6,7 @@ export const handlerSuccess = (response, data) => {
     .end();
 };
 
-export const handlerBadRequest = response => {
+export const handleBadRequest = response => {
   response
     .set('Content-Type', 'application/json')
     .status(400)
@@ -14,7 +14,7 @@ export const handlerBadRequest = response => {
     .end();
 };
 
-export const handlerNotFound = response => {
+export const handleNotFound = response => {
   response
     .set('Content-Type', 'application/json')
     .status(200)
@@ -27,7 +27,7 @@ export const handlerNotFound = response => {
     .end();
 };
 
-export const handlerInternalServerError = response => {
+export const handleInternalServerError = response => {
   return response
     .set('Content-Type', 'application/json')
     .status(500)
@@ -35,7 +35,7 @@ export const handlerInternalServerError = response => {
     .end();
 };
 
-export const handlerUnauthorized = response => {
+export const handleUnauthorized = response => {
   response
     .set('Content-Type', 'application/json')
     .status(401)

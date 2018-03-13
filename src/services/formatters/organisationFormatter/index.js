@@ -7,7 +7,7 @@ import * as mediaFormatter from '../mediaFormatter';
 import * as contactFormatter from '../contactFormatter';
 import * as addressFormatter from '../addressFormatter';
 
-export const formatterDeveloperInfo = (
+export const formatDeveloperInfo = (
   dataDeveloper: Object,
   lang: string
 ): Array<Organisation> => {
@@ -17,11 +17,11 @@ export const formatterDeveloperInfo = (
   organisation.id = dataDeveloper.id;
   organisation.type = 'developer';
   organisation.name = dataDeveloper.name;
-  organisation.logo = mediaFormatter.formatterLogo(
+  organisation.logo = mediaFormatter.formatLogo(
     dataDeveloper.logo,
     config.image.baseUrl
   );
-  organisation.website = formatterDeveloperLink(
+  organisation.website = formatDeveloperLink(
     {
       name: dataDeveloper.name,
       id: dataDeveloper.id,
@@ -29,7 +29,7 @@ export const formatterDeveloperInfo = (
     lang
   );
 
-  organisation.contact = contactFormatter.formatterContactInfo({
+  organisation.contact = contactFormatter.formatContactInfo({
     mainContact: dataDeveloper.mainContact,
     secondaryContact: dataDeveloper.secondaryContact,
     email: dataDeveloper.email,
@@ -41,7 +41,7 @@ export const formatterDeveloperInfo = (
     organisation.color = dataDeveloper.color;
   }
 
-  organisation.address = addressFormatter.formatterAddressInfo({
+  organisation.address = addressFormatter.formatAddressInfo({
     city: dataDeveloper.city,
     district: dataDeveloper.district,
     province: dataDeveloper.province,
@@ -53,7 +53,7 @@ export const formatterDeveloperInfo = (
   return organisations;
 };
 
-export const formatterDeveloperLink = (
+export const formatDeveloperLink = (
   developer: Object,
   lang: string
 ): string => {

@@ -1,8 +1,8 @@
 // @flow
 import listingCore from '../dao/listings';
-import { formatterProjectProfile } from './formatters/projectProfileFormatter';
-import { formatterSuggestionProjects } from './formatters/suggestionProjectFormatter';
-import { formatterMultiLanguageAmenities } from './formatters/amenitiesFormatter';
+import { formatProjectProfile } from './formatters/projectProfileFormatter';
+import { formatSuggestionProjects } from './formatters/suggestionProjectFormatter';
+import { formatMultiLanguageAmenities } from './formatters/amenitiesFormatter';
 
 export class ListingService {
   listings: Object;
@@ -24,7 +24,7 @@ export class ListingService {
       throw new Error('Solr search Child listing error!');
     }
 
-    return formatterProjectProfile(
+    return formatProjectProfile(
       result.response,
       childListingResult.response,
       lang
@@ -45,7 +45,7 @@ export class ListingService {
       throw new Error('Solr search error!');
     }
 
-    return formatterSuggestionProjects(result.response, lang);
+    return formatSuggestionProjects(result.response, lang);
   }
 
   async getAmenitiesById(id: string, lang: string): Object {
@@ -55,7 +55,7 @@ export class ListingService {
       throw new Error('Solr get amenities not found');
     }
 
-    return formatterMultiLanguageAmenities(result.response, lang);
+    return formatMultiLanguageAmenities(result.response, lang);
   }
 }
 

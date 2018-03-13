@@ -3,9 +3,9 @@ import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import _ from 'lodash';
 import {
-  handlerNotFound,
-  handlerInternalServerError,
-  handlerSuccess,
+  handleNotFound,
+  handleInternalServerError,
+  handleSuccess,
 } from '../libs/responseHandler';
 
 @web.basePath('/listing/v1/listings')
@@ -18,11 +18,11 @@ class ListingsController extends BaseController {
         req.lang
       );
       if (_.isEmpty(listings)) {
-        handlerNotFound(res);
+        handleNotFound(res);
       }
-      handlerSuccess(res, listings);
+      handleSuccess(res, listings);
     } catch (e) {
-      handlerInternalServerError(res, e);
+      handleInternalServerError(res, e);
       throw new Error(e);
     }
   }
