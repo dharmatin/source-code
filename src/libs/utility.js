@@ -40,16 +40,34 @@ export const getUrlSharpie = (srcS3Image: string): string => {
   return baseUrl + '/' + srcS3Image;
 };
 
-export const getFormaterISO = (date: string): string => {
+export const getDateTimeISO = (date: string): string => {
   const validateDateTime = date.slice(0, -2);
   const explodeDateTime = validateDateTime.split(' ');
   return explodeDateTime[0] + 'T' + explodeDateTime[1] + '+07:00';
 };
 
-export const getSnippet = (html: string): string => {
+export const getSnippetTagParagraph = (html: string): string => {
   const splitHtml = html.split('<p');
   const validateHtml = '<p' + splitHtml[1];
   const regex = /(<([^>]+)>)/ig;
   const cleanContent = validateHtml.replace(regex, '');
   return cleanContent.replace('\r\n', '');
+};
+
+export const extractListingId = (adsId: string): Object => {
+  const id = adsId.substr(3);
+  const category = adsId.substr(2, 1);
+  const type = adsId.substr(0, 2);
+
+  return {
+    id: id,
+    category: category,
+    type: type
+  };
+};
+
+export const getReferralCode = (): string => {
+  const time = new Date().getTime();
+
+  return (time).toString(36).toLocaleUpperCase();
 };

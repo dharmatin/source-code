@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import Serialization from 'php-serialization';
 import type { Article } from './types';
-import { getUrlSharpie, getFormaterISO, getSnippet } from '../../../libs/utility';
+import { getUrlSharpie, getDateTimeISO, getSnippetTagParagraph } from '../../../libs/utility';
 
 export const formatterArticles = (
   articleLists: Object,
@@ -23,10 +23,10 @@ export const formatterArticles = (
         }
       };
       articleList.title = doc.title;
-      articleList.snippet = getSnippet(doc.content);
-      articleList.createdAt = getFormaterISO(doc.post_date);
-      articleList.updatedAt = getFormaterISO(doc.post_modified);
-      articleList.publishedAt = getFormaterISO(doc.pubdate);
+      articleList.snippet = getSnippetTagParagraph(doc.content);
+      articleList.createdAt = getDateTimeISO(doc.post_date);
+      articleList.updatedAt = getDateTimeISO(doc.post_modified);
+      articleList.publishedAt = getDateTimeISO(doc.pubdate);
 
       articles.push(articleList);
     });
