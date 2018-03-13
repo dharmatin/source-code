@@ -1,5 +1,6 @@
 // @flow
 import _ from 'lodash';
+import config from '../config';
 
 export const toISOFormatting = (strDate: string): string => {
   const dateFormatted = new Date(strDate);
@@ -23,8 +24,8 @@ export const getYoutubeId = (youtubeUrl: string): string => {
   return !_.isNil(url[2]) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
 };
 
-export const getUrlSharpie = (srcS3Image: string): string => {
-  const baseUrl = 'https://img.rea-asia.com/rumah123/premium/${width}x${height}-${scale}';
+export const getUrlSharpie = (srcS3Image: string, isPremimum = false): string => {
+  const baseUrl = config.image.sharpieUrl + '/' + (isPremimum ? 'premium/' : '') + '${width}x${height}-${scale}';
   return baseUrl + '/' + srcS3Image;
 };
 
