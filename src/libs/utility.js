@@ -19,6 +19,6 @@ export const slugify = (strUrl: string): string => {
 };
 
 export const getYoutubeId = (youtubeUrl: string): string => {
-  let url = youtubeUrl.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-  return url[2] !== undefined ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+  const url = youtubeUrl.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+  return !_.isNil(url[2]) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
 };

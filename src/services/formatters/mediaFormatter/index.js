@@ -8,7 +8,6 @@ export const formatFloorPlanImages = (
   floorPlansWithDescription: Array<string>
 ): Array<Media> => {
   const floorPlanImages = [];
-
   _.map(floorPlansWithDescription, item => {
     const floorPlan = {};
     const [img, description] = _.split(item, ';');
