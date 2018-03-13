@@ -2,7 +2,7 @@
 import type { UserInfoToken } from './types';
 import _ from 'lodash';
 
-export const formatUserInfoToken = (userInfo: Object): UserInfoToken => {
+export const formatUserInfoToken = (userInfo: any): UserInfoToken => {
   const response = {};
   if (!_.isNull(userInfo)) {
     response.userGroup = userInfo.user_group;
