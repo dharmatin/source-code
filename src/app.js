@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import * as web from 'express-decorators';
 import setTranslator from './middleware/translator';
-import setUserInfoToken from './middleware/token';
+import setUserInfoToken from './middleware/tokenAuthInfo';
 import baseController from './controllers/base';
 import listingController from './controllers/listings';
 import organisationController from './controllers/organisation';

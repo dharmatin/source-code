@@ -2,9 +2,8 @@
 import _ from 'lodash';
 import type { Attributes } from './types';
 import config from '../../../config';
-import { formatterToLocalizeNumber } from '../../../libs/utility';
 
-export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
+export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
   const attribute = {};
   if (!_.isNil(dataAttributes.totalUnits)) {
     attribute.totalUnits = dataAttributes.totalUnits.toString();

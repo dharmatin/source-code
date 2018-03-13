@@ -4,7 +4,7 @@ import type { Media } from './types';
 import config from '../../../config';
 import { getYoutubeId } from '../../../libs/utility';
 
-export const formatterFloorPlanImages = (
+export const formatFloorPlanImages = (
   floorPlansWithDescription: Array<string>
 ): Array<Media> => {
   const floorPlanImages = [];
@@ -25,7 +25,7 @@ export const formatterFloorPlanImages = (
   return floorPlanImages;
 };
 
-export const formatterImageCover = (image: string): Media => {
+export const formatImageCover = (image: string): Media => {
   return {
     type: 'image',
     urlTemplate:
@@ -33,7 +33,7 @@ export const formatterImageCover = (image: string): Media => {
   };
 };
 
-export const formatterListingImages = (
+export const formatListingImages = (
   imagesWithDescription: Array<string>
 ): Array<Media> => {
   const medias = [];
@@ -56,7 +56,7 @@ export const formatterListingImages = (
   return medias;
 };
 
-export const formatterThreeSixtyVideos = (
+export const formatThreeSixtyVideos = (
   threeSixtyLinks: Array<string>
 ): Array<string> => {
   const image360s = [];
@@ -69,7 +69,7 @@ export const formatterThreeSixtyVideos = (
   return image360s;
 };
 
-export const formatterYoutubeIds = (
+export const formatYoutubeIds = (
   youtubeLinks: Array<string>
 ): Array<string> => {
   const youtubeIds = [];
@@ -82,7 +82,7 @@ export const formatterYoutubeIds = (
   return youtubeIds;
 };
 
-export const formatterLogo = (logo: string, baseUrl: string): Media => {
+export const formatLogo = (logo: string, baseUrl: string): Media => {
   const response = {
     type: 'image',
     url: baseUrl + '/' + logo,

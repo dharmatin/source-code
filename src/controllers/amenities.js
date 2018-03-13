@@ -3,9 +3,9 @@ import _ from 'lodash';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import {
-  handlerNotFound,
-  handlerInternalServerError,
-  handlerSuccess,
+  handleNotFound,
+  handleInternalServerError,
+  handleSuccess,
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/amenities')
@@ -18,11 +18,11 @@ class AmenitiesController extends BaseController {
         req.lang
       );
       if (_.isEmpty(amenities)) {
-        handlerNotFound(res);
+        handleNotFound(res);
       }
-      handlerSuccess(res, amenities);
+      handleSuccess(res, amenities);
     } catch (e) {
-      handlerInternalServerError(res, e);
+      handleInternalServerError(res, e);
       throw new Error(e);
     }
   }

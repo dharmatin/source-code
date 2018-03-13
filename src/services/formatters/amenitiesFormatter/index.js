@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import type { Amenity } from './types';
 
-export const formatterMultiLanguageAmenities = (
+export const formatMultiLanguageAmenities = (
   listing: Object,
   lang: string
 ): Array<Amenity> => {
