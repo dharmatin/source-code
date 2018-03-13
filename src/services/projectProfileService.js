@@ -55,16 +55,6 @@ export class ListingService {
 
     return formatMultiLanguageAmenities(result.response);
   }
-
-  async getOneProjectByid(id: string, lang: string): Object {
-    const result = await this.listings.searchProjectByid(id);
-    const status = result.responseHeader.status;
-    if (status !== 0) {
-      throw new Error('Solr search error !');
-    }
-
-    return {listings: result.response.docs};
-  }
 }
 
 export default new ListingService(listingCore);
