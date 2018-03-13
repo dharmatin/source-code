@@ -13,26 +13,25 @@ import * as organisationFormatter from '../organisationFormatter';
 
 export const formatProjectProfile = (
   projectListing: Object,
-  childListings: Object,
-  lang: string
+  childListings: Object
 ): ProjectProfilePage => {
   if (projectListing.numFound === 0) {
     return {};
   } else {
-    return _.merge({}, formatProject(projectListing.docs[0], lang), {
-      properties: formatChildListing(childListings.docs, lang),
+    return _.merge({}, formatProject(projectListing.docs[0]), {
+      properties: formatChildListing(childListings.docs),
     });
   }
 };
 
-const formatProject = (projectProfilePage: Object, lang: string): Listing => {
+const formatProject = (projectProfilePage: Object): Listing => {
   const response = {};
-  const featureDescription = projectProfilePage[lang + '_key_point'];
+  const featureDescription = projectProfilePage[config.lang + '_key_point'];
   response.channels = ['new'];
 
   const banner = listingFormatter.formatBannerSponsorship({
     link: projectProfilePage.url_sponsor,
-    title: projectProfilePage['sponsor_name_' + lang],
+    title: projectProfilePage['sponsor_name_' + config.lang],
   });
 
   if (!_.isEmpty(banner)) {
@@ -100,8 +99,7 @@ const formatProject = (projectProfilePage: Object, lang: string): Listing => {
       district: projectProfilePage.developer_district,
       address: projectProfilePage.developer_address,
       logo: projectProfilePage.developer_logo,
-    },
-    lang
+    }
   );
 
   response.prices = priceFormatter.formatPrices({
@@ -114,8 +112,7 @@ const formatProject = (projectProfilePage: Object, lang: string): Listing => {
       projectName: projectProfilePage.project_name,
       city: projectProfilePage.city_name,
       id: projectProfilePage.id,
-    },
-    lang
+    }
   );
   response.tier = listingFormatter.formatTierOfPrimaryListing(
     projectProfilePage.is_premium,
@@ -155,14 +152,13 @@ const formatProject = (projectProfilePage: Object, lang: string): Listing => {
     projectProfilePage.all_image_floorplan
   );
   response.features = listingFormatter.formatFeatures(
-    projectProfilePage[lang + '_project_facilities']
+    projectProfilePage[config.lang + '_project_facilities']
   );
   return response;
 };
 
 const formatChildListing = (
-  childListings: Array<Object>,
-  lang: string
+  childListings: Array<Object>
 ): Array<Listing> => {
   let listings = [];
 
@@ -180,8 +176,7 @@ const formatChildListing = (
       bedroom: listing.bedroom,
       bathroom: listing.bathroom,
       electricity: listing.electricity,
-      phoneLine: listing.phoneline,
-      lang: lang,
+      phoneLine: listing.phoneline
     });
     dataListing.id = listing.id;
     dataListing.title = listing.subproject_name;

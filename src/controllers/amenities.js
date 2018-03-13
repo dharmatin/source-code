@@ -14,8 +14,7 @@ class AmenitiesController extends BaseController {
   async getAllAmenitiesByIdAction(req, res, next) {
     try {
       const amenities = await projectProfileService.getAmenitiesById(
-        req.params.id,
-        req.lang
+        req.params.id
       );
       if (_.isEmpty(amenities)) {
         handleNotFound(res);
