@@ -73,7 +73,7 @@ class ReferralDao {
       {
         userId: userId,
         referralStatus: -1,
-        createdDate: Sequelize.fn('NOW', 3)
+        createdDate: Sequelize.fn('NOW', 3),
       },
       this._formatingListing(listingId)
     );
@@ -92,7 +92,7 @@ class ReferralDao {
     return {
       adsProjectId: listingId.substring(3),
       propertyType: listingId.substring(0, 2),
-      propertyCategory: listingId.substring(2, 3)
+      propertyCategory: listingId.substring(2, 3),
     };
   }
 
@@ -102,15 +102,13 @@ class ReferralDao {
         userId: userId,
         referralStatus: {
           [Sequelize.Op.in]: [-1, 1],
-        }
+        },
       },
       this._formatingListing(listingId)
     );
     const query = {
-      order: [
-        ['referralStatus', 'DESC']
-      ],
-      where: condition
+      order: [['referralStatus', 'DESC']],
+      where: condition,
     };
     const result = await this.referral.findOne(query);
     if (!_.isNull(result)) {

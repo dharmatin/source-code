@@ -25,10 +25,7 @@ export const formatProjectProfile = (
   }
 };
 
-const formatProject = (
-  projectProfilePage: Object,
-  lang: string
-): Listing => {
+const formatProject = (projectProfilePage: Object, lang: string): Listing => {
   const response = {};
   const featureDescription = projectProfilePage[lang + '_key_point'];
   response.channels = ['new'];
