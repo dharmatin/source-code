@@ -9,6 +9,7 @@ const { client: ReferralClient } = new MysqlClient(DATABASE_NAME);
 
 class ReferralDao {
   referral: Object;
+  agentReferral: AgentReferral;
 
   constructor() {
     this.referral = ReferralClient.define('agent_referral', {
@@ -137,7 +138,9 @@ class ReferralDao {
       order: [['createdDate', 'DESC']]
     });
 
-    return referral.get();
+    if (referral) this.agentReferral = referral.get();
+
+    return this.agentReferral;
   }
 }
 
