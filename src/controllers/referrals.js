@@ -1,7 +1,7 @@
 import * as web from 'express-decorators';
 import _ from 'lodash';
 import BaseController from './base';
-import referralService from '../services/referralService';
+import referralRequestService from '../services/referralRequestService';
 import referralApprovalService from '../services/referralApprovalService';
 import { handleUserGroupCustomer, handleUserGroupDeveloper } from '../middleware/userGroup';
 
@@ -18,7 +18,7 @@ class ReferralsController extends BaseController {
     try {
       handleSuccess(
         res,
-        await referralService.requestReferral(
+        await referralRequestService.requestReferral(
           req.userInfo.userID,
           req.params.listingId
         )

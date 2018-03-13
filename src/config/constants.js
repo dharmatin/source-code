@@ -14,6 +14,12 @@ const constants = {
     fa: 'factory',
     cs: 'commercialspace',
   },
+  STATUS_REFERRAL: {
+    APPROVED: 1,
+    PENDING: -1,
+    REJECT: 0,
+    REMOVE: 2
+  }
 };
 
 export default constants;
