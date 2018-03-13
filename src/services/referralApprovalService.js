@@ -3,7 +3,7 @@ import _ from 'lodash';
 import Sequelize from 'sequelize';
 import referralDao from '../dao/referrals';
 import type { AgentReferral } from '../dao/referrals/type';
-import { getAdsIdDescription, getReferralCode } from '../libs/utility';
+import { extractAdsId, getReferralCode } from '../libs/utility';
 
 const STATUS = {
   APPROVED: 1,
@@ -23,7 +23,7 @@ export class ReferralApprovalService {
     this.listingId = 0;
   }
   async requestApprove(listerId: number, listingId: string): Promise<boolean> {
-    const listingIdDescription: Object = getAdsIdDescription(listingId);
+    const listingIdDescription: Object = extractAdsId(listingId);
     this.setListerId(listerId);
     this.setListingId(listingIdDescription.id);
 
