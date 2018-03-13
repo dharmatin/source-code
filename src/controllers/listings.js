@@ -14,8 +14,7 @@ class ListingsController extends BaseController {
   async findAllProjectProfilePageByIdAction(req, res, next) {
     try {
       const listings = await projectProfileService.getProjectProfile(
-        req.params.id,
-        req.lang
+        req.params.id
       );
       if (_.isEmpty(listings)) {
         handleNotFound(res);

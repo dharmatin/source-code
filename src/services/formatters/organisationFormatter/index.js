@@ -8,8 +8,7 @@ import * as contactFormatter from '../contactFormatter';
 import * as addressFormatter from '../addressFormatter';
 
 export const formatDeveloperInfo = (
-  dataDeveloper: Object,
-  lang: string
+  dataDeveloper: Object
 ): Array<Organisation> => {
   const organisations = [];
   const organisation = {};
@@ -25,8 +24,7 @@ export const formatDeveloperInfo = (
     {
       name: dataDeveloper.name,
       id: dataDeveloper.id,
-    },
-    lang
+    }
   );
 
   organisation.contact = contactFormatter.formatContactInfo({
@@ -54,23 +52,10 @@ export const formatDeveloperInfo = (
 };
 
 export const formatDeveloperLink = (
-  developer: Object,
-  lang: string
+  developer: Object
 ): string => {
-  let formatUrl = '';
-  if (lang === 'id') {
-    formatUrl =
-      '/properti-baru/developer/' +
-      slugify(developer.name) +
-      '/' +
-      developer.id;
-  } else {
-    formatUrl =
-      '/en/new-property/developer/' +
-      slugify(developer.name) +
-      '/' +
-      developer.id;
-  }
+  let formatUrl = config.lang === 'id' ? '/properti-baru/developer/' : '/en/new-property/developer/';
+  formatUrl += slugify(developer.name) + '/' + developer.id;
 
   return config.url.base + formatUrl;
 };

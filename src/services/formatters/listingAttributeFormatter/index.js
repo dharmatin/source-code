@@ -15,19 +15,15 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
   ) {
     if (dataAttributes.builtUpMin > 0 && dataAttributes.builtUpMax > 0) {
       let builtUpRange =
-        dataAttributes.builtUpMin.toLocaleString(dataAttributes.lang) +
+        dataAttributes.builtUpMin.toLocaleString(config.lang) +
         ' - ' +
-        dataAttributes.builtUpMax.toLocaleString(dataAttributes.lang);
+        dataAttributes.builtUpMax.toLocaleString(config.lang);
 
-      if (dataAttributes.lang === 'en') {
-        attribute.builtUp = 'From ' + builtUpRange;
-      } else {
-        attribute.builtUp = 'Dari ' + builtUpRange;
-      }
+      attribute.builtUp = config.translator.from + ' ' + builtUpRange;
     }
   } else if (!_.isNil(dataAttributes.builtUp)) {
     attribute.builtUp = dataAttributes.builtUp.toLocaleString(
-      dataAttributes.lang
+      config.lang
     );
   }
 
@@ -65,19 +61,15 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
   ) {
     if (dataAttributes.landAreaMin > 0 && dataAttributes.landAreaMax > 0) {
       let landAreaRange =
-        dataAttributes.landAreaMin.toLocaleString(dataAttributes.lang) +
+        dataAttributes.landAreaMin.toLocaleString(config.lang) +
         ' - ' +
-        dataAttributes.landAreaMax.toLocaleString(dataAttributes.lang);
+        dataAttributes.landAreaMax.toLocaleString(config.lang);
 
-      if (dataAttributes.lang === 'en') {
-        attribute.landArea = 'From ' + landAreaRange;
-      } else {
-        attribute.landArea = 'Dari ' + landAreaRange;
-      }
+      attribute.landArea = config.translator.from + ' ' + landAreaRange;
     }
   } else if (!_.isNil(dataAttributes.landArea)) {
     attribute.landArea = dataAttributes.landArea.toLocaleString(
-      dataAttributes.lang
+      config.lang
     );
   }
 

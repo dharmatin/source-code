@@ -12,21 +12,19 @@ import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
 
 export const formatSuggestionProjects = (
-  projectListing: Object,
-  lang: string
+  projectListing: Object
 ): SuggestionProject => {
   if (projectListing.numFound === 0) {
     return {};
   } else {
     return {
-      items: formatRelatedProjects(projectListing.docs, lang),
+      items: formatRelatedProjects(projectListing.docs),
     };
   }
 };
 
 const formatRelatedProjects = (
-  projectListings: Array<Object>,
-  lang: string
+  projectListings: Array<Object>
 ): Array<Listing> => {
   let listings = [];
   _.map(projectListings, listing => {
@@ -44,8 +42,7 @@ const formatRelatedProjects = (
         projectName: listing.project_name,
         city: listing.city_name,
         id: listing.id,
-      },
-      lang
+      }
     );
     dataListing.description = listing.description;
     dataListing.cover = mediaFormatter.formatImageCover(
@@ -82,8 +79,7 @@ const formatRelatedProjects = (
         district: listing.developer_district,
         address: listing.developer_address,
         logo: listing.developer_logo,
-      },
-      lang
+      }
     );
 
     dataListing.attributes = listingAttributeFormatter.formatAttributesInfo({
@@ -91,8 +87,7 @@ const formatRelatedProjects = (
       builtUpMin: listing.building_size_min,
       builtUpMax: listing.building_size_max,
       landAreaMin: listing.land_size_min,
-      landAreaMax: listing.land_size_max,
-      lang: lang,
+      landAreaMax: listing.land_size_max
     });
 
     listings.push(dataListing);

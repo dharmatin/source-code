@@ -20,8 +20,7 @@ class OrganisationController extends BaseController {
 
       const listings = await projectProfileService.getProjectByOrganisation(
         req.params.id,
-        excludeProjectId,
-        req.lang
+        excludeProjectId
       );
       if (_.isEmpty(listings)) {
         handleNotFound(res);

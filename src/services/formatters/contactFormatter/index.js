@@ -4,24 +4,26 @@ import type { Phone, Contact } from './types';
 
 const formatPhoneInfo = (dataPhones: Object): Array<Phone> => {
   const phones = [];
-  const phone = {};
-
+  
   if (dataPhones.mainContact !== '') {
-    phone.label = 'LandLine';
-    phone.number = '+' + dataPhones.mainContact.toString();
-    phones.push(phone);
+    phones.push({
+      label: 'LandLine',
+      number: '+' + dataPhones.mainContact.toString()
+    });
   }
 
   if (dataPhones.secondaryContact !== '') {
-    phone.label = 'LandLine';
-    phone.number = '+' + dataPhones.secondaryContact.toString();
-    phones.push(phone);
+    phones.push({
+      label: 'LandLine',
+      number: '+' + dataPhones.secondaryContact.toString()
+    });
   }
 
   if (dataPhones.whatsapp !== '') {
-    phone.label = 'Whatsapp';
-    phone.number = dataPhones.whatsapp.toString();
-    phones.push(phone);
+    phones.push({
+      label: 'Whatsapp',
+      number: dataPhones.whatsapp.toString()
+    });
   }
 
   return phones;
