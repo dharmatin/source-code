@@ -5,11 +5,10 @@ import type { Article } from './types';
 import { getUrlSharpie, getDateTimeISO, getFirstParagraph, slugify } from '../../../libs/utility';
 import config from '../../../config';
 
-export const formatterArticles = (
-  articleLists: Object,
-  params: Object
-): Article => {
-  const articles = _.map(articleLists.docs, (item): Object => {
+export const formatAttributesArticle = (
+  articles: Array<Object>
+): Array<Article> => {
+  return _.map(articles, (item): Object => {
     const unserializeImage = Serialization.unserialize(item.meta_image_amazon);
     return {
       kind: 'article',
@@ -18,7 +17,7 @@ export const formatterArticles = (
       cover: {
         media: {
           type: 'image',
-          url: getUrlSharpie(unserializeImage.key)
+          url: getUrlSharpie(unserializeImage.key, true)
         }
       },
       title: item.title,
@@ -28,12 +27,4 @@ export const formatterArticles = (
       publishedAt: getDateTimeISO(item.pubdate)
     }
   });
-
-  return {
-    title: 'news',
-    kind: 'article#list',
-    articles,
-    nextPageToken: Number(params.start) + 1,
-    totalCount: articleLists.numFound,
-  };
 };
