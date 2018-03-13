@@ -46,12 +46,9 @@ export const getDateTimeISO = (date: string): string => {
   return explodeDateTime[0] + 'T' + explodeDateTime[1] + '+07:00';
 };
 
-export const getSnippetTagParagraph = (html: string): string => {
-  const splitHtml = html.split('<p');
-  const validateHtml = '<p' + splitHtml[1];
-  const regex = /(<([^>]+)>)/ig;
-  const cleanContent = validateHtml.replace(regex, '');
-  return cleanContent.replace('\r\n', '');
+export const getFirstParagraph = (html: string): string => {
+  const paragraph = html.match(/<\s*?p\b[^>]*>(.+)<\/p\b[^>]*>/g);
+  return paragraph[0].replace(/<[^>]+>/ig, '');
 };
 
 export const extractListingId = (adsId: string): Object => {
