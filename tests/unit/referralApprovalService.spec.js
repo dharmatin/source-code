@@ -66,13 +66,13 @@ describe('Referral approve services', () => {
       return expect(result).to.be.eventually.equal(false);
     });
 
-    it('Should be throw an error if the combination of lister id and listing id not found in database', (): any => {
+    it('Should be return false if the combination of lister id and listing id not found in database', (): any => {
       const { referral: dao } = ReferralDao;
       sandbox.stub(dao, 'findOne').callsFake((): ?Object => null);
       const referralApprovalService = new ReferralApprovalService(ReferralDao);
       const result = referralApprovalService.requestApprove(123, 'nps123');
 
-      return expect(result).to.be.eventually.rejectedWith('Search latest referral id is null').and.be.an.instanceOf(Error);
+      return expect(result).to.be.eventually.to.be.eventually.equal(false);
     });
   });
 });
