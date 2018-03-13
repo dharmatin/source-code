@@ -1,6 +1,6 @@
 // @flow
 import userInfoToken from '../dao/userInfoToken';
-import { formatterUserInfoToken } from './formatters/userInfoTokenFormatter';
+import { formatUserInfoToken } from './formatters/userInfoTokenFormatter';
 
 export class UserInfoTokenService {
   userInfo: Object;
@@ -11,9 +11,9 @@ export class UserInfoTokenService {
 
   async getUserInfoToken(token: string): Object {
     try {
-      const result = await this.userInfo.searchUserByToken(token);
+      const result: Object = await this.userInfo.searchUserByToken(token);
 
-      return formatterUserInfoToken(result);
+      return formatUserInfoToken(result);
     } catch (e) {
       throw new Error('Redis search error!');
     }

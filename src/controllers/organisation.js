@@ -3,12 +3,12 @@ import _ from 'lodash';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import {
-  handlerNotFound,
-  handlerInternalServerError,
-  handlerSuccess,
+  handleNotFound,
+  handleInternalServerError,
+  handleSuccess,
 } from '../libs/responseHandler';
 
-@web.basePath('/organisation/v1/organisations')
+@web.basePath('/v1/organisations')
 class OrganisationController extends BaseController {
   @web.get('/:id/projects')
   async findAllProjectByOrganisationIdAction(req, res) {
@@ -20,15 +20,14 @@ class OrganisationController extends BaseController {
 
       const listings = await projectProfileService.getProjectByOrganisation(
         req.params.id,
-        excludeProjectId,
-        req.lang
+        excludeProjectId
       );
       if (_.isEmpty(listings)) {
-        handlerNotFound(res);
+        handleNotFound(res);
       }
-      handlerSuccess(res, listings);
+      handleSuccess(res, listings);
     } catch (e) {
-      handlerInternalServerError(res);
+      handleInternalServerError(res);
       throw new Error(e);
     }
   }

@@ -1,6 +1,6 @@
 // @flow
 export type UserInfoToken = {
-	userGroup: string,
-	userID: string,
-	accessToken: string
+  userGroup: string,
+  userID: string,
+  accessToken: string,
 };

@@ -31,12 +31,19 @@ describe('Authentication middleware', () => {
       });
     });
 
-    it('Should throw error when token is empty', () => {
+    it('Should return empty object if token is empty', () => {
       sandbox.stub(UserInfoTokenDao, 'searchUserByToken').callsFake(() => null);
       const token = '';
       const userInfoService = new UserInfoTokenService(UserInfoTokenDao);
       const result = userInfoService.getUserInfoToken(token);
+      return expect(result).to.be.eventually.an('object').that.is.empty;
+    });
 
+    it('Should throw an error if the redis client is error', () => {
+      sandbox.stub(UserInfoTokenDao, 'searchUserByToken').callsFake(() => {});
+      const token = '';
+      const userInfoService = new UserInfoTokenService(UserInfoTokenDao);
+      const result = userInfoService.getUserInfoToken(token);
       return expect(result).to.be.eventually.rejectedWith('Redis search error!').and.be.an.instanceOf(Error);
     });
   });

@@ -1,8 +1,8 @@
 // @flow
 import listingCore from '../dao/listings';
-import { formatterProjectProfile } from './formatters/projectProfileFormatter';
-import { formatterSuggestionProjects } from './formatters/suggestionProjectFormatter';
-import { formatterMultiLanguageAmenities } from './formatters/amenitiesFormatter';
+import { formatProjectProfile } from './formatters/projectProfileFormatter';
+import { formatSuggestionProjects } from './formatters/suggestionProjectFormatter';
+import { formatMultiLanguageAmenities } from './formatters/amenitiesFormatter';
 
 export class ListingService {
   listings: Object;
@@ -11,7 +11,7 @@ export class ListingService {
     this.listings = listings;
   }
 
-  async getProjectProfile(id: string, lang: string): Object {
+  async getProjectProfile(id: string): Object {
     const result = await this.listings.searchProject(id);
     const status = result.responseHeader.status;
     if (status !== 0) {
@@ -24,17 +24,15 @@ export class ListingService {
       throw new Error('Solr search Child listing error!');
     }
 
-    return formatterProjectProfile(
+    return formatProjectProfile(
       result.response,
-      childListingResult.response,
-      lang
+      childListingResult.response
     );
   }
 
   async getProjectByOrganisation(
     organisationId: string,
-    excludeProjectId: string,
-    lang: string
+    excludeProjectId: string
   ): Object {
     const result = await this.listings.searchProjectByOrganisation(
       organisationId,
@@ -45,17 +43,17 @@ export class ListingService {
       throw new Error('Solr search error!');
     }
 
-    return formatterSuggestionProjects(result.response, lang);
+    return formatSuggestionProjects(result.response);
   }
 
-  async getAmenitiesById(id: string, lang: string): Object {
+  async getAmenitiesById(id: string): Object {
     const result = await this.listings.searchProjectAccessByProjectId(id);
     const status = result.responseHeader.status;
     if (status !== 0) {
       throw new Error('Solr get amenities not found');
     }
 
-    return formatterMultiLanguageAmenities(result.response, lang);
+    return formatMultiLanguageAmenities(result.response);
   }
 
   async getOneProjectByid(id: string, lang: string): Object {

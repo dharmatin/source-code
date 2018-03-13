@@ -11,22 +11,20 @@ import * as mediaFormatter from '../mediaFormatter';
 import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
 
-export const formatterSuggestionProjects = (
-  projectListing: Object,
-  lang: string
+export const formatSuggestionProjects = (
+  projectListing: Object
 ): SuggestionProject => {
   if (projectListing.numFound === 0) {
     return {};
   } else {
     return {
-      items: formatterRelatedProjects(projectListing.docs, lang),
+      items: formatRelatedProjects(projectListing.docs),
     };
   }
 };
 
-const formatterRelatedProjects = (
-  projectListings: Array<Object>,
-  lang: string
+const formatRelatedProjects = (
+  projectListings: Array<Object>
 ): Array<Listing> => {
   let listings = [];
   _.map(projectListings, listing => {
@@ -35,39 +33,38 @@ const formatterRelatedProjects = (
     dataListing.id = listing.id;
     dataListing.title = listing.project_name;
     dataListing.channels = ['new'];
-    dataListing.tier = listingFormatter.formatterTierOfPrimaryListing(
+    dataListing.tier = listingFormatter.formatTierOfPrimaryListing(
       listing.is_premium,
       listing.is_gts
     );
-    dataListing.shareLink = listingFormatter.formatterProjectProfilePageLink(
+    dataListing.shareLink = listingFormatter.formatProjectProfilePageLink(
       {
         projectName: listing.project_name,
         city: listing.city_name,
         id: listing.id,
-      },
-      lang
+      }
     );
     dataListing.description = listing.description;
-    dataListing.cover = mediaFormatter.formatterImageCover(
+    dataListing.cover = mediaFormatter.formatImageCover(
       JSON.parse(listing.image)[0]
     );
-    dataListing.logo = mediaFormatter.formatterLogo(
+    dataListing.logo = mediaFormatter.formatLogo(
       JSON.parse(listing.logo)[0],
       config.image.baseUrl
     );
-    dataListing.multilanguagePlace = addressFormatter.formatterMultiLanguageAddressInfo(
+    dataListing.multilanguagePlace = addressFormatter.formatMultiLanguageAddressInfo(
       {
         district: listing.district_name,
         city: listing.city_name,
         province: listing.province_name,
       }
     );
-    dataListing.prices = priceFormatter.formatterPrices({
+    dataListing.prices = priceFormatter.formatPrices({
       priceMin: listing.price_min,
       priceMax: listing.price_max,
     });
 
-    dataListing.organisations = organisationFormatter.formatterDeveloperInfo(
+    dataListing.organisations = organisationFormatter.formatDeveloperInfo(
       {
         id: listing.developer_company_id,
         name: listing.developer_name,
@@ -82,17 +79,15 @@ const formatterRelatedProjects = (
         district: listing.developer_district,
         address: listing.developer_address,
         logo: listing.developer_logo,
-      },
-      lang
+      }
     );
 
-    dataListing.attributes = listingAttributeFormatter.formatterAttributesInfo({
+    dataListing.attributes = listingAttributeFormatter.formatAttributesInfo({
       landArea: listing.land_size,
       builtUpMin: listing.building_size_min,
       builtUpMax: listing.building_size_max,
       landAreaMin: listing.land_size_min,
-      landAreaMax: listing.land_size_max,
-      lang: lang,
+      landAreaMax: listing.land_size_max
     });
 
     listings.push(dataListing);

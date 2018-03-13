@@ -11,38 +11,34 @@ import * as mediaFormatter from '../mediaFormatter';
 import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
 
-export const formatterProjectProfile = (
+export const formatProjectProfile = (
   projectListing: Object,
-  childListings: Object,
-  lang: string
+  childListings: Object
 ): ProjectProfilePage => {
   if (projectListing.numFound === 0) {
     return {};
   } else {
-    return _.merge({}, formatterProject(projectListing.docs[0], lang), {
-      properties: formatterChildListing(childListings.docs, lang),
+    return _.merge({}, formatProject(projectListing.docs[0]), {
+      properties: formatChildListing(childListings.docs),
     });
   }
 };
 
-const formatterProject = (
-  projectProfilePage: Object,
-  lang: string
-): Listing => {
+const formatProject = (projectProfilePage: Object): Listing => {
   const response = {};
-  const featureDescription = projectProfilePage[lang + '_key_point'];
+  const featureDescription = projectProfilePage[config.lang + '_key_point'];
   response.channels = ['new'];
 
-  const banner = listingFormatter.formatterBannerSponsorship({
+  const banner = listingFormatter.formatBannerSponsorship({
     link: projectProfilePage.url_sponsor,
-    title: projectProfilePage['sponsor_name_' + lang],
+    title: projectProfilePage['sponsor_name_' + config.lang],
   });
 
   if (!_.isEmpty(banner)) {
     response.banner = banner;
   }
 
-  response.cover = mediaFormatter.formatterImageCover(
+  response.cover = mediaFormatter.formatImageCover(
     JSON.parse(projectProfilePage.image)[0]
   );
   response.description = projectProfilePage.description;
@@ -52,18 +48,19 @@ const formatterProject = (
   }
 
   response.id = projectProfilePage.id;
+  response.isReferralActive = Boolean(projectProfilePage.is_referral);
   response.title = projectProfilePage.project_name;
   response.subtitle = projectProfilePage.tagline;
-  response.propertyType = listingFormatter.formatterPropertyType(
+  response.propertyType = listingFormatter.formatPropertyType(
     projectProfilePage.subtype
   );
-  response.address = addressFormatter.formatterAddressInfo({
+  response.address = addressFormatter.formatAddressInfo({
     district: projectProfilePage.district_name,
     city: projectProfilePage.city_name,
     province: projectProfilePage.province_name,
     geoCoordinate: _.split(projectProfilePage.latlng, ','),
   });
-  response.attributes = listingAttributeFormatter.formatterAttributesInfo({
+  response.attributes = listingAttributeFormatter.formatAttributesInfo({
     totalUnits: projectProfilePage.qty_unit,
     completionDate: projectProfilePage.completion_date,
     architectName: projectProfilePage.architect_name,
@@ -75,11 +72,11 @@ const formatterProject = (
   });
 
   // response.listers = {};
-  response.logo = mediaFormatter.formatterLogo(
+  response.logo = mediaFormatter.formatLogo(
     JSON.parse(projectProfilePage.logo)[0],
     config.image.baseUrl
   );
-  response.multilanguagePlace = addressFormatter.formatterMultiLanguageAddressInfo(
+  response.multilanguagePlace = addressFormatter.formatMultiLanguageAddressInfo(
     {
       district: projectProfilePage.district_name,
       city: projectProfilePage.city_name,
@@ -87,7 +84,7 @@ const formatterProject = (
     }
   );
 
-  response.organisations = organisationFormatter.formatterDeveloperInfo(
+  response.organisations = organisationFormatter.formatDeveloperInfo(
     {
       id: projectProfilePage.developer_company_id,
       name: projectProfilePage.developer_name,
@@ -102,33 +99,31 @@ const formatterProject = (
       district: projectProfilePage.developer_district,
       address: projectProfilePage.developer_address,
       logo: projectProfilePage.developer_logo,
-    },
-    lang
+    }
   );
 
-  response.prices = priceFormatter.formatterPrices({
+  response.prices = priceFormatter.formatPrices({
     priceMin: projectProfilePage.price_min,
     priceMax: projectProfilePage.price_max,
   });
 
-  response.shareLink = listingFormatter.formatterProjectProfilePageLink(
+  response.shareLink = listingFormatter.formatProjectProfilePageLink(
     {
       projectName: projectProfilePage.project_name,
       city: projectProfilePage.city_name,
       id: projectProfilePage.id,
-    },
-    lang
+    }
   );
-  response.tier = listingFormatter.formatterTierOfPrimaryListing(
+  response.tier = listingFormatter.formatTierOfPrimaryListing(
     projectProfilePage.is_premium,
     projectProfilePage.is_gts
   );
   response.updatedAt = toISOFormatting(projectProfilePage.updated_date);
-  response.medias = mediaFormatter.formatterListingImages(
+  response.medias = mediaFormatter.formatListingImages(
     projectProfilePage.all_listing_images
   );
 
-  const youtubeIds = mediaFormatter.formatterYoutubeIds(
+  const youtubeIds = mediaFormatter.formatYoutubeIds(
     projectProfilePage.all_video
   );
   if (!_.isEmpty(youtubeIds)) {
@@ -146,50 +141,49 @@ const formatterProject = (
     response.website = projectProfilePage.website;
   }
 
-  const image360s = mediaFormatter.formatterThreeSixtyVideos(
+  const image360s = mediaFormatter.formatThreeSixtyVideos(
     projectProfilePage.all_360_video
   );
   if (!_.isEmpty(image360s)) {
     response.image360s = image360s;
   }
 
-  response.floorPlanImages = mediaFormatter.formatterFloorPlanImages(
+  response.floorPlanImages = mediaFormatter.formatFloorPlanImages(
     projectProfilePage.all_image_floorplan
   );
-  response.features = listingFormatter.formatterFeatures(
-    projectProfilePage[lang + '_project_facilities']
+  response.features = listingFormatter.formatFeatures(
+    projectProfilePage[config.lang + '_project_facilities']
   );
   return response;
 };
 
-const formatterChildListing = (
-  childListings: Array<Object>,
-  lang: string
+const formatChildListing = (
+  childListings: Array<Object>
 ): Array<Listing> => {
   let listings = [];
 
   _.map(childListings, listing => {
     const dataListing = {};
-    dataListing.price = priceFormatter.formatterPrice({
+    dataListing.price = priceFormatter.formatPrice({
       priceMin: listing.price_sort,
       priceMax: listing.price_sort,
     });
 
-    dataListing.attributes = listingAttributeFormatter.formatterAttributesInfo({
+    dataListing.attributes = listingAttributeFormatter.formatAttributesInfo({
       internet: listing.conectivity,
       landArea: listing.land_size,
       builtUp: listing.building_size,
       bedroom: listing.bedroom,
       bathroom: listing.bathroom,
       electricity: listing.electricity,
-      phoneLine: listing.phoneline,
-      lang: lang,
+      phoneLine: listing.phoneline
     });
+    
     dataListing.id = listing.id;
-    dataListing.title = listing.subproject_name;
-    dataListing.subtitle = listing.tagline;
     dataListing.description = _.join(JSON.parse(listing.description), '\n');
-    dataListing.medias = mediaFormatter.formatterListingImages(
+    dataListing.title = listing.tagline;
+    dataListing.unitTypeCategory = listing.subproject_name; 
+    dataListing.medias = mediaFormatter.formatListingImages(
       listing.listing_images_ar
     );
     listings.push(dataListing);
