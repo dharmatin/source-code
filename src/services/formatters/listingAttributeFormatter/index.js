@@ -3,6 +3,25 @@ import _ from 'lodash';
 import type { Attributes } from './types';
 import config from '../../../config';
 
+const formatConfigAttributeRangeValues = (dataAttributes: Object): string => {
+  let response = '';
+  
+  if (dataAttributes.min > 0 && dataAttributes.max > 0) {
+    if (dataAttributes.min === dataAttributes.max) {
+      response = dataAttributes.min.toLocaleString(
+        config.lang
+      );
+    } else {
+      response =
+        dataAttributes.min.toLocaleString(config.lang) +
+        ' - ' +
+        dataAttributes.max.toLocaleString(config.lang);
+    }
+  }
+
+  return response;
+};
+
 export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
   const attribute = {};
   if (!_.isNil(dataAttributes.totalUnits)) {
@@ -32,8 +51,23 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
       config.image.baseUrl + '/' + dataAttributes.downloadURL;
   }
 
-  if (!_.isNil(dataAttributes.carPark)) {
-    attribute.carPark = dataAttributes.carPark.toString();
+  let carPark = '';
+  if (
+    !_.isNil(dataAttributes.carParkMin) &&
+    !_.isNil(dataAttributes.carParkMax)
+  ) {
+    carPark = formatConfigAttributeRangeValues({
+      min: dataAttributes.carParkMin,
+      max: dataAttributes.carParkMax
+    });
+  } else if (!_.isNil(dataAttributes.carPark)) {
+    carPark = dataAttributes.carPark.toLocaleString(
+      config.lang
+    );
+  }
+
+  if (carPark !== '') {
+    attribute.carPark = carPark;
   }
 
   if (
@@ -47,12 +81,43 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
     attribute.internet = dataAttributes.internet.toString();
   }
 
-  if (!_.isNil(dataAttributes.bathRoom)) {
-    attribute.bathRoom = dataAttributes.bathRoom.toString();
+  let bathRoom = '';
+  if (
+    !_.isNil(dataAttributes.bathRoomMin) &&
+    !_.isNil(dataAttributes.bathRoomMax)
+  ) {
+    bathRoom = formatConfigAttributeRangeValues({
+      min: dataAttributes.bathRoomMin,
+      max: dataAttributes.bathRoomMax
+    });
+  } else if (!_.isNil(dataAttributes.bathRoom)) {
+    bathRoom = dataAttributes.bathRoom.toLocaleString(
+      config.lang
+    );
   }
 
-  if (!_.isNil(dataAttributes.bedRoom)) {
-    attribute.bedRoom = dataAttributes.bedRoom.toString();
+  if (bathRoom !== '') {
+    attribute.bathRoom = bathRoom;
+  }
+
+  let bedRoom = '';
+  if (
+    !_.isNil(dataAttributes.bedRoomMin) &&
+    !_.isNil(dataAttributes.bedRoomMax)
+  ) {
+    bedRoom = formatConfigAttributeRangeValues({
+      min: dataAttributes.bedRoomMin,
+      max: dataAttributes.bedRoomMax
+    });
+
+  } else if (!_.isNil(dataAttributes.bedRoom)) {
+    bedRoom = dataAttributes.bedRoom.toLocaleString(
+      config.lang
+    );
+  }
+
+  if (bedRoom !== '') {
+    attribute.bedRoom = bedRoom;
   }
 
   if (

@@ -61,6 +61,12 @@ const formatProject = (projectProfilePage: Object): Listing => {
     geoCoordinate: _.split(projectProfilePage.latlng, ','),
   });
   response.attributes = listingAttributeFormatter.formatAttributesInfo({
+    bedRoomMin: projectProfilePage.bedroom_min,
+    bedRoomMax: projectProfilePage.bedroom_max,
+    bathRoomMin: projectProfilePage.bathroom_min,
+    bathRoomMax: projectProfilePage.bathroom_max,
+    carParkMin: projectProfilePage.garage_min,
+    carParkMax: projectProfilePage.garage_max,
     totalUnits: projectProfilePage.qty_unit,
     completionDate: projectProfilePage.completion_date,
     architectName: projectProfilePage.architect_name,
