@@ -21,8 +21,8 @@ export const formatAddressInfo = (area: Object): Address => {
     const [lat, lng] = geoCoordinate;
 
     if (lat !== '0.0000000000' && lng !== '0.0000000000') {
-      addressInfo.lat = lat;
-      addressInfo.lng = lng;
+      addressInfo.lat = parseFloat(lat);
+      addressInfo.lng = parseFloat(lng);
     }
   }
 
