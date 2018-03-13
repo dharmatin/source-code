@@ -2,7 +2,7 @@
 import articleCore from '../dao/articles';
 import listingCore from '../dao/listings';
 import _ from 'lodash';
-import { formatterArticles } from './formatters/formatterArticles';
+import { formatAttributesArticle } from './formatters/articlesFormatter';
 
 export class ArticlesService {
   articles: Object;
@@ -20,21 +20,28 @@ export class ArticlesService {
       throw new Error('Solr error project not found');
     }
 
-    let start = Number(params.pageToken);
-    if (start > 0) start = start - 1;
+    const start = ( params.page - 1 ) * params.limit;
+
     const articleParams = {
       projectName: listingSearch.response.docs[0].project_name,
       developerName: listingSearch.response.docs[0].developer_name,
       start,
-      rows: params.pageSize
+      rows: params.limit
     };
 
     const result = await this.articles.getArticleByTags(articleParams);
     if (result.responseHeader.status !== 0) {
       throw new Error('Solr error article not found!');
     }
-
-    return formatterArticles(result.response, articleParams);
+    
+    return {
+      title: 'news',
+      kind: 'article#list',
+      articles: formatAttributesArticle(result.response.docs),
+      nextPageToken: Number(params.start) + 1,
+      totalCount: result.response.numFound,
+    };
+    
   }
 }
 
