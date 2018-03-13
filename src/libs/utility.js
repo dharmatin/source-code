@@ -24,7 +24,7 @@ export const getYoutubeId = (youtubeUrl: string): string => {
   return !_.isNil(url[2]) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
 };
 
-export const getUrlSharpie = (srcS3Image: string, isPremimum = false): string => {
+export const getUrlSharpie = (srcS3Image: string, isPremimum: boolean = false): string => {
   const baseUrl = config.image.sharpieUrl + '/' + (isPremimum ? 'premium/' : '') + '${width}x${height}-${scale}';
   return baseUrl + '/' + srcS3Image;
 };
