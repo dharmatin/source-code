@@ -48,7 +48,7 @@ class ReferralsController extends BaseController {
         handleResponseMessage(res, 'failed');
       }
     } catch (e) {
-      handleResponseMessage(res, 'failed');
+      handleInternalServerError(res);
       throw new Error(e);
     }
   }
