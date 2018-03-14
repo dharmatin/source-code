@@ -129,6 +129,7 @@ class ReferralDao {
   }
 
   async getLatestReferralRequest(parameters: Object): Promise<AgentReferral> {
+    this.agentReferral = {};
     const referral = await this.referral.findOne({
       where: {
         userId: parameters.userId,
