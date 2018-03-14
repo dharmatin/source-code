@@ -34,13 +34,7 @@ export class ArticlesService {
       throw new Error('Solr error article not found!');
     }
 
-    return {
-      title: 'news',
-      kind: 'article#list',
-      articles: formatAttributesArticle(result.response.docs),
-      nextPageToken: Number(params.page) + 1,
-      totalCount: result.response.numFound,
-    };
+    return formatAttributesArticle(result, articleParams);
   }
 }
 

@@ -6,9 +6,10 @@ import { getUrlSharpie, getDateTimeISO, getFirstParagraph, slugify } from '../..
 import config from '../../../config';
 
 export const formatAttributesArticle = (
-  articles: Array<Object>
-): Array<Article> => {
-  return _.map(articles, (item): Object => {
+  articles: Object,
+  params: Object
+): Article => {
+  const articleList = _.map(articles.response.docs, (item): Object => {
     const unserializeImage = Serialization.unserialize(item.meta_image_amazon);
     return {
       kind: 'article',
@@ -27,4 +28,12 @@ export const formatAttributesArticle = (
       publishedAt: getDateTimeISO(item.pubdate)
     };
   });
+
+  return {
+    title: 'news',
+    kind: 'article#list',
+    articles: articleList,
+    nextPageToken: Number(params.start) + 1,
+    totalCount: articles.response.numFound,
+  };
 };
