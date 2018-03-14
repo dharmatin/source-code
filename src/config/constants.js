@@ -19,6 +19,10 @@ const constants = {
     PENDING: -1,
     REJECT: 0,
     REMOVE: 2
+  },
+  USER_GROUP: {
+    CUSTOMER: 2,
+    DEVELOPER: 32
   }
 };
 
