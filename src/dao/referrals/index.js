@@ -47,6 +47,12 @@ class ReferralDao {
         type: Sequelize.INTEGER(3),
         field: 'referral_status',
       },
+      referralReason: {
+        type: Sequelize.STRING(50),
+        allowNull: true,
+        defaultValue: null,
+        field: 'referral_reason',
+      },
       createdDate: {
         type: Sequelize.DATE,
         field: 'created_date',
