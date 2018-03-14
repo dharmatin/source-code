@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import Serialization from 'php-serialization';
 import type { Article } from './types';
-import { getUrlSharpie, getDateTimeISO, getFirstParagraph, slugify } from '../../../libs/utility';
+import { getUrlSharpie, toISOFormatting, getFirstParagraph, slugify } from '../../../libs/utility';
 import config from '../../../config';
 
 export const formatAttributesArticle = (
@@ -23,9 +23,9 @@ export const formatAttributesArticle = (
       },
       title: item.title,
       snippet: getFirstParagraph(item.content),
-      createdAt: getDateTimeISO(item.post_date),
-      updatedAt: getDateTimeISO(item.post_modified),
-      publishedAt: getDateTimeISO(item.pubdate)
+      createdAt: toISOFormatting(item.post_date),
+      updatedAt: toISOFormatting(item.post_modified),
+      publishedAt: toISOFormatting(item.pubdate)
     };
   });
 
