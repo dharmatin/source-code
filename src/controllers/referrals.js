@@ -3,6 +3,7 @@ import _ from 'lodash';
 import BaseController from './base';
 import referralRequestService from '../services/referralRequestService';
 import referralApprovalService from '../services/referralApprovalService';
+import referralRejectionService from '../services/referralRejectionService';
 import { isValidCustomer, isValidDeveloper } from '../middleware/userGroup';
 
 import {
@@ -33,6 +34,25 @@ class ReferralsController extends BaseController {
   async approveReferral(req, res) {
     try {
       const result = await referralApprovalService.requestApprove(req.params.listerId, req.params.listingId);
+      if (result) {
+        handleResponseMessage(res, 'success');
+      } else {
+        handleResponseMessage(res, 'failed');
+      }
+    } catch (e) {
+      handleInternalServerError(res);
+      throw new Error(e);
+    }
+  }
+
+  @web.put('/:listingId/listers/:listerId/deny', [isValidDeveloper])
+  async rejectReferral(req, res) {
+    try {
+      const result = await referralRejectionService.rejectReferral({
+        listerId: req.params.listerId,
+        listingId: req.params.listingId,
+        referralReason: req.body.Reason
+      });
       if (result) {
         handleResponseMessage(res, 'success');
       } else {
