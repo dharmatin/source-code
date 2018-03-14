@@ -2,11 +2,6 @@
 import _ from 'lodash';
 import config from '../config';
 
-export const toISOFormatting = (strDate: string): string => {
-  const dateFormatted = new Date(strDate);
-  return dateFormatted.toISOString();
-};
-
 export const slugify = (strUrl: string): string => {
   return strUrl
     .toString()
@@ -29,7 +24,7 @@ export const getUrlSharpie = (srcS3Image: string, isPremimum: boolean = false): 
   return baseUrl + '/' + srcS3Image;
 };
 
-export const getDateTimeISO = (date: string): string => {
+export const toISOFormatting = (date: string): string => {
   const validateDateTime = date.slice(0, -2);
   const explodeDateTime = validateDateTime.split(' ');
   return explodeDateTime[0] + 'T' + explodeDateTime[1] + '+07:00';
@@ -60,3 +55,26 @@ export const getReferralCode = (): string => {
 
   return (time).toString(36).toLocaleUpperCase();
 };
+
+export const getRequestForPagingParam = (req: any, defaultPageSize: number): Object => {
+  const paging = {
+    pageSize: defaultPageSize,
+    pageToken: 0
+  };
+  
+  if (!_.isNil(req.query.pageSize)) {
+    const pageSize = parseInt(req.query.pageSize);
+    if (!_.isNaN(pageSize)) {
+      paging.pageSize = pageSize;
+    }
+  }
+
+  if (!_.isNil(req.query.pageToken)) {
+    const pageToken = parseInt(req.query.pageToken);
+    if (!_.isNaN(pageToken)) {
+      paging.pageToken = pageToken; 
+    }
+  }
+
+  return paging;
+}

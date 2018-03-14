@@ -46,9 +46,9 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
     );
   }
 
-  if (!_.isEmpty(dataAttributes.downloadURL)) {
-    attribute.downloadURL =
-      config.image.baseUrl + '/' + dataAttributes.downloadURL;
+  if (!_.isEmpty(dataAttributes.downloadUrl)) {
+    attribute.downloadUrl =
+      config.image.baseUrl + '/' + dataAttributes.downloadUrl;
   }
 
   let carPark = '';
@@ -79,6 +79,10 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
 
   if (!_.isNil(dataAttributes.internet)) {
     attribute.internet = dataAttributes.internet.toString();
+  }
+
+  if (!_.isNil(dataAttributes.electricity)) {
+    attribute.electricity = dataAttributes.electricity.toString();
   }
 
   let bathRoom = '';
