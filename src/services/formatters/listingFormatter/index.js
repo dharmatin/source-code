@@ -13,12 +13,12 @@ export const formatTierOfPrimaryListing = (
   isGTS: number
 ): number => {
   if (isPremium === 0) {
-    return config.tier.standard;
+    return config.TIER.STANDARD;
   } else {
     if (isGTS === 1) {
-      return config.tier.featured;
+      return config.TIER.FEATURE;
     } else {
-      return config.tier.premium;
+      return config.TIER.PREMIUM;
     }
   }
 };
@@ -46,7 +46,7 @@ export const formatFeatures = (facilities: Array<string>): Array<Features> => {
 
 export const formatPropertyType = (propertyType: Array<string>): string => {
   const propertyTypeResponse = _.map(propertyType, item => {
-    return `${config.translator.long_property_type[config.propertyType[item]]}`;
+    return `${config.translator.long_property_type[config.PROPERTY_TYPE[item]]}`;
   }).join(' / ');
 
   return propertyTypeResponse;

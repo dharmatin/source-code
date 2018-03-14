@@ -44,6 +44,7 @@
     "full-icu": "^1.2.1",
     "get-port": "^3.2.0",
     "mocha": "^5.0.0",
+    "moment": "^2.21.0",
     "morgan": "^1.9.0",
     "nodemon": "^1.15.1",
     "prettier": "^1.11.1",

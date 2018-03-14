@@ -2,6 +2,8 @@ import * as web from 'express-decorators';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import _ from 'lodash';
+import config from '../config';
+
 import {
   handleNotFound,
   handleInternalServerError,
@@ -13,13 +15,22 @@ class ListingsController extends BaseController {
   @web.get('/:id')
   async findAllProjectProfilePageByIdAction(req, res, next) {
     try {
-      const listings = await projectProfileService.getProjectProfile(
-        req.params.id
-      );
+      let listerId = 0;
+      
+      if (!_.isNil(req.userInfo) && parseInt(req.userInfo.userGroup) === config.USER_GROUP.CUSTOMER) {
+        listerId = req.userInfo.userID
+      }
+      
+      const listings = await projectProfileService.getProjectProfile({
+        id: req.params.id,
+        listerId: listerId
+      });
+
       if (_.isEmpty(listings)) {
         handleNotFound(res);
+      } else {
+        handleSuccess(res, listings);
       }
-      handleSuccess(res, listings);
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);
