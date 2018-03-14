@@ -7,7 +7,7 @@ import {
   handleInternalServerError,
   handleSuccess,
 } from '../libs/responseHandler';
-import { getRequestPaging } from '../libs/utility'; 
+import { getRequestForPagingParam } from '../libs/utility'; 
 
 @web.basePath('/v1/organisations')
 class OrganisationController extends BaseController {
