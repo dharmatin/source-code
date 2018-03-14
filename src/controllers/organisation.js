@@ -18,7 +18,7 @@ class OrganisationController extends BaseController {
         ? req.query.excludeProject
         : '';
       const DEFAULT_PAGE_SIZE = 20;
-      const pagingRequest = getRequestPaging(req, DEFAULT_PAGE_SIZE);
+      const pagingRequest = getRequestForPagingParam(req, DEFAULT_PAGE_SIZE);
       
       const listings = await projectProfileService.getProjectByOrganisation(
         req.params.id,

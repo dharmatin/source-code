@@ -46,9 +46,9 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
     );
   }
 
-  if (!_.isEmpty(dataAttributes.downloadURL)) {
-    attribute.downloadURL =
-      config.image.baseUrl + '/' + dataAttributes.downloadURL;
+  if (!_.isEmpty(dataAttributes.downloadUrl)) {
+    attribute.downloadUrl =
+      config.image.baseUrl + '/' + dataAttributes.downloadUrl;
   }
 
   let carPark = '';

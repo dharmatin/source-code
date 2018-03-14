@@ -72,7 +72,7 @@ const formatProject = (projectProfilePage: Object): Listing => {
     architectName: projectProfilePage.architect_name,
     contractorName: projectProfilePage.contractor_name,
     promotion: projectProfilePage.project_quote,
-    downloadURL: !_.isEmpty(projectProfilePage.attachment)
+    downloadUrl: !_.isEmpty(projectProfilePage.attachment)
       ? JSON.parse(projectProfilePage.attachment)[0]
       : '',
   });
@@ -178,9 +178,9 @@ const formatChildListing = (
       priceMin: listing.price_sort,
       priceMax: listing.price_sort,
     });
-
+    
     dataListing.attributes = listingAttributeFormatter.formatAttributesInfo({
-      internet: listing.conectivity,
+      internet: listing.connectivity,
       landArea: listing.land_size,
       builtUp: listing.building_size,
       bedRoom: listing.bedroom,
