@@ -66,12 +66,7 @@ class ReferralDao {
     });
   }
 
-  async _gettingObject(referral: Object): Promise<AgentReferral> {
-    if (referral) this.agentReferral = referral.get();
-    return this.agentReferral;
-  }
-
-  async requestReferral(userId: number, referralListingId: AgentReferral): Promise<AgentReferral> {
+  async requestReferral(userId: number, referralListingId: AgentReferral): Promise<AgentReferral | Object> {
     const query = _.assign(
       {
         userId: userId,
@@ -81,10 +76,10 @@ class ReferralDao {
       referralListingId
     );
     const referral = await this.referral.create(query);
-    return this._gettingObject(referral);
+    return (referral) ? referral.get() : {};
   }
 
-  async checkReferral(userId: number, referralListingId: AgentReferral): Promise<AgentReferral> {
+  async checkReferral(userId: number, referralListingId: AgentReferral): Promise<AgentReferral | Object> {
     const condition = _.assign(
       {
         userId: userId,
@@ -99,7 +94,7 @@ class ReferralDao {
       where: condition,
     };
     const referral = await this.referral.findOne(query);
-    return this._gettingObject(referral);
+    return (referral) ? referral.get() : {};
   }
 
   async updateRefferalById(id: number, value: AgentReferral): Promise<Array<number>> {
@@ -110,8 +105,7 @@ class ReferralDao {
     return affectedRow;
   }
 
-  async getLatestReferralRequest(parameters: Object): Promise<AgentReferral> {
-    let agentReferral: Object | AgentReferral = {};
+  async getLatestReferralRequest(parameters: Object): Promise<AgentReferral | Object> {
     const referral = await this.referral.findOne({
       where: {
         userId: parameters.userId,
@@ -120,10 +114,7 @@ class ReferralDao {
       },
       order: [['createdDate', 'DESC']]
     });
-
-    if (referral) agentReferral = referral.get();
-
-    return agentReferral;
+    return (referral) ? referral.get() : {};
   }
 }
 

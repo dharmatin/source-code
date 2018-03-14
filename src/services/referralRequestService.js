@@ -33,7 +33,7 @@ export class ReferralRequestService {
 
   async checkingReferral(userId: string): Promise<boolean> {
     const check = await this.referral.checkReferral(userId, this._getFormatingListingId());
-    return _.isNil(check);
+    return _.isEmpty(check);
   }
 
   _setFormatListingId(listingId: string) {
