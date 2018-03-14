@@ -4,6 +4,7 @@ import Serialization from 'php-serialization';
 import type { Article } from './types';
 import { getUrlSharpie, toISOFormatting, getFirstParagraph, slugify } from '../../../libs/utility';
 import config from '../../../config';
+import { stringify } from 'querystring';
 
 export const formatAttributesArticle = (
   articles: Object,
@@ -28,12 +29,13 @@ export const formatAttributesArticle = (
       publishedAt: toISOFormatting(item.pubdate)
     };
   });
+  const nextPageToken = Number(params.start) + 1;
 
   return {
     title: 'news',
     kind: 'article#list',
     articles: articleList,
-    nextPageToken: Number(params.start) + 1,
+    nextPageToken: nextPageToken.toString(),
     totalCount: articles.response.numFound,
   };
 };
