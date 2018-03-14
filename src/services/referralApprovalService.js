@@ -4,13 +4,7 @@ import Sequelize from 'sequelize';
 import referralDao from '../dao/referrals';
 import type { AgentReferral } from '../dao/referrals/type';
 import { extractListingId, getReferralCode } from '../libs/utility';
-
-const STATUS = {
-  APPROVED: 1,
-  PENDING: -1,
-  REJECT: 0,
-  REMOVE: 2
-};
+import config from '../config';
 
 export class ReferralApprovalService {
   referral: Object;
@@ -44,14 +38,15 @@ export class ReferralApprovalService {
     const referral: AgentReferral = await referralDao.getLatestReferralRequest({
       userId: this.getListerId(),
       adsProjectId: this.getListingId(),
-      referralStatus: STATUS.PENDING
+      referralStatus: config.STATUS_REFERRAL.PENDING
     });
 
     return referral;
   }
+
   async updateLatestReferral(referral: AgentReferral): Promise<number> {
     const approvedData: Object = {
-      referralStatus: STATUS.APPROVED,
+      referralStatus: config.STATUS_REFERRAL.APPROVED,
       approvedDate: Sequelize.fn('NOW', 3),
       referralCode: getReferralCode()
     };
