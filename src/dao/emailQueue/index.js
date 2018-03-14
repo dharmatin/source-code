@@ -68,7 +68,7 @@ class EmailQueueDao {
     });
   }
 
-  async save(value: EmailQueue): Promise<boolean> {
+  async save(value: EmailQueue): Promise<Object> {
     const result = await this.emailQueueModel.create(value);
     return result;
   }
