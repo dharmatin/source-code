@@ -58,6 +58,7 @@
     "express": "^4.16.2",
     "lodash": "^4.17.5",
     "mysql2": "^1.5.2",
+    "php-serialization": "0.0.4",
     "redis": "^2.8.0",
     "sequelize": "^4.35.2",
     "solr-client": "^0.7.0"

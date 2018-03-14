@@ -47,3 +47,13 @@ export const handleUnauthorized = response => {
     })
     .end();
 };
+
+export const handleResponseMessage = (response, message) => {
+  response
+    .set('Content-Type', 'application/json')
+    .status(200)
+    .send({
+      message: message
+    })
+    .end();
+};

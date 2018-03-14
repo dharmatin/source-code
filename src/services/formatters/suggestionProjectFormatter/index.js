@@ -64,6 +64,13 @@ const formatRelatedProjects = (
       priceMax: listing.price_max,
     });
 
+    dataListing.address = addressFormatter.formatAddressInfo({
+      district: listing.district_name,
+      city: listing.city_name,
+      province: listing.province_name,
+      geoCoordinate: _.split(listing.latlng, ','),
+    });
+
     dataListing.organisations = organisationFormatter.formatDeveloperInfo(
       {
         id: listing.developer_company_id,
