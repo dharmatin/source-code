@@ -32,18 +32,22 @@ export class ListingService {
 
   async getProjectByOrganisation(
     organisationId: string,
-    excludeProjectId: string
+    excludeProjectId: string,
+    pagingRequest: Object
   ): Object {
+    
     const result = await this.listings.searchProjectByOrganisation(
       organisationId,
-      excludeProjectId
+      excludeProjectId,
+      pagingRequest,
     );
+    
     const status = result.responseHeader.status;
     if (status !== 0) {
       throw new Error('Solr search error!');
     }
 
-    return formatSuggestionProjects(result.response);
+    return formatSuggestionProjects(result.response, pagingRequest);
   }
 
   async getAmenitiesById(id: string): Object {

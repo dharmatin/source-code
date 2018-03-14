@@ -28,6 +28,7 @@ export class ReferralService {
 
   async getReferralList(userInfo: Object): Object {
     const getUser = await this.listings.searchProjectByUserId(userInfo.userID);
+    console.log(userInfo);
     const projectId = [];
     _.map(getUser.response.docs, item => {
       const id = item.id;
