@@ -28,12 +28,12 @@ const common = {
       port: 6379,
     },
     mysql: {
-      username: 'inoy',
-      password: 'inoy_1231',
-      host: 'id-stgmaster.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
+      username: 'webmaster',
+      password: 'FbY35D7h',
+      host: '10.201.30.25',
       port: '3306',
       database: {
-        default: 'ds_real',
+        default: 'ds_realcs',
       },
     },
   },
