@@ -37,7 +37,8 @@ export const getDateTimeISO = (date: string): string => {
 
 export const getFirstParagraph = (html: string): string => {
   const paragraph = html.match(/<\s*?p\b[^>]*>(.+)<\/p\b[^>]*>/g);
-  return paragraph[0].replace(/<[^>]+>/ig, '');
+  //return paragraph[0].replace(/<[^>]+>/ig, '');
+  return '';
 };
 
 export const extractListingId = (adsId: string): Object => {
