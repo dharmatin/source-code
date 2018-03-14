@@ -25,6 +25,6 @@ export const formatAttributesArticle = (
       createdAt: getDateTimeISO(item.post_date),
       updatedAt: getDateTimeISO(item.post_modified),
       publishedAt: getDateTimeISO(item.pubdate)
-    }
+    };
   });
 };
