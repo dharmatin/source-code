@@ -48,7 +48,7 @@ export class EmailQueueService {
     return this;
   }
 
-  async save(): boolean {
+  async save(): Promise<boolean> {
     this.setEmailQueue(this);
     const result = await this.emailQueueDao.save(this.getEmailQueue());
 
