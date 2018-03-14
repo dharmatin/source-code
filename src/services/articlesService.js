@@ -38,7 +38,7 @@ export class ArticlesService {
       title: 'news',
       kind: 'article#list',
       articles: formatAttributesArticle(result.response.docs),
-      nextPageToken: Number(params.start) + 1,
+      nextPageToken: Number(params.page) + 1,
       totalCount: result.response.numFound,
     };
   }
