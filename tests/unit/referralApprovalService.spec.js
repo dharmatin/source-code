@@ -3,6 +3,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import Sequelize from 'sequelize';
 import ReferralDao from '../../src/dao/referrals';
 import type { AgentReferral } from '../../src/dao/referrals/type';
 import { ReferralApprovalService } from '../../src/services/referralApprovalService';
@@ -42,6 +43,7 @@ describe('Referral approve services', () => {
       propertyCategory: 's',
       referralCode: 'ABCD1234',
       referralStatus: -1,
+      referralReason: Sequelize.default,
       createdDate: new Date(),
       approvedDate: new Date(),
       rejectedDate: new Date(),
