@@ -183,10 +183,11 @@ const formatChildListing = (
       internet: listing.conectivity,
       landArea: listing.land_size,
       builtUp: listing.building_size,
-      bedroom: listing.bedroom,
-      bathroom: listing.bathroom,
+      bedRoom: listing.bedroom,
+      bathRoom: listing.bathroom,
       electricity: listing.electricity,
-      phoneLine: listing.phoneline
+      phoneLine: listing.phoneline,
+      carPark: listing.garage
     });
     
     dataListing.id = listing.id;

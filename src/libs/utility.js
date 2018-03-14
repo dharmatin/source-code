@@ -58,3 +58,26 @@ export const getReferralCode = (): string => {
 
   return (time).toString(36).toLocaleUpperCase();
 };
+
+export const getRequestPaging = (req: any, defaultPageSize: number): Object => {
+  const paging = {
+    pageSize: defaultPageSize,
+    pageToken: 0
+  };
+  
+  if (!_.isNil(req.query.pageSize)) {
+    const pageSize = parseInt(req.query.pageSize);
+    if (!_.isNaN(pageSize)) {
+      paging.pageSize = pageSize;
+    }
+  }
+
+  if (!_.isNil(req.query.pageToken)) {
+    const pageToken = parseInt(req.query.pageToken);
+    if (!_.isNaN(pageToken)) {
+      paging.pageToken = pageToken; 
+    }
+  }
+
+  return paging;
+}

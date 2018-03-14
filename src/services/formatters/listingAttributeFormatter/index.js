@@ -81,6 +81,10 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
     attribute.internet = dataAttributes.internet.toString();
   }
 
+  if (!_.isNil(dataAttributes.electricity)) {
+    attribute.electricity = dataAttributes.electricity.toString();
+  }
+
   let bathRoom = '';
   if (
     !_.isNil(dataAttributes.bathRoomMin) &&

@@ -12,20 +12,22 @@ import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
 
 export const formatSuggestionProjects = (
-  projectListing: Object
+  projectListing: Object,
+  pagingRequest: Object
 ): SuggestionProject => {
-  if (projectListing.numFound === 0) {
+  if (projectListing.docs.length === 0) {
     return {};
   } else {
-    return {
-      items: formatRelatedProjects(projectListing.docs),
-    };
+    return formatRelatedProjects(projectListing.docs, projectListing.numFound, pagingRequest)
   }
 };
 
 const formatRelatedProjects = (
-  projectListings: Array<Object>
-): Array<Listing> => {
+  projectListings: Array<Object>,
+  totalNumber: number,
+  pagingRequest: Object
+): SuggestionProject => {
+  let response = {};
   let listings = [];
   _.map(projectListings, listing => {
     const dataListing = {};
@@ -99,5 +101,8 @@ const formatRelatedProjects = (
 
     listings.push(dataListing);
   });
-  return listings;
+  response.items = listings;
+  response.totalCount = totalNumber;
+  response.nextPageToken = ((pagingRequest.pageToken * pagingRequest.pageSize >= totalNumber) ? pagingRequest.pageToken : pagingRequest.pageToken + 1).toString();
+  return response;
 };

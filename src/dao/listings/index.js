@@ -21,18 +21,22 @@ export default {
   },
   searchProjectByOrganisation: async (
     id: string,
-    excludeProjectId: string
+    excludeProjectId: string,
+    paging: Object
   ): Object => {
+    
     let conditionQ = `developer_company_id:${id}`;
     if (!_.isEmpty(excludeProjectId)) {
       conditionQ += ` AND -id:${excludeProjectId}`;
     }
 
+    const pageStart = (paging.pageToken - 1) * paging.pageSize;
+
     const queryListingById = listingClient
       .createQuery()
       .q(conditionQ)
-      .start(0)
-      .rows(100);
+      .start(pageStart)
+      .rows(paging.pageSize);
     return listingClient.searchAsync(queryListingById);
   },
   searchProjectAccessByProjectId: async (id: string): Object => {

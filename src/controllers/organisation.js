@@ -7,6 +7,7 @@ import {
   handleInternalServerError,
   handleSuccess,
 } from '../libs/responseHandler';
+import { getRequestPaging } from '../libs/utility'; 
 
 @web.basePath('/v1/organisations')
 class OrganisationController extends BaseController {
@@ -16,16 +17,20 @@ class OrganisationController extends BaseController {
       const excludeProjectId = !_.isNil(req.query.excludeProject)
         ? req.query.excludeProject
         : '';
-      const translator = req.app.get('translator');
-
+      const DEFAULT_PAGE_SIZE = 20;
+      const pagingRequest = getRequestPaging(req, DEFAULT_PAGE_SIZE);
+      
       const listings = await projectProfileService.getProjectByOrganisation(
         req.params.id,
-        excludeProjectId
+        excludeProjectId,
+        pagingRequest
       );
+      
       if (_.isEmpty(listings)) {
         handleNotFound(res);
+      } else {
+        handleSuccess(res, listings);  
       }
-      handleSuccess(res, listings);
     } catch (e) {
       handleInternalServerError(res);
       throw new Error(e);
