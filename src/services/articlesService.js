@@ -20,7 +20,7 @@ export class ArticlesService {
       throw new Error('Solr error project not found');
     }
 
-    const start = ( params.page - 1 ) * params.limit;
+    const start = (params.page - 1) * params.limit;
 
     const articleParams = {
       projectName: listingSearch.response.docs[0].project_name,
@@ -33,7 +33,7 @@ export class ArticlesService {
     if (result.responseHeader.status !== 0) {
       throw new Error('Solr error article not found!');
     }
-    
+
     return {
       title: 'news',
       kind: 'article#list',
@@ -41,7 +41,6 @@ export class ArticlesService {
       nextPageToken: Number(params.start) + 1,
       totalCount: result.response.numFound,
     };
-    
   }
 }
 

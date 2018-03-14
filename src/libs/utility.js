@@ -36,9 +36,11 @@ export const getDateTimeISO = (date: string): string => {
 };
 
 export const getFirstParagraph = (html: string): string => {
-  const paragraph = html.match(/<\s*?p\b[^>]*>(.+)<\/p\b[^>]*>/g);
-  //return paragraph[0].replace(/<[^>]+>/ig, '');
-  return '';
+  const splitHtml = html.split('<p');
+  const validateHtml = '<p' + splitHtml[1];
+  const regex = /(<([^>]+)>)/ig;
+  const cleanContent = validateHtml.replace(regex, '');
+  return cleanContent.replace('\r\n', '');
 };
 
 export const extractListingId = (adsId: string): Object => {
