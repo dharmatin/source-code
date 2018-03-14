@@ -45,5 +45,5 @@ export const formatlisterPageLink = (
   let formatUrl = config.lang === 'id' ? '/agen-properti/' : '/en/property-agent/';
   formatUrl += slugify(organisationName) + '/' + slugify(listerName) + '-' + id;
   
-  return config.url.newlaunch + formatUrl;
+  return config.url.base + formatUrl;
 };
