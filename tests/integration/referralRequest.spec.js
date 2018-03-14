@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 const requester = chai.request(app);
 const {expect} = chai;
 
-describe('Authentication Middleware', () => {
+describe('Referral Request', () => {
   let server;
   before(async() => {
     const port = await getPort();
@@ -34,7 +34,7 @@ describe('Authentication Middleware', () => {
 
     it('Should return status code 401 if Authorization header is not valid', (done) => {
       requester
-        .get('/v1/referrals/listings/nps499/apply')
+        .post('/v1/referrals/listings/nps499/apply')
         .set('Authorization', '123')
         .end((err, res) => {
           expect(err).have.status(401);
