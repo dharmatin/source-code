@@ -1,10 +1,10 @@
 const constants = {
-  tier: {
-    premium: 4,
-    featured: 2,
-    standard: 1,
+  TIER: {
+    PREMIUM: 4,
+    FEATURED: 2,
+    STANDARD: 1,
   },
-  propertyType: {
+  PROPERTY_TYPE: {
     ho: 'house',
     ap: 'apartment',
     wa: 'warehouse',

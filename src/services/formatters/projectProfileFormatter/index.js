@@ -13,18 +13,19 @@ import * as organisationFormatter from '../organisationFormatter';
 
 export const formatProjectProfile = (
   projectListing: Object,
-  childListings: Object
+  childListings: Object,
+  lister: Object
 ): ProjectProfilePage => {
-  if (projectListing.numFound === 0) {
+  if (projectListing.docs.length === 0) {
     return {};
   } else {
-    return _.merge({}, formatProject(projectListing.docs[0]), {
+    return _.merge({}, formatProject(projectListing.docs[0], lister), {
       properties: formatChildListing(childListings.docs),
     });
   }
 };
 
-const formatProject = (projectProfilePage: Object): Listing => {
+const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
   const response = {};
   const featureDescription = projectProfilePage[config.lang + '_key_point'];
   response.channels = ['new'];
@@ -77,7 +78,11 @@ const formatProject = (projectProfilePage: Object): Listing => {
       : '',
   });
 
-  // response.listers = {};
+  console.log(lister);
+  if (!_.isEmpty(lister)) {
+    response.listers = [{...lister}];
+  }
+  
   response.logo = mediaFormatter.formatLogo(
     JSON.parse(projectProfilePage.logo)[0],
     config.image.baseUrl

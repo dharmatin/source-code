@@ -47,7 +47,7 @@ export const formatContactInfo = (dataContact: Object): Contact => {
   return {
     phones: formatPhoneInfo({
       mainContact: dataContact.mainContact,
-      secondaryContact: dataContact.mainContact,
+      secondaryContact: dataContact.secondaryContact,
       whatsapp: dataContact.whatsapp,
     }),
     emails: formatEmailInfo(dataContact.email, dataContact.additionalEmail),

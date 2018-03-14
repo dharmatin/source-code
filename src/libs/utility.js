@@ -65,14 +65,14 @@ export const getRequestForPagingParam = (req: any, defaultPageSize: number): Obj
   if (!_.isNil(req.query.pageSize)) {
     const pageSize = parseInt(req.query.pageSize);
     if (!_.isNaN(pageSize)) {
-      paging.pageSize = pageSize;
+      paging.pageSize = Math.abs(pageSize);
     }
   }
 
   if (!_.isNil(req.query.pageToken)) {
     const pageToken = parseInt(req.query.pageToken);
     if (!_.isNaN(pageToken)) {
-      paging.pageToken = pageToken; 
+      paging.pageToken = Math.abs(pageToken); 
     }
   }
 
