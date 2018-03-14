@@ -142,6 +142,27 @@ class ReferralDao {
 
     return agentReferral;
   }
+
+  async getReferralByProjectId(projectId: any): Object {
+    // const condition = _.assign(
+    //   {
+    //     userId: userId,
+    //     referralStatus: {
+    //       [Sequelize.Op.in]: projectId,
+    //     },
+    //   },
+    //   this._formatingListing(listingId)
+    // );
+    // const query = {
+    //   order: [['referralStatus', 'DESC']],
+    //   where: condition,
+    // };
+    // const result = await this.referral.findOne(query);
+    // if (!_.isNull(result)) {
+    //   return result.get();
+    // }
+    // return result;
+  }
 }
 
 export default new ReferralDao();

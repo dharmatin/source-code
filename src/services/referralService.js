@@ -26,14 +26,16 @@ export class ReferralService {
     return { message: message };
   }
 
-  async getReferralList(userInfo: Object, listingId: string): Object {
-    const getUser = await this.referral.searchUser(userInfo.userInfo);
-    // const getListing = await this.listings.searchProject(listingId);
-    // const status = getListing.responseHeader.status;
-    // if (status !== 0) {
-    //   throw new Error('Solr search error!');
-    // }
-    // return getListing;
+  async getReferralList(userInfo: Object): Object {
+    const getUser = await this.listings.searchProjectByUserId(userInfo.userID);
+    const projectId = [];
+    _.map(getUser.response.docs, item => {
+      const id = item.id;
+      projectId.push(id);
+    });
+    // const getReferral = await this.referral.getReferralByProjectId(projectId);
+
+    return getUser;
   }
 }
 
