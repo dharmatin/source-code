@@ -9,7 +9,6 @@ const { client: ReferralClient } = new MysqlClient(DATABASE_NAME);
 
 class ReferralDao {
   referral: Object;
-  agentReferral: Object | AgentReferral;
 
   constructor() {
     this.referral = ReferralClient.define('agent_referral', {
@@ -129,7 +128,7 @@ class ReferralDao {
   }
 
   async getLatestReferralRequest(parameters: Object): Promise<AgentReferral> {
-    this.agentReferral = {};
+    let agentReferral: Object | AgentReferral = {};
     const referral = await this.referral.findOne({
       where: {
         userId: parameters.userId,
@@ -139,9 +138,9 @@ class ReferralDao {
       order: [['createdDate', 'DESC']]
     });
 
-    if (referral) this.agentReferral = referral.get();
+    if (referral) agentReferral = referral.get();
 
-    return this.agentReferral;
+    return agentReferral;
   }
 }
 
