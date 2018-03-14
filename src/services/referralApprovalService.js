@@ -32,7 +32,7 @@ export class ReferralApprovalService {
 
   async isApproved(): Promise<boolean> {
     const referral = await this.getLatestRefferal();
-    if (!_.isNil(referral)) {
+    if (!_.isEmpty(referral)) {
       const affectedRowsUpdated = await this.updateLatestReferral(referral);
       return affectedRowsUpdated > 0;
     } else {
