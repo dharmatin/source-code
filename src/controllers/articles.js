@@ -7,20 +7,16 @@ import { handleNotFound, handleInternalServerError, handleSuccess } from '../lib
 @web.basePath('/v1/articles')
 
 class ArticlesController extends BaseController {
-  @web.get('/:category')
+  @web.get('/categories/primary-pdp')
   async findArticlesReferalProjectAction(req, res, next) {
     let queryString = req.query;
 
     try {
-      if (req.params.category !== 'primary-pdp') {
-        handleNotFound(res);
-      }
-
       const params = {
         page: Number(queryString.pageToken) || 1,
         limit: Number(queryString.pageSize) || 4,
         projectId: queryString.projectId
-      }
+      };
 
       const articles = await articlesService.getArticlesByTags(params);
 
