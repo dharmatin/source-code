@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import Sequelize from 'sequelize';
 import emailQueueDao from '../dao/emailQueue';
 import type { EmailQueue } from '../dao/emailQueue/type';
@@ -47,11 +48,11 @@ export class EmailQueueService {
     return this;
   }
 
-  async save(): Object {
+  async save(): boolean {
     this.setEmailQueue(this);
     const result = await this.emailQueueDao.save(this.getEmailQueue());
 
-    return result;
+    return !_.isEmpty(result);
   }
 
   getEmailQueue(): EmailQueue {

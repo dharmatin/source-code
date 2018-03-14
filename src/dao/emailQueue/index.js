@@ -1,6 +1,5 @@
 // @flow
 import Sequelize from 'sequelize';
-import _ from 'lodash';
 import MysqlClient from '../../libs/connections/MysqlClient';
 import type { EmailQueue } from './type';
 
@@ -71,7 +70,7 @@ class EmailQueueDao {
 
   async save(value: EmailQueue): Promise<boolean> {
     const result = await this.emailQueueModel.create(value);
-    return !_.isEmpty(result);
+    return result;
   }
 }
 
