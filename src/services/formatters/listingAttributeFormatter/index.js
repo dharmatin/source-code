@@ -85,43 +85,43 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
     attribute.electricity = dataAttributes.electricity.toString();
   }
 
-  let bathRoom = '';
+  let bathroom = '';
   if (
-    !_.isNil(dataAttributes.bathRoomMin) &&
-    !_.isNil(dataAttributes.bathRoomMax)
+    !_.isNil(dataAttributes.bathroomMin) &&
+    !_.isNil(dataAttributes.bathroomMax)
   ) {
-    bathRoom = formatConfigAttributeRangeValues({
-      min: dataAttributes.bathRoomMin,
-      max: dataAttributes.bathRoomMax
+    bathroom = formatConfigAttributeRangeValues({
+      min: dataAttributes.bathroomMin,
+      max: dataAttributes.bathroomMax
     });
-  } else if (!_.isNil(dataAttributes.bathRoom)) {
-    bathRoom = dataAttributes.bathRoom.toLocaleString(
+  } else if (!_.isNil(dataAttributes.bathroom)) {
+    bathroom = dataAttributes.bathroom.toLocaleString(
       config.lang
     );
   }
 
-  if (bathRoom !== '') {
-    attribute.bathRoom = bathRoom;
+  if (bathroom !== '') {
+    attribute.bathroom = bathroom;
   }
 
-  let bedRoom = '';
+  let bedroom = '';
   if (
-    !_.isNil(dataAttributes.bedRoomMin) &&
-    !_.isNil(dataAttributes.bedRoomMax)
+    !_.isNil(dataAttributes.bedroomMin) &&
+    !_.isNil(dataAttributes.bedroomMax)
   ) {
-    bedRoom = formatConfigAttributeRangeValues({
-      min: dataAttributes.bedRoomMin,
-      max: dataAttributes.bedRoomMax
+    bedroom = formatConfigAttributeRangeValues({
+      min: dataAttributes.bedroomMin,
+      max: dataAttributes.bedroomMax
     });
 
-  } else if (!_.isNil(dataAttributes.bedRoom)) {
-    bedRoom = dataAttributes.bedRoom.toLocaleString(
+  } else if (!_.isNil(dataAttributes.bedroom)) {
+    bedroom = dataAttributes.bedroom.toLocaleString(
       config.lang
     );
   }
 
-  if (bedRoom !== '') {
-    attribute.bedRoom = bedRoom;
+  if (bedroom !== '') {
+    attribute.bedroom = bedroom;
   }
 
   if (
