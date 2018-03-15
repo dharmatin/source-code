@@ -62,10 +62,10 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     geoCoordinate: _.split(projectProfilePage.latlng, ','),
   });
   response.attributes = listingAttributeFormatter.formatAttributesInfo({
-    bedRoomMin: projectProfilePage.bedroom_min,
-    bedRoomMax: projectProfilePage.bedroom_max,
-    bathRoomMin: projectProfilePage.bathroom_min,
-    bathRoomMax: projectProfilePage.bathroom_max,
+    bedroomMin: projectProfilePage.bedroom_min,
+    bedroomMax: projectProfilePage.bedroom_max,
+    bathroomMin: projectProfilePage.bathroom_min,
+    bathroomMax: projectProfilePage.bathroom_max,
     carParkMin: projectProfilePage.garage_min,
     carParkMax: projectProfilePage.garage_max,
     totalUnits: projectProfilePage.qty_unit,
@@ -188,8 +188,8 @@ const formatChildListing = (
       internet: listing.connectivity,
       landArea: listing.land_size,
       builtUp: listing.building_size,
-      bedRoom: listing.bedroom,
-      bathRoom: listing.bathroom,
+      bedroom: listing.bedroom,
+      bathroom: listing.bathroom,
       electricity: listing.electricity,
       phoneLine: listing.phoneline,
       carPark: listing.garage
