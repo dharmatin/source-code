@@ -5,7 +5,6 @@ import type { Article } from './types';
 import {
   getUrlSharpie,
   toISOFormatting,
-  getFirstParagraph,
   slugify,
 } from '../../../libs/utility';
 import config from '../../../config';
@@ -34,13 +33,32 @@ export const formatAttributesArticle = (
       publishedAt: toISOFormatting(item.pubdate),
     };
   });
-  const nextPageToken = Number(params.start) + 1;
 
-  return {
-    title: 'news',
-    kind: 'article#list',
-    articles: articleList,
-    nextPageToken: nextPageToken.toString(),
-    totalCount: articles.response.numFound,
-  };
+  const totalNumber = articles.response.numFound;
+  const nextPageToken = ((params.page * params.rows >= totalNumber) ? params.page : params.page + 1).toString();
+  const result = {};
+
+  if (articleList.length > 0) {
+    result.title = 'news';
+    result.kind = 'article#list';
+    result.articles = articleList;
+    if (nextPageToken > params.page) {
+      result.nextPageToken = nextPageToken;
+    }
+    result.totalCount = totalNumber;
+  } else {
+    result.totalCount = 0;
+  }
+
+  return result;
+};
+
+export const getFirstParagraph = (html: string): string => {
+  const result = splitHtmlByParagraph(html);
+  return !_.isNil(result[0]) ? result[0].replace(/<[^>]+>/ig, '') : '';
+};
+
+export const splitHtmlByParagraph = (html: string): any => {
+  const paragraph = html.match(/<\s*?p\b[^>]*>(.+)<\/p\b[^>]*>/g);
+  return paragraph;
 };

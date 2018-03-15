@@ -37,14 +37,6 @@ export const toISOFormatting = (date: string): string => {
   return explodeDateTime[0] + 'T' + explodeDateTime[1] + '+07:00';
 };
 
-export const getFirstParagraph = (html: string): string => {
-  const splitHtml = html.split('<p');
-  const validateHtml = '<p' + splitHtml[1];
-  const regex = /(<([^>]+)>)/gi;
-  const cleanContent = validateHtml.replace(regex, '');
-  return cleanContent.replace('\r\n', '');
-};
-
 export const extractListingId = (adsId: string): Object => {
   const id = adsId.substr(3);
   const category = adsId.substr(2, 1);
