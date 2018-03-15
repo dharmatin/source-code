@@ -58,8 +58,8 @@ export class ReferralRequestService {
       projectId.push(id.id);
     });
     const getReferral = await this.referral.getReferralByProjectId(projectId);
-    console.log('di sini', getReferral[0].get());
-    return getUser;
+
+    return getReferral;
   }
 }
 

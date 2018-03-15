@@ -35,6 +35,10 @@ class ReferralDao {
         type: Sequelize.STRING(2),
         field: 'property_type',
       },
+      referralReason: {
+        type: Sequelize.TEXT,
+        field: 'referral_reason',
+      },
       propertyCategory: {
         type: Sequelize.STRING(2),
         field: 'property_category',
@@ -117,25 +121,28 @@ class ReferralDao {
     return (referral) ? referral.get() : {};
   }
 
-  async getReferralByProjectId(projectId: Array): Object {
+  async getReferralByProjectId(projectId: Array<number>): Promise<AgentReferral | Object> {
     const condition = _.assign(
       {
-        referralStatus: config.STATUS_REFERRAL.APPROVED,
         adsProjectId: {
           [Sequelize.Op.in]: projectId,
+        },
+        referralStatus: {
+          [Sequelize.Op.in]: [config.STATUS_REFERRAL.PENDING, config.STATUS_REFERRAL.APPROVED],
         },
       },
     );
     const query = {
-      // order: [['referralStatus', 'DESC']],
-      where: condition,
+      order: [['createdDate', 'DESC']],
+      where: condition
     };
-    console.log('getReferral');
+
     let referral = await this.referral.findAll(query);
-    return (referral.length > 0) ?
-      _map(referral, (item) => {
-        return item.get();
-      }) : {};
+    return referral;
+
+    _.map(articles, (item): Object => {
+      return item;
+    });
   }
 }
 
