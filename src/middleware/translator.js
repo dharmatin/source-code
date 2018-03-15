@@ -6,7 +6,7 @@ import { handleForbidden } from '../libs/responseHandler';
 export const setTranslator = async (req: any, res: any, next: any) => {
   const lang = req.acceptsLanguages('en', 'id');
   if (!lang) {
-    handleForbidden(res);
+    handleForbiddenLanguage(res);
   } else {
     const translator = require(`../config/locales/${lang}.json`);
     config.lang = lang;

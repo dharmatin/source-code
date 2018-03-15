@@ -58,7 +58,7 @@ export const handleResponseMessage = (response, message) => {
     .end();
 };
 
-export const handleForbidden = response => {
+export const handleForbiddenLanguage = response => {
   response
     .set('Content-Type', 'application/json')
     .status(403)
