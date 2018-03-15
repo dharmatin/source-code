@@ -15,8 +15,12 @@ export const formatSuggestionProjects = (
   projectListing: Object,
   pagingRequest: Object
 ): SuggestionProject => {
-  if (projectListing.docs.length === 0) {
+  if (projectListing.numFound === 0) {
     return {};
+  } else if (projectListing.docs.length === 0) {
+    return {
+      totalCount: 0
+    };
   } else {
     return formatRelatedProjects(projectListing.docs, projectListing.numFound, pagingRequest)
   }
@@ -103,6 +107,8 @@ const formatRelatedProjects = (
   });
   response.items = listings;
   response.totalCount = totalNumber;
-  response.nextPageToken = ((pagingRequest.pageToken * pagingRequest.pageSize >= totalNumber) ? pagingRequest.pageToken : pagingRequest.pageToken + 1).toString();
+  if ( (pagingRequest.pageToken * pagingRequest.pageSize) < totalNumber ) {
+    response.nextPageToken = (pagingRequest.pageToken + 1).toString();
+  }
   return response;
 };
