@@ -12,5 +12,5 @@ export type EmailQueue = {
   status: number,
   createdDate: Date,
   sendDate: Date,
-  sentDate: Date
+  sentDate: Date,
 };

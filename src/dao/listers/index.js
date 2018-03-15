@@ -9,5 +9,5 @@ export default {
     const conditionQ = `id:${id}`;
     const queryListerById = listerClient.createQuery().q(conditionQ);
     return listerClient.searchAsync(queryListerById);
-  }
+  },
 };

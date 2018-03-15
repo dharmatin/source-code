@@ -16,9 +16,7 @@ export class ListerService {
       throw new Error('Solr search error!');
     }
 
-    return formatListerProfile(
-      result.response
-    );
+    return formatListerProfile(result.response);
   }
 }
 

@@ -4,5 +4,5 @@ export type Article = {
   kind: string,
   articles: Array<Object>,
   nextPageToken: string,
-  totalCount: number
+  totalCount: number,
 };
