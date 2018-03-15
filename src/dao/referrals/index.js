@@ -72,7 +72,10 @@ class ReferralDao {
     });
   }
 
-  async requestReferral(userId: number, referralListingId: AgentReferral): Promise<AgentReferral | Object> {
+  async requestReferral(
+    userId: number,
+    referralListingId: AgentReferral
+  ): Promise<AgentReferral | Object> {
     const query = _.assign(
       {
         userId: userId,
@@ -82,15 +85,21 @@ class ReferralDao {
       referralListingId
     );
     const referral = await this.referral.create(query);
-    return (referral) ? referral.get() : {};
+    return referral ? referral.get() : {};
   }
 
-  async checkReferral(userId: number, referralListingId: AgentReferral): Promise<AgentReferral | Object> {
+  async checkReferral(
+    userId: number,
+    referralListingId: AgentReferral
+  ): Promise<AgentReferral | Object> {
     const condition = _.assign(
       {
         userId: userId,
         referralStatus: {
-          [Sequelize.Op.in]: [config.STATUS_REFERRAL.PENDING, config.STATUS_REFERRAL.APPROVED],
+          [Sequelize.Op.in]: [
+            config.STATUS_REFERRAL.PENDING,
+            config.STATUS_REFERRAL.APPROVED,
+          ],
         },
       },
       referralListingId
@@ -100,27 +109,32 @@ class ReferralDao {
       where: condition,
     };
     const referral = await this.referral.findOne(query);
-    return (referral) ? referral.get() : {};
+    return referral ? referral.get() : {};
   }
 
-  async updateRefferalById(id: number, value: AgentReferral): Promise<Array<number>> {
+  async updateRefferalById(
+    id: number,
+    value: AgentReferral
+  ): Promise<Array<number>> {
     const affectedRow = await this.referral.update(value, {
-      where: {agentReferralId: id}
+      where: { agentReferralId: id },
     });
 
     return affectedRow;
   }
 
-  async getLatestReferralRequest(parameters: Object): Promise<AgentReferral | Object> {
+  async getLatestReferralRequest(
+    parameters: Object
+  ): Promise<AgentReferral | Object> {
     const referral = await this.referral.findOne({
       where: {
         userId: parameters.userId,
         adsProjectId: parameters.adsProjectId,
-        referralStatus: parameters.referralStatus
+        referralStatus: parameters.referralStatus,
       },
-      order: [['createdDate', 'DESC']]
+      order: [['createdDate', 'DESC']],
     });
-    return (referral) ? referral.get() : {};
+    return referral ? referral.get() : {};
   }
 }
 

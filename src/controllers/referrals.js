@@ -9,7 +9,7 @@ import { isValidCustomer, isValidDeveloper } from '../middleware/userGroup';
 import {
   handleInternalServerError,
   handleSuccess,
-  handleResponseMessage
+  handleResponseMessage,
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/referrals/listings')
@@ -33,7 +33,10 @@ class ReferralsController extends BaseController {
   @web.post('/:listingId/listers/:listerId', [isValidDeveloper])
   async approveReferral(req, res) {
     try {
-      const result = await referralApprovalService.requestApprove(req.params.listerId, req.params.listingId);
+      const result = await referralApprovalService.requestApprove(
+        req.params.listerId,
+        req.params.listingId
+      );
       if (result) {
         handleResponseMessage(res, 'success');
       } else {
@@ -51,7 +54,7 @@ class ReferralsController extends BaseController {
       const result = await referralRejectionService.rejectReferral({
         listerId: req.params.listerId,
         listingId: req.params.listingId,
-        referralReason: req.body.Reason
+        referralReason: req.body.Reason,
       });
       if (result) {
         handleResponseMessage(res, 'success');

@@ -2,7 +2,12 @@
 import _ from 'lodash';
 import Serialization from 'php-serialization';
 import type { Article } from './types';
-import { getUrlSharpie, toISOFormatting, getFirstParagraph, slugify } from '../../../libs/utility';
+import {
+  getUrlSharpie,
+  toISOFormatting,
+  getFirstParagraph,
+  slugify,
+} from '../../../libs/utility';
 import config from '../../../config';
 import { stringify } from 'querystring';
 
@@ -19,14 +24,14 @@ export const formatAttributesArticle = (
       cover: {
         media: {
           type: 'image',
-          url: getUrlSharpie(unserializeImage.key, true)
-        }
+          url: getUrlSharpie(unserializeImage.key, true),
+        },
       },
       title: item.title,
       snippet: getFirstParagraph(item.content),
       createdAt: toISOFormatting(item.post_date),
       updatedAt: toISOFormatting(item.post_modified),
-      publishedAt: toISOFormatting(item.pubdate)
+      publishedAt: toISOFormatting(item.pubdate),
     };
   });
   const nextPageToken = Number(params.start) + 1;

@@ -26,7 +26,7 @@ export class ArticlesService {
       projectName: listingSearch.response.docs[0].project_name,
       developerName: listingSearch.response.docs[0].developer_name,
       start,
-      rows: params.limit
+      rows: params.limit,
     };
 
     const result = await this.articles.getArticleByTags(articleParams);

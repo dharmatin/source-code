@@ -19,10 +19,14 @@ export const formatSuggestionProjects = (
     return {};
   } else if (projectListing.docs.length === 0) {
     return {
-      totalCount: 0
+      totalCount: 0,
     };
   } else {
-    return formatRelatedProjects(projectListing.docs, projectListing.numFound, pagingRequest)
+    return formatRelatedProjects(
+      projectListing.docs,
+      projectListing.numFound,
+      pagingRequest
+    );
   }
 };
 
@@ -43,13 +47,11 @@ const formatRelatedProjects = (
       listing.is_premium,
       listing.is_gts
     );
-    dataListing.shareLink = listingFormatter.formatProjectProfilePageLink(
-      {
-        projectName: listing.project_name,
-        city: listing.city_name,
-        id: listing.id,
-      }
-    );
+    dataListing.shareLink = listingFormatter.formatProjectProfilePageLink({
+      projectName: listing.project_name,
+      city: listing.city_name,
+      id: listing.id,
+    });
     dataListing.description = listing.description;
     dataListing.cover = mediaFormatter.formatImageCover(
       JSON.parse(listing.image)[0]
@@ -77,38 +79,38 @@ const formatRelatedProjects = (
       geoCoordinate: _.split(listing.latlng, ','),
     });
 
-    dataListing.organisations = organisationFormatter.formatDeveloperInfo(
-      {
-        id: listing.developer_company_id,
-        name: listing.developer_name,
-        color: listing.developer_brandcolor,
-        email: listing.ads_email,
-        additionalEmail: listing.ads_email2,
-        mainContact: listing.ads_contact,
-        secondaryContact: listing.ads_contact2,
-        whatsapp: listing.project_whatsapp,
-        city: listing.developer_city,
-        province: listing.developer_province,
-        district: listing.developer_district,
-        address: listing.developer_address,
-        logo: listing.developer_logo,
-      }
-    );
+    dataListing.organisations = organisationFormatter.formatDeveloperInfo({
+      id: listing.developer_company_id,
+      name: listing.developer_name,
+      color: listing.developer_brandcolor,
+      email: listing.ads_email,
+      additionalEmail: listing.ads_email2,
+      mainContact: listing.ads_contact,
+      secondaryContact: listing.ads_contact2,
+      whatsapp: listing.project_whatsapp,
+      city: listing.developer_city,
+      province: listing.developer_province,
+      district: listing.developer_district,
+      address: listing.developer_address,
+      logo: listing.developer_logo,
+    });
 
     dataListing.attributes = listingAttributeFormatter.formatAttributesInfo({
       landArea: listing.land_size,
       builtUpMin: listing.building_size_min,
       builtUpMax: listing.building_size_max,
       landAreaMin: listing.land_size_min,
-      landAreaMax: listing.land_size_max
+      landAreaMax: listing.land_size_max,
     });
 
     listings.push(dataListing);
   });
   response.items = listings;
   response.totalCount = totalNumber;
-  
-  if ( (pagingRequest.pageToken * pagingRequest.pageSize) < totalNumber && totalNumber > 1) {
+  if (
+    (pagingRequest.pageToken + 1) * pagingRequest.pageSize <= totalNumber &&
+    totalNumber > 1
+  ) {
     response.nextPageToken = (pagingRequest.pageToken + 1).toString();
   }
   return response;
