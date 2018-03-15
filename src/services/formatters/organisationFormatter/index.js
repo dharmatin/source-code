@@ -20,12 +20,10 @@ export const formatDeveloperInfo = (
     dataDeveloper.logo,
     config.image.baseUrl
   );
-  organisation.website = formatDeveloperLink(
-    {
-      name: dataDeveloper.name,
-      id: dataDeveloper.id,
-    }
-  );
+  organisation.website = formatDeveloperLink({
+    name: dataDeveloper.name,
+    id: dataDeveloper.id,
+  });
 
   organisation.contact = contactFormatter.formatContactInfo({
     mainContact: dataDeveloper.mainContact,
@@ -51,10 +49,11 @@ export const formatDeveloperInfo = (
   return organisations;
 };
 
-export const formatDeveloperLink = (
-  developer: Object
-): string => {
-  let formatUrl = config.lang === 'id' ? '/properti-baru/developer/' : '/en/new-property/developer/';
+export const formatDeveloperLink = (developer: Object): string => {
+  let formatUrl =
+    config.lang === 'id'
+      ? '/properti-baru/developer/'
+      : '/en/new-property/developer/';
   formatUrl += slugify(developer.name) + '/' + developer.id;
 
   return config.url.base + formatUrl;

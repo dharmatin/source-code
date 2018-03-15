@@ -53,7 +53,7 @@ export const handleResponseMessage = (response, message) => {
     .set('Content-Type', 'application/json')
     .status(200)
     .send({
-      message: message
+      message: message,
     })
     .end();
 };

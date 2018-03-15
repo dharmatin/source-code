@@ -24,13 +24,13 @@ export default {
     excludeProjectId: string,
     paging: Object
   ): Object => {
-    
     let conditionQ = `developer_company_id:${id}`;
     if (!_.isEmpty(excludeProjectId)) {
       conditionQ += ` AND -id:${excludeProjectId}`;
     }
 
-    const pageStart = paging.pageToken === 0 ? 0 : (paging.pageToken - 1) * paging.pageSize;
+    const pageStart =
+      paging.pageToken === 0 ? 0 : (paging.pageToken - 1) * paging.pageSize;
 
     const queryListingById = listingClient
       .createQuery()
@@ -46,5 +46,5 @@ export default {
       .q(conditionQ)
       .matchFilter('en_project_access', '[* TO *]');
     return listingClient.searchAsync(queryProjectAccess);
-  }
+  },
 };

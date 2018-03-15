@@ -12,5 +12,5 @@ export type AgentReferral = {
   createdDate: Date,
   approvedDate: Date,
   rejectedDate: Date,
-  removedDate: Date
+  removedDate: Date,
 };

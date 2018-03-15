@@ -46,7 +46,9 @@ export const formatFeatures = (facilities: Array<string>): Array<Features> => {
 
 export const formatPropertyType = (propertyType: Array<string>): string => {
   const propertyTypeResponse = _.map(propertyType, item => {
-    return `${config.translator.long_property_type[config.PROPERTY_TYPE[item]]}`;
+    return `${
+      config.translator.long_property_type[config.PROPERTY_TYPE[item]]
+    }`;
   }).join(' / ');
 
   return propertyTypeResponse;
@@ -59,6 +61,6 @@ export const formatProjectProfilePageLink = (
 
   let formatUrl = config.lang === 'id' ? '/properti/' : '/en/property/';
   formatUrl += slugify(city) + '/' + slugify(projectName) + '/' + id;
-  
+
   return config.url.newlaunch + formatUrl;
 };
