@@ -1,7 +1,7 @@
 // @flow
 import config from '../config';
 import userInfoTokenService from '../services/userInfoTokenService';
-import { handleForbidden } from '../libs/responseHandler';
+import { handleForbidden, handleForbiddenLanguage } from '../libs/responseHandler';
 
 export const setTranslator = async (req: any, res: any, next: any) => {
   const lang = req.acceptsLanguages('en', 'id');
