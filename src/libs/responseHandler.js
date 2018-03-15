@@ -61,7 +61,7 @@ export const handleResponseMessage = (response, message) => {
 export const handleForbidden = response => {
   response
     .set('Content-Type', 'application/json')
-    .status(401)
+    .status(403)
     .send({
         message: 'Forbidden'
     })
