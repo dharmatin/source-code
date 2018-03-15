@@ -3,7 +3,6 @@ import articleCore from '../dao/articles';
 import listingCore from '../dao/listings';
 import _ from 'lodash';
 import { formatAttributesArticle } from './formatters/articlesFormatter';
-import { handleNotFound } from '../libs/responseHandler';
 
 export class ArticlesService {
   articles: Object;
