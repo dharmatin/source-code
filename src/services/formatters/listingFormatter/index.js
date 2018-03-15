@@ -59,6 +59,6 @@ export const formatProjectProfilePageLink = (
 
   let formatUrl = config.lang === 'id' ? '/properti/' : '/en/property/';
   formatUrl += slugify(city) + '/' + slugify(projectName) + '/' + id;
-  
+
   return config.url.newlaunch + formatUrl;
 };

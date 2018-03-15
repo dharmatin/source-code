@@ -30,14 +30,6 @@ export const toISOFormatting = (date: string): string => {
   return explodeDateTime[0] + 'T' + explodeDateTime[1] + '+07:00';
 };
 
-export const getFirstParagraph = (html: string): string => {
-  const splitHtml = html.split('<p');
-  const validateHtml = '<p' + splitHtml[1];
-  const regex = /(<([^>]+)>)/ig;
-  const cleanContent = validateHtml.replace(regex, '');
-  return cleanContent.replace('\r\n', '');
-};
-
 export const extractListingId = (adsId: string): Object => {
   const id = adsId.substr(3);
   const category = adsId.substr(2, 1);
@@ -61,7 +53,7 @@ export const getRequestForPagingParam = (req: any, defaultPageSize: number): Obj
     pageSize: defaultPageSize,
     pageToken: 0
   };
-  
+
   if (!_.isNil(req.query.pageSize)) {
     const pageSize = parseInt(req.query.pageSize);
     if (!_.isNaN(pageSize)) {
@@ -72,9 +64,10 @@ export const getRequestForPagingParam = (req: any, defaultPageSize: number): Obj
   if (!_.isNil(req.query.pageToken)) {
     const pageToken = parseInt(req.query.pageToken);
     if (!_.isNaN(pageToken)) {
-      paging.pageToken = Math.abs(pageToken); 
+      paging.pageToken = Math.abs(pageToken);
     }
   }
 
   return paging;
 }
+;

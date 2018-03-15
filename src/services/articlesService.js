@@ -3,6 +3,7 @@ import articleCore from '../dao/articles';
 import listingCore from '../dao/listings';
 import _ from 'lodash';
 import { formatAttributesArticle } from './formatters/articlesFormatter';
+import { handleNotFound } from '../libs/responseHandler';
 
 export class ArticlesService {
   articles: Object;
@@ -25,8 +26,9 @@ export class ArticlesService {
     const articleParams = {
       projectName: listingSearch.response.docs[0].project_name,
       developerName: listingSearch.response.docs[0].developer_name,
-      start,
-      rows: params.limit
+      page: params.page,
+      rows: params.limit,
+      start: start
     };
 
     const result = await this.articles.getArticleByTags(articleParams);
