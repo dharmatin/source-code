@@ -15,15 +15,8 @@ class ListingsController extends BaseController {
   @web.get('/:id')
   async findAllProjectProfilePageByIdAction(req, res, next) {
     try {
-      let listerId = 0;
       let referralCode = '';
-      if (
-        !_.isNil(req.userInfo) &&
-        parseInt(req.userInfo.userGroup) === config.USER_GROUP.CUSTOMER
-      ) {
-        listerId = req.userInfo.userID;
-      }
-
+      
       if (
         !_.isNil(req.query.referralCode) &&
         !_.isEmpty(req.query.referralCode)
@@ -33,7 +26,6 @@ class ListingsController extends BaseController {
 
       const listings = await projectProfileService.getProjectProfile({
         id: req.params.id,
-        listerId: listerId,
         referralCode: referralCode,
       });
 

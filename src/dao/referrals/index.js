@@ -136,6 +136,20 @@ class ReferralDao {
     });
     return referral ? referral.get() : {};
   }
+
+  async getReferralByCodeAndListingId(dataReferral: Object): Promise<string> {
+    const conditionQ = {
+        referral_status: config.STATUS_REFERRAL.APPROVED,
+        ...dataReferral
+      };
+    
+    const referral = await this.referral.findOne({
+      where: conditionQ,
+      raw: true
+    });
+    
+    return referral;
+  }
 }
 
 export default new ReferralDao();

@@ -16,9 +16,14 @@ export const formatProjectProfile = (
   childListings: Object,
   lister: Object
 ): ProjectProfilePage => {
-  return _.merge({}, formatProject(projectListing.docs[0], lister), {
-    properties: formatChildListing(childListings.docs),
-  });
+  if (!_.isEmpty(projectListing)) {
+    return _.merge({}, formatProject(projectListing.docs[0], lister), {
+      properties: formatChildListing(childListings.docs),
+    });
+  } else {
+    return {};
+  }
+  
 };
 
 const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
@@ -74,7 +79,6 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
       : '',
   });
 
-  console.log(lister);
   if (!_.isEmpty(lister)) {
     response.listers = [{ ...lister }];
   }

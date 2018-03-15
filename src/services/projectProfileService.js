@@ -3,6 +3,7 @@ import listingCore from '../dao/listings';
 import { formatProjectProfile } from './formatters/projectProfileFormatter';
 import { formatSuggestionProjects } from './formatters/suggestionProjectFormatter';
 import { formatMultiLanguageAmenities } from './formatters/amenitiesFormatter';
+import ReferralListerService from './referralListerService';
 import ListerService from './listerService';
 import _ from 'lodash';
 
@@ -36,25 +37,28 @@ export class ListingService {
   async getProjectProfile(param: Object): Object {
     let childListingResult = {};
     let lister = {};
-    let listerId = '';
+    let listing = {}; 
 
     const result = await this.getListings(param.id);
     if (!_.isEmpty(result.response.docs[0])) {
+      listing = result.response;
       childListingResult = await this.getChildListings(param.id);
 
       if (Boolean(result.response.docs[0].is_referral)) {
+        let dataReferral = {};
         if (param.referralCode !== '') {
-          //const lister =
-          //lister =
-        } else if (param.listerId !== '') {
-          lister = await ListerService.getListerProfile(param.listerId);
+          dataReferral = await ReferralListerService.getListerByReferralCode(param.referralCode, listing.docs[0].id);
+          
+          if (!_.isNil(dataReferral)) {
+            lister = await ListerService.getListerProfile(dataReferral.userId);
+          }
         }
       }
     }
 
     return formatProjectProfile(
-      result.response,
-      childListingResult.response,
+      listing,
+      childListingResult,
       lister
     );
   }

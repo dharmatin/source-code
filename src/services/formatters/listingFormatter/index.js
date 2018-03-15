@@ -1,8 +1,8 @@
 // @flow
 import _ from 'lodash';
-import type { BannerSponsorship, Features } from './types';
+import type { BannerSponsorship, Features, ObjectListingId } from './types';
 import config from '../../../config';
-import { slugify } from '../../../libs/utility';
+import { slugify, extractListingId } from '../../../libs/utility';
 
 export const formatBannerSponsorship = (banner: Object): BannerSponsorship => {
   return !_.isNil(banner.link) ? banner : {};
@@ -64,3 +64,13 @@ export const formatProjectProfilePageLink = (
 
   return config.url.newlaunch + formatUrl;
 };
+
+export const formatListingIdToObjectId = (listingId: string): ObjectListingId => {
+  const listingDetail = extractListingId(listingId);
+  return {
+    adsProjectId: listingDetail.id,
+    propertyType: listingDetail.type,
+    propertyCategory: listingDetail.category,
+  };
+}
+

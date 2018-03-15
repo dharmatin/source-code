@@ -57,3 +57,13 @@ export const handleResponseMessage = (response, message) => {
     })
     .end();
 };
+
+export const handleForbidden = response => {
+  response
+    .set('Content-Type', 'application/json')
+    .status(401)
+    .send({
+        message: 'Forbidden'
+    })
+    .end();
+};
