@@ -17,7 +17,7 @@ export const handleBadRequest = response => {
 export const handleNotFound = response => {
   response
     .set('Content-Type', 'application/json')
-    .status(200)
+    .status(404)
     .send({
       error: {
         code: '3001',
