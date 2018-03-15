@@ -25,7 +25,11 @@ export class ListingService {
       throw new Error('Solr search Child listing error!');
     }
 
-    const lister = await ListerService.getListerProfile(param.listerId);
+    const lister = {};
+    if (param.referralCode !== '') {
+      //lister = 
+    }
+    //const lister = await ListerService.getListerProfile(param.listerId);
 
     return formatProjectProfile(
       result.response,
