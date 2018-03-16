@@ -16,7 +16,7 @@ export const formatStatusReferral = (
   if (!_.isEmpty(dataListing) > 0 && !_.isEmpty(dataListing.attachments)) {
     const attachments = JSON.parse(JSON.stringify(JSON.parse(dataListing.attachments)));
     if (!_.isEmpty(attachments.toc)) {
-      response.referralToc = config.image.baseUrl + '/' + attachments.toc;
+      response.termsAndCondition = config.image.baseUrl + '/' + attachments.toc;
     }
   }
 
@@ -44,8 +44,4 @@ const labelStatusReferral = (status: number): string => {
   }
 
   return result;
-}
-
-export const formatUrlReferral = (code: string): string => {
-  return 'http://www.rumah123.com';
 }

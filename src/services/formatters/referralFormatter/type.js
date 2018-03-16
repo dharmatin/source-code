@@ -3,5 +3,5 @@ export type Referral = {
   referralToken: string,
   shareLink: string,
   status: string,
+  termsAndCondition: string
 };
-  
