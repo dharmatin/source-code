@@ -45,7 +45,7 @@ export class ReferralRejectionService {
     const referral: AgentReferral = await referralDao.getLatestReferralRequest({
       userId: this._getListerId(),
       adsProjectId: this._getListingId(),
-      referralStatus: config.STATUS_REFERRAL.PENDING
+      referralStatus: config.STATUS_REFERRAL.PENDING,
     });
 
     return referral;
@@ -55,9 +55,12 @@ export class ReferralRejectionService {
     const approvedData: Object = {
       referralStatus: config.STATUS_REFERRAL.REJECT,
       referralReason: this._getReferralReason(),
-      rejectedDate: Sequelize.fn('NOW', 3)
+      rejectedDate: Sequelize.fn('NOW', 3),
     };
-    const affectedRows = await referralDao.updateRefferalById(referral.agentReferralId, approvedData);
+    const affectedRows = await referralDao.updateRefferalById(
+      referral.agentReferralId,
+      approvedData
+    );
 
     return affectedRows;
   }

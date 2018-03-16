@@ -9,16 +9,14 @@ export class ListerService {
     this.listers = listers;
   }
 
-  async getListerProfile(listerId: string): Object {
+  async getListerProfile(listerId: number): Object {
     const result = await this.listers.searchLister(listerId);
     const status = result.responseHeader.status;
     if (status !== 0) {
       throw new Error('Solr search error!');
     }
 
-    return formatListerProfile(
-      result.response
-    );
+    return formatListerProfile(result.response);
   }
 }
 

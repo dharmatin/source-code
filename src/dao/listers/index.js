@@ -5,9 +5,9 @@ const LISTER_CORE = 'user';
 const { client: listerClient } = new SolrClient(LISTER_CORE);
 
 export default {
-  searchLister: async (id: string): Object => {
+  searchLister: async (id: number): Object => {
     const conditionQ = `id:${id}`;
     const queryListerById = listerClient.createQuery().q(conditionQ);
     return listerClient.searchAsync(queryListerById);
-  }
+  },
 };

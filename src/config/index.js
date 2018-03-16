@@ -13,8 +13,8 @@ _.merge(
   connection[process.env.NODE_ENV],
   common[process.env.NODE_ENV],
   constants,
-  {lang: 'en'},
-  {translator: {}}
+  { lang: 'en' },
+  { translator: {} }
 );
 
 export default config;

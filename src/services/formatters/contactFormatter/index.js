@@ -4,25 +4,25 @@ import type { Phone, Contact } from './types';
 
 const formatPhoneInfo = (dataPhones: Object): Array<Phone> => {
   const phones = [];
-  
+
   if (dataPhones.mainContact !== '') {
     phones.push({
       label: 'LandLine',
-      number: '+' + dataPhones.mainContact.toString()
+      number: '+' + dataPhones.mainContact.toString(),
     });
   }
 
   if (dataPhones.secondaryContact !== '') {
     phones.push({
       label: 'LandLine',
-      number: '+' + dataPhones.secondaryContact.toString()
+      number: '+' + dataPhones.secondaryContact.toString(),
     });
   }
 
   if (dataPhones.whatsapp !== '') {
     phones.push({
       label: 'Whatsapp',
-      number: dataPhones.whatsapp.toString()
+      number: dataPhones.whatsapp.toString(),
     });
   }
 

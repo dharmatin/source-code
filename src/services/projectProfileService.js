@@ -3,7 +3,9 @@ import listingCore from '../dao/listings';
 import { formatProjectProfile } from './formatters/projectProfileFormatter';
 import { formatSuggestionProjects } from './formatters/suggestionProjectFormatter';
 import { formatMultiLanguageAmenities } from './formatters/amenitiesFormatter';
+import ReferralListerService from './referralListerService';
 import ListerService from './listerService';
+import _ from 'lodash';
 
 export class ListingService {
   listings: Object;
@@ -12,28 +14,51 @@ export class ListingService {
     this.listings = listings;
   }
 
-  async getProjectProfile(param: Object): Object {
-    const result = await this.listings.searchProject(param.id);
+  async getChildListings(parentId: string): Object {
+    const result = await this.listings.searchChildListing(parentId);
     const status = result.responseHeader.status;
     if (status !== 0) {
-      throw new Error('Solr search error!');
-    }
-
-    const childListingResult = await this.listings.searchChildListing(param.id);
-    const childListingStatus = result.responseHeader.status;
-    if (childListingStatus !== 0) {
       throw new Error('Solr search Child listing error!');
     }
 
-    const lister = {};
-    if (param.referralCode !== '') {
-      //lister = 
+    return result;
+  }
+
+  async getListings(listingId: string): Object {
+    const result = await this.listings.searchProject(listingId);
+    const status = result.responseHeader.status;
+    if (status !== 0) {
+      throw new Error('Solr search listing error!');
     }
-    //const lister = await ListerService.getListerProfile(param.listerId);
+
+    return result;
+  }
+
+  async getProjectProfile(param: Object): Object {
+    let childListingResult = {};
+    let lister = {};
+    let listing = {}; 
+
+    const result = await this.getListings(param.id);
+    if (!_.isEmpty(result.response.docs[0])) {
+      listing = result.response;
+      childListingResult = await this.getChildListings(param.id);
+
+      if (Boolean(result.response.docs[0].is_referral)) {
+        let dataReferral = {};
+        if (param.referralCode !== '') {
+          dataReferral = await ReferralListerService.getListerByReferralCode(param.referralCode, listing.docs[0].id);
+          
+          if (!_.isNil(dataReferral)) {
+            lister = await ListerService.getListerProfile(dataReferral.userId);
+          }
+        }
+      }
+    }
 
     return formatProjectProfile(
-      result.response,
-      childListingResult.response,
+      listing,
+      childListingResult,
       lister
     );
   }
@@ -43,11 +68,10 @@ export class ListingService {
     excludeProjectId: string,
     pagingRequest: Object
   ): Object {
-    
     const result = await this.listings.searchProjectByOrganisation(
       organisationId,
       excludeProjectId,
-      pagingRequest,
+      pagingRequest
     );
 
     const status = result.responseHeader.status;
