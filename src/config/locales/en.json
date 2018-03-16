@@ -23,5 +23,30 @@
         "factory": "Factory",
         "commercialspace": "Commercial Space"
     },
-    "from": "From"
+    "from": "From",
+    "up_to": "Up to",
+    "contact_developer": "Contact Developer",
+    "area_unit": {
+        "sq_ft": "sq ft",
+        "sq_m": "sq m" 
+    },
+    "price_unit_short": {
+        "million": "M",
+        "billion": "B",
+        "trillion": "T"
+    },
+    "price_unit_long": {
+        "million": "Million",
+        "billion": "Billion",
+        "trillion": "Trillion"
+    },
+    "period": {
+        "year": "Year",
+        "month": "Month",
+        "day": "Day"
+    },
+    "ago": "a go",
+    "email_subject": {
+        "referral_request_granted": "Access Granted"
+    }
 }
