@@ -12,7 +12,7 @@ import { stringify } from 'querystring';
 
 export const formatAttributesArticle = (
   articles: Object,
-  params: Object
+  pagingRequest: Object
 ): Article => {
   const articleList = _.map(articles.response.docs, (item): Object => {
     const unserializeImage = Serialization.unserialize(item.meta_image_amazon);
@@ -35,14 +35,14 @@ export const formatAttributesArticle = (
   });
 
   const totalNumber = articles.response.numFound;
-  const nextPageToken = ((params.page * params.rows >= totalNumber) ? params.page : params.page + 1).toString();
+  const nextPageToken = ((pagingRequest.pageToken * pagingRequest.pageSize >= totalNumber) ? pagingRequest.pageToken : pagingRequest.pageToken + 1).toString();
   const result = {};
 
   if (articleList.length > 0) {
     result.title = 'news';
     result.kind = 'article#list';
     result.articles = articleList;
-    if (nextPageToken > params.page) {
+    if (nextPageToken > pagingRequest.pageToken) {
       result.nextPageToken = nextPageToken;
     }
     result.totalCount = totalNumber;

@@ -77,6 +77,6 @@ export const getRequestForPagingParam = (
       paging.pageToken = Math.abs(pageToken);
     }
   }
-
+  
   return paging;
 };

@@ -13,29 +13,25 @@ export class ArticlesService {
     this.listings = listings;
   }
 
-  async getArticlesByTags(params: Object): Object {
-    const listingSearch = await this.listings.searchProject(params.projectId);
+  async getArticlesByTags(projectId: string, pagingRequest: Object): Object {
+    const listingSearch = await this.listings.searchProject(projectId);
 
-    if (listingSearch.responseHeader.status !== 0) {
+    if (listingSearch.response.numFound === 0) {
       throw new Error('Solr error project not found');
     }
 
-    const start = (params.page - 1) * params.limit;
+    const tags = [
+      listingSearch.response.docs[0].project_name, 
+      listingSearch.response.docs[0].developer_name
+    ];
 
-    const articleParams = {
-      projectName: listingSearch.response.docs[0].project_name,
-      developerName: listingSearch.response.docs[0].developer_name,
-      page: params.page,
-      rows: params.limit,
-      start: start
-    };
+    const result = await this.articles.getArticleByTags(tags, pagingRequest);
 
-    const result = await this.articles.getArticleByTags(articleParams);
-    if (result.responseHeader.status !== 0) {
+    if (result.response.numFound === 0) {
       throw new Error('Solr error article not found!');
     }
 
-    return formatAttributesArticle(result, articleParams);
+    return formatAttributesArticle(result, pagingRequest);
   }
 }
 
