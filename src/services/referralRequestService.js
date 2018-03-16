@@ -3,6 +3,7 @@ import _ from 'lodash';
 import referralCore from '../dao/referrals';
 import listingCore from '../dao/listings';
 import { extractListingId } from '../libs/utility';
+import config from '../config';
 
 export class ReferralRequestService {
   referral: Object;
@@ -42,6 +43,15 @@ export class ReferralRequestService {
       this._getFormatingListingId()
     );
     return _.isEmpty(check);
+  }
+
+  async getLatestRefferal(listerId: number, listingId: string): Object {
+    const result = await this.referral.getLatestReferralRequest({
+      userId: listerId,
+      adsProjectId: extractListingId(listingId).id
+    });
+    console.log(result);
+    return result;
   }
 
   _setFormatListingId(listingId: string) {
