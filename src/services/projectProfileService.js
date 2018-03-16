@@ -55,7 +55,7 @@ export class ListingService {
         }
       }
     }
-
+    
     return formatProjectProfile(
       listing,
       childListingResult,

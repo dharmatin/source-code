@@ -62,6 +62,7 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     province: projectProfilePage.province_name,
     geoCoordinate: _.split(projectProfilePage.latlng, ','),
   });
+
   response.attributes = listingAttributeFormatter.formatAttributesInfo({
     bedroomMin: projectProfilePage.bedroom_min,
     bedroomMax: projectProfilePage.bedroom_max,

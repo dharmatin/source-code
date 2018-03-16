@@ -4,16 +4,16 @@ import userInfoTokenService from '../services/userInfoTokenService';
 import { handleForbiddenLanguage } from '../libs/responseHandler';
 
 export const setTranslator = async (req: any, res: any, next: any) => {
-  const lang = req.acceptsLanguages('en', 'id');
-  if (!lang) {
-    handleForbiddenLanguage(res);
-  } else {
-    const translator = require(`../config/locales/${lang}.json`);
-    config.lang = lang;
-    config.translator = translator;
-    req.lang = lang;
-    next();
+  let lang = 'id';
+  if (req.acceptsLanguages('en', 'id')) {
+    lang = req.acceptsLanguages('en', 'id');
   }
+
+  const translator = require(`../config/locales/${lang}.json`);
+  config.lang = lang;
+  config.translator = translator;
+  req.lang = lang;
+  next();
 };
 
 export default setTranslator;
