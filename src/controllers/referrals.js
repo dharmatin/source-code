@@ -71,12 +71,7 @@ class ReferralsController extends BaseController {
   async statusReferral(req, res) {
     try {
       const result = await referralRequestService.getLatestRefferal(req.userInfo.userID, req.params.listingId);
-      handleSuccess(res, {name: 'banu'});
-      /*if (result) {
-        handleResponseMessage(res, {name: 'banu'});
-      } else {
-        handleResponseMessage(res, 'failed');
-      }*/
+      handleSuccess(res, result);
     } catch (e) {
       handleInternalServerError(res);
       throw new Error(e);
