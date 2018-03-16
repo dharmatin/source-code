@@ -15,10 +15,17 @@ const constants = {
     cs: 'commercialspace',
   },
   STATUS_REFERRAL: {
-    APPROVED: 1,
     PENDING: -1,
     REJECT: 0,
+    APPROVED: 1,
     REMOVE: 2,
+  },
+  REFERRAL: {
+    INACTIVE: 'Inactive',
+    PENDING: 'Pending',
+    REJECT: 'Denied',
+    APPROVED: 'Approved',
+    REMOVE: 'Inactive'
   },
   USER_GROUP: {
     CUSTOMER: 2,
