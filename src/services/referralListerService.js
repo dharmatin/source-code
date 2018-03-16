@@ -3,8 +3,6 @@ import _ from 'lodash';
 import referralDao from '../dao/referrals';
 import type { AgentReferral } from '../dao/referrals/type';
 import { formatListingIdToObjectId } from './formatters/listingFormatter';
-
-//import { extractListingId, getReferralCode } from '../libs/utility';
 import config from '../config';
 
 export class ReferralListerService {
