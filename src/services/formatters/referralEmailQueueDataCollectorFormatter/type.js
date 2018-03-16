@@ -30,3 +30,11 @@ export type Organisation = {
   email: string,
   logo: string
 };
+
+export type EmailQueueData = {
+  from: string,
+  to: string,
+  jsonData: Object,
+  subject: string,
+  template: string
+};

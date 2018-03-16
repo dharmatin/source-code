@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import listingDao from '../dao/listings';
 import listerDao from '../dao/listers';
-import type { EmailQueueData } from './data/emailQueue/type';
+import type { EmailQueueData } from './formatters/referralEmailQueueDataCollectorFormatter/type';
 import { formatProject, formatLister, formatOrganisation } from './formatters/referralEmailQueueDataCollectorFormatter';
 import config from '../config';
 
