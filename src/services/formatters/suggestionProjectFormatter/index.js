@@ -107,8 +107,7 @@ const formatRelatedProjects = (
   });
   response.items = listings;
   response.totalCount = totalNumber;
-  console.log(pagingRequest.pageToken * pagingRequest.pageSize);
-  console.log(pagingRequest);
+  
   if (
     (pagingRequest.pageToken * pagingRequest.pageSize) < totalNumber &&
     totalNumber > 1

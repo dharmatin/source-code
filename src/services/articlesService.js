@@ -16,9 +16,11 @@ export class ArticlesService {
   async getArticlesByTags(projectId: string, pagingRequest: Object): Object {
     const listingSearch = await this.listings.searchProject(projectId);
 
-    if (listingSearch.response.numFound === 0) {
+    if (listingSearch.responseHeader.status !== 0)
       throw new Error('Solr error project not found');
-    }
+
+    if (listingSearch.response.numFound === 0)
+      return {}
 
     const tags = [
       listingSearch.response.docs[0].project_name, 
@@ -27,7 +29,7 @@ export class ArticlesService {
 
     const result = await this.articles.getArticleByTags(tags, pagingRequest);
 
-    if (result.response.numFound === 0) {
+    if (result.responseHeader.status !== 0) {
       throw new Error('Solr error article not found!');
     }
 
