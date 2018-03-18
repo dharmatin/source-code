@@ -2,14 +2,20 @@
 import _ from 'lodash';
 import referralCore from '../dao/referrals';
 import listingCore from '../dao/listings';
+import listerCore from '../dao/listers';
+import { extractListingId } from '../libs/utility';
+import { formatAttributesReferral } from './formatters/referralFormater';
+import { handleNotFound } from '../libs/responseHandler';
 
 export class ReferralService {
   referral: Object;
   listings: Object;
+  listers: Object;
 
-  constructor(referral: Object, listings: Object) {
+  constructor(referral: Object, listings: Object, listers: Object) {
     this.referral = referral;
     this.listings = listings;
+    this.listers = listers;
   }
 
   async requestReferral(userId: string, listingId: string): Object {
@@ -26,18 +32,23 @@ export class ReferralService {
     return { message: message };
   }
 
-  async getReferralList(userInfo: Object): Object {
-    const getUser = await this.listings.searchProjectByUserId(userInfo.userID);
-    console.log(userInfo);
+  async getReferralList(req: Object): Object {
+    const getProject = await this.listings.searchProjectByUserId(req.userInfo.userID);
+    if (getProject.response.numFound < 1) {
+      throw new Error('Solr Project Not Found');
+    }
     const projectId = [];
-    _.map(getUser.response.docs, item => {
-      const id = item.id;
-      projectId.push(id);
+    _.map(getProject.response.docs, item => {
+      const id = extractListingId(item.id);
+      projectId.push(id.id);
     });
-    // const getReferral = await this.referral.getReferralByProjectId(projectId);
 
-    return getUser;
+    const start = (req.query.pageToken - 1) * req.query.pageSize;
+
+    const getReferral = await this.referral.getReferralByProjectId(projectId, start, req.query.pageSize);
+
+    return formatAttributesReferral(getReferral, req);
   }
 }
 
-export default new ReferralService(referralCore, listingCore);
+export default new ReferralService(referralCore, listingCore, listerCore);

@@ -3,15 +3,26 @@ import Sequelize from 'sequelize';
 import _ from 'lodash';
 import MysqlClient from '../../libs/connections/MysqlClient';
 import type { AgentReferral } from './type';
+import userV2Dao from '../userV2';
+import projectDao from '../listings/models/adsProject';
 import config from '../../config';
 
 const DATABASE_NAME = 'default';
 const { client: ReferralClient } = new MysqlClient(DATABASE_NAME);
+const { query } = Sequelize;
 
 class ReferralDao {
   referral: Object;
+  referralAgent: Object;
+  userV2: Object;
+  userV2Attribute: Object;
+  project: Object;
 
   constructor() {
+    this.userV2 = userV2Dao.userV2;
+    this.userV2Attribute = userV2Dao.userV2Attribute;
+    this.project = projectDao.adsProject;
+
     this.referral = ReferralClient.define('agent_referral', {
       agentReferralId: {
         type: Sequelize.INTEGER,
@@ -66,7 +77,7 @@ class ReferralDao {
       removedDate: {
         type: Sequelize.DATE,
         field: 'removed_date',
-      },
+      }
     });
   }
 
@@ -121,28 +132,23 @@ class ReferralDao {
     return (referral) ? referral.get() : {};
   }
 
-  async getReferralByProjectId(projectId: Array<number>): Promise<AgentReferral | Object> {
-    const condition = _.assign(
-      {
-        adsProjectId: {
-          [Sequelize.Op.in]: projectId,
-        },
-        referralStatus: {
-          [Sequelize.Op.in]: [config.STATUS_REFERRAL.PENDING, config.STATUS_REFERRAL.APPROVED],
-        },
-      },
-    );
-    const query = {
-      order: [['createdDate', 'DESC']],
-      where: condition
-    };
+  async getReferralByProjectId(projectId: Array<number>, start: any, row: any): any {
+    this.referral.hasOne(this.userV2);
+    this.referral.hasOne(this.userV2Attribute);
+    this.referral.hasOne(this.project);
+    console.log('START', start);
+    const rawReferralList = await ReferralClient.query(`SELECT ` +
+      `AR.*, U.user_name, U.email, U.first_name, U.last_name, UA.profile_photo, AP.ads_name ` +
+      `FROM agent_referral AR ` +
+      `INNER JOIN user_v2 U ON AR.user_id = U.user_id ` +
+      `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +
+      `INNER JOIN ads_project AP ON AR.ads_project_id = AP.ads_project_id ` +
+      `WHERE AR.ads_project_id IN (${projectId.join()}) ` +
+      `AND AR.referral_status IN (${config.STATUS_REFERRAL.PENDING}, ${config.STATUS_REFERRAL.APPROVED}) ` +
+      `LIMIT ${start} , ${row}`
+      , { type: Sequelize.QueryTypes.SELECT});
 
-    let referral = await this.referral.findAll(query);
-    return referral;
-
-    _.map(articles, (item): Object => {
-      return item;
-    });
+    return rawReferralList;
   }
 }
 

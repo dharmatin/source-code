@@ -3,12 +3,12 @@ import _ from 'lodash';
 import BaseController from './base';
 import referralRequestService from '../services/referralRequestService';
 import referralApprovalService from '../services/referralApprovalService';
+import referralService from '../services/referralService';
 import { isValidCustomer, isValidDeveloper } from '../middleware/userGroup';
 
 import {
   handleInternalServerError,
   handleSuccess,
-  handleUnauthorized,
   handleNotFound,
   handleResponseMessage
 } from '../libs/responseHandler';
@@ -32,16 +32,17 @@ class ReferralsController extends BaseController {
     }
   }
 
-  @web.get('/listers')
+  @web.get('/listers', [isValidDeveloper])
   async listReferral(req, res, next) {
     try {
-      const referralList = await referralRequestService.getReferralList(req.userInfo);
+      const referralList = await referralService.getReferralList(req);
 
       if (_.isEmpty(referralList)) {
         handleNotFound(res);
       }
-      handleSuccess(res, referralList);
+      handleSuccess(res, referralList[0]);
     } catch (e) {
+      console.log(e);
       handleInternalServerError(res, e);
     }
   }

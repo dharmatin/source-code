@@ -48,19 +48,6 @@ export class ReferralRequestService {
   _getFormatingListingId(): Object {
     return this.referralListingId;
   }
-
-  async getReferralList(userInfo: Object): Object {
-    const getUser = await this.listings.searchProjectByUserId(userInfo.userID);
-
-    const projectId = [];
-    _.map(getUser.response.docs, item => {
-      const id = extractListingId(item.id);
-      projectId.push(id.id);
-    });
-    const getReferral = await this.referral.getReferralByProjectId(projectId);
-
-    return getReferral;
-  }
 }
 
 export default new ReferralRequestService(referralCore, listingCore);
