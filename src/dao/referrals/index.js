@@ -78,7 +78,7 @@ class ReferralDao {
 
   async requestReferral(
     agent: AgentReferral,
-    iSubscribed: boolean
+    iSubscribed: number
   ): Promise<AgentReferral | Object> {
     const query = _.assign(agent,
       {
