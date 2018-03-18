@@ -10,7 +10,7 @@ export const formatStatusReferral = (
 ): Referral => {
   
   const response = {
-    status: config.REFERRAL.INACTIVE
+    status: config.STATUS_REFERRAL_TXT.INACTIVE
   };
 
   if (!_.isEmpty(dataListing) > 0 && !_.isEmpty(dataListing.attachments)) {
