@@ -14,33 +14,32 @@ export class ReferralRequestService {
     this.listings = listings;
   }
 
-  async requestReferral(userId: string, listingId: string): Object {
-    this._setFormatListingId(listingId);
+  async requestReferral(params: Object): Promise<string> {
+    this._setFormatListingId(params.listingId);
     let message = 'Failed';
-    const getListing = await this.listings.searchProject(listingId);
+    const agentParam = {
+      userId: params.listerId,
+      adsProjectId: extractListingId(params.listingId).id,
+      propertyType: extractListingId(params.listingId).type
+    }
+    const getListing = await this.listings.searchProject(params.listingId);
     if (getListing.response.numFound > 0) {
-      (await this.checkingReferral(userId))
-        ? (await this.requestingReferral(userId))
+      (await this.checkingReferral(agentParam))
+        ? (await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed))
           ? (message = 'Success')
           : (message = 'Failed')
         : (message = 'Failed');
     }
-    return { message: message };
+    return message;
   }
 
-  async requestingReferral(userId: string): Promise<boolean> {
-    const request = await this.referral.requestReferral(
-      userId,
-      this._getFormatingListingId()
-    );
-    return request.userId === userId;
+  async requestingReferral(agentParam: Object, isSubscribed: boolean): Promise<boolean> {
+    const request = await this.referral.requestReferral(agentParam, isSubscribed);
+    return request.userId === agentParam.userId;
   }
 
-  async checkingReferral(userId: string): Promise<boolean> {
-    const check = await this.referral.checkReferral(
-      userId,
-      this._getFormatingListingId()
-    );
+  async checkingReferral(agentParam: Object): Promise<boolean> {
+    const check = await this.referral.checkReferral(agentParam);
     return _.isEmpty(check);
   }
 
