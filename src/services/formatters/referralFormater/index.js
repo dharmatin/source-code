@@ -1,7 +1,6 @@
 // @flow
 import _ from 'lodash';
 import type { Referral } from './types';
-import { getUrlSharpie } from '../../../libs/utility';
 import config from '../../../config';
 
 export const formatAttributesReferral = (
@@ -12,7 +11,7 @@ export const formatAttributesReferral = (
     return {
       lister: {
         agentName: item.first_name + ' ' + item.last_name,
-        agentPhoto: item.profile_photo
+        agentPhoto: config.image.sharpieUrl + '/' + item.profile_photo
       },
       listing: {
         adsProjectId: item.ads_project_id,
