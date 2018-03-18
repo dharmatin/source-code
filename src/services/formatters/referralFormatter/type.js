@@ -1,5 +1,5 @@
 // @flow
-export type Referral = {
+export type ReferralStatus = {
   referralToken: string,
   shareLink: string,
   status: string,

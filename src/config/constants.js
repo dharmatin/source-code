@@ -20,7 +20,7 @@ const constants = {
     APPROVED: 1,
     REMOVE: 2,
   },
-  REFERRAL: {
+  STATUS_REFERRAL_TXT: {
     INACTIVE: 'Inactive',
     PENDING: 'Pending',
     REJECT: 'Denied',

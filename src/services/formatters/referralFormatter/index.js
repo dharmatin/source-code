@@ -1,6 +1,6 @@
 
 import _ from 'lodash';
-import type { Referral } from './types';
+import type { ReferralStatus } from './types';
 import config from '../../../config';
 import { formatProjectProfilePageLink } from '../listingFormatter';
 
@@ -32,15 +32,15 @@ export const formatStatusReferral = (
 };
 
 const labelStatusReferral = (status: number): string => {
-  let result = config.REFERRAL.INACTIVE;
+  let result = config.STATUS_REFERRAL_TXT.INACTIVE;
   if (status === -1) {
-    result = config.REFERRAL.PENDING;
+    result = config.STATUS_REFERRAL_TXT.PENDING;
   }  
   if (status === 0) {
-    result = config.REFERRAL.REJECT;
+    result = config.STATUS_REFERRAL_TXT.REJECT;
   }
   if (status === 1) {
-    result = config.REFERRAL.APPROVED;
+    result = config.STATUS_REFERRAL_TXT.APPROVED;
   }
 
   return result;
