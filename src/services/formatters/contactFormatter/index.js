@@ -2,32 +2,34 @@
 import _ from 'lodash';
 import type { Phone, Contact } from './types';
 
-const formatterPhoneInfo = (dataPhones: Object): Array<Phone> => {
+const formatPhoneInfo = (dataPhones: Object): Array<Phone> => {
   const phones = [];
-  const phone = {};
 
   if (dataPhones.mainContact !== '') {
-    phone.label = 'LandLine';
-    phone.number = '+' + dataPhones.mainContact.toString();
-    phones.push(phone);
+    phones.push({
+      label: 'LandLine',
+      number: '+' + dataPhones.mainContact.toString(),
+    });
   }
 
   if (dataPhones.secondaryContact !== '') {
-    phone.label = 'LandLine';
-    phone.number = '+' + dataPhones.secondaryContact.toString();
-    phones.push(phone);
+    phones.push({
+      label: 'LandLine',
+      number: '+' + dataPhones.secondaryContact.toString(),
+    });
   }
 
   if (dataPhones.whatsapp !== '') {
-    phone.label = 'Whatsapp';
-    phone.number = dataPhones.whatsapp.toString();
-    phones.push(phone);
+    phones.push({
+      label: 'Whatsapp',
+      number: dataPhones.whatsapp.toString(),
+    });
   }
 
   return phones;
 };
 
-const formatterEmailInfo = (
+const formatEmailInfo = (
   mainEmail: string,
   additionalEmail: string
 ): Array<string> => {
@@ -41,13 +43,13 @@ const formatterEmailInfo = (
   return emails;
 };
 
-export const formatterContactInfo = (dataContact: Object): Contact => {
+export const formatContactInfo = (dataContact: Object): Contact => {
   return {
-    phones: formatterPhoneInfo({
+    phones: formatPhoneInfo({
       mainContact: dataContact.mainContact,
-      secondaryContact: dataContact.mainContact,
+      secondaryContact: dataContact.secondaryContact,
       whatsapp: dataContact.whatsapp,
     }),
-    emails: formatterEmailInfo(dataContact.email, dataContact.additionalEmail),
+    emails: formatEmailInfo(dataContact.email, dataContact.additionalEmail),
   };
 };

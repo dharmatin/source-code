@@ -3,7 +3,7 @@
     "error": {
         "500": "Internal system error"
     },
-    "property_type": {
+    "short_property_type": {
         "ho": "House",
         "ap": "Apartmen",
         "la": "Land",
@@ -12,5 +12,16 @@
         "wa": "Warehouse",
         "fa": "Factory",
         "cs": "Commercial Space"
-    }
+    },
+    "long_property_type": {
+        "house": "House",
+        "apartment": "Apartment",
+        "land": "Land",
+        "shophouse": "Shophouse",
+        "office": "Office",
+        "warehouse": "Warehouse",
+        "factory": "Factory",
+        "commercialspace": "Commercial Space"
+    },
+    "from": "From"
 }

@@ -30,6 +30,7 @@ export type Listing = {
   features?: Array<Features>,
   floorPlanImages?: Array<Media>,
   id: string,
+  isReferralActive?: boolean,
   Image360s?: Array<string>,
   listers?: Array<Lister>,
   logo?: Media,
@@ -49,3 +50,9 @@ export type Listing = {
   updatedAt?: string,
   youtubeIds?: Array<string>,
 };
+
+export type ObjectListingId = {
+  adsProjectId: string,
+  propertyType: string,
+  propertyCategory: string
+}

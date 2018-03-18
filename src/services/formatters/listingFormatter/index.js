@@ -1,35 +1,30 @@
 // @flow
 import _ from 'lodash';
-import type { BannerSponsorship, Features } from './types';
+import type { BannerSponsorship, Features, ObjectListingId } from './types';
 import config from '../../../config';
-import { slugify } from '../../../libs/utility';
+import { slugify, extractListingId } from '../../../libs/utility';
 
-export const formatterBannerSponsorship = (
-  banner: Object
-): BannerSponsorship => {
+export const formatBannerSponsorship = (banner: Object): BannerSponsorship => {
   return !_.isNil(banner.link) ? banner : {};
 };
 
-export const formatterTierOfPrimaryListing = (
+export const formatTierOfPrimaryListing = (
   isPremium: number,
   isGTS: number
 ): number => {
   if (isPremium === 0) {
-    return config.tier.standard;
+    return config.TIER.STANDARD;
   } else {
     if (isGTS === 1) {
-      return config.tier.featured;
+      return config.TIER.FEATURE;
     } else {
-      return config.tier.premium;
+      return config.TIER.PREMIUM;
     }
   }
 };
 
-export const formatterFeatures = (
-  facilities: Array<string>
-): Array<Features> => {
+export const formatFeatures = (facilities: Array<string>): Array<Features> => {
   const responseFeatures = [];
-
   _.map(facilities, facility => {
     const medias = {};
     let dataFacility = _.split(facility, ':');
@@ -49,28 +44,33 @@ export const formatterFeatures = (
   return responseFeatures;
 };
 
-export const formatterPropertyType = (propertyType: Array<string>): string => {
+export const formatPropertyType = (propertyType: Array<string>): string => {
   const propertyTypeResponse = _.map(propertyType, item => {
-    return `${config.propertyType[item]}`;
+    return `${
+      config.translator.long_property_type[config.PROPERTY_TYPE[item]]
+    }`;
   }).join(' / ');
 
   return propertyTypeResponse;
 };
 
-export const formatterProjectProfilePageLink = (
-  projectProfile: Object,
-  lang: string
+export const formatProjectProfilePageLink = (
+  projectProfile: Object
 ): string => {
   const { projectName, city, id } = projectProfile;
 
-  let formatUrl = '';
-  if (lang === 'id') {
-    formatUrl =
-      '/properti/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
-  } else {
-    formatUrl =
-      '/en/property/' + slugify(city) + '/' + slugify(projectName) + '/' + id;
-  }
+  let formatUrl = config.lang === 'id' ? '/properti/' : '/en/property/';
+  formatUrl += slugify(city) + '/' + slugify(projectName) + '/' + id;
 
   return config.url.newlaunch + formatUrl;
 };
+
+export const formatListingIdToObjectId = (listingId: string): ObjectListingId => {
+  const listingDetail = extractListingId(listingId);
+  return {
+    adsProjectId: listingDetail.id,
+    propertyType: listingDetail.type,
+    propertyCategory: listingDetail.category,
+  };
+}
+

@@ -10,11 +10,11 @@ const common = {
     },
     mysql: {
       username: 'webmaster',
-      password: 'FbY35D7h',
-      host: '10.201.30.25',
+      password: 'Pr0W3br321REA',
+      host: 'id-stgslave.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
-        default: 'ds_realcs',
+        default: 'ds_real',
       },
     },
   },

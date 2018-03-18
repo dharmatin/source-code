@@ -2,9 +2,25 @@
 import _ from 'lodash';
 import type { Attributes } from './types';
 import config from '../../../config';
-import { formatterToLocalizeNumber } from '../../../libs/utility';
 
-export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
+const formatConfigAttributeRangeValues = (dataAttributes: Object): string => {
+  let response = '';
+
+  if (dataAttributes.min > 0 && dataAttributes.max > 0) {
+    if (dataAttributes.min === dataAttributes.max) {
+      response = dataAttributes.min.toLocaleString(config.lang);
+    } else {
+      response =
+        dataAttributes.min.toLocaleString(config.lang) +
+        ' - ' +
+        dataAttributes.max.toLocaleString(config.lang);
+    }
+  }
+
+  return response;
+};
+
+export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
   const attribute = {};
   if (!_.isNil(dataAttributes.totalUnits)) {
     attribute.totalUnits = dataAttributes.totalUnits.toString();
@@ -16,29 +32,36 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
   ) {
     if (dataAttributes.builtUpMin > 0 && dataAttributes.builtUpMax > 0) {
       let builtUpRange =
-        dataAttributes.builtUpMin.toLocaleString(dataAttributes.lang) +
+        dataAttributes.builtUpMin.toLocaleString(config.lang) +
         ' - ' +
-        dataAttributes.builtUpMax.toLocaleString(dataAttributes.lang);
+        dataAttributes.builtUpMax.toLocaleString(config.lang);
 
-      if (dataAttributes.lang === 'en') {
-        attribute.builtUp = 'From ' + builtUpRange;
-      } else {
-        attribute.builtUp = 'Dari ' + builtUpRange;
-      }
+      attribute.builtUp = config.translator.from + ' ' + builtUpRange;
     }
   } else if (!_.isNil(dataAttributes.builtUp)) {
-    attribute.builtUp = dataAttributes.builtUp.toLocaleString(
-      dataAttributes.lang
-    );
+    attribute.builtUp = dataAttributes.builtUp.toLocaleString(config.lang);
   }
 
-  if (!_.isEmpty(dataAttributes.downloadURL)) {
-    attribute.downloadURL =
-      config.image.baseUrl + '/' + dataAttributes.downloadURL;
+  if (!_.isEmpty(dataAttributes.downloadUrl)) {
+    attribute.downloadUrl =
+      config.image.baseUrl + '/' + dataAttributes.downloadUrl;
   }
 
-  if (!_.isNil(dataAttributes.carPark)) {
-    attribute.carPark = dataAttributes.carPark.toString();
+  let carPark = '';
+  if (
+    !_.isNil(dataAttributes.carParkMin) &&
+    !_.isNil(dataAttributes.carParkMax)
+  ) {
+    carPark = formatConfigAttributeRangeValues({
+      min: dataAttributes.carParkMin,
+      max: dataAttributes.carParkMax,
+    });
+  } else if (!_.isNil(dataAttributes.carPark)) {
+    carPark = dataAttributes.carPark.toLocaleString(config.lang);
+  }
+
+  if (carPark !== '') {
+    attribute.carPark = carPark;
   }
 
   if (
@@ -52,12 +75,42 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
     attribute.internet = dataAttributes.internet.toString();
   }
 
-  if (!_.isNil(dataAttributes.bathRoom)) {
-    attribute.bathRoom = dataAttributes.bathRoom.toString();
+  if (!_.isNil(dataAttributes.electricity)) {
+    attribute.electricity = dataAttributes.electricity.toString();
   }
 
-  if (!_.isNil(dataAttributes.bedRoom)) {
-    attribute.bedRoom = dataAttributes.bedRoom.toString();
+  let bathroom = '';
+  if (
+    !_.isNil(dataAttributes.bathroomMin) &&
+    !_.isNil(dataAttributes.bathroomMax)
+  ) {
+    bathroom = formatConfigAttributeRangeValues({
+      min: dataAttributes.bathroomMin,
+      max: dataAttributes.bathroomMax,
+    });
+  } else if (!_.isNil(dataAttributes.bathroom)) {
+    bathroom = dataAttributes.bathroom.toLocaleString(config.lang);
+  }
+
+  if (bathroom !== '') {
+    attribute.bathroom = bathroom;
+  }
+
+  let bedroom = '';
+  if (
+    !_.isNil(dataAttributes.bedroomMin) &&
+    !_.isNil(dataAttributes.bedroomMax)
+  ) {
+    bedroom = formatConfigAttributeRangeValues({
+      min: dataAttributes.bedroomMin,
+      max: dataAttributes.bedroomMax,
+    });
+  } else if (!_.isNil(dataAttributes.bedroom)) {
+    bedroom = dataAttributes.bedroom.toLocaleString(config.lang);
+  }
+
+  if (bedroom !== '') {
+    attribute.bedroom = bedroom;
   }
 
   if (
@@ -66,20 +119,14 @@ export const formatterAttributesInfo = (dataAttributes: Object): Attributes => {
   ) {
     if (dataAttributes.landAreaMin > 0 && dataAttributes.landAreaMax > 0) {
       let landAreaRange =
-        dataAttributes.landAreaMin.toLocaleString(dataAttributes.lang) +
+        dataAttributes.landAreaMin.toLocaleString(config.lang) +
         ' - ' +
-        dataAttributes.landAreaMax.toLocaleString(dataAttributes.lang);
+        dataAttributes.landAreaMax.toLocaleString(config.lang);
 
-      if (dataAttributes.lang === 'en') {
-        attribute.landArea = 'From ' + landAreaRange;
-      } else {
-        attribute.landArea = 'Dari ' + landAreaRange;
-      }
+      attribute.landArea = config.translator.from + ' ' + landAreaRange;
     }
   } else if (!_.isNil(dataAttributes.landArea)) {
-    attribute.landArea = dataAttributes.landArea.toLocaleString(
-      dataAttributes.lang
-    );
+    attribute.landArea = dataAttributes.landArea.toLocaleString(config.lang);
   }
 
   if (!_.isEmpty(dataAttributes.completionDate)) {

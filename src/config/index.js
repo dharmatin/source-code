@@ -12,7 +12,9 @@ _.merge(
   config,
   connection[process.env.NODE_ENV],
   common[process.env.NODE_ENV],
-  constants
+  constants,
+  { lang: 'en' },
+  { translator: {} }
 );
 
 export default config;

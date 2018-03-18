@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import type { Address, MultiLanguagePlace } from './types';
 
-export const formatterAddressInfo = (area: Object): Address => {
+export const formatAddressInfo = (area: Object): Address => {
   const addressInfo = {};
   const { address, city, district, geoCoordinate, province } = area;
   let formattedAddress = '';
@@ -21,15 +21,15 @@ export const formatterAddressInfo = (area: Object): Address => {
     const [lat, lng] = geoCoordinate;
 
     if (lat !== '0.0000000000' && lng !== '0.0000000000') {
-      addressInfo.lat = lat;
-      addressInfo.lng = lng;
+      addressInfo.lat = parseFloat(lat);
+      addressInfo.lng = parseFloat(lng);
     }
   }
 
   return addressInfo;
 };
 
-export const formatterMultiLanguageAddressInfo = (
+export const formatMultiLanguageAddressInfo = (
   area: Object
 ): MultiLanguagePlace => {
   const levelLocation = {

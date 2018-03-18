@@ -3,12 +3,13 @@ import _ from 'lodash';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import {
-  handlerNotFound,
-  handlerInternalServerError,
-  handlerSuccess,
+  handleNotFound,
+  handleInternalServerError,
+  handleSuccess,
 } from '../libs/responseHandler';
+import { getRequestForPagingParam } from '../libs/utility';
 
-@web.basePath('/organisation/v1/organisations')
+@web.basePath('/v1/organisations')
 class OrganisationController extends BaseController {
   @web.get('/:id/projects')
   async findAllProjectByOrganisationIdAction(req, res) {
@@ -16,19 +17,22 @@ class OrganisationController extends BaseController {
       const excludeProjectId = !_.isNil(req.query.excludeProject)
         ? req.query.excludeProject
         : '';
-      const translator = req.app.get('translator');
+      const DEFAULT_PAGE_SIZE = 20;
+      const pagingRequest = getRequestForPagingParam(req, DEFAULT_PAGE_SIZE);
 
       const listings = await projectProfileService.getProjectByOrganisation(
         req.params.id,
         excludeProjectId,
-        req.lang
+        pagingRequest
       );
+
       if (_.isEmpty(listings)) {
-        handlerNotFound(res);
+        handleNotFound(res);
+      } else {
+        handleSuccess(res, listings);
       }
-      handlerSuccess(res, listings);
     } catch (e) {
-      handlerInternalServerError(res);
+      handleInternalServerError(res);
       throw new Error(e);
     }
   }

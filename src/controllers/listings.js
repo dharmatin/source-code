@@ -2,10 +2,12 @@ import * as web from 'express-decorators';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import _ from 'lodash';
+import config from '../config';
+
 import {
-  handlerNotFound,
-  handlerInternalServerError,
-  handlerSuccess,
+  handleNotFound,
+  handleInternalServerError,
+  handleSuccess,
 } from '../libs/responseHandler';
 
 @web.basePath('/listing/v1/listings')
@@ -13,16 +15,27 @@ class ListingsController extends BaseController {
   @web.get('/:id')
   async findAllProjectProfilePageByIdAction(req, res, next) {
     try {
-      const listings = await projectProfileService.getProjectProfile(
-        req.params.id,
-        req.lang
-      );
-      if (_.isEmpty(listings)) {
-        handlerNotFound(res);
+      let referralCode = '';
+      
+      if (
+        !_.isNil(req.query.referralCode) &&
+        !_.isEmpty(req.query.referralCode)
+      ) {
+        referralCode = req.query.referralCode;
       }
-      handlerSuccess(res, listings);
+
+      const listings = await projectProfileService.getProjectProfile({
+        id: req.params.id,
+        referralCode: referralCode,
+      });
+
+      if (_.isEmpty(listings)) {
+        handleNotFound(res);
+      } else {
+        handleSuccess(res, listings);
+      }
     } catch (e) {
-      handlerInternalServerError(res, e);
+      handleInternalServerError(res, e);
       throw new Error(e);
     }
   }

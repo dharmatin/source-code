@@ -2,6 +2,9 @@
 import Sequelize from 'sequelize';
 import _ from 'lodash';
 import MysqlClient from '../../libs/connections/MysqlClient';
+import type { AgentReferral } from './type';
+import config from '../../config';
+
 const DATABASE_NAME = 'default';
 const { client: ReferralClient } = new MysqlClient(DATABASE_NAME);
 
@@ -44,6 +47,12 @@ class ReferralDao {
         type: Sequelize.INTEGER(3),
         field: 'referral_status',
       },
+      referralReason: {
+        type: Sequelize.STRING(50),
+        allowNull: true,
+        defaultValue: null,
+        field: 'referral_reason',
+      },
       createdDate: {
         type: Sequelize.DATE,
         field: 'created_date',
@@ -63,60 +72,83 @@ class ReferralDao {
     });
   }
 
-  async insertReferral(values: Object): Object {
-    const referral = await this.referral;
-    return referral.create(values);
-  }
-
-  async requestReferral(userId: number, listingId: string): Object {
-    const values = _.assign(
+  async requestReferral(
+    userId: number,
+    referralListingId: AgentReferral
+  ): Promise<AgentReferral | Object> {
+    const query = _.assign(
       {
         userId: userId,
-        referralStatus: -1,
-        createdDate: Sequelize.fn('NOW', 3)
+        referralStatus: config.STATUS_REFERRAL.PENDING,
+        createdDate: Sequelize.fn('NOW', 3),
       },
-      this._formatingListing(listingId)
+      referralListingId
     );
-    const referral = await this.referral.create(values);
-    return referral.get();
+    const referral = await this.referral.create(query);
+    return referral ? referral.get() : {};
   }
 
-  async getRefferral(condition: Object): Object {
-    const referral = await this.referral.findOne({
-      where: condition,
-    });
-    return referral.get();
-  }
-
-  _formatingListing(listingId: string): Object {
-    return {
-      adsProjectId: listingId.substring(3),
-      propertyType: listingId.substring(0, 2),
-      propertyCategory: listingId.substring(2, 3)
-    };
-  }
-
-  async checkReferral(userId: number, listingId: string): Object {
+  async checkReferral(
+    userId: number,
+    referralListingId: AgentReferral
+  ): Promise<AgentReferral | Object> {
     const condition = _.assign(
       {
         userId: userId,
         referralStatus: {
-          [Sequelize.Op.in]: [-1, 1],
-        }
+          [Sequelize.Op.in]: [
+            config.STATUS_REFERRAL.PENDING,
+            config.STATUS_REFERRAL.APPROVED,
+          ],
+        },
       },
-      this._formatingListing(listingId)
+      referralListingId
     );
     const query = {
-      order: [
-        ['referralStatus', 'DESC']
-      ],
-      where: condition
+      order: [['referralStatus', 'DESC']],
+      where: condition,
     };
-    const result = await this.referral.findOne(query);
-    if (!_.isNull(result)) {
-      return result.get();
-    }
-    return result;
+    const referral = await this.referral.findOne(query);
+    return referral ? referral.get() : {};
+  }
+
+  async updateRefferalById(
+    id: number,
+    value: AgentReferral
+  ): Promise<Array<number>> {
+    const affectedRow = await this.referral.update(value, {
+      where: { agentReferralId: id },
+    });
+
+    return affectedRow;
+  }
+
+  async getLatestReferralRequest(
+    parameters: Object
+  ): Promise<AgentReferral | Object> {
+    const referral = await this.referral.findOne({
+      where: {
+        userId: parameters.userId,
+        adsProjectId: parameters.adsProjectId,
+        referralStatus: parameters.referralStatus,
+      },
+      order: [['createdDate', 'DESC']],
+    });
+    return referral ? referral.get() : {};
+  }
+
+  async getReferralByCodeAndListingId(dataReferral: Object): Promise<string> {
+    const conditionQ = {
+        referral_status: config.STATUS_REFERRAL.APPROVED,
+        ...dataReferral
+      };
+    
+    const referral = await this.referral.findOne({
+      where: conditionQ,
+      raw: true
+    });
+    
+    return referral;
   }
 }
 

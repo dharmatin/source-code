@@ -11,23 +11,31 @@ import * as mediaFormatter from '../mediaFormatter';
 import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
 
-export const formatterSuggestionProjects = (
+export const formatSuggestionProjects = (
   projectListing: Object,
-  lang: string
+  pagingRequest: Object
 ): SuggestionProject => {
   if (projectListing.numFound === 0) {
     return {};
-  } else {
+  } else if (projectListing.docs.length === 0) {
     return {
-      items: formatterRelatedProjects(projectListing.docs, lang),
+      totalCount: 0,
     };
+  } else {
+    return formatRelatedProjects(
+      projectListing.docs,
+      projectListing.numFound,
+      pagingRequest
+    );
   }
 };
 
-const formatterRelatedProjects = (
+const formatRelatedProjects = (
   projectListings: Array<Object>,
-  lang: string
-): Array<Listing> => {
+  totalNumber: number,
+  pagingRequest: Object
+): SuggestionProject => {
+  let response = {};
   let listings = [];
   _.map(projectListings, listing => {
     const dataListing = {};
@@ -35,67 +43,76 @@ const formatterRelatedProjects = (
     dataListing.id = listing.id;
     dataListing.title = listing.project_name;
     dataListing.channels = ['new'];
-    dataListing.tier = listingFormatter.formatterTierOfPrimaryListing(
+    dataListing.tier = listingFormatter.formatTierOfPrimaryListing(
       listing.is_premium,
       listing.is_gts
     );
-    dataListing.shareLink = listingFormatter.formatterProjectProfilePageLink(
-      {
-        projectName: listing.project_name,
-        city: listing.city_name,
-        id: listing.id,
-      },
-      lang
-    );
+    dataListing.shareLink = listingFormatter.formatProjectProfilePageLink({
+      projectName: listing.project_name,
+      city: listing.city_name,
+      id: listing.id,
+    });
     dataListing.description = listing.description;
-    dataListing.cover = mediaFormatter.formatterImageCover(
+    dataListing.cover = mediaFormatter.formatImageCover(
       JSON.parse(listing.image)[0]
     );
-    dataListing.logo = mediaFormatter.formatterLogo(
+    dataListing.logo = mediaFormatter.formatLogo(
       JSON.parse(listing.logo)[0],
       config.image.baseUrl
     );
-    dataListing.multilanguagePlace = addressFormatter.formatterMultiLanguageAddressInfo(
+    dataListing.multilanguagePlace = addressFormatter.formatMultiLanguageAddressInfo(
       {
         district: listing.district_name,
         city: listing.city_name,
         province: listing.province_name,
       }
     );
-    dataListing.prices = priceFormatter.formatterPrices({
+    dataListing.prices = priceFormatter.formatPrices({
       priceMin: listing.price_min,
       priceMax: listing.price_max,
     });
 
-    dataListing.organisations = organisationFormatter.formatterDeveloperInfo(
-      {
-        id: listing.developer_company_id,
-        name: listing.developer_name,
-        color: listing.developer_brandcolor,
-        email: listing.ads_email,
-        additionalEmail: listing.ads_email2,
-        mainContact: listing.ads_contact,
-        secondaryContact: listing.ads_contact2,
-        whatsapp: listing.project_whatsapp,
-        city: listing.developer_city,
-        province: listing.developer_province,
-        district: listing.developer_district,
-        address: listing.developer_address,
-        logo: listing.developer_logo,
-      },
-      lang
-    );
+    dataListing.address = addressFormatter.formatAddressInfo({
+      district: listing.district_name,
+      city: listing.city_name,
+      province: listing.province_name,
+      geoCoordinate: _.split(listing.latlng, ','),
+    });
 
-    dataListing.attributes = listingAttributeFormatter.formatterAttributesInfo({
+    dataListing.organisations = organisationFormatter.formatDeveloperInfo({
+      id: listing.developer_company_id,
+      name: listing.developer_name,
+      color: listing.developer_brandcolor,
+      email: listing.ads_email,
+      additionalEmail: listing.ads_email2,
+      mainContact: listing.ads_contact,
+      secondaryContact: listing.ads_contact2,
+      whatsapp: listing.project_whatsapp,
+      city: listing.developer_city,
+      province: listing.developer_province,
+      district: listing.developer_district,
+      address: listing.developer_address,
+      logo: listing.developer_logo,
+    });
+
+    dataListing.attributes = listingAttributeFormatter.formatAttributesInfo({
       landArea: listing.land_size,
       builtUpMin: listing.building_size_min,
       builtUpMax: listing.building_size_max,
       landAreaMin: listing.land_size_min,
       landAreaMax: listing.land_size_max,
-      lang: lang,
     });
 
     listings.push(dataListing);
   });
-  return listings;
+  response.items = listings;
+  response.totalCount = totalNumber;
+  
+  if (
+    (pagingRequest.pageToken * pagingRequest.pageSize) < totalNumber &&
+    totalNumber > 1
+  ) {
+    response.nextPageToken = (pagingRequest.pageToken + 1).toString();
+  }
+  return response;
 };
