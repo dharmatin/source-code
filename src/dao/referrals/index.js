@@ -9,7 +9,6 @@ import config from '../../config';
 
 const DATABASE_NAME = 'default';
 const { client: ReferralClient } = new MysqlClient(DATABASE_NAME);
-const { query } = Sequelize;
 
 class ReferralDao {
   referral: Object;
@@ -154,15 +153,15 @@ class ReferralDao {
 
   async getReferralByCodeAndListingId(dataReferral: Object): Promise<string> {
     const conditionQ = {
-        referral_status: config.STATUS_REFERRAL.APPROVED,
-        ...dataReferral
-      };
-    
+      referral_status: config.STATUS_REFERRAL.APPROVED,
+      ...dataReferral
+    };
+
     const referral = await this.referral.findOne({
       where: conditionQ,
       raw: true
     });
-    
+
     return referral;
   }
 
@@ -170,7 +169,7 @@ class ReferralDao {
     this.referral.hasOne(this.userV2);
     this.referral.hasOne(this.userV2Attribute);
     this.referral.hasOne(this.project);
-    console.log('START', start);
+
     const rawReferralList = await ReferralClient.query(`SELECT ` +
       `AR.*, U.user_name, U.email, U.first_name, U.last_name, UA.profile_photo, AP.ads_name ` +
       `FROM agent_referral AR ` +
