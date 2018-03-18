@@ -17,7 +17,7 @@ export const handleBadRequest = response => {
 export const handleNotFound = response => {
   response
     .set('Content-Type', 'application/json')
-    .status(200)
+    .status(404)
     .send({
       error: {
         code: '3001',
@@ -53,7 +53,17 @@ export const handleResponseMessage = (response, message) => {
     .set('Content-Type', 'application/json')
     .status(200)
     .send({
-      message: message
+      message: message,
+    })
+    .end();
+};
+
+export const handleForbiddenLanguage = response => {
+  response
+    .set('Content-Type', 'application/json')
+    .status(403)
+    .send({
+        message: 'Forbidden'
     })
     .end();
 };

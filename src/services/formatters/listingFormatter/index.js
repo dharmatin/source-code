@@ -1,8 +1,8 @@
 // @flow
 import _ from 'lodash';
-import type { BannerSponsorship, Features } from './types';
+import type { BannerSponsorship, Features, ObjectListingId } from './types';
 import config from '../../../config';
-import { slugify } from '../../../libs/utility';
+import { slugify, extractListingId } from '../../../libs/utility';
 
 export const formatBannerSponsorship = (banner: Object): BannerSponsorship => {
   return !_.isNil(banner.link) ? banner : {};
@@ -13,12 +13,12 @@ export const formatTierOfPrimaryListing = (
   isGTS: number
 ): number => {
   if (isPremium === 0) {
-    return config.tier.standard;
+    return config.TIER.STANDARD;
   } else {
     if (isGTS === 1) {
-      return config.tier.featured;
+      return config.TIER.FEATURE;
     } else {
-      return config.tier.premium;
+      return config.TIER.PREMIUM;
     }
   }
 };
@@ -46,7 +46,9 @@ export const formatFeatures = (facilities: Array<string>): Array<Features> => {
 
 export const formatPropertyType = (propertyType: Array<string>): string => {
   const propertyTypeResponse = _.map(propertyType, item => {
-    return `${config.translator.long_property_type[config.propertyType[item]]}`;
+    return `${
+      config.translator.long_property_type[config.PROPERTY_TYPE[item]]
+    }`;
   }).join(' / ');
 
   return propertyTypeResponse;
@@ -59,6 +61,16 @@ export const formatProjectProfilePageLink = (
 
   let formatUrl = config.lang === 'id' ? '/properti/' : '/en/property/';
   formatUrl += slugify(city) + '/' + slugify(projectName) + '/' + id;
-  
+
   return config.url.newlaunch + formatUrl;
 };
+
+export const formatListingIdToObjectId = (listingId: string): ObjectListingId => {
+  const listingDetail = extractListingId(listingId);
+  return {
+    adsProjectId: listingDetail.id,
+    propertyType: listingDetail.type,
+    propertyCategory: listingDetail.category,
+  };
+}
+

@@ -5,12 +5,10 @@ import config from '../../../config';
 
 const formatConfigAttributeRangeValues = (dataAttributes: Object): string => {
   let response = '';
-  
+
   if (dataAttributes.min > 0 && dataAttributes.max > 0) {
     if (dataAttributes.min === dataAttributes.max) {
-      response = dataAttributes.min.toLocaleString(
-        config.lang
-      );
+      response = dataAttributes.min.toLocaleString(config.lang);
     } else {
       response =
         dataAttributes.min.toLocaleString(config.lang) +
@@ -41,9 +39,7 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
       attribute.builtUp = config.translator.from + ' ' + builtUpRange;
     }
   } else if (!_.isNil(dataAttributes.builtUp)) {
-    attribute.builtUp = dataAttributes.builtUp.toLocaleString(
-      config.lang
-    );
+    attribute.builtUp = dataAttributes.builtUp.toLocaleString(config.lang);
   }
 
   if (!_.isEmpty(dataAttributes.downloadUrl)) {
@@ -58,12 +54,10 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
   ) {
     carPark = formatConfigAttributeRangeValues({
       min: dataAttributes.carParkMin,
-      max: dataAttributes.carParkMax
+      max: dataAttributes.carParkMax,
     });
   } else if (!_.isNil(dataAttributes.carPark)) {
-    carPark = dataAttributes.carPark.toLocaleString(
-      config.lang
-    );
+    carPark = dataAttributes.carPark.toLocaleString(config.lang);
   }
 
   if (carPark !== '') {
@@ -85,43 +79,38 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
     attribute.electricity = dataAttributes.electricity.toString();
   }
 
-  let bathRoom = '';
+  let bathroom = '';
   if (
-    !_.isNil(dataAttributes.bathRoomMin) &&
-    !_.isNil(dataAttributes.bathRoomMax)
+    !_.isNil(dataAttributes.bathroomMin) &&
+    !_.isNil(dataAttributes.bathroomMax)
   ) {
-    bathRoom = formatConfigAttributeRangeValues({
-      min: dataAttributes.bathRoomMin,
-      max: dataAttributes.bathRoomMax
+    bathroom = formatConfigAttributeRangeValues({
+      min: dataAttributes.bathroomMin,
+      max: dataAttributes.bathroomMax,
     });
-  } else if (!_.isNil(dataAttributes.bathRoom)) {
-    bathRoom = dataAttributes.bathRoom.toLocaleString(
-      config.lang
-    );
+  } else if (!_.isNil(dataAttributes.bathroom)) {
+    bathroom = dataAttributes.bathroom.toLocaleString(config.lang);
   }
 
-  if (bathRoom !== '') {
-    attribute.bathRoom = bathRoom;
+  if (bathroom !== '') {
+    attribute.bathroom = bathroom;
   }
 
-  let bedRoom = '';
+  let bedroom = '';
   if (
-    !_.isNil(dataAttributes.bedRoomMin) &&
-    !_.isNil(dataAttributes.bedRoomMax)
+    !_.isNil(dataAttributes.bedroomMin) &&
+    !_.isNil(dataAttributes.bedroomMax)
   ) {
-    bedRoom = formatConfigAttributeRangeValues({
-      min: dataAttributes.bedRoomMin,
-      max: dataAttributes.bedRoomMax
+    bedroom = formatConfigAttributeRangeValues({
+      min: dataAttributes.bedroomMin,
+      max: dataAttributes.bedroomMax,
     });
-
-  } else if (!_.isNil(dataAttributes.bedRoom)) {
-    bedRoom = dataAttributes.bedRoom.toLocaleString(
-      config.lang
-    );
+  } else if (!_.isNil(dataAttributes.bedroom)) {
+    bedroom = dataAttributes.bedroom.toLocaleString(config.lang);
   }
 
-  if (bedRoom !== '') {
-    attribute.bedRoom = bedRoom;
+  if (bedroom !== '') {
+    attribute.bedroom = bedroom;
   }
 
   if (
@@ -137,9 +126,7 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
       attribute.landArea = config.translator.from + ' ' + landAreaRange;
     }
   } else if (!_.isNil(dataAttributes.landArea)) {
-    attribute.landArea = dataAttributes.landArea.toLocaleString(
-      config.lang
-    );
+    attribute.landArea = dataAttributes.landArea.toLocaleString(config.lang);
   }
 
   if (!_.isEmpty(dataAttributes.completionDate)) {

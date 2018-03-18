@@ -6,8 +6,8 @@ export type Lister = {
   id: string,
   type: string,
   name: string,
-  createdAt: Date,
-  website: string,
-  image: Media,
-  contact: Contact,
+  createdAt?: Date,
+  website?: string,
+  image?: Media,
+  contact?: Contact,
 };

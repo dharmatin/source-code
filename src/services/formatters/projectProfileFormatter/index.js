@@ -13,18 +13,20 @@ import * as organisationFormatter from '../organisationFormatter';
 
 export const formatProjectProfile = (
   projectListing: Object,
-  childListings: Object
+  childListings: Object,
+  lister: Object
 ): ProjectProfilePage => {
-  if (projectListing.numFound === 0) {
-    return {};
-  } else {
-    return _.merge({}, formatProject(projectListing.docs[0]), {
+  if (!_.isEmpty(projectListing)) {
+    return _.merge({}, formatProject(projectListing.docs[0], lister), {
       properties: formatChildListing(childListings.docs),
     });
+  } else {
+    return {};
   }
+  
 };
 
-const formatProject = (projectProfilePage: Object): Listing => {
+const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
   const response = {};
   const featureDescription = projectProfilePage[config.lang + '_key_point'];
   response.channels = ['new'];
@@ -60,11 +62,12 @@ const formatProject = (projectProfilePage: Object): Listing => {
     province: projectProfilePage.province_name,
     geoCoordinate: _.split(projectProfilePage.latlng, ','),
   });
+
   response.attributes = listingAttributeFormatter.formatAttributesInfo({
-    bedRoomMin: projectProfilePage.bedroom_min,
-    bedRoomMax: projectProfilePage.bedroom_max,
-    bathRoomMin: projectProfilePage.bathroom_min,
-    bathRoomMax: projectProfilePage.bathroom_max,
+    bedroomMin: projectProfilePage.bedroom_min,
+    bedroomMax: projectProfilePage.bedroom_max,
+    bathroomMin: projectProfilePage.bathroom_min,
+    bathroomMax: projectProfilePage.bathroom_max,
     carParkMin: projectProfilePage.garage_min,
     carParkMax: projectProfilePage.garage_max,
     totalUnits: projectProfilePage.qty_unit,
@@ -77,7 +80,10 @@ const formatProject = (projectProfilePage: Object): Listing => {
       : '',
   });
 
-  // response.listers = {};
+  if (!_.isEmpty(lister)) {
+    response.listers = [{ ...lister }];
+  }
+
   response.logo = mediaFormatter.formatLogo(
     JSON.parse(projectProfilePage.logo)[0],
     config.image.baseUrl
@@ -90,36 +96,32 @@ const formatProject = (projectProfilePage: Object): Listing => {
     }
   );
 
-  response.organisations = organisationFormatter.formatDeveloperInfo(
-    {
-      id: projectProfilePage.developer_company_id,
-      name: projectProfilePage.developer_name,
-      color: projectProfilePage.developer_brandcolor,
-      email: projectProfilePage.ads_email,
-      additionalEmail: projectProfilePage.ads_email2,
-      mainContact: projectProfilePage.ads_contact,
-      secondaryContact: projectProfilePage.ads_contact2,
-      whatsapp: projectProfilePage.project_whatsapp,
-      city: projectProfilePage.developer_city,
-      province: projectProfilePage.developer_province,
-      district: projectProfilePage.developer_district,
-      address: projectProfilePage.developer_address,
-      logo: projectProfilePage.developer_logo,
-    }
-  );
+  response.organisations = organisationFormatter.formatDeveloperInfo({
+    id: projectProfilePage.developer_company_id,
+    name: projectProfilePage.developer_name,
+    color: projectProfilePage.developer_brandcolor,
+    email: projectProfilePage.ads_email,
+    additionalEmail: projectProfilePage.ads_email2,
+    mainContact: projectProfilePage.ads_contact,
+    secondaryContact: projectProfilePage.ads_contact2,
+    whatsapp: projectProfilePage.project_whatsapp,
+    city: projectProfilePage.developer_city,
+    province: projectProfilePage.developer_province,
+    district: projectProfilePage.developer_district,
+    address: projectProfilePage.developer_address,
+    logo: projectProfilePage.developer_logo,
+  });
 
   response.prices = priceFormatter.formatPrices({
     priceMin: projectProfilePage.price_min,
     priceMax: projectProfilePage.price_max,
   });
 
-  response.shareLink = listingFormatter.formatProjectProfilePageLink(
-    {
-      projectName: projectProfilePage.project_name,
-      city: projectProfilePage.city_name,
-      id: projectProfilePage.id,
-    }
-  );
+  response.shareLink = listingFormatter.formatProjectProfilePageLink({
+    projectName: projectProfilePage.project_name,
+    city: projectProfilePage.city_name,
+    id: projectProfilePage.id,
+  });
   response.tier = listingFormatter.formatTierOfPrimaryListing(
     projectProfilePage.is_premium,
     projectProfilePage.is_gts
@@ -158,18 +160,16 @@ const formatProject = (projectProfilePage: Object): Listing => {
     projectProfilePage.all_image_floorplan
   );
   if (!_.isEmpty(floorPlanImages)) {
-    response.floorPlanImages  = floorPlanImages;
+    response.floorPlanImages = floorPlanImages;
   }
-  
+
   response.features = listingFormatter.formatFeatures(
     projectProfilePage[config.lang + '_project_facilities']
   );
   return response;
 };
 
-const formatChildListing = (
-  childListings: Array<Object>
-): Array<Listing> => {
+const formatChildListing = (childListings: Array<Object>): Array<Listing> => {
   let listings = [];
 
   _.map(childListings, listing => {
@@ -178,29 +178,27 @@ const formatChildListing = (
       priceMin: listing.price_sort,
       priceMax: listing.price_sort,
     });
-    
+
     dataListing.attributes = listingAttributeFormatter.formatAttributesInfo({
       internet: listing.connectivity,
       landArea: listing.land_size,
       builtUp: listing.building_size,
-      bedRoom: listing.bedroom,
-      bathRoom: listing.bathroom,
+      bedroom: listing.bedroom,
+      bathroom: listing.bathroom,
       electricity: listing.electricity,
       phoneLine: listing.phoneline,
-      carPark: listing.garage
+      carPark: listing.garage,
     });
-    
+
     dataListing.id = listing.id;
     dataListing.description = _.join(JSON.parse(listing.description), '\n');
     dataListing.title = listing.tagline;
-    dataListing.unitTypeCategory = listing.subproject_name; 
+    dataListing.unitTypeCategory = listing.subproject_name;
     dataListing.medias = mediaFormatter.formatListingImages(
       listing.unit_listing_images
     );
 
-    const youtubeIds = mediaFormatter.formatYoutubeIds(
-      listing.unit_video
-    );
+    const youtubeIds = mediaFormatter.formatYoutubeIds(listing.unit_video);
     if (!_.isEmpty(youtubeIds)) {
       dataListing.youtubeIds = youtubeIds;
     }
@@ -216,7 +214,7 @@ const formatChildListing = (
       listing.unit_image_floorplan
     );
     if (!_.isEmpty(floorPlanImages)) {
-      dataListing.floorPlanImages  = floorPlanImages;
+      dataListing.floorPlanImages = floorPlanImages;
     }
 
     listings.push(dataListing);

@@ -3,28 +3,35 @@ import _ from 'lodash';
 import Sequelize from 'sequelize';
 import referralDao from '../dao/referrals';
 import type { AgentReferral } from '../dao/referrals/type';
-import { extractListingId, getReferralCode } from '../libs/utility';
+import { extractListingId } from '../libs/utility';
 import config from '../config';
 
-export class ReferralApprovalService {
+export class ReferralRejectionService {
   referral: Object;
   listerId: number;
   listingId: number;
+  referralReason: string;
 
   constructor(referral: Object) {
     this.referral = referral;
     this.listerId = 0;
     this.listingId = 0;
   }
-  async requestApprove(listerId: number, listingId: string): Promise<boolean> {
-    const listingIdDescription: Object = extractListingId(listingId);
-    this.setListerId(listerId);
-    this.setListingId(listingIdDescription.id);
 
-    return this.isApproved();
+  async rejectReferral(request: Object): Promise<boolean> {
+    const listingIdDescription: Object = extractListingId(request.listingId);
+    this._setListerId(request.listerId);
+    this._setListingId(listingIdDescription.id);
+    this._setReferralReason(request.referralReason);
+
+    if (_.isNil(request.referralReason)) {
+      return false;
+    } else {
+      return this.isRejected();
+    }
   }
 
-  async isApproved(): Promise<boolean> {
+  async isRejected(): Promise<boolean> {
     const referral = await this.getLatestRefferal();
     if (!_.isEmpty(referral)) {
       const affectedRowsUpdated = await this.updateLatestReferral(referral);
@@ -36,8 +43,8 @@ export class ReferralApprovalService {
 
   async getLatestRefferal(): Promise<AgentReferral> {
     const referral: AgentReferral = await referralDao.getLatestReferralRequest({
-      userId: this.getListerId(),
-      adsProjectId: this.getListingId(),
+      userId: this._getListerId(),
+      adsProjectId: this._getListingId(),
       referralStatus: config.STATUS_REFERRAL.PENDING,
     });
 
@@ -46,9 +53,9 @@ export class ReferralApprovalService {
 
   async updateLatestReferral(referral: AgentReferral): Promise<number> {
     const approvedData: Object = {
-      referralStatus: config.STATUS_REFERRAL.APPROVED,
-      approvedDate: Sequelize.fn('NOW', 3),
-      referralCode: getReferralCode(),
+      referralStatus: config.STATUS_REFERRAL.REJECT,
+      referralReason: this._getReferralReason(),
+      rejectedDate: Sequelize.fn('NOW', 3),
     };
     const affectedRows = await referralDao.updateRefferalById(
       referral.agentReferralId,
@@ -57,21 +64,29 @@ export class ReferralApprovalService {
 
     return affectedRows;
   }
-  setListingId(listingId: number) {
+  _setListingId(listingId: number) {
     this.listingId = listingId;
   }
 
-  setListerId(listerId: number) {
+  _setListerId(listerId: number) {
     this.listerId = listerId;
   }
 
-  getListingId(): number {
+  _setReferralReason(referralReason: string) {
+    this.referralReason = referralReason;
+  }
+
+  _getListingId(): number {
     return this.listingId;
   }
 
-  getListerId(): number {
+  _getListerId(): number {
     return this.listerId;
+  }
+
+  _getReferralReason(): string {
+    return this.referralReason;
   }
 }
 
-export default new ReferralApprovalService(referralDao);
+export default new ReferralRejectionService(referralDao);

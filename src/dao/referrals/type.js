@@ -8,8 +8,9 @@ export type AgentReferral = {
   propertyCategory: string,
   referralCode: string,
   referralStatus: number,
+  referralReason: string,
   createdDate: Date,
   approvedDate: Date,
   rejectedDate: Date,
-  removedDate: Date
+  removedDate: Date,
 };

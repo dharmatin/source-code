@@ -30,7 +30,6 @@ export default {
     }
 
     const pageStart = (paging.pageToken - 1) * paging.pageSize;
-
     const queryListingById = listingClient
       .createQuery()
       .q(conditionQ)

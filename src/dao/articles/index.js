@@ -5,10 +5,23 @@ const LISTING_CORE = 'news';
 const { client: articleClient } = new SolrClient(LISTING_CORE);
 
 export default {
-  getArticleByTags: async(params: Object): Object => {
-    let conditionQ = `tag:("${params.projectName}" OR "${params.developerName}") AND post_status:publish AND -category:post-format-video`;
-    const queryGetArticleByTags = articleClient.createQuery().q(conditionQ).sort({'pubdate': 'DESC'}).start(params.start).rows(params.rows);
+  getArticleByTags: async (tags: Array<string>, paging: Object): Object => {
+    
+    const queryTags = _.map(tags, (item): string => {
+      return '"' + item + '"';
+    }).join(' OR ');
+    
+    const conditionQ = `tag:(${queryTags}) AND post_status:publish AND -category:post-format-video`;
+
+    const pageStart = (paging.pageToken - 1) * paging.pageSize;
+
+    const queryGetArticleByTags = articleClient
+      .createQuery()
+      .q(conditionQ)
+      .sort({ pubdate: 'DESC' })
+      .start(pageStart)
+      .rows(paging.pageSize);
 
     return articleClient.searchAsync(queryGetArticleByTags);
-  }
+  },
 };

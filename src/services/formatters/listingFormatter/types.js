@@ -50,3 +50,9 @@ export type Listing = {
   updatedAt?: string,
   youtubeIds?: Array<string>,
 };
+
+export type ObjectListingId = {
+  adsProjectId: string,
+  propertyType: string,
+  propertyCategory: string
+}
