@@ -155,7 +155,11 @@ class ReferralDao {
     return referral;
   }
 
-  async getReferralByProjectId(projectId: Array<number>, start: any, row: any): any {
+  async getReferralByProjectId(projectId: Array<number>, start: any, row: any, limit: Boolean | false): any {
+    let limitQuery = ``;
+    if (limit) {
+      limitQuery = `LIMIT ${start} , ${row}`;
+    }
     const rawReferralList = await ReferralClient.query(`SELECT ` +
       `AR.*, U.user_name, U.email, U.first_name, U.last_name, UA.profile_photo, AP.ads_name ` +
       `FROM agent_referral AR ` +
@@ -163,8 +167,7 @@ class ReferralDao {
       `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +
       `INNER JOIN ads_project AP ON AR.ads_project_id = AP.ads_project_id ` +
       `WHERE AR.ads_project_id IN (${projectId.join()}) ` +
-      `AND AR.referral_status IN (${config.STATUS_REFERRAL.PENDING}, ${config.STATUS_REFERRAL.APPROVED}) ` +
-      `LIMIT ${start} , ${row}`
+      `AND AR.referral_status IN (${config.STATUS_REFERRAL.PENDING}, ${config.STATUS_REFERRAL.APPROVED}) ${limitQuery}`
       , { type: Sequelize.QueryTypes.SELECT});
 
     return rawReferralList;
