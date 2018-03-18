@@ -87,6 +87,9 @@ class ReferralDao {
       }
     );
     const referral = await this.referral.create(query);
+    if (referral) {
+      ReferralClient.query(`UPDATE user_v2 SET news_subscribe_status=${iSubscribed}, property_subscribe_status=${iSubscribed} WHERE user_id=` + referral.get().userId);
+    }
     return referral ? referral.get() : {};
   }
 
