@@ -27,6 +27,7 @@ describe('Referral reject services', () => {
     adsId: 0,
     propertyType: 'np',
     propertyCategory: 's',
+    messageRequest: '',
     referralCode: 'ABCD1234',
     referralStatus: -1,
     referralReason: Sequelize.default,
