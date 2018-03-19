@@ -23,9 +23,8 @@ const constants = {
   STATUS_REFERRAL_TXT: {
     INACTIVE: 'Inactive',
     PENDING: 'Pending',
-    REJECT: 'Denied',
-    APPROVED: 'Approved',
-    REMOVE: 'Inactive'
+    REJECTED: 'Denied',
+    APPROVED: 'Approved'
   },
   USER_GROUP: {
     CUSTOMER: 2,
