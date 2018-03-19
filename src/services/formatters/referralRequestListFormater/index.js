@@ -30,14 +30,13 @@ export const formatAttributesReferral = (
   const nextPageToken = ((Number(req.query.pageToken) * Number(req.query.pageSize) >= totalReferral) ? Number(req.query.pageToken) : Number(req.query.pageToken) + 1).toString();
 
   const result = {};
+  result.totalCount = 0;
   if (Listers.length > 0) {
     result.Listers = Listers;
     if (nextPageToken > req.query.pageToken) {
       result.nextPageToken = nextPageToken;
     }
     result.totalCount = totalReferral;
-  } else {
-    result.totalCount = 0;
   }
 
   return [result];
