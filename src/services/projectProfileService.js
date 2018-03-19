@@ -42,8 +42,7 @@ export class ListingService {
     const result = await this.getListings(param.id);
     if (!_.isEmpty(result.response.docs[0])) {
       listing = result.response;
-      childListingResult = await this.getChildListings(param.id);
-
+      childListingResult = (await this.getChildListings(param.id)).response;
       if (Boolean(result.response.docs[0].is_referral)) {
         let dataReferral = {};
         if (param.referralCode !== '') {
