@@ -1,0 +1,46 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 1
+  },
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "docs": [
+      {
+        "is_internal": 0,
+        "city": "Jakarta Pusat",
+        "language": "",
+        "area_group": "Jakarta Pusat, DKI Jakarta",
+        "handphone": "6287626082365",
+        "province": "DKI Jakarta",
+        "company_logo": "20160406062245_rumah123.jpeg",
+        "company": "Rumah123",
+        "company2": "Rumah123",
+        "company_autosuggest": "Rumah123",
+        "id": "70491",
+        "photo_url": "https://dm38pn59zg67e.cloudfront.net/photo/70491/180/704911512024697.jpg",
+        "listing_views": 195,
+        "fax": "6287861953346",
+        "property_specialist": "",
+        "email": "123.superqa@gmail.com",
+        "website": "",
+        "address": "Jalan  e2d586af3c no.146",
+        "company_id": 13983,
+        "have_building": 0,
+        "profile": "Spesialis Surabaya Barat dan Timur. Melayani jual, beli, sewa rumah, tanah, apartemen, ruko, dll",
+        "area_specialist": "",
+        "total_listing": 1,
+        "photo": "704911512024697.jpg",
+        "gcompany": "Rumah123",
+        "name": "Syelaaa Cantik",
+        "name_autosuggest": "Syelaaa Cantik",
+        "username": "123.superqa@gmail.com",
+        "user_name": "123.superqa@gmail.com",
+        "status": "A",
+        "register": 1428634479,
+        "_version_": 1595082783551651800
+      }
+    ]
+  }
+}

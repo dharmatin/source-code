@@ -66,6 +66,17 @@ class ReferralsController extends BaseController {
       throw new Error(e);
     }
   }
+
+  @web.get('/:listingId/status', [isValidCustomer])
+  async statusReferral(req, res) {
+    try {
+      const result = await referralRequestService.getLatestRefferal(req.userInfo.userID, req.params.listingId);
+      handleSuccess(res, result);
+    } catch (e) {
+      handleInternalServerError(res);
+      throw new Error(e);
+    }
+  }  
 }
 
 export default new ReferralsController();
