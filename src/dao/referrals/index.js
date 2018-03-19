@@ -43,6 +43,10 @@ class ReferralDao {
         type: Sequelize.STRING(2),
         field: 'property_category',
       },
+      messageRequest: {
+        type: Sequelize.STRING(8),
+        field: 'message_request',
+      },
       referralCode: {
         type: Sequelize.STRING(8),
         field: 'referral_code',
@@ -77,36 +81,37 @@ class ReferralDao {
   }
 
   async requestReferral(
-    userId: number,
-    referralListingId: AgentReferral
+    agent: AgentReferral,
+    iSubscribed: number
   ): Promise<AgentReferral | Object> {
-    const query = _.assign(
+    const query = _.assign(agent,
       {
-        userId: userId,
         referralStatus: config.STATUS_REFERRAL.PENDING,
-        createdDate: Sequelize.fn('NOW', 3),
-      },
-      referralListingId
+        createdDate: Sequelize.fn('NOW', 3)
+      }
     );
     const referral = await this.referral.create(query);
+    if (referral) {
+      ReferralClient.query(`UPDATE user_v2 SET news_subscribe_status=${iSubscribed}, property_subscribe_status=${iSubscribed} WHERE user_id=` + referral.get().userId);
+    }
     return referral ? referral.get() : {};
   }
 
   async checkReferral(
-    userId: number,
-    referralListingId: AgentReferral
+    agent: AgentReferral
   ): Promise<AgentReferral | Object> {
     const condition = _.assign(
       {
-        userId: userId,
+        userId: agent.userId,
         referralStatus: {
           [Sequelize.Op.in]: [
             config.STATUS_REFERRAL.PENDING,
             config.STATUS_REFERRAL.APPROVED,
           ],
         },
-      },
-      referralListingId
+        adsProjectId: agent.adsProjectId,
+        propertyType: agent.propertyType
+      }
     );
     const query = {
       order: [['referralStatus', 'DESC']],

@@ -23,7 +23,8 @@ export const formatAttributesArticle = (
       cover: {
         media: {
           type: 'image',
-          url: getUrlSharpie(unserializeImage.key, true),
+          url: config.image.baseUrl + '/' + unserializeImage.key,
+          urlTemplate: getUrlSharpie(unserializeImage.key, true),
         },
       },
       title: item.title,

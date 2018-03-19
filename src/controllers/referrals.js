@@ -19,13 +19,13 @@ class ReferralsController extends BaseController {
   @web.post('/:listingId/apply', [isValidCustomer])
   async requestReferral(req, res) {
     try {
-      handleSuccess(
-        res,
-        await referralRequestService.requestReferral(
-          req.userInfo.userID,
-          req.params.listingId
-        )
-      );
+      const result = await referralRequestService.requestReferral({
+        listingId: req.params.listingId,
+        listerId: req.body.listerId,
+        messageRequest: req.body.Message,
+        isSubscribed: Number(req.body.isSubscribed)
+      });
+      handleResponseMessage(res, result);
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);
