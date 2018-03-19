@@ -33,13 +33,13 @@ export const formatStatusReferral = (
 
 const labelStatusReferral = (status: number): string => {
   let result = config.STATUS_REFERRAL_TXT.INACTIVE;
-  if (status === -1) {
+  if (status === config.STATUS_REFERRAL.PENDING) {
     result = config.STATUS_REFERRAL_TXT.PENDING;
   }  
-  if (status === 0) {
-    result = config.STATUS_REFERRAL_TXT.REJECT;
+  if (status === config.STATUS_REFERRAL.REJECT) {
+    result = config.STATUS_REFERRAL_TXT.REJECTED;
   }
-  if (status === 1) {
+  if (status === config.STATUS_REFERRAL.APPROVED) {
     result = config.STATUS_REFERRAL_TXT.APPROVED;
   }
 
