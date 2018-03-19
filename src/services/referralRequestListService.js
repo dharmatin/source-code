@@ -4,7 +4,6 @@ import referralCore from '../dao/referrals';
 import listingCore from '../dao/listings';
 import { extractListingId } from '../libs/utility';
 import { formatAttributesReferral } from './formatters/referralRequestListFormater';
-import { handleNotFound } from '../libs/responseHandler';
 
 export class ReferralService {
   referral: Object;
@@ -27,12 +26,12 @@ export class ReferralService {
       projectId.push(id.id);
     });
 
-    const start = (req.query.pageToken - 1) * req.query.pageSize;
+    const setRowStart = (req.query.pageToken - 1) * req.query.pageSize;
 
-    const getReferral = await this.referral.getReferralByProjectId(projectId, start, req.query.pageSize, true);
-    const referralWithoutLimit = await this.referral.getReferralByProjectId(projectId, start, req.query.pageSize, false);
-
-    return formatAttributesReferral(getReferral, req, referralWithoutLimit.length);
+    const referralQuery = await this.referral.getReferralByProjectId(projectId, setRowStart, req.query.pageSize, true);
+    const referralWithoutLimitQuery = await this.referral.getReferralByProjectId(projectId, setRowStart, req.query.pageSize, false);
+    // return [referralQuery];
+    return formatAttributesReferral(referralQuery, req, referralWithoutLimitQuery.length);
   }
 }
 

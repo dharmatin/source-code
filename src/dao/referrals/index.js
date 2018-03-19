@@ -138,10 +138,9 @@ class ReferralDao {
     const conditionQ = {
       userId: parameters.userId,
       adsProjectId: parameters.adsProjectId
-    }
+    };
 
-    if (!_.isNil(parameters.referralStatus))
-      _.assign(conditionQ, {referralStatus: parameters.referralStatus});
+    if (!_.isNil(parameters.referralStatus)) { _.assign(conditionQ, {referralStatus: parameters.referralStatus}); }
 
     const referral = await this.referral.findOne({
       where: conditionQ,
@@ -170,7 +169,7 @@ class ReferralDao {
       limitQuery = `LIMIT ${start} , ${row}`;
     }
     const rawReferralList = await ReferralClient.query(`SELECT ` +
-      `AR.*, U.user_name, U.email, U.first_name, U.last_name, UA.profile_photo, AP.ads_name ` +
+      `AR.*, U.user_name, U.email, U.first_name, U.last_name, UA.personalweb_url, UA.profile_photo, AP.ads_name ` +
       `FROM agent_referral AR ` +
       `INNER JOIN user_v2 U ON AR.user_id = U.user_id ` +
       `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +

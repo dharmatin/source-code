@@ -11,17 +11,21 @@ export const formatAttributesReferral = (
 ): Array<Referral> => {
   const Listers = _.map(referral, (item): Object => {
     return {
-      lister: {
-        agentName: item.first_name + ' ' + item.last_name,
-        agentPhoto: config.image.sharpieUrl + '/' + item.profile_photo
+      listers: {
+        id: item.user_id,
+        name: item.first_name + ' ' + item.last_name,
+        image: {
+          url: config.image.sharpieUrl + '/' + item.profile_photo
+        },
+        website: item.personalweb_url
       },
-      listing: {
-        adsProjectId: item.ads_project_id,
-        adsTitle: item.ads_name
+      listings: {
+        id: item.ads_project_id,
+        title: item.ads_name
       },
-      createdAt: toISOFormatting(item.created_date),
-      updatedAt: toISOFormatting(item.approved_date),
-      removedAt: toISOFormatting(item.removed_date),
+      createdAt: item.created_date,
+      updatedAt: item.approved_date,
+      removedAt: item.removed_date,
       message: item.referral_reason,
       status: item.referral_status
     };
@@ -44,12 +48,12 @@ export const formatAttributesReferral = (
 
 export const setReferralStatus = (refStatus: any): any => {
   if (refStatus === 1) {
-    return 'Approved';
+    return config.STATUS_REFERRAL_TXT.APPROVED;
   }
   if (refStatus === -1) {
-    return 'Pending';
+    return config.STATUS_REFERRAL_TXT.PENDING;
   }
-  if (refStatus === 2) {
-    return 'Removed';
+  if (refStatus === 0) {
+    return config.STATUS_REFERRAL_TXT.INACTIVE;
   }
 };
