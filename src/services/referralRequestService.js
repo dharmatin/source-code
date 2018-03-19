@@ -25,8 +25,10 @@ export class ReferralRequestService {
     }
     const getListing = await this.listings.searchProject(params.listingId);
     if (getListing.response.numFound > 0) {
-      if (await this.checkingReferral(agentParam)) {
-        if (await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed)) {
+      const isExist = await this.checkingReferral(agentParam);
+      if (isExist) {
+        const result = await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed);
+        if (result) {
           message = 'Success';
         }
       }
