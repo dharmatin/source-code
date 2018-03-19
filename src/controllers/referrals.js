@@ -21,7 +21,7 @@ class ReferralsController extends BaseController {
         listingId: req.params.listingId,
         listerId: req.body.listerId,
         messageRequest: req.body.Message,
-        isSubscribed: req.body.isSubscribed
+        isSubscribed: Number(req.body.isSubscribed)
       });
       handleResponseMessage(res, result);
     } catch (e) {
