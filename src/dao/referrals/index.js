@@ -130,12 +130,16 @@ class ReferralDao {
   async getLatestReferralRequest(
     parameters: Object
   ): Promise<AgentReferral | Object> {
+    const conditionQ = {
+      userId: parameters.userId,
+      adsProjectId: parameters.adsProjectId
+    }
+
+    if (!_.isNil(parameters.referralStatus))
+      _.assign(conditionQ, {referralStatus: parameters.referralStatus});
+
     const referral = await this.referral.findOne({
-      where: {
-        userId: parameters.userId,
-        adsProjectId: parameters.adsProjectId,
-        referralStatus: parameters.referralStatus,
-      },
+      where: conditionQ,
       order: [['createdDate', 'DESC']],
     });
     return referral ? referral.get() : {};

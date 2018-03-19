@@ -36,6 +36,10 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     title: projectProfilePage['sponsor_name_' + config.lang],
   });
 
+  const attachments = !_.isEmpty(projectProfilePage.attachments)
+    ? JSON.parse(JSON.stringify(JSON.parse(projectProfilePage.attachments)))
+    : {}
+
   if (!_.isEmpty(banner)) {
     response.banner = banner;
   }
@@ -75,8 +79,8 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     architectName: projectProfilePage.architect_name,
     contractorName: projectProfilePage.contractor_name,
     promotion: projectProfilePage.project_quote,
-    downloadUrl: !_.isEmpty(projectProfilePage.attachment)
-      ? JSON.parse(projectProfilePage.attachment)[0]
+    downloadUrl: !_.isEmpty(attachments.brochure)
+      ? attachments.brochure
       : '',
   });
 
