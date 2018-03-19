@@ -25,11 +25,11 @@ export class ReferralRequestService {
     }
     const getListing = await this.listings.searchProject(params.listingId);
     if (getListing.response.numFound > 0) {
-      (await this.checkingReferral(agentParam))
-        ? (await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed))
-          ? (message = 'Success')
-          : (message = 'Failed')
-        : (message = 'Failed');
+      if (await this.checkingReferral(agentParam)) {
+        if (await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed)) {
+          message = 'Success';
+        }
+      }
     }
     return message;
   }
@@ -40,8 +40,8 @@ export class ReferralRequestService {
   }
 
   async checkingReferral(agentParam: Object): Promise<boolean> {
-    const check = await this.referral.checkReferral(agentParam);
-    return _.isEmpty(check);
+    const result = await this.referral.checkReferral(agentParam);
+    return _.isEmpty(result);
   }
 
   async getLatestRefferal(listerId: number, listingId: string): any {
