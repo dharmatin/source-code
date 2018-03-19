@@ -50,7 +50,7 @@ export const setReferralStatus = (refStatus: any): any => {
   if (refStatus === -1) {
     return 'Pending';
   }
-  if (refStatus === 0) {
+  if (refStatus === 2) {
     return 'Removed';
   }
 };
