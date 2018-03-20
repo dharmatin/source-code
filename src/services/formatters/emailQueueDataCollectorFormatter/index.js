@@ -45,17 +45,15 @@ export const formatOrganisation = (project: Object): Organisation => {
 
 const priceRangeFormat = (min: number, max: number): string => {
   let format = '';
-  min = 10;
-  max = 0;
   const hasMinPrice = (min !== 0);
   const hasMaxPrice = (max !== 0);
   const isMaxPrice = max > min;
-  const hasFromWording = (hasMinPrice && hasMaxPrice && !isMaxPrice) || (hasMinPrice && !hasMaxPrice && !isMaxPrice);
-  const hasUpToWording = (hasMinPrice && hasMaxPrice && isMaxPrice) || (!hasMinPrice && hasMaxPrice && isMaxPrice);
+  const hasWordingFrom = (hasMinPrice && hasMaxPrice && !isMaxPrice) || (hasMinPrice && !hasMaxPrice && !isMaxPrice);
+  const hasWordingUpTo = (hasMinPrice && hasMaxPrice && isMaxPrice) || (!hasMinPrice && hasMaxPrice && isMaxPrice);
 
-  if (hasFromWording) {
+  if (hasWordingFrom) {
     format = `${config.translator.from} ${priceFormat(min)}`;
-  } else if (hasUpToWording) {
+  } else if (hasWordingUpTo) {
     format = `${config.translator.up_to} ${priceFormat(max)}`;
   } else {
     format = config.translator.contact_developer;
@@ -84,7 +82,7 @@ const membershipSince = (registeredDate: Date): string => {
   const yearsRegistered = Math.ceil(monthsRegistered / 12);
 
   registeredSince = (yearsRegistered === 1 && (monthsRegistered >= 0 && monthsRegistered <= 6)) ? `6 ${config.translator.period.month} ${config.translator.ago}` :
-    yearsRegistered === 1 ? `1 ${config.translator.period.year} ${config.translator.ago}` : `${yearsRegistered} ${config.translator.period.year} ${config.translator.ago}`;
+    `${yearsRegistered} ${config.translator.period.year} ${config.translator.ago}`;
 
   return registeredSince;
 };
