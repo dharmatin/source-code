@@ -4,6 +4,7 @@ import BaseController from './base';
 import referralRequestService from '../services/referralRequestService';
 import referralApprovalService from '../services/referralApprovalService';
 import referralRejectionService from '../services/referralRejectionService';
+import referralRemovalService from '../services/referralRemovalService';
 import { isValidCustomer, isValidDeveloper } from '../middleware/userGroup';
 
 import {
@@ -67,6 +68,25 @@ class ReferralsController extends BaseController {
     }
   }
 
+  @web.del('/:listingId/listers/:listerId', [isValidDeveloper])
+  async removeReferral(req, res) {
+    try {
+      const result = await referralRemovalService.removeListerFromReferral({
+        listerId: req.params.listerId,
+        listingId: req.params.listingId,
+        referralReason: req.body.reason,
+      });
+      if (result) {
+        handleResponseMessage(res, 'success');
+      } else {
+        handleResponseMessage(res, 'failed');
+      }
+    } catch (e) {
+      handleInternalServerError(res);
+      throw new Error(e);
+    }
+  }
+
   @web.get('/:listingId/status', [isValidCustomer])
   async statusReferral(req, res) {
     try {
@@ -76,7 +96,7 @@ class ReferralsController extends BaseController {
       handleInternalServerError(res);
       throw new Error(e);
     }
-  }  
+  }
 }
 
 export default new ReferralsController();
