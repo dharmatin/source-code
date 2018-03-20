@@ -23,7 +23,6 @@ export const formatProjectProfile = (
   } else {
     return {};
   }
-  
 };
 
 const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
@@ -36,9 +35,9 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     title: projectProfilePage['sponsor_name_' + config.lang],
   });
 
-  const attachments = !_.isEmpty(projectProfilePage.attachments)
-    ? JSON.parse(JSON.stringify(JSON.parse(projectProfilePage.attachments)))
-    : {}
+  const attachments = !_.isEmpty(projectProfilePage.attachments) ?
+    JSON.parse(JSON.stringify(JSON.parse(projectProfilePage.attachments))) :
+    {};
 
   if (!_.isEmpty(banner)) {
     response.banner = banner;
@@ -79,9 +78,13 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     architectName: projectProfilePage.architect_name,
     contractorName: projectProfilePage.contractor_name,
     promotion: projectProfilePage.project_quote,
-    downloadUrl: !_.isEmpty(attachments.brochure)
-      ? attachments.brochure
-      : '',
+    builtUpMin: projectProfilePage.building_size_max,
+    builtUpMax: projectProfilePage.building_size_min,
+    landAreaMin: projectProfilePage.land_size_min,
+    landAreaMax: projectProfilePage.land_size_max,
+    downloadUrl: !_.isEmpty(attachments.brochure) ?
+      attachments.brochure :
+      '',
   });
 
   if (!_.isEmpty(lister)) {
