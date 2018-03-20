@@ -21,7 +21,7 @@ class ReferralsController extends BaseController {
     try {
       const result = await referralRequestService.requestReferral({
         listingId: req.params.listingId,
-        listerId: req.body.listerId,
+        listerId: req.userInfo.userID,
         messageRequest: req.body.Message,
         isSubscribed: Number(req.body.isSubscribed)
       });
@@ -70,7 +70,7 @@ class ReferralsController extends BaseController {
       const result = await referralRejectionService.rejectReferral({
         listerId: req.params.listerId,
         listingId: req.params.listingId,
-        referralReason: req.body.Reason,
+        referralReason: req.body.reason,
       });
       if (result) {
         handleResponseMessage(res, 'success');
