@@ -3,6 +3,7 @@ import _ from 'lodash';
 import referralCore from '../dao/referrals';
 import listingCore from '../dao/listings';
 import { extractListingId } from '../libs/utility';
+import { formatStatusReferral } from './formatters/referralFormatter';
 
 export class ReferralRequestService {
   referral: Object;
@@ -14,34 +15,48 @@ export class ReferralRequestService {
     this.listings = listings;
   }
 
-  async requestReferral(userId: string, listingId: string): Object {
-    this._setFormatListingId(listingId);
+  async requestReferral(params: Object): Promise<string> {
+    this._setFormatListingId(params.listingId);
     let message = 'Failed';
-    const getListing = await this.listings.searchProject(listingId);
-    if (getListing.response.numFound > 0) {
-      (await this.checkingReferral(userId))
-        ? (await this.requestingReferral(userId))
-          ? (message = 'Success')
-          : (message = 'Failed')
-        : (message = 'Failed');
+    const agentParam = {
+      userId: params.listerId,
+      adsProjectId: extractListingId(params.listingId).id,
+      propertyType: extractListingId(params.listingId).type
     }
-    return { message: message };
+    const getListing = await this.listings.searchProject(params.listingId);
+    if (getListing.response.numFound > 0) {
+      const isExist = await this.checkingReferral(agentParam);
+      if (isExist) {
+        const result = await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed);
+        if (result) {
+          message = 'Success';
+        }
+      }
+    }
+    return message;
   }
 
-  async requestingReferral(userId: string): Promise<boolean> {
-    const request = await this.referral.requestReferral(
-      userId,
-      this._getFormatingListingId()
-    );
-    return request.userId === userId;
+  async requestingReferral(agentParam: Object, isSubscribed: boolean): Promise<boolean> {
+    const request = await this.referral.requestReferral(agentParam, isSubscribed);
+    return request.userId === agentParam.userId;
   }
 
-  async checkingReferral(userId: string): Promise<boolean> {
-    const check = await this.referral.checkReferral(
-      userId,
-      this._getFormatingListingId()
-    );
-    return _.isEmpty(check);
+  async checkingReferral(agentParam: Object): Promise<boolean> {
+    const result = await this.referral.checkReferral(agentParam);
+    return _.isEmpty(result);
+  }
+
+  async getLatestRefferal(listerId: number, listingId: string): any {
+    let referral = {};
+    const listing = await this.listings.searchProject(listingId);
+    if ( listing.response.numFound > 0 && listing.response.docs[0].is_referral === 1) {
+      referral = await this.referral.getLatestReferralRequest({
+        userId: listerId,
+        adsProjectId: extractListingId(listingId).id
+      });
+    }
+
+    return formatStatusReferral(referral, listing.response.docs[0]);
   }
 
   _setFormatListingId(listingId: string) {

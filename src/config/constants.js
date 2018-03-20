@@ -15,15 +15,22 @@ const constants = {
     cs: 'commercialspace',
   },
   STATUS_REFERRAL: {
-    APPROVED: 1,
     PENDING: -1,
     REJECT: 0,
+    APPROVED: 1,
     REMOVE: 2,
+  },
+  STATUS_REFERRAL_TXT: {
+    INACTIVE: 'Inactive',
+    PENDING: 'Pending',
+    REJECTED: 'Denied',
+    APPROVED: 'Approved'
   },
   USER_GROUP: {
     CUSTOMER: 2,
     DEVELOPER: 32,
   },
+  EMAIL_FROM: 'no-reply@rumah123.com'
 };
 
 export default constants;

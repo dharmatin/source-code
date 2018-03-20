@@ -15,7 +15,7 @@ class EmailQueueDao {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        field: 'queue_id',
+        field: 'email_queue_id',
       },
       subject: {
         type: Sequelize.STRING(50),
@@ -70,6 +70,7 @@ class EmailQueueDao {
 
   async save(value: EmailQueue): Promise<Object> {
     const result = await this.emailQueueModel.create(value);
+    DBClient.close();
     return result;
   }
 }

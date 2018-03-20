@@ -8,11 +8,13 @@ import ReferralDao from '../../src/dao/referrals';
 import type { AgentReferral } from '../../src/dao/referrals/type';
 import { ReferralApprovalService } from '../../src/services/referralApprovalService';
 import requestReferralApproval from '../fixture/requestReferralApproval.json';
-import { getReferralCode } from '../../src/libs/utility';
+import { generateReferralCode } from '../../src/libs/utility';
+import config from '../../src/config';
 
 declare var describe: any;
 declare var it: any;
 declare var afterEach: any;
+declare var before: any;
 
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
@@ -25,9 +27,14 @@ describe('Referral approve services', () => {
     sandbox.restore();
   });
 
+  before(() => {
+    config.lang = 'id';
+    config.translator = require(`../../src/config/locales/${config.lang}.json`);
+  });
+
   describe('#getReferralCode', () => {
     it('Should return unique 8 characters alphanumeric with uppercase', (): any => {
-      const referralCode = getReferralCode();
+      const referralCode = generateReferralCode();
       const regex = new RegExp(/^[A-Z0-9]+$/i);
       expect(regex.test(referralCode)).to.be.true;
       expect(referralCode.length).equal(8);

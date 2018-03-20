@@ -5,17 +5,18 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import ListingDao from '../../src/dao/listings';
 import ListerDao from '../../src/dao/listers';
-import { ReferralEmailQueueDataCollectorService } from '../../src/services/referralEmailQueueDataCollectorService';
-import EmailQueueService from '../../src/services/emailQueueService';
+import referralApproval from '../../src/services/referrals/emails/dataCollectors/referralApproval';
 import config from '../../src/config';
 import listing from '../fixture/listingV2.json';
 import similarListings from '../fixture/listings.json';
 import listers from '../fixture/listers.json';
 import approvalDataCollector from '../fixture/approvalEmailCollector.json';
+import type{ ReferralCollectorData } from '../../src/services/referrals/data/types';
 
 declare var describe: any;
 declare var it: any;
 declare var afterEach: any;
+declare var before: any;
 
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
@@ -24,23 +25,30 @@ const { expect } = chai;
 const sandbox = sinon.createSandbox();
 
 describe('Referral Email Data Collector Services', () => {
+  before(() => {
+    config.lang = 'id';
+    config.translator = require(`../../src/config/locales/${config.lang}.json`);
+  });
   afterEach(() => {
     sandbox.restore();
   });
   it('Should be return email queue data', async(): any => {
-    config.lang = 'id';
-    config.translator = require(`../../src/config/locales/${config.lang}.json`);
     sandbox.stub(ListingDao, 'searchProject').callsFake((): any => listing);
     sandbox.stub(ListerDao, 'searchLister').callsFake((): any => listers);
     sandbox.stub(ListingDao, 'searchProjectByOrganisation').callsFake((): any => similarListings);
-    const dataCollector = new ReferralEmailQueueDataCollectorService(ListingDao, ListerDao);
-    const result = await dataCollector.referralApprove('nps1091', 70491);
-
+    const result = await referralApproval.collect({
+      listingId: 'nps1091',
+      listerId: 70491,
+      referralCode: ''
+    });
     expect(result).to.be.an('object').deep.equal(approvalDataCollector);
   });
 
   it('Should be return empty email queue data', async(): any => {
     const failedResponse = {
+      'responseHeader': {
+        'status': 0
+      },
       'response': {
         'numFound': 0,
         'start': 0,
@@ -51,15 +59,17 @@ describe('Referral Email Data Collector Services', () => {
       'from': 'no-reply@rumah123.com',
       'to': '',
       'jsonData': {},
-      'subject': '',
-      'template': ''
+      'subject': config.translator.email_subject.referral_request_granted,
+      'template': '/referral/approval_developer.php'
     };
     sandbox.stub(ListingDao, 'searchProject').callsFake((): any => failedResponse);
     sandbox.stub(ListerDao, 'searchLister').callsFake((): any => failedResponse);
     sandbox.stub(ListingDao, 'searchProjectByOrganisation').callsFake((): any => failedResponse);
-    const dataCollector = new ReferralEmailQueueDataCollectorService(ListingDao, ListerDao);
-    const result = await dataCollector.referralApprove('nps1091', 70491);
-
+    const result = await referralApproval.collect({
+      listingId: 'nps1091',
+      listerId: 70491,
+      referralCode: ''
+    });
     expect(result).to.be.an('object').deep.equal(emptyQueueuData);
   });
 });
