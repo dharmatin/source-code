@@ -2,12 +2,13 @@
 import _ from 'lodash';
 import type { ReferralListers } from './types';
 import config from '../../../config';
-import { getValidateDate } from '../../../libs/utility';
+import { isValidDate } from '../../../libs/utility';
 
 export const formatAttributesReferral = (
   referralListers: Array<Object>,
   req: Object,
-  totalreferralList: any
+  totalreferralList: any,
+  pagingRequest: Object,
 ): Array<ReferralListers> => {
   const referralListersArray = [];
 
@@ -29,15 +30,15 @@ export const formatAttributesReferral = (
       title: item.ads_name
     };
 
-    if (getValidateDate(item.created_date)) {
+    if (isValidDate(item.created_date)) {
       referralListerObject.createdAt = item.created_date;
     }
 
-    if (getValidateDate(item.approved_date)) {
+    if (isValidDate(item.approved_date)) {
       referralListerObject.updatedAt = item.approved_date;
     }
 
-    if (getValidateDate(item.removed_date)) {
+    if (isValidDate(item.removed_date)) {
       referralListerObject.removedAt = item.removed_date;
     }
 
@@ -47,14 +48,15 @@ export const formatAttributesReferral = (
     referralListersArray.push(referralListerObject);
   });
 
-  const nextPageToken = ((Number(req.query.pageToken) * Number(req.query.pageSize) >= totalreferralList) ? Number(req.query.pageToken) : Number(req.query.pageToken) + 1).toString();
-
   const result = {};
   result.totalCount = 0;
   if (referralListersArray.length > 0) {
     result.Listers = referralListersArray;
-    if (nextPageToken > req.query.pageToken) {
-      result.nextPageToken = nextPageToken;
+    if (
+      (pagingRequest.pageToken * pagingRequest.pageSize) < totalreferralList &&
+      totalreferralList > 1
+    ) {
+      result.nextPageToken = (Number(pagingRequest.pageToken) + 1).toString();
     }
     result.totalCount = totalreferralList;
   }

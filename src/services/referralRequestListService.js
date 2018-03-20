@@ -16,22 +16,18 @@ export class ReferralService {
   }
 
   async getReferralList(req: Object): Object {
-    const getProject = await this.listings.searchProjectByUserId(req.userInfo.userID);
-    if (getProject.responseHeader.status !== 0) {
+    const project = await this.listings.searchProjectByUserId(req.userInfo.userID, 0, 1);
+    if (project.responseHeader.status !== 0) {
       throw new Error('Solr Project Not Found');
     }
-    const projectId = [];
-    _.map(getProject.response.docs, item => {
-      const id = extractListingId(item.id);
-      projectId.push(id.id);
-    });
 
-    const setRowStart = (req.query.pageToken - 1) * req.query.pageSize;
+    const rowStart = (req.query.pageToken - 1) * req.query.pageSize;
+    const pagingRequest = {pageToken: req.query.pageToken, pageSize: req.query.pageSize};
 
-    const referralQuery = await this.referral.getReferralByProjectId(projectId, setRowStart, req.query.pageSize, true);
-    const referralWithoutLimitQuery = await this.referral.getReferralByProjectId(projectId, setRowStart, req.query.pageSize, false);
+    const referralQuery = await this.referral.getReferralByProjectId(project.response.docs[0].developer_company_id, rowStart, req.query.pageSize);
+    const referralWithoutLimitQuery = await this.referral.getCountReferralByProjectId(project.response.docs[0].developer_company_id);
 
-    return formatAttributesReferral(referralQuery, req, referralWithoutLimitQuery.length);
+    return formatAttributesReferral(referralQuery, req, referralWithoutLimitQuery[0].total, pagingRequest);
   }
 }
 

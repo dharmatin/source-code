@@ -92,7 +92,7 @@ class ReferralsController extends BaseController {
       handleInternalServerError(res);
       throw new Error(e);
     }
-  }  
+  }
 }
 
 export default new ReferralsController();

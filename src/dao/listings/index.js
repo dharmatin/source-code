@@ -45,9 +45,14 @@ export default {
       .matchFilter('en_project_access', '[* TO *]');
     return listingClient.searchAsync(queryProjectAccess);
   },
-  searchProjectByUserId: async(userId: string): Object => {
+  searchProjectByUserId: async(userId: string, start: number, row: number): Object => {
     const conditionQ = `developer_user_id:${userId}`;
-    const queryListingByUserId = listingClient.createQuery().q(conditionQ);
+    const queryListingByUserId =
+    listingClient
+      .createQuery()
+      .q(conditionQ)
+      .start(start)
+      .rows(row); ;
     return listingClient.searchAsync(queryListingByUserId);
   }
 };

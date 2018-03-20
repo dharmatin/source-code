@@ -60,6 +60,7 @@ export const getRequestForPagingParam = (
   req: any,
   defaultPageSize: number
 ): Object => {
+  console.log('REQUEST', req.query);
   const paging = {
     pageSize: defaultPageSize,
     pageToken: 1,
@@ -82,6 +83,6 @@ export const getRequestForPagingParam = (
   return paging;
 };
 
-export const getValidateDate = (date: string): Boolean => {
+export const isValidDate = (date: string): Boolean => {
   return moment(date).isValid();
 };
