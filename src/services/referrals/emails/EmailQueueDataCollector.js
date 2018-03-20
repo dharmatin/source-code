@@ -58,6 +58,8 @@ export default class EmailQueueDataCollector {
 
   async queuedDataForOrganisation(params: ReferralCollectorData): Promise<EmailQueueData> {
     // FOR DATA EMAIL REFERRAL SENT TO DEVELOPER
+
+    return this.getEmailQueueData();
   }
 
   async getProjectProfile(params: ProjectProfileRequester): Promise<Object> {
