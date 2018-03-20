@@ -30,7 +30,7 @@ export class ReferralService {
 
     const referralQuery = await this.referral.getReferralByProjectId(projectId, setRowStart, req.query.pageSize, true);
     const referralWithoutLimitQuery = await this.referral.getReferralByProjectId(projectId, setRowStart, req.query.pageSize, false);
-    // return [referralQuery];
+
     return formatAttributesReferral(referralQuery, req, referralWithoutLimitQuery.length);
   }
 }
