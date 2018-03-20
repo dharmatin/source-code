@@ -70,7 +70,6 @@ class EmailQueueDao {
 
   async save(value: EmailQueue): Promise<Object> {
     const result = await this.emailQueueModel.create(value);
-    DBClient.close();
     return result;
   }
 }
