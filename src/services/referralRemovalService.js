@@ -33,7 +33,6 @@ export class ReferralRemovalService {
 
   async isListerRemoveFromReferral(): Promise<boolean> {
     const referral = await this.getLatestRefferal();
-    console.log('REFERRAL', referral);
     if (!_.isEmpty(referral)) {
       const affectedRowsUpdated = await this.updateLatestReferral(referral);
       return affectedRowsUpdated > 0;
