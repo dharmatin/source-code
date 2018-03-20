@@ -1,6 +1,7 @@
 // @flow
 import _ from 'lodash';
 import config from '../config';
+import moment from 'moment';
 
 export const slugify = (strUrl: string): string => {
   return strUrl
@@ -77,6 +78,10 @@ export const getRequestForPagingParam = (
       paging.pageToken = Math.abs(pageToken);
     }
   }
-  
+
   return paging;
+};
+
+export const getValidateDate = (date: string): Boolean => {
+  return moment(date).isValid();
 };

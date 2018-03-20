@@ -174,9 +174,9 @@ class ReferralDao {
       `INNER JOIN user_v2 U ON AR.user_id = U.user_id ` +
       `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +
       `INNER JOIN ads_project AP ON AR.ads_project_id = AP.ads_project_id ` +
-      `WHERE AR.ads_project_id IN (${projectId.join()}) ` +
-      `AND AR.referral_status IN (${config.STATUS_REFERRAL.PENDING}, ${config.STATUS_REFERRAL.APPROVED}, ${config.STATUS_REFERRAL.REMOVE}) ${limitQuery}`
-      , { type: Sequelize.QueryTypes.SELECT});
+      `WHERE AR.ads_project_id IN (:projectId) ` +
+      `AND AR.referral_status IN (:referralStatus) ${limitQuery}`
+      , { replacements: {projectId: projectId, referralStatus: [config.STATUS_REFERRAL.PENDING, config.STATUS_REFERRAL.APPROVED, config.STATUS_REFERRAL.REMOVE]}, type: Sequelize.QueryTypes.SELECT });
 
     return rawReferralList;
   }
