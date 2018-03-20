@@ -35,7 +35,12 @@ class ReferralsController extends BaseController {
   @web.get('/listers', [isValidDeveloper])
   async listReferral(req, res, next) {
     try {
-      const referralList = await referralRequestListService.getReferralList(req);
+      const requestParameter = {
+        userId: req.userInfo.userID,
+        pageToken: req.query.pageToken,
+        pageSize: req.query.pageSize
+      };
+      const referralList = await referralRequestListService.getReferralList(requestParameter);
 
       if (_.isEmpty(referralList)) {
         handleNotFound(res);

@@ -6,7 +6,6 @@ import { isValidDate } from '../../../libs/utility';
 
 export const formatAttributesReferral = (
   referralListers: Array<Object>,
-  req: Object,
   totalreferralList: any,
   pagingRequest: Object,
 ): Array<ReferralListers> => {

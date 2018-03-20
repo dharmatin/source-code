@@ -2,7 +2,6 @@
 import _ from 'lodash';
 import referralCore from '../dao/referrals';
 import listingCore from '../dao/listings';
-import { extractListingId } from '../libs/utility';
 import { formatAttributesReferral } from './formatters/referralRequestListFormater';
 
 export class ReferralService {
@@ -16,18 +15,18 @@ export class ReferralService {
   }
 
   async getReferralList(req: Object): Object {
-    const project = await this.listings.searchProjectByUserId(req.userInfo.userID, 0, 1);
+    const project = await this.listings.searchProjectByUserId(req.userId, 0, 1);
     if (project.responseHeader.status !== 0) {
       throw new Error('Solr Project Not Found');
     }
 
-    const rowStart = (req.query.pageToken - 1) * req.query.pageSize;
-    const pagingRequest = {pageToken: req.query.pageToken, pageSize: req.query.pageSize};
+    const rowStart = (req.pageToken - 1) * req.pageSize;
+    const pagingRequest = {pageToken: req.pageToken, pageSize: req.pageSize};
 
-    const referralQuery = await this.referral.getReferralByProjectId(project.response.docs[0].developer_company_id, rowStart, req.query.pageSize);
+    const referralQuery = await this.referral.getReferralByProjectId(project.response.docs[0].developer_company_id, rowStart, req.pageSize);
     const referralWithoutLimitQuery = await this.referral.getCountReferralByProjectId(project.response.docs[0].developer_company_id);
 
-    return formatAttributesReferral(referralQuery, req, referralWithoutLimitQuery[0].total, pagingRequest);
+    return formatAttributesReferral(referralQuery, referralWithoutLimitQuery[0].total, pagingRequest);
   }
 }
 
