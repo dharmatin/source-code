@@ -9,11 +9,13 @@ export const formatAttributesReferral = (
   totalreferralList: any,
   pagingRequest: Object,
 ): Array<ReferralListers> => {
-  const referralListersArray = [];
+  const result = {};
+  if (referralListers.length > 0) {
+    const referralListersArray = [];
 
-  _.map(referralListers, item => {
-    const referralListerObject = {};
-    referralListerObject.listers =
+    _.map(referralListers, item => {
+      const referralListerObject = {};
+      referralListerObject.listers =
       {
         id: item.user_id,
         name: item.first_name + ' ' + item.last_name,
@@ -23,45 +25,48 @@ export const formatAttributesReferral = (
         },
         website: item.personalweb_url
       };
-    referralListerObject.listings =
+      referralListerObject.listings =
     {
       id: item.ads_project_id,
       title: item.ads_name
     };
 
-    if (isValidDate(item.created_date)) {
-      referralListerObject.createdAt = item.created_date;
-    }
+      if (isValidDate(item.created_date)) {
+        referralListerObject.createdAt = item.created_date;
+      }
 
-    if (isValidDate(item.approved_date)) {
-      referralListerObject.updatedAt = item.approved_date;
-    }
+      if (isValidDate(item.approved_date)) {
+        referralListerObject.updatedAt = item.approved_date;
+      }
 
-    if (isValidDate(item.removed_date)) {
-      referralListerObject.removedAt = item.removed_date;
-    }
+      if (isValidDate(item.removed_date)) {
+        referralListerObject.removedAt = item.removed_date;
+      }
 
-    if (item.referral_reason !== null) {
-      referralListerObject.message = item.referral_reason;
-    }
+      if (item.referral_reason) {
+        referralListerObject.message = item.referral_reason;
+      }
 
-    referralListerObject.status = setReferralStatus(item.referral_status);
+      referralListerObject.status = setReferralStatus(item.referral_status);
 
-    referralListersArray.push(referralListerObject);
-  });
+      referralListersArray.push(referralListerObject);
+    });
 
-  const result = {};
-  result.totalCount = 0;
-  if (referralListersArray.length > 0) {
-    result.Listers = referralListersArray;
-    if (
-      (pagingRequest.pageToken * pagingRequest.pageSize) < totalreferralList &&
+    result.totalCount = 0;
+    if (referralListersArray.length > 0) {
+      result.Listers = referralListersArray;
+      if (
+        (pagingRequest.pageToken * pagingRequest.pageSize) < totalreferralList &&
       totalreferralList > 1
-    ) {
-      result.nextPageToken = (Number(pagingRequest.pageToken) + 1).toString();
+      ) {
+        result.nextPageToken = (Number(pagingRequest.pageToken) + 1).toString();
+      }
+      result.totalCount = totalreferralList;
     }
-    result.totalCount = totalreferralList;
+    return [result];
   }
+
+  result.totalCount = totalreferralList;
 
   return [result];
 };
