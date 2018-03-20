@@ -3,6 +3,7 @@ import _ from 'lodash';
 import BaseController from './base';
 import referralRequestService from '../services/referralRequestService';
 import referralApprovalService from '../services/referralApprovalService';
+import referralRequestListService from '../services/referralRequestListService';
 import referralRejectionService from '../services/referralRejectionService';
 import referralRemovalService from '../services/referralRemovalService';
 import { isValidCustomer, isValidDeveloper } from '../middleware/userGroup';
@@ -10,7 +11,8 @@ import { isValidCustomer, isValidDeveloper } from '../middleware/userGroup';
 import {
   handleInternalServerError,
   handleSuccess,
-  handleResponseMessage,
+  handleNotFound,
+  handleResponseMessage
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/referrals/listings')
@@ -28,6 +30,25 @@ class ReferralsController extends BaseController {
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);
+    }
+  }
+
+  @web.get('/listers', [isValidDeveloper])
+  async listReferral(req, res, next) {
+    try {
+      const requestParameter = {
+        userId: req.userInfo.userID,
+        pageToken: req.query.pageToken,
+        pageSize: req.query.pageSize
+      };
+      const referralList = await referralRequestListService.getReferralList(requestParameter);
+
+      if (_.isEmpty(referralList)) {
+        handleNotFound(res);
+      }
+      handleSuccess(res, referralList[0]);
+    } catch (e) {
+      handleInternalServerError(res, e);
     }
   }
 

@@ -35,6 +35,10 @@ class ReferralDao {
         type: Sequelize.STRING(2),
         field: 'property_type',
       },
+      referralReason: {
+        type: Sequelize.TEXT,
+        field: 'referral_reason',
+      },
       propertyCategory: {
         type: Sequelize.STRING(2),
         field: 'property_category',
@@ -72,7 +76,7 @@ class ReferralDao {
       removedDate: {
         type: Sequelize.DATE,
         field: 'removed_date',
-      },
+      }
     });
   }
 
@@ -134,10 +138,9 @@ class ReferralDao {
     const conditionQ = {
       userId: parameters.userId,
       adsProjectId: parameters.adsProjectId
-    }
+    };
 
-    if (!_.isNil(parameters.referralStatus))
-      _.assign(conditionQ, {referralStatus: parameters.referralStatus});
+    if (!_.isNil(parameters.referralStatus)) { _.assign(conditionQ, {referralStatus: parameters.referralStatus}); }
 
     const referral = await this.referral.findOne({
       where: conditionQ,
@@ -148,16 +151,47 @@ class ReferralDao {
 
   async getReferralByCodeAndListingId(dataReferral: Object): Promise<string> {
     const conditionQ = {
-        referral_status: config.STATUS_REFERRAL.APPROVED,
-        ...dataReferral
-      };
-    
+      referral_status: config.STATUS_REFERRAL.APPROVED,
+      ...dataReferral
+    };
+
     const referral = await this.referral.findOne({
       where: conditionQ,
       raw: true
     });
-    
+
     return referral;
+  }
+
+  async getReferralByProjectId(companyId: string, start: any, row: any): any {
+    const limitQuery = `LIMIT ${start} , ${row}`;
+    const rawReferralList = await ReferralClient.query(`SELECT ` +
+      `AR.*, U.user_name, U.email, U.first_name, U.last_name, UA.personalweb_url, UA.profile_photo, AP.ads_name ` +
+      `FROM agent_referral AR ` +
+      `INNER JOIN user_v2 U ON AR.user_id = U.user_id ` +
+      `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +
+      `INNER JOIN ads_project AP ON AR.ads_project_id = AP.ads_project_id ` +
+      `INNER JOIN developer_company_v2 D ON D.developer_company_id= AP.developer_company_id ` +
+      `WHERE D.developer_company_id = :companyId ` +
+      `AND AR.referral_status IN (:referralStatus) ${limitQuery}`
+      , { replacements: {companyId: companyId, referralStatus: [config.STATUS_REFERRAL.PENDING, config.STATUS_REFERRAL.APPROVED, config.STATUS_REFERRAL.REMOVE]}, type: Sequelize.QueryTypes.SELECT });
+
+    return rawReferralList;
+  }
+
+  async getCountReferralByProjectId(companyId: string): any {
+    const rawCountReferralList = await ReferralClient.query(`SELECT ` +
+      `COUNT(AR.user_id) AS total ` +
+      `FROM agent_referral AR ` +
+      `INNER JOIN user_v2 U ON AR.user_id = U.user_id ` +
+      `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +
+      `INNER JOIN ads_project AP ON AR.ads_project_id = AP.ads_project_id ` +
+      `INNER JOIN developer_company_v2 D ON D.developer_company_id= AP.developer_company_id ` +
+      `WHERE D.developer_company_id = :companyId ` +
+      `AND AR.referral_status IN (:referralStatus) `
+      , { replacements: {companyId: companyId, referralStatus: [config.STATUS_REFERRAL.PENDING, config.STATUS_REFERRAL.APPROVED, config.STATUS_REFERRAL.REMOVE]}, type: Sequelize.QueryTypes.SELECT });
+
+    return rawCountReferralList;
   }
 }
 
