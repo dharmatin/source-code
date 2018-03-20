@@ -1,4 +1,3 @@
-// @flow
 import _ from 'lodash';
 import Sequelize from 'sequelize';
 import referralDao from '../dao/referrals';

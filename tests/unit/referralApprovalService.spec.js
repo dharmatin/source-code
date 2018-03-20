@@ -54,7 +54,8 @@ describe('Referral approve services', () => {
       createdDate: new Date(),
       approvedDate: new Date(),
       rejectedDate: new Date(),
-      removedDate: new Date()
+      removedDate: new Date(),
+      messageRequest: ''
     };
 
     it('Should be return true if the update process last request affected more than 0', (): any => {
