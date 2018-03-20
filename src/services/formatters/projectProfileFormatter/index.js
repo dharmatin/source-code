@@ -23,7 +23,6 @@ export const formatProjectProfile = (
   } else {
     return {};
   }
-  
 };
 
 const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
@@ -35,6 +34,10 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     link: projectProfilePage.url_sponsor,
     title: projectProfilePage['sponsor_name_' + config.lang],
   });
+
+  const attachments = !_.isEmpty(projectProfilePage.attachments) ?
+    JSON.parse(JSON.stringify(JSON.parse(projectProfilePage.attachments))) :
+    {};
 
   if (!_.isEmpty(banner)) {
     response.banner = banner;
@@ -62,6 +65,7 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     province: projectProfilePage.province_name,
     geoCoordinate: _.split(projectProfilePage.latlng, ','),
   });
+
   response.attributes = listingAttributeFormatter.formatAttributesInfo({
     bedroomMin: projectProfilePage.bedroom_min,
     bedroomMax: projectProfilePage.bedroom_max,
@@ -74,9 +78,13 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     architectName: projectProfilePage.architect_name,
     contractorName: projectProfilePage.contractor_name,
     promotion: projectProfilePage.project_quote,
-    downloadUrl: !_.isEmpty(projectProfilePage.attachment)
-      ? JSON.parse(projectProfilePage.attachment)[0]
-      : '',
+    builtUpMin: projectProfilePage.building_size_max,
+    builtUpMax: projectProfilePage.building_size_min,
+    landAreaMin: projectProfilePage.land_size_min,
+    landAreaMax: projectProfilePage.land_size_max,
+    downloadUrl: !_.isEmpty(attachments.brochure) ?
+      attachments.brochure :
+      '',
   });
 
   if (!_.isEmpty(lister)) {

@@ -6,6 +6,7 @@ export type AgentReferral = {
   adsId: number,
   propertyType: string,
   propertyCategory: string,
+  messageRequest: string,
   referralCode: string,
   referralStatus: number,
   referralReason: string,

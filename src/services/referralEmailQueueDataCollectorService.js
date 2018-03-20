@@ -44,8 +44,6 @@ export class ReferralEmailQueueDataCollectorService {
     const result = await this.listerDao.searchLister(id);
     return result;
   }
-
-  initilaize
 }
 
 export default new ReferralEmailQueueDataCollectorService(listingDao, listerDao);

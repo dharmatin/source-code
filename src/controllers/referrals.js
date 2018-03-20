@@ -17,13 +17,13 @@ class ReferralsController extends BaseController {
   @web.post('/:listingId/apply', [isValidCustomer])
   async requestReferral(req, res) {
     try {
-      handleSuccess(
-        res,
-        await referralRequestService.requestReferral(
-          req.userInfo.userID,
-          req.params.listingId
-        )
-      );
+      const result = await referralRequestService.requestReferral({
+        listingId: req.params.listingId,
+        listerId: req.userInfo.userID,
+        messageRequest: req.body.Message,
+        isSubscribed: Number(req.body.isSubscribed)
+      });
+      handleResponseMessage(res, result);
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);
@@ -54,7 +54,7 @@ class ReferralsController extends BaseController {
       const result = await referralRejectionService.rejectReferral({
         listerId: req.params.listerId,
         listingId: req.params.listingId,
-        referralReason: req.body.Reason,
+        referralReason: req.body.reason,
       });
       if (result) {
         handleResponseMessage(res, 'success');
@@ -66,6 +66,17 @@ class ReferralsController extends BaseController {
       throw new Error(e);
     }
   }
+
+  @web.get('/:listingId/status', [isValidCustomer])
+  async statusReferral(req, res) {
+    try {
+      const result = await referralRequestService.getLatestRefferal(req.userInfo.userID, req.params.listingId);
+      handleSuccess(res, result);
+    } catch (e) {
+      handleInternalServerError(res);
+      throw new Error(e);
+    }
+  }  
 }
 
 export default new ReferralsController();
