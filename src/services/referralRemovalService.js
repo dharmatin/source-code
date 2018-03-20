@@ -55,7 +55,7 @@ export class ReferralRemovalService {
     const approvedData: Object = {
       referralStatus: config.STATUS_REFERRAL.REMOVE,
       referralReason: this._getReferralReason(),
-      rejectedDate: Sequelize.fn('NOW', 3),
+      removedDate: Sequelize.fn('NOW', 3),
     };
     const affectedRows = await referralDao.updateRefferalById(
       referral.agentReferralId,
