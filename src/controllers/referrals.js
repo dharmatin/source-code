@@ -71,7 +71,7 @@ class ReferralsController extends BaseController {
   @web.del('/:listingId/listers/:listerId', [isValidDeveloper])
   async removeReferral(req, res) {
     try {
-      const result = await referralRemovalService.removeReferral({
+      const result = await referralRemovalService.removeListerFromReferral({
         listerId: req.params.listerId,
         listingId: req.params.listingId,
         referralReason: req.body.reason,

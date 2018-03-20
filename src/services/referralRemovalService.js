@@ -18,7 +18,7 @@ export class ReferralRemovalService {
     this.listingId = 0;
   }
 
-  async removeReferral(request: Object): Promise<boolean> {
+  async removeListerFromReferral(request: Object): Promise<boolean> {
     const listingIdDescription: Object = extractListingId(request.listingId);
     this._setListerId(request.listerId);
     this._setListingId(listingIdDescription.id);
@@ -27,11 +27,11 @@ export class ReferralRemovalService {
     if (_.isNil(request.referralReason)) {
       return false;
     } else {
-      return this.isRemoved();
+      return this.isListerRemoveFromReferral();
     }
   }
 
-  async isRemoved(): Promise<boolean> {
+  async isListerRemoveFromReferral(): Promise<boolean> {
     const referral = await this.getLatestRefferal();
     console.log('REFERRAL', referral);
     if (!_.isEmpty(referral)) {
