@@ -41,7 +41,10 @@ export const formatAttributesReferral = (
       referralListerObject.removedAt = item.removed_date;
     }
 
-    referralListerObject.message = item.referral_reason;
+    if (item.referral_reason !== null) {
+      referralListerObject.message = item.referral_reason;
+    }
+
     referralListerObject.status = setReferralStatus(item.referral_status);
 
     referralListersArray.push(referralListerObject);

@@ -4,7 +4,7 @@ import referralCore from '../dao/referrals';
 import listingCore from '../dao/listings';
 import { formatAttributesReferral } from './formatters/referralRequestListFormater';
 
-export class ReferralService {
+export class ReferralRequestListService {
   referral: Object;
   listings: Object;
   listers: Object;
@@ -30,4 +30,4 @@ export class ReferralService {
   }
 }
 
-export default new ReferralService(referralCore, listingCore);
+export default new ReferralRequestListService(referralCore, listingCore);
