@@ -49,7 +49,7 @@ export const extractListingId = (adsId: string): Object => {
   };
 };
 
-export const getReferralCode = (): string => {
+export const generateReferralCode = (): string => {
   const time = new Date().getTime();
 
   return time.toString(36).toLocaleUpperCase();
@@ -77,6 +77,6 @@ export const getRequestForPagingParam = (
       paging.pageToken = Math.abs(pageToken);
     }
   }
-  
+
   return paging;
 };
