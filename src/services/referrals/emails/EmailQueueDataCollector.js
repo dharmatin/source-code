@@ -4,8 +4,9 @@ import projectService from '../../projectProfileService';
 import listerService from '../../listerService';
 import type { EmailQueueData, ReferralCollectorData, ProjectProfileRequester } from '../data/types';
 import { formatProject, formatLister, formatOrganisation } from '../../formatters/emailQueueDataCollectorFormatter';
+import config from '../../../config';
 
-const EMAIL_FROM = 'no-reply@rumah123.com';
+const EMAIL_FROM = config.EMAIL_FROM;
 const DEFAULT_PAGE_TOKEN = 2;
 const DEFAULT_PAGE_SIZE = 2;
 

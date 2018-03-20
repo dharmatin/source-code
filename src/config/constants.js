@@ -30,6 +30,7 @@ const constants = {
     CUSTOMER: 2,
     DEVELOPER: 32,
   },
+  EMAIL_FROM: 'no-reply@rumah123.com'
 };
 
 export default constants;
