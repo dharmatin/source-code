@@ -1,8 +1,10 @@
 // @flow
 import _ from 'lodash';
+import moment from 'moment';
 import type { ReferralListers } from './types';
 import config from '../../../config';
-import { isValidDate } from '../../../libs/utility';
+import { isValidDate, toISOFormatting } from '../../../libs/utility';
+import { formatlisterPageLink } from '../listerFormatter';
 
 export const formatAttributesReferral = (
   referralListers: Array<Object>,
@@ -21,9 +23,13 @@ export const formatAttributesReferral = (
         name: item.first_name + ' ' + item.last_name,
         image:
         {
-          url: config.image.sharpieUrl + '/' + item.profile_photo
+          url: config.image.baseUrl + '/' + item.profile_photo
         },
-        website: item.personalweb_url
+        website: formatlisterPageLink({
+          organisationName: item.company_name,
+          listerName: item.first_name + ' ' + item.last_name,
+          id: item.user_id,
+        })
       };
       referralListerObject.listings =
     {
@@ -32,15 +38,15 @@ export const formatAttributesReferral = (
     };
 
       if (isValidDate(item.created_date)) {
-        referralListerObject.createdAt = item.created_date;
+        referralListerObject.createdAt = moment(item.created_date).format('YYYY-MM-DDThh:mm:ssTZ');
       }
 
       if (isValidDate(item.approved_date)) {
-        referralListerObject.updatedAt = item.approved_date;
+        referralListerObject.updatedAt = moment(item.approved_date).format('YYYY-MM-DDThh:mm:ssTZ');
       }
 
       if (isValidDate(item.removed_date)) {
-        referralListerObject.removedAt = item.removed_date;
+        referralListerObject.removedAt = moment(item.removed_date).format('YYYY-MM-DDThh:mm:ssTZ');
       }
 
       if (item.referral_reason) {
@@ -54,7 +60,7 @@ export const formatAttributesReferral = (
 
     result.totalCount = 0;
     if (referralListersArray.length > 0) {
-      result.Listers = referralListersArray;
+      result.listers = referralListersArray;
       if (
         (pagingRequest.pageToken * pagingRequest.pageSize) < totalreferralList &&
       totalreferralList > 1
