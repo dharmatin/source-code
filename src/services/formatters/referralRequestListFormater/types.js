@@ -1,6 +1,6 @@
 // @flow
 export type ReferralListers = {
-  Listers: Array<Object>,
+  listers: Array<Object>,
   totalCount: number,
   nextPageToken: string
 };
