@@ -166,7 +166,9 @@ class ReferralDao {
   async getReferralByProjectId(companyId: string, start: any, row: any): any {
     const limitQuery = `LIMIT ${start} , ${row}`;
     const rawReferralList = await ReferralClient.query(`SELECT ` +
-      `AR.*, U.user_name, U.email, U.first_name, U.last_name, UA.personalweb_url, UA.profile_photo, AP.ads_name, C.company_name  ` +
+      `AR.user_id, AR.ads_project_id, AR.referral_reason, AR.referral_status, AR.created_date, AR.approved_date, AR.removed_date, ` +
+      `U.user_name, U.email, U.first_name, U.last_name, ` +
+      `UA.personalweb_url, UA.profile_photo, UA.contact_no, AP.ads_name, C.company_name  ` +
       `FROM agent_referral AR ` +
       `INNER JOIN user_v2 U ON AR.user_id = U.user_id ` +
       `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +

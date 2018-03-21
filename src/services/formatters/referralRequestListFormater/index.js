@@ -3,8 +3,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import type { ReferralListers } from './types';
 import config from '../../../config';
-import { isValidDate, toISOFormatting } from '../../../libs/utility';
-import { formatlisterPageLink } from '../listerFormatter';
+import { isValidDate } from '../../../libs/utility';
+import { formatListerProfile } from '../listerFormatter';
 
 export const formatAttributesReferral = (
   referralListers: Array<Object>,
@@ -17,36 +17,36 @@ export const formatAttributesReferral = (
 
     _.map(referralListers, item => {
       const referralListerObject = {};
-      referralListerObject.listers =
-      {
-        id: item.user_id.toString(),
-        name: item.first_name + ' ' + item.last_name,
-        image:
-        {
-          url: config.image.baseUrl + '/photo/' + item.user_id + '/180/' + (item.profile_photo ? item.profile_photo : '_photo.jpg')
-        },
-        website: formatlisterPageLink({
-          organisationName: item.company_name,
-          listerName: item.first_name + ' ' + item.last_name,
-          id: item.user_id,
-        })
+
+      const formatLister = {
+        docs: [{
+          id: item.user_id.toString(),
+          name: item.first_name + ' ' + item.last_name,
+          photo_url: config.image.baseUrl + '/photo/' + item.user_id + '/180/' + (item.profile_photo ? item.profile_photo : '_photo.jpg'),
+          company2: item.company_name,
+          register: item.created_date,
+          handphone: item.contact_no,
+          email: item.email
+        }]
       };
+
+      referralListerObject.listers = formatListerProfile(formatLister);
       referralListerObject.listings =
-    {
-      id: item.ads_project_id,
-      title: item.ads_name
-    };
+      {
+        id: item.ads_project_id.toString(),
+        title: item.ads_name
+      };
 
       if (isValidDate(item.created_date)) {
-        referralListerObject.createdAt = moment(item.created_date).format('YYYY-MM-DDThh:mm:ssTZ');
+        referralListerObject.createdAt = moment(item.created_date).format('YYYY-MM-DDThh:mm:ssZ');
       }
 
       if (isValidDate(item.approved_date)) {
-        referralListerObject.updatedAt = moment(item.approved_date).format('YYYY-MM-DDThh:mm:ssTZ');
+        referralListerObject.updatedAt = moment(item.approved_date).format('YYYY-MM-DDThh:mm:ssZ');
       }
 
       if (isValidDate(item.removed_date)) {
-        referralListerObject.removedAt = moment(item.removed_date).format('YYYY-MM-DDThh:mm:ssTZ');
+        referralListerObject.removedAt = moment(item.removed_date).format('YYYY-MM-DDThh:mm:ssZ');
       }
 
       if (item.referral_reason) {
