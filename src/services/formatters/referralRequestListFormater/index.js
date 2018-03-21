@@ -19,11 +19,11 @@ export const formatAttributesReferral = (
       const referralListerObject = {};
       referralListerObject.listers =
       {
-        id: item.user_id,
+        id: item.user_id.toString(),
         name: item.first_name + ' ' + item.last_name,
         image:
         {
-          url: config.image.baseUrl + '/' + item.profile_photo
+          url: config.image.baseUrl + '/photo/' + item.user_id + '/180/' + (item.profile_photo ? item.profile_photo : '_photo.jpg')
         },
         website: formatlisterPageLink({
           organisationName: item.company_name,
