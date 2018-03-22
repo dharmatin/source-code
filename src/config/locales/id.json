@@ -47,6 +47,7 @@
     },
     "ago": "lalu",
     "email_subject": {
-        "referral_request_granted": "Permintaan Diterima"
+        "referral_request_granted": "Permintaan Diterima",
+        "referral_request_sended": "Permintaan anda telah terkirim"
     }
 }
