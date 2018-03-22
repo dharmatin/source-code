@@ -77,7 +77,7 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     completionDate: projectProfilePage.completion_date,
     architectName: projectProfilePage.architect_name,
     contractorName: projectProfilePage.contractor_name,
-    promotion: projectProfilePage.project_quote,
+    promotion: projectProfilePage.project_promotion,
     builtUpMin: projectProfilePage.building_size_max,
     builtUpMax: projectProfilePage.building_size_min,
     landAreaMin: projectProfilePage.land_size_min,

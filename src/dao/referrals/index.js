@@ -124,7 +124,7 @@ class ReferralDao {
   async updateRefferalById(
     id: number,
     value: AgentReferral
-  ): Promise<Array<number>> {
+  ): Promise<Array<number> {
     const affectedRow = await this.referral.update(value, {
       where: { agentReferralId: id },
     });
