@@ -58,8 +58,39 @@ export default class EmailQueueDataCollector {
 
   async queuedDataForOrganisation(params: ReferralCollectorData): Promise<EmailQueueData> {
     // FOR DATA EMAIL REFERRAL SENT TO DEVELOPER
+    const lister = await this.getListerProfile(params.listerId);
+    const listerFormatted = formatLister(lister);
+    const project = await this.getProjectProfile({id: params.listingId, referralCode: params.referralCode});
+    let jsonData = {};
 
-    return this.getEmailQueueData();
+    if (!_.isEmpty(project)) {
+      const organisationsFormatted = formatOrganisation(project);
+      const projectByOrganisation = await this.getAllProjectByOrganisation(project.organisations[0].id);
+
+      jsonData = {
+        agent: listerFormatted,
+        project: organisationsFormatted,
+        developerDashboard: projectByOrganisation
+      };
+    }
+
+    return {
+      subject: '',
+      template: '',
+      from: EMAIL_FROM,
+      to: listerFormatted.email,
+      jsonData: jsonData
+    };
+  }
+
+  async getAllProjectByOrganisation(developerCompanyId: number): Promise<Object> {
+    const result = await this.projectService.getProjectByOrganisation(developerCompanyId,
+      '', {
+        'pageToken': 1,
+        'pageSize': 9999
+      }
+    );
+    return result;
   }
 
   async getProjectProfile(params: ProjectProfileRequester): Promise<Object> {

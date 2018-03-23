@@ -1,15 +1,16 @@
 // @flow
 import _ from 'lodash';
 import moment from 'moment';
-import referralCore from '../dao/referrals';
-import listingCore from '../dao/listings';
+import referralDao from '../dao/referrals';
+import listingDao from '../dao/listings';
+import emailQueueService from './emailQueueService';
 import { extractListingId } from '../libs/utility';
 import { formatStatusReferral } from './formatters/referralFormatter';
-import emailQueueService from './emailQueueService';
+import emailReferralRequestDeveloperDataCollector from './referrals/emails/dataCollectors/referralRequestDeveloper';
 import emailReferralRequestAgentDataCollector from './referrals/emails/dataCollectors/referralRequestAgent';
 
 export class ReferralRequestService {
-  referral: Object;
+  referrals: Object;
   listings: Object;
   referralListingId: Object;
   listerId: number;
@@ -17,70 +18,86 @@ export class ReferralRequestService {
   projectId: number;
   referralCode: string;
 
-  constructor(referral: Object, listings: Object) {
-    this.referral = referral;
+  constructor(referrals: Object, listings: Object) {
+    this.referrals = referrals;
     this.listings = listings;
   }
 
   async requestReferral(params: Object): Promise<string> {
-    this._setFormatListingId(params.listingId);
     let message = 'Failed';
-    const listingIdDescription: Object = extractListingId(params.listerId);
-    this._setListerId(params.listerId);
-    this._setListingId(params.listingId);
-    this._setProjectId(listingIdDescription.id);
 
     const agentParam = {
       userId: params.listerId,
       adsProjectId: extractListingId(params.listingId).id,
       propertyType: extractListingId(params.listingId).type
     };
-
-    const getListing = await this.listings.searchProject(params.listingId);
-
-    if (getListing.response.numFound > 0) {
-      const isExist = await this.checkingReferral(agentParam);
-
-      if (isExist) {
-        const result = await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed);
-        if (result) {
-          const emailQueueData = emailReferralRequestAgentDataCollector.collect({
-            listingId: this._getListingId(),
-            listerId: this._getListerId(),
-            referralCode: this._getReferralCode()
-          });
-
-          emailQueueData.then((data: Object) => {
-            const queuedEmail = emailQueueService
-              .to(data.to)
-              .from(data.from)
-              .subject(data.subject)
-              .jsonData(data.jsonData)
-              .template(data.template)
-              .sendDate(moment().format('YYYY-MM-DD HH:mm:ss.SSS'))
-              .save();
-            queuedEmail.catch((err: any) => {
-              throw new Error(err);
-            });
-          }).catch((err: any) => {
-            throw new Error(err);
-          });
-
-          message = 'Success';
-        }
-      }
+    const {response: listing} = await this.listings.searchProject(params.listingId);
+    if (listing.numFound > 0 && listing.docs[0].is_referral === 1) {
+      (await this.checkingReferral(agentParam)) ?
+        (await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed)) ?
+          (message = 'Success') :
+          (message = 'Failed') :
+        (message = 'Failed');
+    }
+    if (message === 'Success') {
+      this.handlerEmailToDeveloper(params);
+      this.handlerEmailToAgent(params);
     }
     return message;
   }
 
+  handlerEmailToDeveloper(params: Object) {
+    const emailToDeveloper = emailReferralRequestDeveloperDataCollector.collect({
+      listingId: params.listingId,
+      listerId: params.listerId,
+      referralCode: ''
+    });
+    emailToDeveloper.then((data: Object) => {
+      const queuedEmail = emailQueueService
+        .to(data.to)
+        .from(data.from)
+        .subject(data.subject)
+        .jsonData(data.jsonData)
+        .template(data.template)
+        .save();
+      queuedEmail.catch((err: any) => {
+        throw new Error(err);
+      });
+    }).catch((err: any) => {
+      throw new Error(err);
+    });
+  }
+
+  handlerEmailToAgent(params: Object) {
+    const emailToAgent = emailReferralRequestAgentDataCollector.collect({
+      listingId: params.listingId,
+      listerId: params.listerId,
+      referralCode: ''
+    });
+    emailToAgent.then((data: Object) => {
+      const queuedEmail = emailQueueService
+        .to(data.to)
+        .from(data.from)
+        .subject(data.subject)
+        .jsonData(data.jsonData)
+        .template(data.template)
+        .sendDate(moment().format('YYYY-MM-DD HH:mm:ss.SSS'))
+        .save();
+      queuedEmail.catch((err: any) => {
+        throw new Error(err);
+      });
+    }).catch((err: any) => {
+      throw new Error(err);
+    });
+  }
+
   async requestingReferral(agentParam: Object, isSubscribed: boolean): Promise<boolean> {
-    const request = await this.referral.requestReferral(agentParam, isSubscribed);
-    return request.userId === agentParam.userId;
+    const request = await this.referrals.requestReferral(agentParam, isSubscribed);
+    return parseInt(request.userId) === parseInt(agentParam.userId);
   }
 
   async checkingReferral(agentParam: Object): Promise<boolean> {
-    const result = await this.referral.checkReferral(agentParam);
-
+    const result = await this.referrals.checkReferral(agentParam);
     return _.isEmpty(result);
   }
 
@@ -88,7 +105,7 @@ export class ReferralRequestService {
     let referral = {};
     const listing = await this.listings.searchProject(listingId);
     if (listing.response.numFound > 0 && listing.response.docs[0].is_referral === 1) {
-      referral = await this.referral.getLatestReferralRequest({
+      referral = await this.referrals.getLatestReferralRequest({
         userId: listerId,
         adsProjectId: extractListingId(listingId).id
       });
@@ -96,47 +113,6 @@ export class ReferralRequestService {
 
     return formatStatusReferral(referral, listing.response.docs[0]);
   }
-
-  _setFormatListingId(listingId: string) {
-    const listingDetail = extractListingId(listingId);
-    this.referralListingId = {
-      adsProjectId: listingDetail.id,
-      propertyType: listingDetail.type,
-      propertyCategory: listingDetail.category,
-    };
-  }
-
-  _getFormatingListingId(): Object {
-    return this.referralListingId;
-  }
-
-  _setListingId(listingId: string) {
-    this.listingId = listingId;
-  }
-
-  _setListerId(listerId: number) {
-    this.listerId = listerId;
-  }
-
-  _setProjectId(id: number) {
-    this.projectId = id;
-  }
-
-  _getListingId(): string {
-    return this.listingId;
-  }
-
-  _getListerId(): number {
-    return this.listerId;
-  }
-
-  _getProjectId(): number {
-    return this.projectId;
-  }
-
-  _getReferralCode(): string {
-    return this.referralCode;
-  }
 }
 
-export default new ReferralRequestService(referralCore, listingCore);
+export default new ReferralRequestService(referralDao, listingDao);

@@ -1,5 +1,11 @@
 // @flow
 
+export type DeveloperDashboard = {
+  urlApprovalPage: string,
+  totalPendingRequest: number,
+  urlReferralDashboard: string
+};
+
 export type Lister = {
   name: string,
   firstName: string,
