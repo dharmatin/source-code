@@ -1,0 +1,62 @@
+{  
+  "subject":"Permintaan anda telah terkirim",
+  "template":"/referral/agent_request.php",
+  "from":"no-reply@rumah123.com",
+  "to":"123.superqa@gmail.com",
+  "jsonData":{  
+     "agent":{  
+        "name":"Syelaaa Cantik",
+        "photoUrl":"https://dm38pn59zg67e.cloudfront.net/photo/70491/180/704911512024697.jpg",
+        "email":"123.superqa@gmail.com",
+        "firstName":"Syelaaa",
+        "profilePage":"localhost/agen-properti/rumah123/syelaaa-cantik-70491",
+        "membership":"3 Tahun lalu"
+     },
+     "project":{  
+        "name":"Aeropolis",
+        "srcImage":"https://img.rea-asia.com/rumah123/premium/${width}x${height}-${scale}/1045/galleri/galleri-aeropolis-1-1487648420.jpg",
+        "priceRange":"Kontak Pengembang",
+        "provinceName":"Banten",
+        "cityName":"Tangerang",
+        "districtName":"Daan Mogot",
+        "urlReferral":"localhost/properti/tangerang/aeropolis/nps1045",
+        "subUnitType":"Apartemen / Gudang / Ruang Usaha / Perkantoran",
+        "builtUp":"Kontak Pengembang",
+        "landArea":"Kontak Pengembang"
+     },
+     "similarProject":[  
+        {  
+           "name":"Aeropolis",
+           "srcImage":"https://img.rea-asia.com/rumah123/premium/${width}x${height}-${scale}/1045/galleri/galleri-aeropolis-1-1487648420.jpg",
+           "priceRange":"Kontak Pengembang",
+           "provinceName":"Banten",
+           "cityName":"Tangerang",
+           "districtName":"Daan Mogot",
+           "urlReferral":"localhost/properti/tangerang/aeropolis/nps1045",
+           "builtUp":"Kontak Pengembang",
+           "landArea":"Kontak Pengembang",
+           "subUnitType": ""
+        },
+        {  
+           "name":"TALAGA BESTARI",
+           "srcImage":"https://img.rea-asia.com/rumah123/premium/${width}x${height}-${scale}/1128/galleri/galleri-_d8h7354_2016-06-23_065548-1474958762.jpg",
+           "priceRange":"Kontak Pengembang",
+           "provinceName":"Banten",
+           "cityName":"Tangerang",
+           "districtName":"Cikupa",
+           "urlReferral":"localhost/properti/tangerang/talaga-bestari/nps1128",
+           "builtUp":"Dari 65 - 89 meter persegi",
+           "landArea":"Kontak Pengembang",
+           "subUnitType": ""
+        }
+     ],
+     "developer":{  
+        "name":"INTILAND Development",
+        "urlPage":"localhost/properti-baru/developer/intiland-development/58",
+        "phoneNumber":"+622155913456",
+        "whatsappNumber":"628780878456",
+        "email":"sales.aeropolis@intiland.com",
+        "logo":"https://d3p0bla3numw14.cloudfront.net/developer/logo/developer-logo-d-1474517886.jpg"
+     }
+  }
+}

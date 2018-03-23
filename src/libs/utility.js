@@ -83,6 +83,14 @@ export const getRequestForPagingParam = (
   return paging;
 };
 
-export const isValidDate = (date: string): Boolean => {
+export const base64Encode = (data: string): string => {
+  return Buffer.from(data).toString('base64');
+};
+
+export const base64Decode = (data: string): string => {
+  return Buffer.from(data, 'base64').toString('ascii');
+};
+
+export const isValidDate = (date: string): boolean => {
   return moment(date).isValid();
 };
