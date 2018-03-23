@@ -8,7 +8,9 @@ import daoReferral from '../../src/dao/referrals';
 import { ReferralRequestService } from '../../src/services/referralRequestService';
 import config from '../../src/config';
 import emailReferralRequestDeveloperDataCollector from '../../src/services/referrals/emails/dataCollectors/referralRequestDeveloper';
+import emailReferralRequestAgentDataCollector from '../../src/services/referrals/emails/dataCollectors/referralRequestAgent';
 import requestEmailCollectorToDeveloper from '../fixture/requestEmailCollectorToDeveloper.json';
+import requestEmailCollectorToAgent from '../fixture/requestEmailCollectorToAgent.json';
 import emailQueueService from '../../src/services/emailQueueService';
 
 chai.use(chaiAsPromised);
@@ -36,6 +38,9 @@ describe('Response Request referral', () => {
     const formatResponse = {
       response: {
         numFound: 1,
+        docs: [{
+          is_referral: 1
+        }]
       },
     };
     const referralList = {};
@@ -46,6 +51,7 @@ describe('Response Request referral', () => {
     sandbox.stub(daoReferral, 'requestReferral').callsFake(() => requestResponses);
     sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);
     sandbox.stub(emailReferralRequestDeveloperDataCollector, 'collect').callsFake(async() => requestEmailCollectorToDeveloper);
+    sandbox.stub(emailReferralRequestAgentDataCollector, 'collect').callsFake(async() => requestEmailCollectorToAgent);
     sandbox.stub(emailQueueService, 'save').callsFake(async() => true);
     const referral = new ReferralRequestService(daoReferral, daoListing);
     const referralRequest = await referral.requestReferral(param);
@@ -56,6 +62,9 @@ describe('Response Request referral', () => {
     const formatResponse = {
       response: {
         numFound: 1,
+        docs: [{
+          is_referral: 1
+        }]
       },
     };
     const referralList = {};
@@ -74,6 +83,9 @@ describe('Response Request referral', () => {
     const formatResponse = {
       response: {
         numFound: 1,
+        docs: [{
+          is_referral: 1
+        }]
       },
     };
     const referralList = {

@@ -32,7 +32,7 @@ export class ReferralRequestService {
       propertyType: extractListingId(params.listingId).type
     };
     const {response: listing} = await this.listings.searchProject(params.listingId);
-    if (listing.numFound > 0) {
+    if (listing.numFound > 0 && listing.docs[0].is_referral === 1) {
       (await this.checkingReferral(agentParam)) ?
         (await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed)) ?
           (message = 'Success') :
@@ -40,48 +40,55 @@ export class ReferralRequestService {
         (message = 'Failed');
     }
     if (message === 'Success') {
-      const emailToDeveloper = emailReferralRequestDeveloperDataCollector.collect({
-        listingId: params.listingId,
-        listerId: params.listerId,
-        referralCode: ''
-      });
-      emailToDeveloper.then((data: Object) => {
-        const queuedEmail = emailQueueService
-          .to(data.to)
-          .from(data.from)
-          .subject(data.subject)
-          .jsonData(data.jsonData)
-          .template(data.template)
-          .save();
-        queuedEmail.catch((err: any) => {
-          throw new Error(err);
-        });
-      }).catch((err: any) => {
-        throw new Error(err);
-      });
-
-      const emailToAgent = emailReferralRequestAgentDataCollector.collect({
-        listingId: params.listingId,
-        listerId: params.listerId,
-        referralCode: ''
-      });
-      emailToAgent.then((data: Object) => {
-        const queuedEmail = emailQueueService
-          .to(data.to)
-          .from(data.from)
-          .subject(data.subject)
-          .jsonData(data.jsonData)
-          .template(data.template)
-          .sendDate(moment().format('YYYY-MM-DD HH:mm:ss.SSS'))
-          .save();
-        queuedEmail.catch((err: any) => {
-          throw new Error(err);
-        });
-      }).catch((err: any) => {
-        throw new Error(err);
-      });
+      this.handlerEmailToDeveloper(params);
+      this.handlerEmailToAgent(params);
     }
     return message;
+  }
+
+  handlerEmailToDeveloper(params: Object) {
+    const emailToDeveloper = emailReferralRequestDeveloperDataCollector.collect({
+      listingId: params.listingId,
+      listerId: params.listerId,
+      referralCode: ''
+    });
+    emailToDeveloper.then((data: Object) => {
+      const queuedEmail = emailQueueService
+        .to(data.to)
+        .from(data.from)
+        .subject(data.subject)
+        .jsonData(data.jsonData)
+        .template(data.template)
+        .save();
+      queuedEmail.catch((err: any) => {
+        throw new Error(err);
+      });
+    }).catch((err: any) => {
+      throw new Error(err);
+    });
+  }
+
+  handlerEmailToAgent(params: Object) {
+    const emailToAgent = emailReferralRequestAgentDataCollector.collect({
+      listingId: params.listingId,
+      listerId: params.listerId,
+      referralCode: ''
+    });
+    emailToAgent.then((data: Object) => {
+      const queuedEmail = emailQueueService
+        .to(data.to)
+        .from(data.from)
+        .subject(data.subject)
+        .jsonData(data.jsonData)
+        .template(data.template)
+        .sendDate(moment().format('YYYY-MM-DD HH:mm:ss.SSS'))
+        .save();
+      queuedEmail.catch((err: any) => {
+        throw new Error(err);
+      });
+    }).catch((err: any) => {
+      throw new Error(err);
+    });
   }
 
   async requestingReferral(agentParam: Object, isSubscribed: boolean): Promise<boolean> {
