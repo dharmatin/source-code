@@ -6,15 +6,30 @@ import sinonChai from 'sinon-chai';
 import daoListing from '../../src/dao/listings';
 import daoReferral from '../../src/dao/referrals';
 import { ReferralRequestService } from '../../src/services/referralRequestService';
+import config from '../../src/config';
+import emailReferralRequestDeveloperDataCollector from '../../src/services/referrals/emails/dataCollectors/referralRequestDeveloper';
+import requestEmailCollectorToDeveloper from '../fixture/requestEmailCollectorToDeveloper.json';
+import emailQueueService from '../../src/services/emailQueueService';
 
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 const {expect} = chai;
 const sandbox = sinon.createSandbox();
+const param = {
+  listingId: 'nps1045',
+  listerId: 1,
+  messageRequest: '',
+  isSubscribed: 1
+};
 
 describe('Response Request referral', () => {
   afterEach(() => {
     sandbox.restore();
+  });
+
+  before(() => {
+    config.lang = 'id';
+    config.translator = require(`../../src/config/locales/${config.lang}.json`);
   });
 
   it('When Success Should be response message Success', async() => {
@@ -23,16 +38,18 @@ describe('Response Request referral', () => {
         numFound: 1,
       },
     };
-    const checkResponse = null;
+    const referralList = {};
     const requestResponses = {
-      userId: '123456'
+      userId: '1'
     };
-    sandbox.stub(daoReferral, 'checkReferral').callsFake(() => checkResponse);
+    sandbox.stub(daoReferral, 'checkReferral').callsFake(() => referralList);
     sandbox.stub(daoReferral, 'requestReferral').callsFake(() => requestResponses);
     sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);
+    sandbox.stub(emailReferralRequestDeveloperDataCollector, 'collect').callsFake(async() => requestEmailCollectorToDeveloper);
+    sandbox.stub(emailQueueService, 'save').callsFake(async() => true);
     const referral = new ReferralRequestService(daoReferral, daoListing);
-    const referralRequest = await referral.requestReferral('123456', 'nps449');
-    return expect(referralRequest).to.deep.equal({message: 'Success'});
+    const referralRequest = await referral.requestReferral(param);
+    return expect(referralRequest).to.deep.equal('Success');
   });
 
   it('When Failed Should be response message Failed', async() => {
@@ -41,48 +58,32 @@ describe('Response Request referral', () => {
         numFound: 1,
       },
     };
-    const checkResponse = null;
+    const referralList = {};
     const requestResponses = {
       userId: '12345'
     };
-    sandbox.stub(daoReferral, 'checkReferral').callsFake(() => checkResponse);
+    sandbox.stub(daoReferral, 'checkReferral').callsFake(() => referralList);
     sandbox.stub(daoReferral, 'requestReferral').callsFake(() => requestResponses);
     sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);
     const referral = new ReferralRequestService(daoReferral, daoListing);
-    const referralRequest = await referral.requestReferral('123456', 'nps449');
-    return expect(referralRequest).to.deep.equal({message: 'Failed'});
+    const referralRequest = await referral.requestReferral(param);
+    return expect(referralRequest).to.deep.equal('Failed');
   });
 
-  it('When Pending Should be response message Failed', async() => {
+  it('When Pending or Active Should be response message Failed', async() => {
     const formatResponse = {
       response: {
         numFound: 1,
       },
     };
-    const checkResponse = {
-      referralStatus: -1
+    const referralList = {
+      agentReferralId: 1
     };
-    sandbox.stub(daoReferral, 'checkReferral').callsFake(() => checkResponse);
+    sandbox.stub(daoReferral, 'checkReferral').callsFake(() => referralList);
     sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);
     const referral = new ReferralRequestService(daoReferral, daoListing);
-    const referralRequest = await referral.requestReferral('123456', 'nps449');
-    return expect(referralRequest).to.deep.equal({message: 'Failed'});
-  });
-
-  it('When In Active Should be response message failed', async() => {
-    const formatResponse = {
-      response: {
-        numFound: 1,
-      },
-    };
-    const checkResponse = {
-      referralStatus: 1
-    };
-    sandbox.stub(daoReferral, 'checkReferral').callsFake(() => checkResponse);
-    sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);
-    const referral = new ReferralRequestService(daoReferral, daoListing);
-    const referralRequest = await referral.requestReferral('123456', 'nps449');
-    return expect(referralRequest).to.deep.equal({message: 'Failed'});
+    const referralRequest = await referral.requestReferral(param);
+    return expect(referralRequest).to.deep.equal('Failed');
   });
 
   it('When No listing data Should be response message failed ', async() => {
@@ -94,7 +95,7 @@ describe('Response Request referral', () => {
 
     sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);
     const referral = new ReferralRequestService(daoReferral, daoListing);
-    const referralRequest = await referral.requestReferral('123456', 'nps449');
-    return expect(referralRequest).to.deep.equal({message: 'Failed'});
+    const referralRequest = await referral.requestReferral(param);
+    return expect(referralRequest).to.deep.equal('Failed');
   });
 });
