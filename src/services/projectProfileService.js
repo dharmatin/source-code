@@ -39,31 +39,31 @@ export class ListingService {
   async getProjectProfile(param: Object): Object {
     let childListingResult = {};
     let lister = {};
-    let listing = {};
+    let listing = {}; 
 
     const result = await this.getListings(param.id);
     if (!_.isEmpty(result.response.docs[0])) {
       listing = result.response;
       childListingResult = (await this.getChildListings(param.id)).response;
-      if (result.response.docs[0].is_referral) {
+      if (Boolean(result.response.docs[0].is_referral)) {
         let dataReferral = {};
         if (param.referralCode !== '') {
           dataReferral = await ReferralListerService.getListerByReferralCode(param.referralCode, listing.docs[0].id);
-
+          
           if (!_.isNil(dataReferral)) {
             lister = await ListerService.getListerProfile(dataReferral.userId);
           }
         }
       }
     }
-
-    const response = formatProjectProfile(
+    
+    const response =  formatProjectProfile(
       listing,
       childListingResult,
       lister
     );
 
-    // await this.saveDailyTracking(response);
+    //await this.saveDailyTracking(response);
 
     return response;
   }
