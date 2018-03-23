@@ -1,8 +1,10 @@
 // @flow
 import listingCore from '../dao/listings';
+import dailyTrackingDAO from '../dao/listings/dailytrackingViews';
 import { formatProjectProfile } from './formatters/projectProfileFormatter';
 import { formatSuggestionProjects } from './formatters/suggestionProjectFormatter';
 import { formatMultiLanguageAmenities } from './formatters/amenitiesFormatter';
+import { extractListingId } from '../libs/utility';
 import ReferralListerService from './referralListerService';
 import ListerService from './listerService';
 import _ from 'lodash';
@@ -55,11 +57,25 @@ export class ListingService {
       }
     }
     
-    return formatProjectProfile(
+    const response =  formatProjectProfile(
       listing,
       childListingResult,
       lister
     );
+
+    //await this.saveDailyTracking(response);
+
+    return response;
+  }
+
+  async saveDailyTracking(response: Object): Object {
+    if (!_.empty(response)) {
+      const extractedId = extractListingId(response.id);
+      await dailyTrackingDAO.saveDailyTrackingView({
+        projectId: extractedId.id,
+
+      });
+    }
   }
 
   async getProjectByOrganisation(
