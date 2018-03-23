@@ -63,6 +63,8 @@ export class ListingService {
       lister
     );
 
+    // await this.saveDailyTracking(response);
+
     return response;
   }
 

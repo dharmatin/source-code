@@ -15,7 +15,6 @@ export class ReferralRejectionService {
   listerId: number;
   listingId: number;
   referralReason: string;
-  referralCode: string;
   listingIds: string;
 
   constructor(referral: Object) {
