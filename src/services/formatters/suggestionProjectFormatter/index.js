@@ -95,13 +95,17 @@ const formatRelatedProjects = (
       logo: listing.developer_logo,
     });
 
-    dataListing.attributes = listingAttributeFormatter.formatAttributesInfo({
+    const attributes = listingAttributeFormatter.formatAttributesInfo({
       landArea: listing.land_size,
       builtUpMin: listing.building_size_min,
       builtUpMax: listing.building_size_max,
       landAreaMin: listing.land_size_min,
       landAreaMax: listing.land_size_max,
     });
+
+    if (!_.isEmpty(attributes)) {
+      dataListing.attributes = attributes;
+    }
 
     listings.push(dataListing);
   });

@@ -1,9 +1,9 @@
 // @flow
 import type { Lister } from './types';
 import * as contactFormatter from '../contactFormatter';
-import { toISOFormatting, slugify } from '../../../libs/utility';
+import { slugify } from '../../../libs/utility';
 import * as mediaFormatter from '../mediaFormatter';
-import * as moment from 'moment';
+import moment from 'moment';
 import config from '../../../config';
 
 export const formatListerProfile = (lister: Object): Object => {
@@ -17,9 +17,7 @@ export const formatListerProfile = (lister: Object): Object => {
     response.id = dataLister.id;
     response.type = 'agent';
     response.name = dataLister.name;
-    response.createdAt = toISOFormatting(
-      moment.unix(dataLister.register).format('YYYY-MM-DD HH:mm:ss')
-    );
+    response.createdAt = moment(moment.unix(dataLister.register).format('YYYY-MM-DD HH:mm:ss')).format('YYYY-MM-DDThh:mm:ssZ');
     response.image = {
       url: dataLister.photo_url,
     };

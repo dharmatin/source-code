@@ -40,7 +40,7 @@ export class ReferralRejectionService {
 
   async isRejected(): Promise<boolean> {
     const referral = await this.getLatestRefferal();
-    if (_.isEmpty(referral)) {
+    if (!_.isEmpty(referral)) {
       const affectedRowsUpdated = await this.updateLatestReferral(referral);
 
       const emailQueueData = emailReferralRejectDataCollector.collect({
