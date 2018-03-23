@@ -12,6 +12,7 @@ export class EmailQueueService {
   emailJsonData: Object;
   emailTemplate: string;
   emailQueue: Object | EmailQueue;
+  emailSendDate: string;
 
   constructor(objectDao: Object) {
     this.emailQueue = {};
@@ -21,6 +22,7 @@ export class EmailQueueService {
     this.emailJsonData = {};
     this.emailTemplate = '';
     this.emailQueueDao = objectDao;
+    this.emailSendDate = '';
   }
 
   from(from: string): Object {
@@ -48,6 +50,11 @@ export class EmailQueueService {
     return this;
   }
 
+  sendDate(date: string): Object {
+    this.emailSendDate = date;
+    return this;
+  }
+
   async save(): Promise<boolean> {
     this.setEmailQueue(this);
     const result = await this.emailQueueDao.save(this.getEmailQueue());
@@ -71,7 +78,7 @@ export class EmailQueueService {
     this.emailQueue.body = '';
     this.emailQueue.status = -1;
     this.emailQueue.createdDate = Sequelize.fn('NOW', 3);
-    this.emailQueue.sendDate = Sequelize.DEFAULT;
+    this.emailQueue.sendDate = _.isEmpty(self.emailSendDate) ? Sequelize.fn('NOW', 3) : self.emailSendDate;
     this.emailQueue.sentDate = Sequelize.DEFAULT;
   }
 }

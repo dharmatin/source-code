@@ -47,6 +47,7 @@
     },
     "ago": "a go",
     "email_subject": {
-        "referral_request_granted": "Access Granted"
+        "referral_request_granted": "Access Granted",
+        "referral_request_deny": "Sorry, your request is denied"
     }
 }

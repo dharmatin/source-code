@@ -37,24 +37,24 @@ export class ListingService {
   async getProjectProfile(param: Object): Object {
     let childListingResult = {};
     let lister = {};
-    let listing = {}; 
+    let listing = {};
 
     const result = await this.getListings(param.id);
     if (!_.isEmpty(result.response.docs[0])) {
       listing = result.response;
       childListingResult = (await this.getChildListings(param.id)).response;
-      if (Boolean(result.response.docs[0].is_referral)) {
+      if (result.response.docs[0].is_referral) {
         let dataReferral = {};
         if (param.referralCode !== '') {
           dataReferral = await ReferralListerService.getListerByReferralCode(param.referralCode, listing.docs[0].id);
-          
+
           if (!_.isNil(dataReferral)) {
             lister = await ListerService.getListerProfile(dataReferral.userId);
           }
         }
       }
     }
-    
+
     return formatProjectProfile(
       listing,
       childListingResult,
