@@ -2,7 +2,8 @@
 import _ from 'lodash';
 import moment from 'moment';
 import config from '../../../config';
-import type { Lister, Project, Organisation } from './type';
+import type { Lister, Project, Organisation, DeveloperDashboard } from './type';
+import { base64Encode } from '../../../libs/utility';
 
 export const formatProject = (project: Object): Project => {
   const priceMin = !_.isNil(project.prices) ? parseFloat(project.prices[0].min) : 0;
@@ -40,6 +41,14 @@ export const formatOrganisation = (project: Object): Organisation => {
     whatsappNumber: (!_.isNil(project.organisations) && !_.isNil(project.organisations[0].contact.phones[1])) ? project.organisations[0].contact.phones[1].number : '',
     email: (!_.isNil(project.organisations) && !_.isNil(project.organisations[0].contact.emails[0])) ? project.organisations[0].contact.emails[0] : '',
     logo: (!_.isNil(project.organisations) && !_.isNil(project.organisations[0].logo.url)) ? project.organisations[0].logo.url : ''
+  };
+};
+
+export const formatDeveloperDashboard = (data: Object): DeveloperDashboard => {
+  return {
+    urlApprovalPage: `${config.url.base}/developer/referral-dashboard/?approve=${base64Encode(JSON.stringify(data.dataApproval))}`,
+    totalPendingRequest: data.totalPending,
+    urlReferralDashboard: `${config.url.base}/developer/referral-dashboard`
   };
 };
 

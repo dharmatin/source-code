@@ -121,6 +121,17 @@ class ReferralDao {
     return referral ? referral.get() : {};
   }
 
+  async getOtherReferralPending(adsProjectId: Array<number>): Promise<number> {
+    const query = {
+      adsProjectId: {
+        [Sequelize.Op.in]: adsProjectId
+      },
+      referralStatus: config.STATUS_REFERRAL.PENDING
+    };
+    const referral = await this.referral.findAndCountAll(query);
+    return referral ? referral.count : 0;
+  }
+
   async updateRefferalById(
     id: number,
     value: AgentReferral
