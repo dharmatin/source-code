@@ -3,6 +3,7 @@ import * as Model from './model';
 
 export default {
 	saveDailyTrackingView: async(dailyTrackingData: Object): Object => {
-		//return Model.upsert(dailyTrackingData);
+    console.log(Model);
+    //return Model.upsert(dailyTrackingData);
   }
 }

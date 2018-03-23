@@ -63,7 +63,7 @@ export class ListingService {
       lister
     );
 
-    //await this.saveDailyTracking(response);
+    await this.saveDailyTracking(response);
 
     return response;
   }
@@ -72,8 +72,7 @@ export class ListingService {
     if (!_.empty(response)) {
       const extractedId = extractListingId(response.id);
       await dailyTrackingDAO.saveDailyTrackingView({
-        projectId: extractedId.id,
-
+        projectId: extractedId.id
       });
     }
   }
