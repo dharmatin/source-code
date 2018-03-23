@@ -1,16 +1,22 @@
 // @flow
 import _ from 'lodash';
+import moment from 'moment';
 import referralDao from '../dao/referrals';
 import listingDao from '../dao/listings';
 import emailQueueService from './emailQueueService';
 import { extractListingId } from '../libs/utility';
 import { formatStatusReferral } from './formatters/referralFormatter';
 import emailReferralRequestDeveloperDataCollector from './referrals/emails/dataCollectors/referralRequestDeveloper';
+import emailReferralRequestAgentDataCollector from './referrals/emails/dataCollectors/referralRequestAgent';
 
 export class ReferralRequestService {
   referrals: Object;
   listings: Object;
   referralListingId: Object;
+  listerId: number;
+  listingId: string;
+  projectId: number;
+  referralCode: string;
 
   constructor(referrals: Object, listings: Object) {
     this.referrals = referrals;
@@ -19,6 +25,7 @@ export class ReferralRequestService {
 
   async requestReferral(params: Object): Promise<string> {
     let message = 'Failed';
+
     const agentParam = {
       userId: params.listerId,
       adsProjectId: extractListingId(params.listingId).id,
@@ -38,7 +45,6 @@ export class ReferralRequestService {
         listerId: params.listerId,
         referralCode: ''
       });
-
       emailToDeveloper.then((data: Object) => {
         const queuedEmail = emailQueueService
           .to(data.to)
@@ -46,6 +52,27 @@ export class ReferralRequestService {
           .subject(data.subject)
           .jsonData(data.jsonData)
           .template(data.template)
+          .save();
+        queuedEmail.catch((err: any) => {
+          throw new Error(err);
+        });
+      }).catch((err: any) => {
+        throw new Error(err);
+      });
+
+      const emailToAgent = emailReferralRequestAgentDataCollector.collect({
+        listingId: params.listingId,
+        listerId: params.listerId,
+        referralCode: ''
+      });
+      emailToAgent.then((data: Object) => {
+        const queuedEmail = emailQueueService
+          .to(data.to)
+          .from(data.from)
+          .subject(data.subject)
+          .jsonData(data.jsonData)
+          .template(data.template)
+          .sendDate(moment().format('YYYY-MM-DD HH:mm:ss.SSS'))
           .save();
         queuedEmail.catch((err: any) => {
           throw new Error(err);

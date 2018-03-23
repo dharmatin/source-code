@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import config from '../../../config';
 import { toISOFormatting } from '../../../libs/utility';
+import moment from 'moment';
 import type { ProjectProfilePage } from './types';
 import type { Listing } from '../listingFormatter/types';
 import * as priceFormatter from '../listingPriceFormatter';
@@ -133,7 +134,7 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     projectProfilePage.is_premium,
     projectProfilePage.is_gts
   );
-  response.updatedAt = toISOFormatting(projectProfilePage.updated_date);
+  response.updatedAt = moment(projectProfilePage.updated_date).format('YYYY-MM-DDThh:mm:ssZ');
   response.medias = mediaFormatter.formatListingImages(
     projectProfilePage.all_listing_images
   );

@@ -48,6 +48,7 @@
     "ago": "a go",
     "email_subject": {
         "referral_request_granted": "Access Granted",
-        "referral_have_request": "You have a request from an agent" 
+        "referral_have_request": "You have a request from an agent",
+        "referral_request_sended": "Access Sended"
     }
 }
