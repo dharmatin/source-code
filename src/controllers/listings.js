@@ -27,6 +27,7 @@ class ListingsController extends BaseController {
       const listings = await projectProfileService.getProjectProfile({
         id: req.params.id,
         referralCode: referralCode,
+        mustCounting: true
       });
 
       if (_.isEmpty(listings)) {

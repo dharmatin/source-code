@@ -94,7 +94,7 @@ export default class EmailQueueDataCollector {
   }
 
   async getProjectProfile(params: ProjectProfileRequester): Promise<Object> {
-    const result = await this.projectService.getProjectProfile({id: params.id, referralCode: params.referralCode});
+    const result = await this.projectService.getProjectProfile({id: params.id, referralCode: params.referralCode, mustCounting: false});
     return result;
   }
 

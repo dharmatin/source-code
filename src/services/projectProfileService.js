@@ -1,6 +1,7 @@
 // @flow
 import listingCore from '../dao/listings';
 import dailyTrackingDAO from '../dao/listings/dailytrackingViews';
+import projectTrackingDAO from '../dao/listings/projectTrackingViews';
 import { formatProjectProfile } from './formatters/projectProfileFormatter';
 import { formatSuggestionProjects } from './formatters/suggestionProjectFormatter';
 import { formatMultiLanguageAmenities } from './formatters/amenitiesFormatter';
@@ -8,6 +9,7 @@ import { extractListingId } from '../libs/utility';
 import ReferralListerService from './referralListerService';
 import ListerService from './listerService';
 import _ from 'lodash';
+import moment from 'moment';
 
 export class ListingService {
   listings: Object;
@@ -63,17 +65,25 @@ export class ListingService {
       lister
     );
 
-    await this.saveDailyTracking(response);
+    if (param.mustCounting) {
+      await this.saveDailyTracking(response);
+    }
 
     return response;
   }
 
   async saveDailyTracking(response: Object): Object {
-    if (!_.empty(response)) {
-      const extractedId = extractListingId(response.id);
+    if (!_.isEmpty(response)) {
+      const {id, category, type} = extractListingId(response.id);
       await dailyTrackingDAO.saveDailyTrackingView({
-        projectId: extractedId.id
+        project_id: parseInt(id),
+        type: type,
+        category: category,
+        client_type: 2,
+        d_date: moment().format("YYYY-MM-DD")
       });
+
+      await projectTrackingDAO.saveProjectTrackingView(parseInt(id));
     }
   }
 

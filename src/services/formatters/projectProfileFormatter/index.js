@@ -35,15 +35,16 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     link: projectProfilePage.url_sponsor,
     title: projectProfilePage['sponsor_name_' + config.lang],
   });
-
+  
+  
   const attachments = !_.isEmpty(projectProfilePage.attachments) ?
-    JSON.parse(JSON.stringify(JSON.parse(projectProfilePage.attachments))) :
+    JSON.parse(projectProfilePage.attachments) :
     {};
-
+    
   if (!_.isEmpty(banner)) {
     response.banner = banner;
   }
-
+  
   response.cover = mediaFormatter.formatImageCover(
     JSON.parse(projectProfilePage.image)[0]
   );
@@ -174,6 +175,7 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
   response.features = listingFormatter.formatFeatures(
     projectProfilePage[config.lang + '_project_facilities']
   );
+  
   return response;
 };
 
