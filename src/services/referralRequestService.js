@@ -29,15 +29,23 @@ export class ReferralRequestService {
     const agentParam = {
       userId: params.listerId,
       adsProjectId: extractListingId(params.listingId).id,
-      propertyType: extractListingId(params.listingId).type
+      propertyType: extractListingId(params.listingId).type,
     };
-    const {response: listing} = await this.listings.searchProject(params.listingId);
+    const { response: listing } = await this.listings.searchProject(
+      params.listingId
+    );
     if (listing.numFound > 0 && listing.docs[0].is_referral === 1) {
-      (await this.checkingReferral(agentParam)) ?
-        (await this.requestingReferral(_.assign(agentParam, {messageRequest: params.messageRequest, 'propertyCategory': 's'}), params.isSubscribed)) ?
-          (message = 'Success') :
-          (message = 'Failed') :
-        (message = 'Failed');
+      (await this.checkingReferral(agentParam))
+        ? (await this.requestingReferral(
+            _.assign(agentParam, {
+              messageRequest: params.messageRequest,
+              propertyCategory: 's',
+            }),
+            params.isSubscribed
+          ))
+          ? (message = 'Success')
+          : (message = 'Failed')
+        : (message = 'Failed');
     }
     if (message === 'Success') {
       this.handlerEmailToDeveloper(params);
@@ -47,52 +55,64 @@ export class ReferralRequestService {
   }
 
   handlerEmailToDeveloper(params: Object) {
-    const emailToDeveloper = emailReferralRequestDeveloperDataCollector.collect({
-      listingId: params.listingId,
-      listerId: params.listerId,
-      referralCode: ''
-    });
-    emailToDeveloper.then((data: Object) => {
-      const queuedEmail = emailQueueService
-        .to(data.to)
-        .from(data.from)
-        .subject(data.subject)
-        .jsonData(data.jsonData)
-        .template(data.template)
-        .save();
-      queuedEmail.catch((err: any) => {
+    const emailToDeveloper = emailReferralRequestDeveloperDataCollector.collect(
+      {
+        listingId: params.listingId,
+        listerId: params.listerId,
+        referralCode: '',
+      }
+    );
+    emailToDeveloper
+      .then((data: Object) => {
+        const queuedEmail = emailQueueService
+          .to(data.to)
+          .from(data.from)
+          .subject(data.subject)
+          .jsonData(data.jsonData)
+          .template(data.template)
+          .save();
+        queuedEmail.catch((err: any) => {
+          throw new Error(err);
+        });
+      })
+      .catch((err: any) => {
         throw new Error(err);
       });
-    }).catch((err: any) => {
-      throw new Error(err);
-    });
   }
 
   handlerEmailToAgent(params: Object) {
     const emailToAgent = emailReferralRequestAgentDataCollector.collect({
       listingId: params.listingId,
       listerId: params.listerId,
-      referralCode: ''
+      referralCode: '',
     });
-    emailToAgent.then((data: Object) => {
-      const queuedEmail = emailQueueService
-        .to(data.to)
-        .from(data.from)
-        .subject(data.subject)
-        .jsonData(data.jsonData)
-        .template(data.template)
-        .sendDate(moment().format('YYYY-MM-DD HH:mm:ss.SSS'))
-        .save();
-      queuedEmail.catch((err: any) => {
+    emailToAgent
+      .then((data: Object) => {
+        const queuedEmail = emailQueueService
+          .to(data.to)
+          .from(data.from)
+          .subject(data.subject)
+          .jsonData(data.jsonData)
+          .template(data.template)
+          .sendDate(moment().format('YYYY-MM-DD HH:mm:ss.SSS'))
+          .save();
+        queuedEmail.catch((err: any) => {
+          throw new Error(err);
+        });
+      })
+      .catch((err: any) => {
         throw new Error(err);
       });
-    }).catch((err: any) => {
-      throw new Error(err);
-    });
   }
 
-  async requestingReferral(agentParam: Object, isSubscribed: boolean): Promise<boolean> {
-    const request = await this.referrals.requestReferral(agentParam, isSubscribed);
+  async requestingReferral(
+    agentParam: Object,
+    isSubscribed: boolean
+  ): Promise<boolean> {
+    const request = await this.referrals.requestReferral(
+      agentParam,
+      isSubscribed
+    );
     return parseInt(request.userId) === parseInt(agentParam.userId);
   }
 
@@ -104,10 +124,13 @@ export class ReferralRequestService {
   async getLatestRefferal(listerId: number, listingId: string): any {
     let referral = {};
     const listing = await this.listings.searchProject(listingId);
-    if (listing.response.numFound > 0 && listing.response.docs[0].is_referral === 1) {
+    if (
+      listing.response.numFound > 0 &&
+      listing.response.docs[0].is_referral === 1
+    ) {
       referral = await this.referrals.getLatestReferralRequest({
         userId: listerId,
-        adsProjectId: extractListingId(listingId).id
+        adsProjectId: extractListingId(listingId).id,
       });
     }
 

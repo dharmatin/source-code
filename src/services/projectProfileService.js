@@ -41,7 +41,7 @@ export class ListingService {
   async getProjectProfile(param: Object): Object {
     let childListingResult = {};
     let lister = {};
-    let listing = {}; 
+    let listing = {};
 
     const result = await this.getListings(param.id);
     if (!_.isEmpty(result.response.docs[0])) {
@@ -50,20 +50,19 @@ export class ListingService {
       if (Boolean(result.response.docs[0].is_referral)) {
         let dataReferral = {};
         if (param.referralCode !== '') {
-          dataReferral = await ReferralListerService.getListerByReferralCode(param.referralCode, listing.docs[0].id);
-          
+          dataReferral = await ReferralListerService.getListerByReferralCode(
+            param.referralCode,
+            listing.docs[0].id
+          );
+
           if (!_.isNil(dataReferral)) {
             lister = await ListerService.getListerProfile(dataReferral.userId);
           }
         }
       }
     }
-    
-    const response =  formatProjectProfile(
-      listing,
-      childListingResult,
-      lister
-    );
+
+    const response = formatProjectProfile(listing, childListingResult, lister);
 
     if (param.mustCounting) {
       await this.saveDailyTracking(response);
@@ -74,13 +73,13 @@ export class ListingService {
 
   async saveDailyTracking(response: Object): Object {
     if (!_.isEmpty(response)) {
-      const {id, category, type} = extractListingId(response.id);
+      const { id, category, type } = extractListingId(response.id);
       await dailyTrackingDAO.saveDailyTrackingView({
         project_id: parseInt(id),
         type: type,
         category: category,
         client_type: 2,
-        d_date: moment().format("YYYY-MM-DD")
+        d_date: moment().format('YYYY-MM-DD'),
       });
 
       await projectTrackingDAO.saveProjectTrackingView(parseInt(id));

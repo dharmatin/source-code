@@ -12,7 +12,7 @@ import {
   handleInternalServerError,
   handleSuccess,
   handleNotFound,
-  handleResponseMessage
+  handleResponseMessage,
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/referrals/listings')
@@ -24,7 +24,7 @@ class ReferralsController extends BaseController {
         listingId: req.params.listingId,
         listerId: req.userInfo.userID,
         messageRequest: req.body.Message,
-        isSubscribed: Number(req.body.isSubscribed)
+        isSubscribed: Number(req.body.isSubscribed),
       });
       handleResponseMessage(res, result);
     } catch (e) {
@@ -39,9 +39,11 @@ class ReferralsController extends BaseController {
       const requestParameter = {
         userId: req.userInfo.userID,
         pageToken: req.query.pageToken,
-        pageSize: req.query.pageSize
+        pageSize: req.query.pageSize,
       };
-      const referralList = await referralRequestListService.getReferralList(requestParameter);
+      const referralList = await referralRequestListService.getReferralList(
+        requestParameter
+      );
 
       if (_.isEmpty(referralList)) {
         handleNotFound(res);
@@ -111,7 +113,10 @@ class ReferralsController extends BaseController {
   @web.get('/:listingId/status', [isValidCustomer])
   async statusReferral(req, res) {
     try {
-      const result = await referralRequestService.getLatestRefferal(req.userInfo.userID, req.params.listingId);
+      const result = await referralRequestService.getLatestRefferal(
+        req.userInfo.userID,
+        req.params.listingId
+      );
       handleSuccess(res, result);
     } catch (e) {
       handleInternalServerError(res);

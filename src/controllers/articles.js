@@ -13,13 +13,14 @@ import { getRequestForPagingParam } from '../libs/utility';
 class ArticlesController extends BaseController {
   @web.get('/categories/primary-pdp')
   async findArticlesReferalProjectAction(req, res, next) {
-
     try {
-
       const DEFAULT_PAGE_SIZE = 4;
       const pagingRequest = getRequestForPagingParam(req, DEFAULT_PAGE_SIZE);
 
-      const articles = await articlesService.getArticlesByTags(req.query.projectId, pagingRequest);
+      const articles = await articlesService.getArticlesByTags(
+        req.query.projectId,
+        pagingRequest
+      );
 
       if (_.isEmpty(articles)) {
         handleNotFound(res);

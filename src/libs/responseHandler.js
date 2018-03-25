@@ -63,7 +63,7 @@ export const handleForbiddenLanguage = response => {
     .set('Content-Type', 'application/json')
     .status(403)
     .send({
-        message: 'Forbidden'
+      message: 'Forbidden',
     })
     .end();
 };

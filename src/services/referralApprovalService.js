@@ -31,22 +31,24 @@ export class ReferralApprovalService {
       const emailQueueData = emailReferralApprovalDataCollector.collect({
         listingId: this.getListingId(),
         listerId: this.getListerId(),
-        referralCode: this.getReferralCode()
+        referralCode: this.getReferralCode(),
       });
-      emailQueueData.then((data: Object) => {
-        const queuedEmail = emailQueueService
-          .to(data.to)
-          .from(data.from)
-          .subject(data.subject)
-          .jsonData(data.jsonData)
-          .template(data.template)
-          .save();
-        queuedEmail.catch((err: any) => {
+      emailQueueData
+        .then((data: Object) => {
+          const queuedEmail = emailQueueService
+            .to(data.to)
+            .from(data.from)
+            .subject(data.subject)
+            .jsonData(data.jsonData)
+            .template(data.template)
+            .save();
+          queuedEmail.catch((err: any) => {
+            throw new Error(err);
+          });
+        })
+        .catch((err: any) => {
           throw new Error(err);
         });
-      }).catch((err: any) => {
-        throw new Error(err);
-      });
       return true;
     } else {
       return false;

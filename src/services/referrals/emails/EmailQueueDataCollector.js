@@ -2,8 +2,16 @@
 import _ from 'lodash';
 import projectService from '../../projectProfileService';
 import listerService from '../../listerService';
-import type { EmailQueueData, ReferralCollectorData, ProjectProfileRequester } from '../data/types';
-import { formatProject, formatLister, formatOrganisation } from '../../formatters/emailQueueDataCollectorFormatter';
+import type {
+  EmailQueueData,
+  ReferralCollectorData,
+  ProjectProfileRequester,
+} from '../data/types';
+import {
+  formatProject,
+  formatLister,
+  formatOrganisation,
+} from '../../formatters/emailQueueDataCollectorFormatter';
 import config from '../../../config';
 
 const EMAIL_FROM = config.EMAIL_FROM;
@@ -20,8 +28,13 @@ export default class EmailQueueDataCollector {
     this.listerService = listerService;
   }
 
-  async queuedDataForLister(params: ReferralCollectorData): Promise<EmailQueueData> {
-    const project = await this.getProjectProfile({id: params.listingId, referralCode: params.referralCode});
+  async queuedDataForLister(
+    params: ReferralCollectorData
+  ): Promise<EmailQueueData> {
+    const project = await this.getProjectProfile({
+      id: params.listingId,
+      referralCode: params.referralCode,
+    });
     const lister = await this.getListerProfile(params.listerId);
     const listerFormatted = formatLister(lister);
     let similarProject = [];
@@ -33,7 +46,10 @@ export default class EmailQueueDataCollector {
       const organisationsFormatted = formatOrganisation(project);
 
       if (!_.isNil(project.organisations)) {
-        similarProject = await this.searchSimilarProject(project.organisations[0].id, params.listingId);
+        similarProject = await this.searchSimilarProject(
+          project.organisations[0].id,
+          params.listingId
+        );
         _.map(similarProject.items, (value: Object) => {
           similarProjectFormatted.push(formatProject(value));
         });
@@ -43,7 +59,7 @@ export default class EmailQueueDataCollector {
         agent: listerFormatted,
         project: projectFormatted,
         similarProject: similarProjectFormatted,
-        developer: organisationsFormatted
+        developer: organisationsFormatted,
       };
     }
 
@@ -52,25 +68,32 @@ export default class EmailQueueDataCollector {
       template: '',
       from: EMAIL_FROM,
       to: listerFormatted.email,
-      jsonData: jsonData
+      jsonData: jsonData,
     };
   }
 
-  async queuedDataForOrganisation(params: ReferralCollectorData): Promise<EmailQueueData> {
+  async queuedDataForOrganisation(
+    params: ReferralCollectorData
+  ): Promise<EmailQueueData> {
     // FOR DATA EMAIL REFERRAL SENT TO DEVELOPER
     const lister = await this.getListerProfile(params.listerId);
     const listerFormatted = formatLister(lister);
-    const project = await this.getProjectProfile({id: params.listingId, referralCode: params.referralCode});
+    const project = await this.getProjectProfile({
+      id: params.listingId,
+      referralCode: params.referralCode,
+    });
     let jsonData = {};
 
     if (!_.isEmpty(project)) {
       const organisationsFormatted = formatOrganisation(project);
-      const projectByOrganisation = await this.getAllProjectByOrganisation(project.organisations[0].id);
+      const projectByOrganisation = await this.getAllProjectByOrganisation(
+        project.organisations[0].id
+      );
 
       jsonData = {
         agent: listerFormatted,
         project: organisationsFormatted,
-        developerDashboard: projectByOrganisation
+        developerDashboard: projectByOrganisation,
       };
     }
 
@@ -79,22 +102,30 @@ export default class EmailQueueDataCollector {
       template: '',
       from: EMAIL_FROM,
       to: listerFormatted.email,
-      jsonData: jsonData
+      jsonData: jsonData,
     };
   }
 
-  async getAllProjectByOrganisation(developerCompanyId: number): Promise<Object> {
-    const result = await this.projectService.getProjectByOrganisation(developerCompanyId,
-      '', {
-        'pageToken': 1,
-        'pageSize': 9999
+  async getAllProjectByOrganisation(
+    developerCompanyId: number
+  ): Promise<Object> {
+    const result = await this.projectService.getProjectByOrganisation(
+      developerCompanyId,
+      '',
+      {
+        pageToken: 1,
+        pageSize: 9999,
       }
     );
     return result;
   }
 
   async getProjectProfile(params: ProjectProfileRequester): Promise<Object> {
-    const result = await this.projectService.getProjectProfile({id: params.id, referralCode: params.referralCode, mustCounting: false});
+    const result = await this.projectService.getProjectProfile({
+      id: params.id,
+      referralCode: params.referralCode,
+      mustCounting: false,
+    });
     return result;
   }
 
@@ -103,13 +134,16 @@ export default class EmailQueueDataCollector {
     return result;
   }
 
-  async searchSimilarProject(organisationId: string, excludeProjectId: string): Promise<Object> {
+  async searchSimilarProject(
+    organisationId: string,
+    excludeProjectId: string
+  ): Promise<Object> {
     const result = await this.projectService.getProjectByOrganisation(
       organisationId,
       excludeProjectId,
       {
         pageToken: DEFAULT_PAGE_TOKEN,
-        pageSize: DEFAULT_PAGE_SIZE
+        pageSize: DEFAULT_PAGE_SIZE,
       }
     );
 
@@ -122,7 +156,7 @@ export default class EmailQueueDataCollector {
       to: '',
       jsonData: {},
       subject: '',
-      template: ''
+      template: '',
     };
   }
 
