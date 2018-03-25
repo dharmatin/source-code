@@ -19,12 +19,11 @@ export class ArticlesService {
     if (listingSearch.responseHeader.status !== 0)
       throw new Error('Solr error project not found');
 
-    if (listingSearch.response.numFound === 0)
-      return {}
+    if (listingSearch.response.numFound === 0) return {};
 
     const tags = [
-      listingSearch.response.docs[0].project_name, 
-      listingSearch.response.docs[0].developer_name
+      listingSearch.response.docs[0].project_name,
+      listingSearch.response.docs[0].developer_name,
     ];
 
     const result = await this.articles.getArticleByTags(tags, pagingRequest);

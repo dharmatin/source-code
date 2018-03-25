@@ -3,7 +3,7 @@
 export type DeveloperDashboard = {
   urlApprovalPage: string,
   totalPendingRequest: number,
-  urlReferralDashboard: string
+  urlReferralDashboard: string,
 };
 
 export type Lister = {
@@ -12,7 +12,7 @@ export type Lister = {
   profilePage: string,
   membership: string,
   photoUrl: string,
-  email: string
+  email: string,
 };
 
 export type Project = {
@@ -25,7 +25,7 @@ export type Project = {
   urlReferral: string,
   subUnitType: string,
   builtUp: string,
-  landArea: string
+  landArea: string,
 };
 
 export type Organisation = {
@@ -34,5 +34,5 @@ export type Organisation = {
   phoneNumber: string,
   whatsappNumber: string,
   email: string,
-  logo: string
+  logo: string,
 };

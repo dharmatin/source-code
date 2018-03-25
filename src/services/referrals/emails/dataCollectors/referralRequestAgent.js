@@ -1,11 +1,16 @@
 // @flow
 import EmailQueueDataCollector from '../EmailQueueDataCollector';
-import type { ReferralCollectorData, EmailQueueData, DataCollector } from '../../data/types';
+import type {
+  ReferralCollectorData,
+  EmailQueueData,
+  DataCollector,
+} from '../../data/types';
 import config from '../../../../config';
 
 const EMAIL_TEMPLATE = '/referral/agent_request.php';
 
-class ReferralRequestAgent extends EmailQueueDataCollector implements DataCollector {
+class ReferralRequestAgent extends EmailQueueDataCollector
+  implements DataCollector {
   constructor() {
     super();
     this.setDefaultEmailQueueData();
@@ -16,7 +21,7 @@ class ReferralRequestAgent extends EmailQueueDataCollector implements DataCollec
     const data = await this.queuedDataForLister({
       listingId: params.listingId,
       listerId: params.listerId,
-      referralCode: params.referralCode
+      referralCode: params.referralCode,
     });
     data.subject = config.translator.email_subject.referral_request_sended;
     data.template = EMAIL_TEMPLATE;

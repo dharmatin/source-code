@@ -7,17 +7,22 @@ import config from '../config';
 
 export class ReferralListerService {
   referral: Object;
-  
+
   constructor(referral: Object) {
     this.referral = referral;
   }
-  
-  async getListerByReferralCode(referralCode: string, listingId: string): Promise<AgentReferral> {
+
+  async getListerByReferralCode(
+    referralCode: string,
+    listingId: string
+  ): Promise<AgentReferral> {
     const objListingId = formatListingIdToObjectId(listingId);
-    const referral: AgentReferral = await this.referral.getReferralByCodeAndListingId({
-      referralCode: referralCode,
-      ...objListingId
-    });
+    const referral: AgentReferral = await this.referral.getReferralByCodeAndListingId(
+      {
+        referralCode: referralCode,
+        ...objListingId,
+      }
+    );
     return referral;
   }
 }

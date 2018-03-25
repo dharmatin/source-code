@@ -21,14 +21,24 @@ export class ReferralRequestListService {
     }
 
     const rowStart = (req.pageToken - 1) * req.pageSize;
-    const pagingRequest = {pageToken: req.pageToken, pageSize: req.pageSize};
+    const pagingRequest = { pageToken: req.pageToken, pageSize: req.pageSize };
     let referralQuery = [];
-    const referralWithoutLimitQuery = await this.referral.getCountReferralByProjectId(project.response.docs[0].developer_company_id);
+    const referralWithoutLimitQuery = await this.referral.getCountReferralByProjectId(
+      project.response.docs[0].developer_company_id
+    );
     if (referralWithoutLimitQuery[0].total > 0) {
-      referralQuery = await this.referral.getReferralByProjectId(project.response.docs[0].developer_company_id, rowStart, req.pageSize);
+      referralQuery = await this.referral.getReferralByProjectId(
+        project.response.docs[0].developer_company_id,
+        rowStart,
+        req.pageSize
+      );
     }
 
-    return formatAttributesReferral(referralQuery, referralWithoutLimitQuery[0].total, pagingRequest);
+    return formatAttributesReferral(
+      referralQuery,
+      referralWithoutLimitQuery[0].total,
+      pagingRequest
+    );
   }
 }
 

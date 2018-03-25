@@ -6,11 +6,10 @@ const { client: articleClient } = new SolrClient(LISTING_CORE);
 
 export default {
   getArticleByTags: async (tags: Array<string>, paging: Object): Object => {
-    
     const queryTags = _.map(tags, (item): string => {
       return '"' + item + '"';
     }).join(' OR ');
-    
+
     const conditionQ = `tag:(${queryTags}) AND post_status:publish AND -category:post-format-video`;
 
     const pageStart = (paging.pageToken - 1) * paging.pageSize;

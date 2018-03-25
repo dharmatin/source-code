@@ -2,12 +2,12 @@
 export type ReferralCollectorData = {
   listingId: string,
   listerId: number,
-  referralCode: string
+  referralCode: string,
 };
 
 export type ProjectProfileRequester = {
   id: string,
-  referralCode: string
+  referralCode: string,
 };
 
 export type EmailQueueData = {
@@ -15,9 +15,9 @@ export type EmailQueueData = {
   to: string,
   jsonData: Object,
   subject: string,
-  template: string
+  template: string,
 };
 
 export interface DataCollector {
-  collect(params: ReferralCollectorData): Promise<EmailQueueData>
+  collect(params: ReferralCollectorData): Promise<EmailQueueData>;
 }

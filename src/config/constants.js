@@ -24,13 +24,13 @@ const constants = {
     INACTIVE: 'inactive',
     PENDING: 'pending',
     REJECTED: 'denied',
-    APPROVED: 'approved'
+    APPROVED: 'approved',
   },
   USER_GROUP: {
     CUSTOMER: 2,
     DEVELOPER: 32,
   },
-  EMAIL_FROM: 'no-reply@rumah123.com'
+  EMAIL_FROM: 'no-reply@rumah123.com',
 };
 
 export default constants;

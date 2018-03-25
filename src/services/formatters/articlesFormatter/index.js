@@ -2,11 +2,7 @@
 import _ from 'lodash';
 import Serialization from 'php-serialization';
 import type { Article } from './types';
-import {
-  getUrlSharpie,
-  toISOFormatting,
-  slugify,
-} from '../../../libs/utility';
+import { getUrlSharpie, toISOFormatting, slugify } from '../../../libs/utility';
 import config from '../../../config';
 import { stringify } from 'querystring';
 
@@ -36,7 +32,11 @@ export const formatAttributesArticle = (
   });
 
   const totalNumber = articles.response.numFound;
-  const nextPageToken = ((pagingRequest.pageToken * pagingRequest.pageSize >= totalNumber) ? pagingRequest.pageToken : pagingRequest.pageToken + 1).toString();
+  const nextPageToken = (pagingRequest.pageToken * pagingRequest.pageSize >=
+  totalNumber
+    ? pagingRequest.pageToken
+    : pagingRequest.pageToken + 1
+  ).toString();
   const result = {};
 
   if (articleList.length > 0) {
@@ -56,7 +56,7 @@ export const formatAttributesArticle = (
 
 export const getFirstParagraph = (html: string): string => {
   const result = splitHtmlByParagraph(html);
-  return !_.isNil(result[0]) ? result[0].replace(/<[^>]+>/ig, '') : '';
+  return !_.isNil(result[0]) ? result[0].replace(/<[^>]+>/gi, '') : '';
 };
 
 export const splitHtmlByParagraph = (html: string): any => {

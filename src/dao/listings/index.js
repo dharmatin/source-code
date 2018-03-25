@@ -5,12 +5,12 @@ const LISTING_CORE = 'listing_v2';
 const { client: listingClient } = new SolrClient(LISTING_CORE);
 
 export default {
-  searchProject: async(id: string): Object => {
+  searchProject: async (id: string): Object => {
     const conditionQ = `id:${id}`;
     const queryListingById = listingClient.createQuery().q(conditionQ);
     return listingClient.searchAsync(queryListingById);
   },
-  searchChildListing: async(id: string): Object => {
+  searchChildListing: async (id: string): Object => {
     const conditionQ = id ? `parent_id:${id}` : '*:*';
     const queryListingById = listingClient
       .createQuery()
@@ -19,7 +19,7 @@ export default {
       .rows(100);
     return listingClient.searchAsync(queryListingById);
   },
-  searchProjectByOrganisation: async(
+  searchProjectByOrganisation: async (
     id: string,
     excludeProjectId: string,
     paging: Object
@@ -37,7 +37,7 @@ export default {
       .rows(paging.pageSize);
     return listingClient.searchAsync(queryListingById);
   },
-  searchProjectAccessByProjectId: async(id: string): Object => {
+  searchProjectAccessByProjectId: async (id: string): Object => {
     const conditionQ = `id:${id}`;
     const queryProjectAccess = listingClient
       .createQuery()
@@ -45,14 +45,17 @@ export default {
       .matchFilter('en_project_access', '[* TO *]');
     return listingClient.searchAsync(queryProjectAccess);
   },
-  searchProjectByUserId: async(userId: string, start: number, row: number): Object => {
+  searchProjectByUserId: async (
+    userId: string,
+    start: number,
+    row: number
+  ): Object => {
     const conditionQ = `developer_user_id:${userId}`;
-    const queryListingByUserId =
-    listingClient
+    const queryListingByUserId = listingClient
       .createQuery()
       .q(conditionQ)
       .start(start)
-      .rows(row); ;
+      .rows(row);
     return listingClient.searchAsync(queryListingByUserId);
-  }
+  },
 };
