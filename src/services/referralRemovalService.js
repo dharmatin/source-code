@@ -13,6 +13,7 @@ export class ReferralRemovalService {
   listerId: number;
   listingId: number;
   referralReason: string;
+  listingIds: string;
 
   constructor(referral: Object) {
     this.referral = referral;
