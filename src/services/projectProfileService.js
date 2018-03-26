@@ -63,7 +63,7 @@ export class ListingService {
     }
 
     const response = formatProjectProfile(listing, childListingResult, lister);
-
+console.log(param.mustCounting);
     if (param.mustCounting) {
       await this.saveDailyTracking(response);
     }
@@ -78,7 +78,7 @@ export class ListingService {
         project_id: parseInt(id),
         type: type,
         category: category,
-        client_type: 2,
+        client_type: 22,
         d_date: moment().format('YYYY-MM-DD'),
       });
 
