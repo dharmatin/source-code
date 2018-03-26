@@ -61,8 +61,8 @@ export const formatAttributesReferral = (
         );
       }
 
-      if (item.referral_reason) {
-        referralListerObject.message = item.referral_reason;
+      if (item.message_request) {
+        referralListerObject.message = item.message_request;
       }
 
       referralListerObject.status = setReferralStatus(item.referral_status);
