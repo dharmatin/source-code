@@ -2,7 +2,6 @@ import * as web from 'express-decorators';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import _ from 'lodash';
-import config from '../config';
 
 import {
   handleNotFound,
@@ -16,7 +15,7 @@ class ListingsController extends BaseController {
   async findAllProjectProfilePageByIdAction(req, res, next) {
     try {
       let referralCode = '';
-      
+
       if (
         !_.isNil(req.query.referralCode) &&
         !_.isEmpty(req.query.referralCode)
@@ -27,6 +26,7 @@ class ListingsController extends BaseController {
       const listings = await projectProfileService.getProjectProfile({
         id: req.params.id,
         referralCode: referralCode,
+        mustCounting: true,
       });
 
       if (_.isEmpty(listings)) {

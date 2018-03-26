@@ -65,12 +65,13 @@ export const formatProjectProfilePageLink = (
   return config.url.newlaunch + formatUrl;
 };
 
-export const formatListingIdToObjectId = (listingId: string): ObjectListingId => {
+export const formatListingIdToObjectId = (
+  listingId: string
+): ObjectListingId => {
   const listingDetail = extractListingId(listingId);
   return {
     adsProjectId: listingDetail.id,
     propertyType: listingDetail.type,
     propertyCategory: listingDetail.category,
   };
-}
-
+};

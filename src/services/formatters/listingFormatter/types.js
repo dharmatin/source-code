@@ -54,5 +54,5 @@ export type Listing = {
 export type ObjectListingId = {
   adsProjectId: string,
   propertyType: string,
-  propertyCategory: string
-}
+  propertyCategory: string,
+};

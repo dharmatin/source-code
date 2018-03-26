@@ -36,9 +36,9 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     title: projectProfilePage['sponsor_name_' + config.lang],
   });
 
-  const attachments = !_.isEmpty(projectProfilePage.attachments) ?
-    JSON.parse(JSON.stringify(JSON.parse(projectProfilePage.attachments))) :
-    {};
+  const attachments = !_.isEmpty(projectProfilePage.attachments)
+    ? JSON.parse(projectProfilePage.attachments)
+    : {};
 
   if (!_.isEmpty(banner)) {
     response.banner = banner;
@@ -83,9 +83,7 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     builtUpMax: projectProfilePage.building_size_min,
     landAreaMin: projectProfilePage.land_size_min,
     landAreaMax: projectProfilePage.land_size_max,
-    downloadUrl: !_.isEmpty(attachments.brochure) ?
-      attachments.brochure :
-      '',
+    downloadUrl: !_.isEmpty(attachments.brochure) ? attachments.brochure : '',
   });
 
   if (!_.isEmpty(lister)) {
@@ -134,7 +132,9 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     projectProfilePage.is_premium,
     projectProfilePage.is_gts
   );
-  response.updatedAt = moment(projectProfilePage.updated_date).format('YYYY-MM-DDThh:mm:ssZ');
+  response.updatedAt = moment(projectProfilePage.updated_date).format(
+    'YYYY-MM-DDThh:mm:ssZ'
+  );
   response.medias = mediaFormatter.formatListingImages(
     projectProfilePage.all_listing_images
   );
@@ -174,6 +174,7 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
   response.features = listingFormatter.formatFeatures(
     projectProfilePage[config.lang + '_project_facilities']
   );
+
   return response;
 };
 

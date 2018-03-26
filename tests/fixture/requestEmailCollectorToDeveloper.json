@@ -1,0 +1,29 @@
+{  
+  "subject":"Anda memiliki permintaan dari agen",
+  "template":"Referalls\\DeveloperRequester",
+  "from":"no-reply@rumah123.com",
+  "to":"ce748andari@02f4d389.com",
+  "jsonData":{
+    "agent":{
+       "name":"Syelaaa Cantik",
+       "photoUrl":"https://dm38pn59zg67e.cloudfront.net/photo/70491/180/704911512024697.jpg",
+       "email":"123.superqa@gmail.com",
+       "firstName":"Syelaaa",
+       "profilePage":"localhost/agen-properti/rumah123/syelaaa-cantik-70491",
+       "membership":"3 Tahun lalu"
+    },
+    "project":{
+       "name":"INTILAND Development",
+       "urlPage":"localhost/properti-baru/developer/intiland-development/58",
+       "phoneNumber":"+6287808784500",
+       "whatsappNumber":"+-",
+       "email":"superqar123@gmail.com",
+       "logo":"https://d3p0bla3numw14.cloudfront.net/developer/logo/developer-logo-d-1474517886.jpg"
+    },
+    "developerDashboard":{
+       "urlApprovalPage":"localhost/developer/referral-dashboard/?approve=eyJsaXN0aW5nSWQiOiJucHMxMDQ1IiwibGlzdGVySWQiOiI3MDQ5MSJ9",
+       "totalPendingRequest":6,
+       "urlReferralDashboard":"localhost/developer/referral-dashboard"
+    }
+ }
+}
