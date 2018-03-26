@@ -177,7 +177,7 @@ class ReferralDao {
     const limitQuery = `LIMIT ${start} , ${row}`;
     const rawReferralList = await ReferralClient.query(
       `SELECT ` +
-        `AR.user_id, AR.ads_project_id, AR.referral_reason, AR.referral_status, AR.created_date, AR.approved_date, AR.removed_date, ` +
+        `AR.user_id, AR.ads_project_id, AR.message_request, AR.referral_status, AR.created_date, AR.approved_date, AR.removed_date, ` +
         `U.user_name, U.email, U.first_name, U.last_name, ` +
         `UA.personalweb_url, UA.profile_photo, UA.contact_no, AP.ads_name, C.company_name  ` +
         `FROM agent_referral AR ` +
