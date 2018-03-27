@@ -193,8 +193,7 @@ class ReferralDao {
           companyId: companyId,
           referralStatus: [
             config.STATUS_REFERRAL.PENDING,
-            config.STATUS_REFERRAL.APPROVED,
-            config.STATUS_REFERRAL.REMOVE,
+            config.STATUS_REFERRAL.APPROVED
           ],
         },
         type: Sequelize.QueryTypes.SELECT,
@@ -221,8 +220,7 @@ class ReferralDao {
           companyId: companyId,
           referralStatus: [
             config.STATUS_REFERRAL.PENDING,
-            config.STATUS_REFERRAL.APPROVED,
-            config.STATUS_REFERRAL.REMOVE,
+            config.STATUS_REFERRAL.APPROVED
           ],
         },
         type: Sequelize.QueryTypes.SELECT,
