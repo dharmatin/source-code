@@ -35,21 +35,21 @@ export class ReferralRequestService {
       params.listingId
     );
     if (listing.numFound > 0 && listing.docs[0].is_referral === 1) {
-      (await this.checkingReferral(agentParam))
-        ? (await this.requestingReferral(
-            _.assign(agentParam, {
-              messageRequest: params.messageRequest,
-              propertyCategory: 's',
-            }),
-            params.isSubscribed
-          ))
-          ? (message = 'Success')
-          : (message = 'Failed')
-        : (message = 'Failed');
-    }
-    if (message === 'Success') {
-      this.handlerEmailToDeveloper(params);
-      this.handlerEmailToAgent(params);
+      const isExist = await this.checkingReferral(agentParam);
+      if (isExist) {
+        const result = await this.requestingReferral(
+          _.assign(agentParam, {
+            messageRequest: params.messageRequest,
+            propertyCategory: 's',
+          }),
+          params.isSubscribed
+        );
+        if (result) {
+          message = 'Success';
+          this.handlerEmailToDeveloper(params);
+          this.handlerEmailToAgent(params);
+        }
+      }
     }
     return message;
   }
