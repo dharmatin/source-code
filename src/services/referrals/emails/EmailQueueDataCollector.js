@@ -82,17 +82,18 @@ export default class EmailQueueDataCollector {
       id: params.listingId,
       referralCode: params.referralCode,
     });
+    const organisationsFormatted = formatOrganisation(project);
+    const projectFormatted = formatProject(project);
     let jsonData = {};
 
     if (!_.isEmpty(project)) {
-      const organisationsFormatted = formatOrganisation(project);
       const projectByOrganisation = await this.getAllProjectByOrganisation(
         project.organisations[0].id
       );
 
       jsonData = {
         agent: listerFormatted,
-        project: organisationsFormatted,
+        project: projectFormatted,
         developerDashboard: projectByOrganisation,
       };
     }
@@ -101,7 +102,7 @@ export default class EmailQueueDataCollector {
       subject: '',
       template: '',
       from: EMAIL_FROM,
-      to: listerFormatted.email,
+      to: organisationsFormatted.email,
       jsonData: jsonData,
     };
   }
