@@ -11,7 +11,7 @@ const common = {
     mysql: {
       username: 'webmaster',
       password: 'Pr0W3br321REA',
-      host: 'id-stgslave.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
+      host: 'id-stgmaster.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
         default: 'ds_real',
