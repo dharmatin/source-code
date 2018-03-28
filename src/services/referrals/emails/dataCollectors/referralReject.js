@@ -1,9 +1,13 @@
 // @flow
 import EmailQueueDataCollector from '../EmailQueueDataCollector';
-import type { ReferralCollectorData, EmailQueueData, DataCollector } from '../../data/types';
+import type {
+  ReferralCollectorData,
+  EmailQueueData,
+  DataCollector,
+} from '../../data/types';
 import config from '../../../../config';
 
-const EMAIL_TEMPLATE = '/referral/deny.php';
+const EMAIL_TEMPLATE = 'Referalls\\Rejection';
 
 class ReferralReject extends EmailQueueDataCollector implements DataCollector {
   constructor() {
@@ -16,7 +20,7 @@ class ReferralReject extends EmailQueueDataCollector implements DataCollector {
     const data = await this.queuedDataForLister({
       listingId: params.listingId,
       listerId: params.listerId,
-      referralCode: params.referralCode
+      referralCode: params.referralCode,
     });
     data.subject = config.translator.email_subject.referral_request_deny;
     data.template = EMAIL_TEMPLATE;

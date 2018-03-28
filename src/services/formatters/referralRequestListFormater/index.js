@@ -12,12 +12,13 @@ export const formatAttributesReferral = (
   pagingRequest: Object
 ): Array<ReferralListers> => {
   const result = {};
-  if (referralListers.length > 0) {
-    const referralListersArray = [];
+  result.totalCount = 0;
+
+  if (!_.isEmpty(referralListers)) {
+    const referralApplyListers = [];
 
     _.map(referralListers, item => {
-      const referralListerObject = {};
-
+      const referralLister = {};
       const formatLister = {
         docs: [
           {
@@ -30,61 +31,59 @@ export const formatAttributesReferral = (
               '/180/' +
               (item.profile_photo ? item.profile_photo : '_photo.jpg'),
             company2: item.company_name,
-            register: item.created_date,
+            register: item.first_activated_date,
             handphone: item.contact_no,
             email: item.email,
           },
         ],
       };
 
-      referralListerObject.listers = formatListerProfile(formatLister);
-      referralListerObject.listings = {
+      referralLister.lister = formatListerProfile(formatLister);
+      referralLister.listing = {
         id: item.ads_project_id.toString(),
         title: item.ads_name,
       };
 
       if (isValidDate(item.created_date)) {
-        referralListerObject.createdAt = moment(item.created_date).format(
+        referralLister.createdAt = moment(item.created_date).format(
           'YYYY-MM-DDThh:mm:ssZ'
         );
       }
 
       if (isValidDate(item.approved_date)) {
-        referralListerObject.updatedAt = moment(item.approved_date).format(
+        referralLister.updatedAt = moment(item.approved_date).format(
           'YYYY-MM-DDThh:mm:ssZ'
         );
       }
 
       if (isValidDate(item.removed_date)) {
-        referralListerObject.removedAt = moment(item.removed_date).format(
+        referralLister.removedAt = moment(item.removed_date).format(
           'YYYY-MM-DDThh:mm:ssZ'
         );
       }
 
       if (item.message_request) {
-        referralListerObject.message = item.message_request;
+        referralLister.message = item.message_request;
       }
 
-      referralListerObject.status = setReferralStatus(item.referral_status);
+      referralLister.status = setReferralStatus(item.referral_status);
 
-      referralListersArray.push(referralListerObject);
+      referralApplyListers.push(referralLister);
     });
 
-    result.totalCount = 0;
-    if (referralListersArray.length > 0) {
-      result.listers = referralListersArray;
+    if (referralApplyListers.length > 0) {
+      result.listers = referralApplyListers;
       if (
-        pagingRequest.pageToken * pagingRequest.pageSize < totalreferralList &&
-        totalreferralList > 1
+        pagingRequest.pageToken * pagingRequest.pageSize <
+        totalreferralList
       ) {
-        result.nextPageToken = (Number(pagingRequest.pageToken) + 1).toString();
+        result.nextPageToken = (pagingRequest.pageToken + 1).toString();
+      } else {
+        result.nextPageToken = pagingRequest.pageToken.toString();
       }
       result.totalCount = totalreferralList;
     }
-    return [result];
   }
-
-  result.totalCount = totalreferralList;
 
   return [result];
 };

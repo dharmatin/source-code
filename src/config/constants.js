@@ -28,7 +28,7 @@ const constants = {
   },
   RESPONSE_TXT: {
     FAILED: 'failed',
-    SUCCESS: 'success'
+    SUCCESS: 'success',
   },
   USER_GROUP: {
     CUSTOMER: 2,

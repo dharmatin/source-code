@@ -126,8 +126,8 @@ class ReferralDao {
       referralStatus: config.STATUS_REFERRAL.PENDING,
     };
     const query = {
-      where: condition
-    }
+      where: condition,
+    };
     const referral = await this.referral.findAndCountAll(query);
     return referral ? referral.count : 0;
   }
@@ -180,11 +180,14 @@ class ReferralDao {
     const limitQuery = `LIMIT ${start} , ${row}`;
     const rawReferralList = await ReferralClient.query(
       `SELECT ` +
-        `AR.user_id, AR.ads_project_id, AR.message_request, AR.referral_status, AR.created_date, AR.approved_date, AR.removed_date, ` +
-        `U.user_name, U.email, U.first_name, U.last_name, ` +
+        `AR.user_id, AR.ads_project_id, AR.message_request, AR.referral_status, ` +
+        ` AR.created_date, AR.approved_date, AR.removed_date, ` +
+        `U.user_name, U.email, U.first_name, U.last_name, UNIX_TIMESTAMP(UG.first_activated_date) first_activated_date, ` +
         `UA.personalweb_url, UA.profile_photo, UA.contact_no, AP.ads_name, C.company_name  ` +
         `FROM agent_referral AR ` +
         `INNER JOIN user_v2 U ON AR.user_id = U.user_id ` +
+        `INNER JOIN user_group UG ON UG.user_id = U.user_id AND UG.user_id = AR.user_id ` +
+        ` AND UG.functional_group_id = 2 AND UG.status = 'A' AND UG.expired_date > NOW() AND UG.ended_date > NOW() ` +
         `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +
         `INNER JOIN ads_project AP ON AR.ads_project_id = AP.ads_project_id ` +
         `INNER JOIN developer_company_v2 D ON D.developer_company_id= AP.developer_company_id ` +
@@ -196,13 +199,12 @@ class ReferralDao {
           companyId: companyId,
           referralStatus: [
             config.STATUS_REFERRAL.PENDING,
-            config.STATUS_REFERRAL.APPROVED
+            config.STATUS_REFERRAL.APPROVED,
           ],
         },
         type: Sequelize.QueryTypes.SELECT,
       }
     );
-
     return rawReferralList;
   }
 
@@ -212,6 +214,8 @@ class ReferralDao {
         `COUNT(AR.user_id) AS total ` +
         `FROM agent_referral AR ` +
         `INNER JOIN user_v2 U ON AR.user_id = U.user_id ` +
+        `INNER JOIN user_group UG ON UG.user_id = U.user_id AND UG.user_id = AR.user_id ` +
+        ` AND UG.functional_group_id = 2 AND UG.status = 'A' AND UG.expired_date > NOW() AND UG.ended_date > NOW() ` +
         `INNER JOIN user_attribute UA ON AR.user_id = UA.user_id ` +
         `INNER JOIN ads_project AP ON AR.ads_project_id = AP.ads_project_id ` +
         `INNER JOIN developer_company_v2 D ON D.developer_company_id= AP.developer_company_id ` +
@@ -223,7 +227,7 @@ class ReferralDao {
           companyId: companyId,
           referralStatus: [
             config.STATUS_REFERRAL.PENDING,
-            config.STATUS_REFERRAL.APPROVED
+            config.STATUS_REFERRAL.APPROVED,
           ],
         },
         type: Sequelize.QueryTypes.SELECT,

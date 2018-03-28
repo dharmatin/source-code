@@ -15,7 +15,7 @@ import {
 import config from '../../../config';
 
 const EMAIL_FROM = config.EMAIL_FROM;
-const DEFAULT_PAGE_TOKEN = 2;
+const DEFAULT_PAGE_TOKEN = 1;
 const DEFAULT_PAGE_SIZE = 2;
 
 export default class EmailQueueDataCollector {
