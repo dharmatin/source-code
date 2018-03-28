@@ -29,12 +29,12 @@ export const formatProject = (project: Object): Project => {
     subUnitType: !_.isNil(project.propertyType) ? project.propertyType : '',
     builtUp:
       !_.isNil(project.attributes) && !_.isNil(project.attributes.builtUp)
-        ? `${project.attributes.builtUp} ${config.translator.area_unit.sq_m}`
-        : config.translator.contact_developer,
+        ? `${project.attributes.builtUp} m²`
+        : "",
     landArea:
       !_.isNil(project.attributes) && !_.isNil(project.attributes.landSize)
-        ? `${project.attributes.landSize} ${config.translator.area_unit.sq_ft}`
-        : config.translator.contact_developer,
+        ? `${project.attributes.landSize} m²`
+        : "",
   };
 };
 
