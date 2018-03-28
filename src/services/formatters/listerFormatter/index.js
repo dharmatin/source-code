@@ -17,9 +17,9 @@ export const formatListerProfile = (lister: Object): Object => {
     response.id = dataLister.id;
     response.type = 'agent';
     response.name = dataLister.name;
-    response.createdAt = moment(
-      moment.unix(dataLister.register).format('YYYY-MM-DD HH:mm:ss')
-    ).format('YYYY-MM-DDThh:mm:ssZ');
+    response.createdAt = moment(dataLister.register).format(
+      'YYYY-MM-DDThh:mm:ssZ'
+    );
     response.image = {
       url: dataLister.photo_url,
     };
