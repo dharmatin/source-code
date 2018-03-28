@@ -70,7 +70,7 @@ class ReferralsController extends BaseController {
       if (result) {
         handleResponseMessage(res, config.RESPONSE_TXT.SUCCESS);
       } else {
-        handleResponseMessage(res, config.RESPONSE_TXT.FAILED);
+        handleBadRequest(res);
       }
     } catch (e) {
       handleInternalServerError(res);
@@ -89,7 +89,7 @@ class ReferralsController extends BaseController {
       if (result) {
         handleResponseMessage(res, config.RESPONSE_TXT.SUCCESS);
       } else {
-        handleResponseMessage(res, config.RESPONSE_TXT.FAILED);
+        handleBadRequest(res);
       }
     } catch (e) {
       handleInternalServerError(res);
@@ -108,7 +108,8 @@ class ReferralsController extends BaseController {
       if (result) {
         handleResponseMessage(res, config.RESPONSE_TXT.SUCCESS);
       } else {
-        handleResponseMessage(res, config.RESPONSE_TXT.FAILED);
+        //handleResponseMessage(res, config.RESPONSE_TXT.FAILED);
+        handleBadRequest(res);
       }
     } catch (e) {
       handleInternalServerError(res);
