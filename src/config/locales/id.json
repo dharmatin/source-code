@@ -26,10 +26,6 @@
     "from": "Dari",
     "up_to": "Hingga",
     "contact_developer": "Kontak Pengembang",
-    "area_unit": {
-        "sq_ft": "meter",
-        "sq_m": "meter persegi"
-    },
     "price_unit_short": {
         "million": "Jt",
         "billion": "M",
