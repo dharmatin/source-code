@@ -7,12 +7,14 @@ import referralRequestListService from '../services/referralRequestListService';
 import referralRejectionService from '../services/referralRejectionService';
 import referralRemovalService from '../services/referralRemovalService';
 import { isValidCustomer, isValidDeveloper } from '../middleware/userGroup';
+import config from '../config';
 
 import {
   handleInternalServerError,
   handleSuccess,
   handleNotFound,
   handleResponseMessage,
+  handleBadRequest
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/referrals/listings')
@@ -26,7 +28,11 @@ class ReferralsController extends BaseController {
         messageRequest: req.body.Message,
         isSubscribed: Number(req.body.isSubscribed),
       });
-      handleResponseMessage(res, result);
+      if (result === config.RESPONSE_TXT.SUCCESS) {
+        handleResponseMessage(res, config.RESPONSE_TXT.SUCCESS);
+      } else {
+        handleBadRequest(res);
+      }
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);
