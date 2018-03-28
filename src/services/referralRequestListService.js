@@ -21,7 +21,7 @@ export class ReferralRequestListService {
     }
 
     const rowStart = (req.pageToken - 1) * req.pageSize;
-    const pagingRequest = { pageToken: req.pageToken, pageSize: req.pageSize };
+    const pagingRequest = { pageToken: Number(req.pageToken), pageSize: Number(req.pageSize) };
     let referralQuery = [];
     const referralWithoutLimitQuery = await this.referral.getCountReferralByProjectId(
       project.response.docs[0].developer_company_id
