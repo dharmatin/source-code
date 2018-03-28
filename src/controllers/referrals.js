@@ -108,7 +108,6 @@ class ReferralsController extends BaseController {
       if (result) {
         handleResponseMessage(res, config.RESPONSE_TXT.SUCCESS);
       } else {
-        //handleResponseMessage(res, config.RESPONSE_TXT.FAILED);
         handleBadRequest(res);
       }
     } catch (e) {
