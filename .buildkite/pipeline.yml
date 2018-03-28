@@ -1,0 +1,54 @@
+steps:
+  - label: eslint
+    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "eslint passed!"'
+    agents:
+      queue: ipp-regional-web:ci
+      env: development
+      market: rumah123
+
+  - wait
+  - label: unit test
+    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "unit test done!"'
+    agents:
+      queue: ipp-regional-web:ci
+      env: development
+      market: rumah123
+
+  - label: integration test
+    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "integration test done"'
+    agents:
+      queue: ipp-regional-web:ci
+      env: development
+      market: rumah123
+
+  - wait
+  - label: package
+    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "package done!"'
+    agents:
+      queue: ipp-regional-web:ci
+      env: development
+      market: rumah123
+
+  - wait
+  - label: deploy to dev
+    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "deploy to dev done!"'
+    agents:
+      queue: ipp-regional-web:ci
+      env: development
+      market: rumah123
+
+  - block: deploy to staging
+  - label: ':rocket:'
+    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "deploy to staging done!"'
+    agents:
+      queue: ipp-regional-web:ci
+      env: development
+      market: rumah123
+
+  - block: deploy to production
+  - label: ':rocket:'
+    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "deploy to production done!"'
+    agents:
+      queue: ipp-regional-web:ci
+      env: development
+      market: rumah123
