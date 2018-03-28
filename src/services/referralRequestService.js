@@ -115,7 +115,6 @@ export class ReferralRequestService {
       agentParam,
       isSubscribed
     );
-    console.log('response dao: ', request);
     return parseInt(request.userId) === parseInt(agentParam.userId);
   }
 
