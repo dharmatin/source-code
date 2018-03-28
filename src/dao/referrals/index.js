@@ -119,12 +119,15 @@ class ReferralDao {
   }
 
   async getOtherReferralPending(adsProjectId: Array<number>): Promise<number> {
-    const query = {
+    const condition = {
       adsProjectId: {
         [Sequelize.Op.in]: adsProjectId,
       },
       referralStatus: config.STATUS_REFERRAL.PENDING,
     };
+    const query = {
+      where: condition
+    }
     const referral = await this.referral.findAndCountAll(query);
     return referral ? referral.count : 0;
   }

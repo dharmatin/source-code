@@ -26,10 +26,6 @@
     "from": "From",
     "up_to": "Up to",
     "contact_developer": "Contact Developer",
-    "area_unit": {
-        "sq_ft": "sq ft",
-        "sq_m": "sq m" 
-    },
     "price_unit_short": {
         "million": "M",
         "billion": "B",
@@ -45,11 +41,12 @@
         "month": "Month",
         "day": "Day"
     },
-    "ago": "a go",
+    "ago": "ago",
     "email_subject": {
+        "referral_have_request": "You have a request from an agent",
+        "referral_request_sended": "Your request has been sent successfully",
         "referral_request_granted": "Access Granted",
         "referral_request_deny": "Sorry, your request is denied",
-        "referral_have_request": "You have a request from an agent",
-        "referral_request_sended": "Access Sended"
+        "referral_request_remove": "Sorry, you no longer have access"
     }
 }

@@ -4,6 +4,8 @@ import Sequelize from 'sequelize';
 import referralDao from '../dao/referrals';
 import type { AgentReferral } from '../dao/referrals/type';
 import { extractListingId } from '../libs/utility';
+import emailQueueService from './emailQueueService';
+import emailReferralRemoveDataCollector from './referrals/emails/dataCollectors/referralRemove';
 import config from '../config';
 
 export class ReferralRemovalService {
@@ -11,6 +13,7 @@ export class ReferralRemovalService {
   listerId: number;
   listingId: number;
   referralReason: string;
+  listingIds: string;
 
   constructor(referral: Object) {
     this.referral = referral;
@@ -23,6 +26,7 @@ export class ReferralRemovalService {
     this._setListerId(request.listerId);
     this._setListingId(listingIdDescription.id);
     this._setReferralReason(request.referralReason);
+    this._setListingIds(request.listingId);
 
     if (_.isNil(request.referralReason)) {
       return false;
@@ -35,6 +39,29 @@ export class ReferralRemovalService {
     const referral = await this.getLatestRefferal();
     if (!_.isEmpty(referral)) {
       const affectedRowsUpdated = await this.updateLatestReferral(referral);
+
+      const emailQueueData = emailReferralRemoveDataCollector.collect({
+        listingId: this._getListingIds(),
+        listerId: this._getListerId(),
+        referralCode: '0'
+      });
+
+      emailQueueData.then((data: Object) => {
+        _.unset(data.jsonData, 'similarProject');
+        const queuedEmail = emailQueueService
+          .to(data.to)
+          .from(data.from)
+          .subject(data.subject)
+          .jsonData(data.jsonData)
+          .template(data.template)
+          .save();
+        queuedEmail.catch((err: any) => {
+          throw new Error(err);
+        });
+      }).catch((err: any) => {
+        throw new Error(err);
+      });
+
       return affectedRowsUpdated > 0;
     } else {
       return false;
@@ -76,6 +103,10 @@ export class ReferralRemovalService {
     this.referralReason = referralReason;
   }
 
+  _setListingIds(listingIds: string) {
+    this.listingIds = listingIds;
+  }
+
   _getListingId(): number {
     return this.listingId;
   }
@@ -86,6 +117,10 @@ export class ReferralRemovalService {
 
   _getReferralReason(): string {
     return this.referralReason;
+  }
+
+  _getListingIds(): string {
+    return this.listingIds;
   }
 }
 
