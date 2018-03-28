@@ -14,7 +14,7 @@ import {
   handleSuccess,
   handleNotFound,
   handleResponseMessage,
-  handleBadRequest
+  handleBadRequest,
 } from '../libs/responseHandler';
 
 @web.basePath('/v1/referrals/listings')

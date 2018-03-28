@@ -43,24 +43,26 @@ export class ReferralRemovalService {
       const emailQueueData = emailReferralRemoveDataCollector.collect({
         listingId: this._getListingIds(),
         listerId: this._getListerId(),
-        referralCode: '0'
+        referralCode: '0',
       });
 
-      emailQueueData.then((data: Object) => {
-        _.unset(data.jsonData, 'similarProject');
-        const queuedEmail = emailQueueService
-          .to(data.to)
-          .from(data.from)
-          .subject(data.subject)
-          .jsonData(data.jsonData)
-          .template(data.template)
-          .save();
-        queuedEmail.catch((err: any) => {
+      emailQueueData
+        .then((data: Object) => {
+          _.unset(data.jsonData, 'similarProject');
+          const queuedEmail = emailQueueService
+            .to(data.to)
+            .from(data.from)
+            .subject(data.subject)
+            .jsonData(data.jsonData)
+            .template(data.template)
+            .save();
+          queuedEmail.catch((err: any) => {
+            throw new Error(err);
+          });
+        })
+        .catch((err: any) => {
           throw new Error(err);
         });
-      }).catch((err: any) => {
-        throw new Error(err);
-      });
 
       return affectedRowsUpdated > 0;
     } else {
