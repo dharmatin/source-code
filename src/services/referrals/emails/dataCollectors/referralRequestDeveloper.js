@@ -51,7 +51,7 @@ class ReferralRequestDeveloper extends EmailQueueDataCollector
     const adsOtherProject: Array<number> = _.map(
       projectByOrganisation.items,
       (data: Object): number => {
-        return data.id;
+        return data.id.substr(3);
       }
     );
     const count = await this.referrals.getOtherReferralPending(adsOtherProject);
