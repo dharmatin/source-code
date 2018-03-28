@@ -68,9 +68,9 @@ class ReferralsController extends BaseController {
         req.params.listingId
       );
       if (result) {
-        handleResponseMessage(res, 'success');
+        handleResponseMessage(res, config.RESPONSE_TXT.SUCCESS);
       } else {
-        handleResponseMessage(res, 'failed');
+        handleResponseMessage(res, config.RESPONSE_TXT.FAILED);
       }
     } catch (e) {
       handleInternalServerError(res);
@@ -87,9 +87,9 @@ class ReferralsController extends BaseController {
         referralReason: req.body.reason,
       });
       if (result) {
-        handleResponseMessage(res, 'success');
+        handleResponseMessage(res, config.RESPONSE_TXT.SUCCESS);
       } else {
-        handleResponseMessage(res, 'failed');
+        handleResponseMessage(res, config.RESPONSE_TXT.FAILED);
       }
     } catch (e) {
       handleInternalServerError(res);
@@ -106,9 +106,9 @@ class ReferralsController extends BaseController {
         referralReason: req.body.reason,
       });
       if (result) {
-        handleResponseMessage(res, 'success');
+        handleResponseMessage(res, config.RESPONSE_TXT.SUCCESS);
       } else {
-        handleResponseMessage(res, 'failed');
+        handleResponseMessage(res, config.RESPONSE_TXT.FAILED);
       }
     } catch (e) {
       handleInternalServerError(res);
