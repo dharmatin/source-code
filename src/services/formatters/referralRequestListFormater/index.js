@@ -13,7 +13,7 @@ export const formatAttributesReferral = (
 ): Array<ReferralListers> => {
   const result = {};
   result.totalCount = 0;
-  
+
   if (!_.isEmpty(referralListers)) {
     const referralApplyListers = [];
 
@@ -74,7 +74,8 @@ export const formatAttributesReferral = (
     if (referralApplyListers.length > 0) {
       result.listers = referralApplyListers;
       if (
-        pagingRequest.pageToken * pagingRequest.pageSize < totalreferralList
+        pagingRequest.pageToken * pagingRequest.pageSize <
+        totalreferralList
       ) {
         result.nextPageToken = (pagingRequest.pageToken + 1).toString();
       } else {

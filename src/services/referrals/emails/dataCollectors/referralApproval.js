@@ -7,7 +7,7 @@ import type {
 } from '../../data/types';
 import config from '../../../../config';
 
-const EMAIL_TEMPLATE = '/referral/approval_developer.php';
+const EMAIL_TEMPLATE = 'Referalls\\Approval';
 
 class ReferralApproval extends EmailQueueDataCollector
   implements DataCollector {

@@ -126,8 +126,8 @@ class ReferralDao {
       referralStatus: config.STATUS_REFERRAL.PENDING,
     };
     const query = {
-      where: condition
-    }
+      where: condition,
+    };
     const referral = await this.referral.findAndCountAll(query);
     return referral ? referral.count : 0;
   }
@@ -180,7 +180,7 @@ class ReferralDao {
     const limitQuery = `LIMIT ${start} , ${row}`;
     const rawReferralList = await ReferralClient.query(
       `SELECT ` +
-        `AR.user_id, AR.ads_project_id, AR.message_request, AR.referral_status, `+
+        `AR.user_id, AR.ads_project_id, AR.message_request, AR.referral_status, ` +
         ` AR.created_date, AR.approved_date, AR.removed_date, ` +
         `U.user_name, U.email, U.first_name, U.last_name, UNIX_TIMESTAMP(UG.first_activated_date) first_activated_date, ` +
         `UA.personalweb_url, UA.profile_photo, UA.contact_no, AP.ads_name, C.company_name  ` +
@@ -199,11 +199,11 @@ class ReferralDao {
           companyId: companyId,
           referralStatus: [
             config.STATUS_REFERRAL.PENDING,
-            config.STATUS_REFERRAL.APPROVED
+            config.STATUS_REFERRAL.APPROVED,
           ],
         },
-        type: Sequelize.QueryTypes.SELECT
-      },
+        type: Sequelize.QueryTypes.SELECT,
+      }
     );
     return rawReferralList;
   }
@@ -227,7 +227,7 @@ class ReferralDao {
           companyId: companyId,
           referralStatus: [
             config.STATUS_REFERRAL.PENDING,
-            config.STATUS_REFERRAL.APPROVED
+            config.STATUS_REFERRAL.APPROVED,
           ],
         },
         type: Sequelize.QueryTypes.SELECT,
