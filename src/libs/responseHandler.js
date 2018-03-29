@@ -8,9 +8,11 @@ export const handleSuccess = (response, data) => {
 
 export const handleBadRequest = response => {
   return response
-    .set('Content-Type', 'text/html')
+    .set('Content-Type', 'application/json')
     .status(400)
-    .send('Bad request')
+    .send({
+      message: 'Bad request',
+    })    
     .end();
 };
 
