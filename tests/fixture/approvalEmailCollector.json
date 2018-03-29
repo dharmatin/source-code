@@ -21,8 +21,8 @@
         "districtName":"Daan Mogot",
         "urlReferral":"localhost/properti/tangerang/aeropolis/nps1045",
         "subUnitType":"Apartemen / Gudang / Ruang Usaha / Perkantoran",
-        "builtUp":"Kontak Pengembang",
-        "landArea":"Kontak Pengembang"
+        "builtUp":"",
+        "landArea":""
      },
      "similarProject":[  
         {  
@@ -33,8 +33,8 @@
            "cityName":"Tangerang",
            "districtName":"Daan Mogot",
            "urlReferral":"localhost/properti/tangerang/aeropolis/nps1045",
-           "builtUp":"Kontak Pengembang",
-           "landArea":"Kontak Pengembang",
+           "builtUp":"",
+           "landArea":"",
            "subUnitType": ""
         },
         {  
@@ -45,8 +45,8 @@
            "cityName":"Tangerang",
            "districtName":"Cikupa",
            "urlReferral":"localhost/properti/tangerang/talaga-bestari/nps1128",
-           "builtUp":"Dari 65 - 89 meter persegi",
-           "landArea":"Kontak Pengembang",
+           "builtUp":"Dari 65 - 89 m²",
+           "landArea":"",
            "subUnitType": ""
         }
      ],

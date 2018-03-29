@@ -11,7 +11,6 @@ import listing from '../fixture/listingV2.json';
 import similarListings from '../fixture/listings.json';
 import listers from '../fixture/listers.json';
 import approvalDataCollector from '../fixture/approvalEmailCollector.json';
-import type{ ReferralCollectorData } from '../../src/services/referrals/data/types';
 
 declare var describe: any;
 declare var it: any;
