@@ -6,10 +6,12 @@ import { formatProjectProfilePageLink } from '../listingFormatter';
 
 export const formatStatusReferral = (
   dataReferral: Object,
-  dataListing: Object
+  listing: Object
 ): Referral => {
   const response = {};
-  if (!_.isEmpty(dataListing)) {
+  
+  if (listing.response.numFound > 0 && listing.response.docs[0].is_referral === 1) {
+    const dataListing = listing.response.docs[0];
     response.status = config.STATUS_REFERRAL_TXT.INACTIVE;
     
     const attachments = JSON.parse(dataListing.attachments);
