@@ -1,6 +1,6 @@
 {  
   "subject":"Anda memiliki permintaan dari agen",
-  "template":"Referalls\\DeveloperRequester",
+  "template":"Referrals\\DeveloperRequester",
   "from":"no-reply@rumah123.com",
   "to":"ce748andari@02f4d389.com",
   "jsonData":{

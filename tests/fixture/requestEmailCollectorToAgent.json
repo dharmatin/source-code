@@ -1,6 +1,6 @@
 {  
   "subject":"Permintaan anda telah terkirim",
-  "template":"Referalls\\AgentRequester",
+  "template":"Referrals\\AgentRequester",
   "from":"no-reply@rumah123.com",
   "to":"123.superqa@gmail.com",
   "jsonData":{  

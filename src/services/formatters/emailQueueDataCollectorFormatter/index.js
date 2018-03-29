@@ -32,8 +32,8 @@ export const formatProject = (project: Object): Project => {
         ? `${project.attributes.builtUp} m²`
         : '',
     landArea:
-      !_.isNil(project.attributes) && !_.isNil(project.attributes.landSize)
-        ? `${project.attributes.landSize} m²`
+      !_.isNil(project.attributes) && !_.isNil(project.attributes.landArea)
+        ? `${project.attributes.landArea} m²`
         : '',
   };
 };

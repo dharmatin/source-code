@@ -47,7 +47,7 @@ class ReferralsController extends BaseController {
       const pagingRequest = getRequestForPagingParam(req, DEFAULT_PAGE_SIZE);
       const requestParameter = {
         userId: req.userInfo.userID,
-        pagingRequest
+        pagingRequest,
       };
       const referralList = await referralRequestListService.getReferralList(
         requestParameter
