@@ -136,7 +136,7 @@ export class ReferralRequestService {
       });
     }
 
-    return formatStatusReferral(referral, listing.response.docs[0]);
+    return formatStatusReferral(referral, listing);
   }
 }
 
