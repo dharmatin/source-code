@@ -125,7 +125,11 @@ class ReferralsController extends BaseController {
         req.userInfo.userID,
         req.params.listingId
       );
-      handleSuccess(res, result);
+      if (!_.isEmpty(result)) {
+        handleSuccess(res, result);
+      } else {
+        handleNotFound(res);
+      }
     } catch (e) {
       handleInternalServerError(res);
       throw new Error(e);
