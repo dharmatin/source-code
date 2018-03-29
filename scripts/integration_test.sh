@@ -7,4 +7,4 @@ echo "Need to setup mysql/redis/solr docker container to run integration test."
 echo "----------Integration test Skipped---------"
 echo -e '\033[0m'
 
-docker run --rm -v $(pwd):/source -w /source node:8-alpine npm run test:integration
+#docker run --rm -v $(pwd):/source -w /source node:8-alpine npm run test:integration
