@@ -78,8 +78,6 @@ export const formatAttributesReferral = (
         totalreferralList
       ) {
         result.nextPageToken = (pagingRequest.pageToken + 1).toString();
-      } else {
-        result.nextPageToken = pagingRequest.pageToken.toString();
       }
       result.totalCount = totalreferralList;
     }
