@@ -20,7 +20,8 @@ export class ReferralRequestListService {
       throw new Error('Solr Project Not Found');
     }
 
-    const rowStart = (req.pagingRequest.pageToken - 1) * req.pagingRequest.pageSize;
+    const rowStart =
+      (req.pagingRequest.pageToken - 1) * req.pagingRequest.pageSize;
     const pagingRequest = {
       pageToken: Number(req.pagingRequest.pageToken),
       pageSize: Number(req.pagingRequest.pageSize),

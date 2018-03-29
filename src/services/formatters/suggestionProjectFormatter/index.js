@@ -98,7 +98,7 @@ const formatRelatedProjects = (
     dataListing.propertyType = listingFormatter.formatPropertyType(
       listing.subtype
     );
-    
+
     const attributes = listingAttributeFormatter.formatAttributesInfo({
       landArea: listing.land_size,
       builtUpMin: listing.building_size_min,
