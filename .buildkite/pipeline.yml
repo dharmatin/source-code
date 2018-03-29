@@ -1,6 +1,6 @@
 steps:
   - label: eslint
-    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "eslint passed!"'
+    command: "./scripts/eslint.sh"
     agents:
       queue: ipp-regional-web:ci
       env: development
@@ -8,14 +8,14 @@ steps:
 
   - wait
   - label: unit test
-    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "unit test done!"'
+    command: "./scripts/unit_test.sh"
     agents:
       queue: ipp-regional-web:ci
       env: development
       market: rumah123
 
   - label: integration test
-    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "integration test done"'
+    command: "./scripts/integration_test.sh"
     agents:
       queue: ipp-regional-web:ci
       env: development
@@ -23,7 +23,7 @@ steps:
 
   - wait
   - label: package
-    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "package done!"'
+    command: "./scripts/package.sh"
     agents:
       queue: ipp-regional-web:ci
       env: development
@@ -31,7 +31,7 @@ steps:
 
   - wait
   - label: deploy to dev
-    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "deploy to dev done!"'
+    command: "./scripts/deploy.sh"
     agents:
       queue: ipp-regional-web:ci
       env: development
@@ -39,16 +39,16 @@ steps:
 
   - block: deploy to staging
   - label: ':rocket:'
-    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "deploy to staging done!"'
+    command: "./scripts/deploy.sh"
     agents:
       queue: ipp-regional-web:ci
-      env: development
+      env: staging
       market: rumah123
 
   - block: deploy to production
   - label: ':rocket:'
-    command: docker run --rm -v $(pwd):/source -w /source node:8-alpine sh -c 'echo "deploy to production done!"'
+    command: "./scripts/deploy.sh"
     agents:
       queue: ipp-regional-web:ci
-      env: development
+      env: production
       market: rumah123
