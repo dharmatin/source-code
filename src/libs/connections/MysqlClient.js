@@ -25,6 +25,10 @@ export default class MysqlClient {
         freezeTableName: true,
         timestamps: false,
       },
+      dialectOptions: {
+        useUTC: false, //for reading from database
+      },
+      timezone: '+07:00',
       logging: config.isProduction ? '' : console.log,
     });
   }

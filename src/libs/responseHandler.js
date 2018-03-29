@@ -7,8 +7,8 @@ export const handleSuccess = (response, data) => {
 };
 
 export const handleBadRequest = response => {
-  response
-    .set('Content-Type', 'application/json')
+  return response
+    .set('Content-Type', 'text/html')
     .status(400)
     .send('Bad request')
     .end();

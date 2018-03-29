@@ -8,6 +8,7 @@ import { extractListingId } from '../libs/utility';
 import { formatStatusReferral } from './formatters/referralFormatter';
 import emailReferralRequestDeveloperDataCollector from './referrals/emails/dataCollectors/referralRequestDeveloper';
 import emailReferralRequestAgentDataCollector from './referrals/emails/dataCollectors/referralRequestAgent';
+import config from '../config';
 
 export class ReferralRequestService {
   referrals: Object;
@@ -24,7 +25,7 @@ export class ReferralRequestService {
   }
 
   async requestReferral(params: Object): Promise<string> {
-    let message = 'Failed';
+    let message = config.RESPONSE_TXT.FAILED;
 
     const agentParam = {
       userId: params.listerId,
@@ -35,22 +36,23 @@ export class ReferralRequestService {
       params.listingId
     );
     if (listing.numFound > 0 && listing.docs[0].is_referral === 1) {
-      const isExist = await this.checkingReferral(agentParam);
-      if (isExist) {
+      const isEmpty = await this.checkingReferral(agentParam);
+      if (isEmpty) {
         const result = await this.requestingReferral(
           _.assign(agentParam, {
             messageRequest: params.messageRequest,
-            propertyCategory: 's',
+            propertyCategory: extractListingId(params.listingId).category,
           }),
           params.isSubscribed
         );
         if (result) {
-          message = 'Success';
+          message = config.RESPONSE_TXT.SUCCESS;
           this.handlerEmailToDeveloper(params);
           this.handlerEmailToAgent(params);
         }
       }
     }
+
     return message;
   }
 

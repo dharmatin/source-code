@@ -59,7 +59,7 @@ describe('Referral Email Data Collector Services', () => {
       'to': '',
       'jsonData': {},
       'subject': config.translator.email_subject.referral_request_granted,
-      'template': '/referral/approval_developer.php'
+      'template': 'Referalls\\Approval'
     };
     sandbox.stub(ListingDao, 'searchProject').callsFake((): any => failedResponse);
     sandbox.stub(ListerDao, 'searchLister').callsFake((): any => failedResponse);

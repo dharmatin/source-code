@@ -1,6 +1,6 @@
 {  
   "subject":"Permintaan Diterima",
-  "template":"/referral/approval_developer.php",
+  "template":"Referalls\\Approval",
   "from":"no-reply@rumah123.com",
   "to":"123.superqa@gmail.com",
   "jsonData":{  

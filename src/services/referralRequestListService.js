@@ -20,8 +20,11 @@ export class ReferralRequestListService {
       throw new Error('Solr Project Not Found');
     }
 
-    const rowStart = (req.pageToken - 1) * req.pageSize;
-    const pagingRequest = { pageToken: req.pageToken, pageSize: req.pageSize };
+    const rowStart = (req.pagingRequest.pageToken - 1) * req.pagingRequest.pageSize;
+    const pagingRequest = {
+      pageToken: Number(req.pagingRequest.pageToken),
+      pageSize: Number(req.pagingRequest.pageSize),
+    };
     let referralQuery = [];
     const referralWithoutLimitQuery = await this.referral.getCountReferralByProjectId(
       project.response.docs[0].developer_company_id
@@ -30,7 +33,7 @@ export class ReferralRequestListService {
       referralQuery = await this.referral.getReferralByProjectId(
         project.response.docs[0].developer_company_id,
         rowStart,
-        req.pageSize
+        req.pagingRequest.pageSize
       );
     }
 

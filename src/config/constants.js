@@ -26,6 +26,10 @@ const constants = {
     REJECTED: 'denied',
     APPROVED: 'approved',
   },
+  RESPONSE_TXT: {
+    FAILED: 'failed',
+    SUCCESS: 'success',
+  },
   USER_GROUP: {
     CUSTOMER: 2,
     DEVELOPER: 32,

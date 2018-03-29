@@ -63,7 +63,6 @@ export class ListingService {
     }
 
     const response = formatProjectProfile(listing, childListingResult, lister);
-console.log(param.mustCounting);
     if (param.mustCounting) {
       await this.saveDailyTracking(response);
     }
