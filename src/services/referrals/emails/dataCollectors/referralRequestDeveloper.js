@@ -10,7 +10,7 @@ import config from '../../../../config';
 import { formatDeveloperDashboard } from '../../../formatters/emailQueueDataCollectorFormatter';
 import referralDao from '../../../../dao/referrals';
 
-const EMAIL_TEMPLATE = 'Referalls\\DeveloperRequester';
+const EMAIL_TEMPLATE = 'Referrals\\DeveloperRequester';
 
 class ReferralRequestDeveloper extends EmailQueueDataCollector
   implements DataCollector {

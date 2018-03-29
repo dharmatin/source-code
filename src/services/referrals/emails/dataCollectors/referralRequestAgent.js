@@ -7,7 +7,7 @@ import type {
 } from '../../data/types';
 import config from '../../../../config';
 
-const EMAIL_TEMPLATE = 'Referalls\\AgentRequester';
+const EMAIL_TEMPLATE = 'Referrals\\AgentRequester';
 
 class ReferralRequestAgent extends EmailQueueDataCollector
   implements DataCollector {

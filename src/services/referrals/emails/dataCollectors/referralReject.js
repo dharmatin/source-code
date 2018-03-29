@@ -7,7 +7,7 @@ import type {
 } from '../../data/types';
 import config from '../../../../config';
 
-const EMAIL_TEMPLATE = 'Referalls\\Rejection';
+const EMAIL_TEMPLATE = 'Referrals\\Rejection';
 
 class ReferralReject extends EmailQueueDataCollector implements DataCollector {
   constructor() {
