@@ -1,10 +1,10 @@
 // @flow
+/* eslint-disable no-unused-expressions */
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import EmailQueueDao from '../../src/dao/emailQueue';
-import type { EmailQueue } from '../../src/dao/emailQueue/type';
 import { EmailQueueService } from '../../src/services/emailQueueService';
 
 declare var describe: any;
@@ -28,9 +28,9 @@ describe('Email Queue services', () => {
       .from('Rumah123.com')
       .subject('Referral Success')
       .template('/test')
-      .jsonData({ucok: 'baba'})
+      .jsonData({ ucok: 'baba' })
       .save();
-    expect(result).that.is.true;
+    expect(result).to.be.true;
   });
 
   it('Should be return false if the data failed save to database', async(): any => {
@@ -41,8 +41,8 @@ describe('Email Queue services', () => {
       .from('Rumah123.com')
       .subject('Referral Success')
       .template('/test')
-      .jsonData({ucok: 'baba'})
+      .jsonData({ ucok: 'baba' })
       .save();
-    expect(result).that.is.false;
+    expect(result).to.be.false;
   });
 });

@@ -1,5 +1,5 @@
 {  
-  "subject":"Permintaan Diterima",
+  "subject":"Selamat! Permintaan Anda telah disetujui",
   "template":"Referrals\\Approval",
   "from":"no-reply@rumah123.com",
   "to":"123.superqa@gmail.com",
@@ -35,7 +35,7 @@
            "urlReferral":"localhost/properti/tangerang/aeropolis/nps1045",
            "builtUp":"",
            "landArea":"",
-           "subUnitType": ""
+           "subUnitType": "Apartemen / Gudang / Ruang Usaha / Perkantoran"
         },
         {  
            "name":"TALAGA BESTARI",
@@ -46,8 +46,8 @@
            "districtName":"Cikupa",
            "urlReferral":"localhost/properti/tangerang/talaga-bestari/nps1128",
            "builtUp":"Dari 65 - 89 m²",
-           "landArea":"",
-           "subUnitType": ""
+           "landArea":"Dari 108 - 160 m²",
+           "subUnitType": "Rumah"
         }
      ],
      "developer":{  
