@@ -24,9 +24,9 @@ class ArticlesController extends BaseController {
 
       if (_.isEmpty(articles)) {
         handleNotFound(res);
+      } else {
+        handleSuccess(res, articles);
       }
-
-      handleSuccess(res, articles);
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);

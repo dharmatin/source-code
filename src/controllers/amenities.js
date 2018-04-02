@@ -18,8 +18,9 @@ class AmenitiesController extends BaseController {
       );
       if (_.isEmpty(amenities)) {
         handleNotFound(res);
+      } else {
+        handleSuccess(res, amenities);
       }
-      handleSuccess(res, amenities);
     } catch (e) {
       handleInternalServerError(res, e);
       throw new Error(e);
