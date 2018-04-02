@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable no-unused-expressions */
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
@@ -30,7 +29,7 @@ describe('Email Queue services', () => {
       .template('/test')
       .jsonData({ ucok: 'baba' })
       .save();
-    expect(result).to.be.true;
+    expect(result).to.equal(true);
   });
 
   it('Should be return false if the data failed save to database', async(): any => {
@@ -43,6 +42,6 @@ describe('Email Queue services', () => {
       .template('/test')
       .jsonData({ ucok: 'baba' })
       .save();
-    expect(result).to.be.false;
+    expect(result).to.equal(false);
   });
 });

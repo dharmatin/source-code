@@ -36,7 +36,7 @@ describe('Referral approve services', () => {
     it('Should return unique 8 characters alphanumeric with uppercase', (): any => {
       const referralCode = generateReferralCode();
       const regex = new RegExp(/^[A-Z0-9]+$/i);
-      expect(regex.test(referralCode)).to.be.true;
+      expect(regex.test(referralCode)).to.equal(true);
       expect(referralCode.length).equal(8);
     });
   });
@@ -55,23 +55,37 @@ describe('Referral approve services', () => {
       approvedDate: new Date(),
       rejectedDate: new Date(),
       removedDate: new Date(),
-      messageRequest: ''
+      messageRequest: '',
     };
 
     it('Should be return true if the update process last request affected more than 0', (): any => {
-      sandbox.stub(ReferralDao, 'getLatestReferralRequest').callsFake((): AgentReferral => referral);
-      sandbox.stub(ReferralDao, 'updateRefferalById').callsFake((): number => 1);
+      sandbox
+        .stub(ReferralDao, 'getLatestReferralRequest')
+        .callsFake((): AgentReferral => referral);
+      sandbox
+        .stub(ReferralDao, 'updateRefferalById')
+        .callsFake((): number => 1);
       const referralApprovalService = new ReferralApprovalService(ReferralDao);
-      const result = referralApprovalService.requestApprove(requestReferralApproval.listerId, requestReferralApproval.listingId);
+      const result = referralApprovalService.requestApprove(
+        requestReferralApproval.listerId,
+        requestReferralApproval.listingId
+      );
 
       return expect(result).to.be.eventually.equal(true);
     });
 
     it('Should be return false if the update process last request affected equal 0', (): any => {
-      sandbox.stub(ReferralDao, 'getLatestReferralRequest').callsFake((): AgentReferral => referral);
-      sandbox.stub(ReferralDao, 'updateRefferalById').callsFake((): number => 0);
+      sandbox
+        .stub(ReferralDao, 'getLatestReferralRequest')
+        .callsFake((): AgentReferral => referral);
+      sandbox
+        .stub(ReferralDao, 'updateRefferalById')
+        .callsFake((): number => 0);
       const referralApprovalService = new ReferralApprovalService(ReferralDao);
-      const result = referralApprovalService.requestApprove(requestReferralApproval.listerId, requestReferralApproval.listingId);
+      const result = referralApprovalService.requestApprove(
+        requestReferralApproval.listerId,
+        requestReferralApproval.listingId
+      );
 
       return expect(result).to.be.eventually.equal(false);
     });
