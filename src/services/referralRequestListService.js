@@ -1,5 +1,4 @@
 // @flow
-import _ from 'lodash';
 import referralCore from '../dao/referrals';
 import listingCore from '../dao/listings';
 import { formatAttributesReferral } from './formatters/referralRequestListFormater';

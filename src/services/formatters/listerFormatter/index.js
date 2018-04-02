@@ -2,11 +2,10 @@
 import type { Lister } from './types';
 import * as contactFormatter from '../contactFormatter';
 import { slugify } from '../../../libs/utility';
-import * as mediaFormatter from '../mediaFormatter';
 import moment from 'moment';
 import config from '../../../config';
 
-export const formatListerProfile = (lister: Object): Object => {
+export const formatListerProfile = (lister: Object): Lister => {
   const response = {};
 
   if (lister.docs.length === 0) {

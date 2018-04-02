@@ -51,9 +51,9 @@ export const formatDeveloperInfo = (
 
 export const formatDeveloperLink = (developer: Object): string => {
   let formatUrl =
-    config.lang === 'id'
-      ? '/properti-baru/developer/'
-      : '/en/new-property/developer/';
+    config.lang === 'id' ?
+      '/properti-baru/developer/' :
+      '/en/new-property/developer/';
   formatUrl += slugify(developer.name) + '/' + developer.id;
 
   return config.url.base + formatUrl;

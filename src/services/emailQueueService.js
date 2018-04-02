@@ -79,9 +79,9 @@ export class EmailQueueService {
     this.emailQueue.body = '';
     this.emailQueue.status = -1;
     this.emailQueue.createdDate = Sequelize.fn('NOW', 3);
-    this.emailQueue.sendDate = _.isEmpty(self.emailSendDate)
-      ? Sequelize.fn('NOW', 3)
-      : self.emailSendDate;
+    this.emailQueue.sendDate = _.isEmpty(self.emailSendDate) ?
+      Sequelize.fn('NOW', 3) :
+      self.emailSendDate;
     this.emailQueue.sentDate = Sequelize.DEFAULT;
   }
 }

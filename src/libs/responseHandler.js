@@ -12,7 +12,7 @@ export const handleBadRequest = response => {
     .status(400)
     .send({
       message: 'Bad request',
-    })    
+    })
     .end();
 };
 

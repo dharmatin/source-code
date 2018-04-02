@@ -26,7 +26,7 @@ export default class MysqlClient {
         timestamps: false,
       },
       dialectOptions: {
-        useUTC: false, //for reading from database
+        useUTC: false, // for reading from database
       },
       timezone: '+07:00',
       logging: config.isProduction ? '' : console.log,

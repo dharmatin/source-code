@@ -4,13 +4,12 @@ import Serialization from 'php-serialization';
 import type { Article } from './types';
 import { getUrlSharpie, toISOFormatting, slugify } from '../../../libs/utility';
 import config from '../../../config';
-import { stringify } from 'querystring';
 
 export const formatAttributesArticle = (
   articles: Object,
   pagingRequest: Object
 ): Article => {
-  const articleList = _.map(articles.response.docs, (item): Object => {
+  const articleList = _.map(articles.response.docs, (item: Object): Object => {
     const unserializeImage = Serialization.unserialize(item.meta_image_amazon);
     return {
       kind: 'article',
@@ -33,9 +32,9 @@ export const formatAttributesArticle = (
 
   const totalNumber = articles.response.numFound;
   const nextPageToken = (pagingRequest.pageToken * pagingRequest.pageSize >=
-  totalNumber
-    ? pagingRequest.pageToken
-    : pagingRequest.pageToken + 1
+  totalNumber ?
+    pagingRequest.pageToken :
+    pagingRequest.pageToken + 1
   ).toString();
   const result = {};
 

@@ -17,13 +17,14 @@ export const formatAttributesReferral = (
   if (!_.isEmpty(referralListers)) {
     const referralApplyListers = [];
 
-    _.map(referralListers, item => {
+    _.map(referralListers, (item: Object) => {
       const referralLister = {};
       const formatLister = {
         docs: [
           {
             id: item.user_id.toString(),
             name: item.first_name + ' ' + item.last_name,
+            /* eslint camelcase: ["error", {properties: "never"}] */
             photo_url:
               config.image.baseUrl +
               '/photo/' +

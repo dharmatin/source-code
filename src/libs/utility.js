@@ -24,6 +24,7 @@ export const getUrlSharpie = (
   srcS3Image: string,
   isPremimum: boolean = false
 ): string => {
+  /* eslint-disable no-template-curly-in-string */
   const baseUrl =
     config.image.sharpieUrl +
     '/' +

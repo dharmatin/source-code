@@ -1,7 +1,6 @@
 // @flow
 import _ from 'lodash';
 import config from '../../../config';
-import { toISOFormatting } from '../../../libs/utility';
 import moment from 'moment';
 import type { ProjectProfilePage } from './types';
 import type { Listing } from '../listingFormatter/types';
@@ -36,9 +35,9 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     title: projectProfilePage['sponsor_name_' + config.lang],
   });
 
-  const attachments = !_.isEmpty(projectProfilePage.attachments)
-    ? JSON.parse(projectProfilePage.attachments)
-    : {};
+  const attachments = !_.isEmpty(projectProfilePage.attachments) ?
+    JSON.parse(projectProfilePage.attachments) :
+    {};
 
   if (!_.isEmpty(banner)) {
     response.banner = banner;
@@ -147,10 +146,13 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
   }
 
   if (!_.isEmpty(featureDescription)) {
-    response.featureDescription = _.map(featureDescription, desc => {
-      const descriptions = _.split(desc, ':');
-      return `<b>${descriptions[0]}</b><p>${descriptions[1]}</p>`;
-    }).join('</br></br>');
+    response.featureDescription = _.map(
+      featureDescription,
+      (desc: string): string => {
+        const descriptions = _.split(desc, ':');
+        return `<b>${descriptions[0]}</b><p>${descriptions[1]}</p>`;
+      }
+    ).join('</br></br>');
   }
 
   if (!_.isEmpty(projectProfilePage.website)) {
@@ -181,7 +183,7 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
 const formatChildListing = (childListings: Array<Object>): Array<Listing> => {
   let listings = [];
 
-  _.map(childListings, listing => {
+  _.map(childListings, (listing: Object) => {
     const dataListing = {};
     dataListing.price = priceFormatter.formatPrice({
       priceMin: listing.price_sort,
