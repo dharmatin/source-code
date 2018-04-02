@@ -55,8 +55,9 @@ class ReferralsController extends BaseController {
 
       if (_.isEmpty(referralList)) {
         handleNotFound(res);
+      } else {
+        handleSuccess(res, referralList[0]);
       }
-      handleSuccess(res, referralList[0]);
     } catch (e) {
       handleInternalServerError(res, e);
     }
