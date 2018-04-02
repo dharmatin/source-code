@@ -1,6 +1,7 @@
 apps:
   - script: dist/bin/server.js
     exec_mode: cluster
+    args : "NODE_ICU_DATA=./node_modules/full-icu"
     instances: 0
     env:
       NODE_ENV: production
