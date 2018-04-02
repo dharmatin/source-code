@@ -64,15 +64,12 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
     attribute.carPark = carPark;
   }
 
-  if (
-    !_.isNil(dataAttributes.phoneLine) &&
-    !_.isEmpty(dataAttributes.phoneLine)
-  ) {
+  if (!_.isNil(dataAttributes.phoneLine)) {
     attribute.phoneLine = dataAttributes.phoneLine.toString();
   }
 
   if (!_.isNil(dataAttributes.internet)) {
-    attribute.internet = dataAttributes.internet.toString();
+    attribute.internet = 'Broadband';
   }
 
   if (!_.isNil(dataAttributes.electricity)) {
