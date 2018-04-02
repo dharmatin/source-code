@@ -9,7 +9,7 @@ export const formatMultiLanguageAmenities = (
   if (listing.numFound > 0) {
     const projectAccess = listing.docs[0][config.lang + '_project_access'];
 
-    return _.map(projectAccess, function(row): Object {
+    return _.map(projectAccess, (row: string): Object => {
       let field = row.split(':');
       return {
         name: field[1],

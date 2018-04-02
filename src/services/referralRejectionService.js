@@ -8,7 +8,6 @@ import { extractListingId } from '../libs/utility';
 import config from '../config';
 import emailQueueService from './emailQueueService';
 import emailReferralRejectDataCollector from './referrals/emails/dataCollectors/referralReject';
-import { request } from 'https';
 
 export class ReferralRejectionService {
   referral: Object;

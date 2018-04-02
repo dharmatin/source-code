@@ -1,7 +1,7 @@
 // @flow
 export type ReferralStatus = {
-  referralToken: string,
-  shareLink: string,
+  referralToken?: string,
+  shareLink?: string,
   status: string,
-  termsAndCondition: string,
+  termsAndCondition?: string,
 };

@@ -7,13 +7,16 @@ import { formatProjectProfilePageLink } from '../listingFormatter';
 export const formatStatusReferral = (
   dataReferral: Object,
   listing: Object
-): Referral => {
+): ReferralStatus => {
   const response = {};
-  
-  if (listing.response.numFound > 0 && listing.response.docs[0].is_referral === 1) {
+
+  if (
+    listing.response.numFound > 0 &&
+    listing.response.docs[0].is_referral === 1
+  ) {
     const dataListing = listing.response.docs[0];
     response.status = config.STATUS_REFERRAL_TXT.INACTIVE;
-    
+
     const attachments = JSON.parse(dataListing.attachments);
     response.termsAndCondition = config.image.baseUrl + '/' + attachments.toc;
 

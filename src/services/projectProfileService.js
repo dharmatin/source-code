@@ -47,7 +47,7 @@ export class ListingService {
     if (!_.isEmpty(result.response.docs[0])) {
       listing = result.response;
       childListingResult = (await this.getChildListings(param.id)).response;
-      if (Boolean(result.response.docs[0].is_referral)) {
+      if (result.response.docs[0].is_referral) {
         let dataReferral = {};
         if (param.referralCode !== '') {
           dataReferral = await ReferralListerService.getListerByReferralCode(
@@ -71,6 +71,7 @@ export class ListingService {
   }
 
   async saveDailyTracking(response: Object): Object {
+    /* eslint camelcase: ["error", {properties: "never"}] */
     if (!_.isEmpty(response)) {
       const { id, category, type } = extractListingId(response.id);
       await dailyTrackingDAO.saveDailyTrackingView({

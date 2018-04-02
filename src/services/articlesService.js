@@ -1,7 +1,6 @@
 // @flow
 import articleCore from '../dao/articles';
 import listingCore from '../dao/listings';
-import _ from 'lodash';
 import { formatAttributesArticle } from './formatters/articlesFormatter';
 
 export class ArticlesService {
@@ -16,8 +15,9 @@ export class ArticlesService {
   async getArticlesByTags(projectId: string, pagingRequest: Object): Object {
     const listingSearch = await this.listings.searchProject(projectId);
 
-    if (listingSearch.responseHeader.status !== 0)
+    if (listingSearch.responseHeader.status !== 0) {
       throw new Error('Solr error project not found');
+    }
 
     if (listingSearch.response.numFound === 0) return {};
 

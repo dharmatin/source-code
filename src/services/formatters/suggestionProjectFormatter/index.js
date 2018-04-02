@@ -1,9 +1,7 @@
 // @flow
 import _ from 'lodash';
 import config from '../../../config';
-import { toISOFormatting } from '../../../libs/utility';
 import type { SuggestionProject } from './types';
-import type { Listing } from '../listingFormatter/types';
 import * as priceFormatter from '../listingPriceFormatter';
 import * as listingFormatter from '../listingFormatter';
 import * as addressFormatter from '../addressFormatter';
@@ -37,7 +35,7 @@ const formatRelatedProjects = (
 ): SuggestionProject => {
   let response = {};
   let listings = [];
-  _.map(projectListings, listing => {
+  _.map(projectListings, (listing: Object) => {
     const dataListing = {};
 
     dataListing.id = listing.id;

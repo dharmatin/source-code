@@ -35,10 +35,6 @@ class ReferralDao {
         type: Sequelize.STRING(2),
         field: 'property_type',
       },
-      referralReason: {
-        type: Sequelize.TEXT,
-        field: 'referral_reason',
-      },
       propertyCategory: {
         type: Sequelize.STRING(2),
         field: 'property_category',
@@ -164,6 +160,7 @@ class ReferralDao {
 
   async getReferralByCodeAndListingId(dataReferral: Object): Promise<string> {
     const conditionQ = {
+      /* eslint camelcase: ["error", {properties: "never"}] */
       referral_status: config.STATUS_REFERRAL.APPROVED,
       ...dataReferral,
     };

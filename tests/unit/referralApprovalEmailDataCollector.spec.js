@@ -34,41 +34,53 @@ describe('Referral Email Data Collector Services', () => {
   it('Should be return email queue data', async(): any => {
     sandbox.stub(ListingDao, 'searchProject').callsFake((): any => listing);
     sandbox.stub(ListerDao, 'searchLister').callsFake((): any => listers);
-    sandbox.stub(ListingDao, 'searchProjectByOrganisation').callsFake((): any => similarListings);
+    sandbox
+      .stub(ListingDao, 'searchProjectByOrganisation')
+      .callsFake((): any => similarListings);
     const result = await referralApproval.collect({
       listingId: 'nps1091',
       listerId: 70491,
-      referralCode: ''
+      referralCode: '',
     });
-    expect(result).to.be.an('object').deep.equal(approvalDataCollector);
+    expect(result)
+      .to.be.an('object')
+      .deep.equal(approvalDataCollector);
   });
 
   it('Should be return empty email queue data', async(): any => {
     const failedResponse = {
-      'responseHeader': {
-        'status': 0
+      responseHeader: {
+        status: 0,
       },
-      'response': {
-        'numFound': 0,
-        'start': 0,
-        'docs': []
-      }
+      response: {
+        numFound: 0,
+        start: 0,
+        docs: [],
+      },
     };
     const emptyQueueuData = {
-      'from': 'no-reply@rumah123.com',
-      'to': '',
-      'jsonData': {},
-      'subject': config.translator.email_subject.referral_request_granted,
-      'template': 'Referrals\\Approval'
+      from: 'no-reply@rumah123.com',
+      to: '',
+      jsonData: {},
+      subject: config.translator.email_subject.referral_request_granted,
+      template: 'Referrals\\Approval',
     };
-    sandbox.stub(ListingDao, 'searchProject').callsFake((): any => failedResponse);
-    sandbox.stub(ListerDao, 'searchLister').callsFake((): any => failedResponse);
-    sandbox.stub(ListingDao, 'searchProjectByOrganisation').callsFake((): any => failedResponse);
+    sandbox
+      .stub(ListingDao, 'searchProject')
+      .callsFake((): any => failedResponse);
+    sandbox
+      .stub(ListerDao, 'searchLister')
+      .callsFake((): any => failedResponse);
+    sandbox
+      .stub(ListingDao, 'searchProjectByOrganisation')
+      .callsFake((): any => failedResponse);
     const result = await referralApproval.collect({
       listingId: 'nps1091',
       listerId: 70491,
-      referralCode: ''
+      referralCode: '',
     });
-    expect(result).to.be.an('object').deep.equal(emptyQueueuData);
+    expect(result)
+      .to.be.an('object')
+      .deep.equal(emptyQueueuData);
   });
 });

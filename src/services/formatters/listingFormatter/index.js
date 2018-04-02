@@ -25,12 +25,13 @@ export const formatTierOfPrimaryListing = (
 
 export const formatFeatures = (facilities: Array<string>): Array<Features> => {
   const responseFeatures = [];
-  _.map(facilities, facility => {
+  _.map(facilities, (facility: string) => {
     const medias = {};
     let dataFacility = _.split(facility, ':');
 
     medias.description = dataFacility[0];
     medias.title = dataFacility[0];
+    /* eslint-disable no-template-curly-in-string */
     medias.media = {
       type: 'image',
       urlTemplate:
@@ -45,7 +46,7 @@ export const formatFeatures = (facilities: Array<string>): Array<Features> => {
 };
 
 export const formatPropertyType = (propertyType: Array<string>): string => {
-  const propertyTypeResponse = _.map(propertyType, item => {
+  const propertyTypeResponse = _.map(propertyType, (item: string): string => {
     return `${
       config.translator.long_property_type[config.PROPERTY_TYPE[item]]
     }`;

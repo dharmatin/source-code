@@ -6,35 +6,35 @@ import type { Lister, Project, Organisation, DeveloperDashboard } from './type';
 import { base64Encode } from '../../../libs/utility';
 
 export const formatProject = (project: Object): Project => {
-  const priceMin = !_.isNil(project.prices)
-    ? parseFloat(project.prices[0].min)
-    : 0;
-  const priceMax = !_.isNil(project.prices)
-    ? parseFloat(project.prices[0].max)
-    : 0;
+  const priceMin = !_.isNil(project.prices) ?
+    parseFloat(project.prices[0].min) :
+    0;
+  const priceMax = !_.isNil(project.prices) ?
+    parseFloat(project.prices[0].max) :
+    0;
   return {
     name: project.title,
     srcImage: !_.isNil(project.cover) ? project.cover.urlTemplate : '',
     priceRange: priceRangeFormat(priceMin, priceMax),
-    provinceName: !_.isNil(project.multilanguagePlace)
-      ? project.multilanguagePlace['en-GB'].level1
-      : '',
-    cityName: !_.isNil(project.multilanguagePlace)
-      ? project.multilanguagePlace['en-GB'].level2
-      : '',
-    districtName: !_.isNil(project.multilanguagePlace)
-      ? project.multilanguagePlace['en-GB'].level3
-      : '',
+    provinceName: !_.isNil(project.multilanguagePlace) ?
+      project.multilanguagePlace['en-GB'].level1 :
+      '',
+    cityName: !_.isNil(project.multilanguagePlace) ?
+      project.multilanguagePlace['en-GB'].level2 :
+      '',
+    districtName: !_.isNil(project.multilanguagePlace) ?
+      project.multilanguagePlace['en-GB'].level3 :
+      '',
     urlReferral: project.shareLink,
     subUnitType: !_.isNil(project.propertyType) ? project.propertyType : '',
     builtUp:
-      !_.isNil(project.attributes) && !_.isNil(project.attributes.builtUp)
-        ? `${project.attributes.builtUp} m²`
-        : '',
+      !_.isNil(project.attributes) && !_.isNil(project.attributes.builtUp) ?
+        `${project.attributes.builtUp} m²` :
+        '',
     landArea:
-      !_.isNil(project.attributes) && !_.isNil(project.attributes.landArea)
-        ? `${project.attributes.landArea} m²`
-        : '',
+      !_.isNil(project.attributes) && !_.isNil(project.attributes.landArea) ?
+        `${project.attributes.landArea} m²` :
+        '',
   };
 };
 
@@ -42,52 +42,52 @@ export const formatLister = (lister: Object): Lister => {
   return {
     name: lister.name,
     photoUrl:
-      !_.isNil(lister.image) && !_.isNil(lister.image.url)
-        ? lister.image.url
-        : '',
+      !_.isNil(lister.image) && !_.isNil(lister.image.url) ?
+        lister.image.url :
+        '',
     email:
-      !_.isNil(lister.contact) && !_.isNil(lister.contact.emails)
-        ? lister.contact.emails[0]
-        : '',
+      !_.isNil(lister.contact) && !_.isNil(lister.contact.emails) ?
+        lister.contact.emails[0] :
+        '',
     firstName: !_.isNil(lister.name) ? lister.name.split(' ')[0] : '',
     profilePage: lister.website,
-    membership: !_.isNil(lister.createdAt)
-      ? membershipSince(new Date(lister.createdAt.substr(0, 10)))
-      : '',
+    membership: !_.isNil(lister.createdAt) ?
+      membershipSince(new Date(lister.createdAt.substr(0, 10))) :
+      '',
   };
 };
 
 export const formatOrganisation = (project: Object): Organisation => {
   return {
     name:
-      !_.isNil(project.organisations) && !_.isNil(project.organisations[0].name)
-        ? project.organisations[0].name
-        : '',
+      !_.isNil(project.organisations) && !_.isNil(project.organisations[0].name) ?
+        project.organisations[0].name :
+        '',
     urlPage:
       !_.isNil(project.organisations) &&
-      !_.isNil(project.organisations[0].website)
-        ? project.organisations[0].website
-        : '',
+      !_.isNil(project.organisations[0].website) ?
+        project.organisations[0].website :
+        '',
     phoneNumber:
       !_.isNil(project.organisations) &&
-      !_.isNil(project.organisations[0].contact.phones[0])
-        ? project.organisations[0].contact.phones[0].number
-        : '',
+      !_.isNil(project.organisations[0].contact.phones[0]) ?
+        project.organisations[0].contact.phones[0].number :
+        '',
     whatsappNumber:
       !_.isNil(project.organisations) &&
-      !_.isNil(project.organisations[0].contact.phones[1])
-        ? project.organisations[0].contact.phones[1].number
-        : '',
+      !_.isNil(project.organisations[0].contact.phones[1]) ?
+        project.organisations[0].contact.phones[1].number :
+        '',
     email:
       !_.isNil(project.organisations) &&
-      !_.isNil(project.organisations[0].contact.emails[0])
-        ? project.organisations[0].contact.emails[0]
-        : '',
+      !_.isNil(project.organisations[0].contact.emails[0]) ?
+        project.organisations[0].contact.emails[0] :
+        '',
     logo:
       !_.isNil(project.organisations) &&
-      !_.isNil(project.organisations[0].logo.url)
-        ? project.organisations[0].logo.url
-        : '',
+      !_.isNil(project.organisations[0].logo.url) ?
+        project.organisations[0].logo.url :
+        '',
   };
 };
 
@@ -132,28 +132,32 @@ const priceFormat = (price: number): string => {
   const isMillion = parseInt((price / Math.pow(10, 6)).toFixed(1)) > 0;
   const isThousand = parseInt((price / Math.pow(10, 3)).toFixed(1)) > 0;
 
-  if (isTrillion)
+  if (isTrillion) {
     return `Rp. ${parseFloat(
       (price / Math.pow(10, 12)).toFixed(1)
     ).toLocaleString(config.lang)} ${
       config.translator.price_unit_short.trillion
     }`;
-  if (isBillion)
+  }
+  if (isBillion) {
     return `Rp. ${parseFloat(
       (price / Math.pow(10, 9)).toFixed(1)
     ).toLocaleString(config.lang)} ${
       config.translator.price_unit_short.billion
     }`;
-  if (isMillion)
+  }
+  if (isMillion) {
     return `Rp. ${parseFloat(
       (price / Math.pow(10, 6)).toFixed(1)
     ).toLocaleString(config.lang)} ${
       config.translator.price_unit_short.million
     }`;
-  if (isThousand)
+  }
+  if (isThousand) {
     return `Rp. ${parseFloat(
       (price / Math.pow(10, 3)).toFixed(1)
     ).toLocaleString(config.lang)} K`;
+  }
 
   return `Rp. ${price.toLocaleString(config.lang)}`;
 };
@@ -167,11 +171,11 @@ const membershipSince = (registeredDate: Date): string => {
   const yearsRegistered = Math.ceil(monthsRegistered / 12);
 
   registeredSince =
-    yearsRegistered === 1 && (monthsRegistered >= 0 && monthsRegistered <= 6)
-      ? `6 ${config.translator.period.month} ${config.translator.ago}`
-      : `${yearsRegistered} ${config.translator.period.year} ${
-          config.translator.ago
-        }`;
+    yearsRegistered === 1 && (monthsRegistered >= 0 && monthsRegistered <= 6) ?
+      `6 ${config.translator.period.month} ${config.translator.ago}` :
+      `${yearsRegistered} ${config.translator.period.year} ${
+        config.translator.ago
+      }`;
 
   return registeredSince;
 };

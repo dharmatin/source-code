@@ -5,8 +5,8 @@ const LISTING_CORE = 'news';
 const { client: articleClient } = new SolrClient(LISTING_CORE);
 
 export default {
-  getArticleByTags: async (tags: Array<string>, paging: Object): Object => {
-    const queryTags = _.map(tags, (item): string => {
+  getArticleByTags: async(tags: Array<string>, paging: Object): Object => {
+    const queryTags = _.map(tags, (item: string): string => {
       return '"' + item + '"';
     }).join(' OR ');
 

@@ -8,10 +8,11 @@ export const formatFloorPlanImages = (
   floorPlansWithDescription: Array<string>
 ): Array<Media> => {
   const floorPlanImages = [];
-  _.map(floorPlansWithDescription, item => {
+  _.map(floorPlansWithDescription, (item: string) => {
     const floorPlan = {};
     const [img, description] = _.split(item, ';');
     floorPlan.type = 'image';
+    /* eslint-disable no-template-curly-in-string */
     floorPlan.urlTemplate =
       config.image.sharpieUrl +
       '/premium/${width}x${height}-${scale}/' +
@@ -25,6 +26,7 @@ export const formatFloorPlanImages = (
 };
 
 export const formatImageCover = (image: string): Media => {
+  /* eslint-disable no-template-curly-in-string */
   return {
     type: 'image',
     urlTemplate:
@@ -37,10 +39,11 @@ export const formatListingImages = (
 ): Array<Media> => {
   const medias = [];
 
-  _.map(imagesWithDescription, item => {
+  _.map(imagesWithDescription, (item: string) => {
     const image = {};
     const [img, description] = _.split(item, ';');
     image.type = 'image';
+    /* eslint-disable no-template-curly-in-string */
     image.urlTemplate =
       config.image.sharpieUrl +
       '/premium/${width}x${height}-${scale}/' +
@@ -60,8 +63,9 @@ export const formatThreeSixtyVideos = (
 ): Array<string> => {
   const image360s = [];
 
-  _.map(_.compact(threeSixtyLinks), item => {
-    const [url, description] = _.split(item, ';');
+  _.map(_.compact(threeSixtyLinks), (item: string) => {
+    const [url] = _.split(item, ';');
+
     image360s.push(url);
   });
 
@@ -73,8 +77,8 @@ export const formatYoutubeIds = (
 ): Array<string> => {
   const youtubeIds = [];
 
-  _.map(_.compact(youtubeLinks), item => {
-    const [url, description] = _.split(item, ';');
+  _.map(_.compact(youtubeLinks), (item: string) => {
+    const [url] = _.split(item, ';');
     youtubeIds.push(getYoutubeId(url));
   });
 

@@ -15,13 +15,13 @@ import emailQueueService from '../../src/services/emailQueueService';
 
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
-const {expect} = chai;
+const { expect } = chai;
 const sandbox = sinon.createSandbox();
 const param = {
   listingId: 'nps1045',
   listerId: 1,
   messageRequest: '',
-  isSubscribed: 1
+  isSubscribed: 1,
 };
 
 describe('Response Request referral', () => {
@@ -33,25 +33,33 @@ describe('Response Request referral', () => {
     config.lang = 'id';
     config.translator = require(`../../src/config/locales/${config.lang}.json`);
   });
-
+  /* eslint camelcase: ["error", {properties: "never"}] */
   it('When success Should be response message success', async() => {
     const formatResponse = {
       response: {
         numFound: 1,
-        docs: [{
-          is_referral: 1
-        }]
+        docs: [
+          {
+            is_referral: 1,
+          },
+        ],
       },
     };
     const referralList = {};
     const requestResponses = {
-      userId: '1'
+      userId: '1',
     };
     sandbox.stub(daoReferral, 'checkReferral').callsFake(() => referralList);
-    sandbox.stub(daoReferral, 'requestReferral').callsFake(() => requestResponses);
+    sandbox
+      .stub(daoReferral, 'requestReferral')
+      .callsFake(() => requestResponses);
     sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);
-    sandbox.stub(emailReferralRequestDeveloperDataCollector, 'collect').callsFake(async() => requestEmailCollectorToDeveloper);
-    sandbox.stub(emailReferralRequestAgentDataCollector, 'collect').callsFake(async() => requestEmailCollectorToAgent);
+    sandbox
+      .stub(emailReferralRequestDeveloperDataCollector, 'collect')
+      .callsFake(async() => requestEmailCollectorToDeveloper);
+    sandbox
+      .stub(emailReferralRequestAgentDataCollector, 'collect')
+      .callsFake(async() => requestEmailCollectorToAgent);
     sandbox.stub(emailQueueService, 'save').callsFake(async() => true);
     const referral = new ReferralRequestService(daoReferral, daoListing);
     const referralRequest = await referral.requestReferral(param);
@@ -62,17 +70,21 @@ describe('Response Request referral', () => {
     const formatResponse = {
       response: {
         numFound: 1,
-        docs: [{
-          is_referral: 1
-        }]
+        docs: [
+          {
+            is_referral: 1,
+          },
+        ],
       },
     };
     const referralList = {};
     const requestResponses = {
-      userId: '12345'
+      userId: '12345',
     };
     sandbox.stub(daoReferral, 'checkReferral').callsFake(() => referralList);
-    sandbox.stub(daoReferral, 'requestReferral').callsFake(() => requestResponses);
+    sandbox
+      .stub(daoReferral, 'requestReferral')
+      .callsFake(() => requestResponses);
     sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);
     const referral = new ReferralRequestService(daoReferral, daoListing);
     const referralRequest = await referral.requestReferral(param);
@@ -83,13 +95,15 @@ describe('Response Request referral', () => {
     const formatResponse = {
       response: {
         numFound: 1,
-        docs: [{
-          is_referral: 1
-        }]
+        docs: [
+          {
+            is_referral: 1,
+          },
+        ],
       },
     };
     const referralList = {
-      agentReferralId: 1
+      agentReferralId: 1,
     };
     sandbox.stub(daoReferral, 'checkReferral').callsFake(() => referralList);
     sandbox.stub(daoListing, 'searchProject').callsFake(() => formatResponse);

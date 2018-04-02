@@ -14,9 +14,9 @@ class OrganisationController extends BaseController {
   @web.get('/:id/projects')
   async findAllProjectByOrganisationIdAction(req, res) {
     try {
-      const excludeProjectId = !_.isNil(req.query.excludeProject)
-        ? req.query.excludeProject
-        : '';
+      const excludeProjectId = !_.isNil(req.query.excludeProject) ?
+        req.query.excludeProject :
+        '';
       const DEFAULT_PAGE_SIZE = 20;
       const pagingRequest = getRequestForPagingParam(req, DEFAULT_PAGE_SIZE);
 
