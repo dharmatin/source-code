@@ -29,10 +29,19 @@ export default {
       conditionQ += ` AND -id:${excludeProjectId}`;
     }
 
+    const fields =
+      'id, image, project_name,tagline, subtype, attachments, bedroom_min, ' +
+      'bedroom_max, bathroom_min, bathroom_max, garage_min, garage_max, qty_unit, completion_date, ' +
+      "architect_name:'', contractor_name:'', project_promotion, building_size_min, building_size_max, " +
+      'land_size_min, land_size_max, district_name, city_name, province_name, developer_company_id, ' +
+      'developer_name, developer_brandcolor, ads_email, ads_email2, ads_contact, ads_contact2, ' +
+      'project_whatsapp, developer_city, developer_province, developer_district, developer_address, ' +
+      'developer_logo, price_min, price_max, is_premium, is_gts, updated_date, image, status';
     const pageStart = (paging.pageToken - 1) * paging.pageSize;
     const queryListingById = listingClient
       .createQuery()
       .q(conditionQ)
+      .fl(fields)
       .start(pageStart)
       .rows(paging.pageSize);
     return listingClient.searchAsync(queryListingById);

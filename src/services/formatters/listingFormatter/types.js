@@ -42,6 +42,7 @@ export type Listing = {
   promotion?: string,
   propertyType?: string,
   shareLink?: string,
+  status?: boolean,
   subtitle?: string,
   tier?: number,
   title: string,

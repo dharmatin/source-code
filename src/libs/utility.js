@@ -61,7 +61,6 @@ export const getRequestForPagingParam = (
   req: any,
   defaultPageSize: number
 ): Object => {
-  console.log('REQUEST', req.query);
   const paging = {
     pageSize: defaultPageSize,
     pageToken: 1,
