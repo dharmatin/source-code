@@ -2,7 +2,7 @@
 set -eux
 
 # Setting up the environment Variable
-. ./env.sh
+. $(dirname $0)/env.sh
 
 echo "Authenticating Docker Client to Registry"
 eval $(docker run --rm xueshanf/awscli aws ecr get-login --no-include-email --registry-ids $ACCOUNT_ID --region $REGION)

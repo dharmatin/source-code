@@ -24,6 +24,9 @@ steps:
   - wait
   - label: " :package:"
     command: "./scripts/package.sh"
+    env:
+      ENV: stag
+      REGION: ap-southeast-1
     agents:
       queue: ipp-regional-web:ci
       env: development
