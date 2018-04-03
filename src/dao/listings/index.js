@@ -31,7 +31,7 @@ export default {
 
     const fields =
       "id, image, project_name,tagline, subtype, attachments:'', bedroom_min, " +
-      "bedroom_max, bathroom_min, bathroom_max, garage_min:0, garage_max:0, qty_unit:0, completion_date:'', " +
+      "bedroom_max, bathroom_min, bathroom_max, garage_min:0, garage_max:0, completion_date:'', " +
       "architect_name:'', contractor_name:'', project_promotion:'', building_size_min:0, " +
       'building_size_max:0, land_size_min:0, land_size_max:0, district_name, city_name, province_name, ' +
       'developer_company_id, developer_name, developer_brandcolor, ads_email, ads_email2, ads_contact, ' +

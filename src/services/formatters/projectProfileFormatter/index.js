@@ -79,35 +79,37 @@ export const formatProject = (
     });
   }
 
-  const attributes = {};
-  attributes.bedroomMin = projectProfilePage.bedroom_min;
-  attributes.bedroomMax = projectProfilePage.bedroom_max;
-  attributes.bathroomMin = projectProfilePage.bathroom_min;
-  attributes.bathroomMax = projectProfilePage.bathroom_max;
-  attributes.carParkMin = projectProfilePage.garage_min;
-  attributes.carParkMax = projectProfilePage.garage_max;
-  attributes.totalUnits = projectProfilePage.qty_unit;
-  attributes.completionDate = projectProfilePage.completion_date;
-  attributes.architectName = projectProfilePage.architect_name;
-  attributes.contractorName = projectProfilePage.contractor_name;
-  attributes.promotion = projectProfilePage.project_promotion;
-  attributes.builtUpMin = projectProfilePage.building_size_min;
-  attributes.builtUpMax = projectProfilePage.building_size_max;
-  attributes.landAreaMin = projectProfilePage.land_size_min;
-  attributes.landAreaMax = projectProfilePage.land_size_max;
+  const listingAttributes = {};
+  listingAttributes.bedroomMin = projectProfilePage.bedroom_min;
+  listingAttributes.bedroomMax = projectProfilePage.bedroom_max;
+  listingAttributes.bathroomMin = projectProfilePage.bathroom_min;
+  listingAttributes.bathroomMax = projectProfilePage.bathroom_max;
+  listingAttributes.carParkMin = projectProfilePage.garage_min;
+  listingAttributes.carParkMax = projectProfilePage.garage_max;
+  if (!_.isNil(projectProfilePage.qty_unit)) {
+    listingAttributes.totalUnits = projectProfilePage.qty_unit;
+  }
+  listingAttributes.completionDate = projectProfilePage.completion_date;
+  listingAttributes.architectName = projectProfilePage.architect_name;
+  listingAttributes.contractorName = projectProfilePage.contractor_name;
+  listingAttributes.promotion = projectProfilePage.project_promotion;
+  listingAttributes.builtUpMin = projectProfilePage.building_size_min;
+  listingAttributes.builtUpMax = projectProfilePage.building_size_max;
+  listingAttributes.landAreaMin = projectProfilePage.land_size_min;
+  listingAttributes.landAreaMax = projectProfilePage.land_size_max;
 
   const attachments = !_.isEmpty(projectProfilePage.attachments) ?
     JSON.parse(projectProfilePage.attachments) :
     {};
 
   if (!_.isEmpty(attachments)) {
-    attributes.downloadUrl = !_.isEmpty(attachments.brochure) ?
+    listingAttributes.downloadUrl = !_.isEmpty(attachments.brochure) ?
       attachments.brochure :
       '';
   }
 
   response.attributes = listingAttributeFormatter.formatAttributesInfo(
-    attributes
+    listingAttributes
   );
 
   if (!_.isEmpty(lister)) {
