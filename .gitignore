@@ -5,3 +5,10 @@ node_modules/*
 npm-debug.log
 dist/
 .eslintcache
+
+
+# IDE
+.idea
+.buildpath
+.project
+.settings

@@ -13,7 +13,7 @@ steps:
       queue: ipp-regional-web:ci
       env: development
       market: rumah123
-
+  - wait
   - label: integration test
     command: "./scripts/integration_test.sh"
     agents:
@@ -22,7 +22,7 @@ steps:
       market: rumah123
 
   - wait
-  - label: package
+  - label: " :package:"
     command: "./scripts/package.sh"
     agents:
       queue: ipp-regional-web:ci

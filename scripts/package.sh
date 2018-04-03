@@ -1,17 +1,20 @@
 #! /usr/bin/env bash
-set -eu
+set -eux
 
-echo -e '\033[0;31m'
-echo "--------------Warning----------------"
-echo "Not implemented yet"
-echo "-------------------------------------"
-echo -e '\033[0m'
+# Setting up the environment Variable
+. ./env.sh
 
-#docker build -t 538471682716.dkr.ecr.ap-southeast-1.amazonaws.com/new-launch-api:${BUILD_NUMBER} .
+echo "Authenticating Docker Client to Registry"
+eval $(docker run --rm xueshanf/awscli aws ecr get-login --no-include-email --registry-ids $ACCOUNT_ID --region $REGION)
 
-#eval $(aws ecr get-login --registry-ids 538471682716 --region ap-southeast-1)
+echo "Building the Docker Image"
+docker build -t ${ECR_REPO_NAME} .
 
-#docker push 538471682716.dkr.ecr.ap-southeast-1.amazonaws.com/new-launch-api:${BUILD_NUMBER}
+echo "Tagging the Docker Image"
+docker tag ${ECR_REPO_NAME}:latest ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO_NAME}:latest
+docker tag ${ECR_REPO_NAME}:latest ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO_NAME}:${BUILD_NUMBER}
 
-#docker rmi 538471682716.dkr.ecr.ap-southeast-1.amazonaws.com/new-launch-api:${BUILD_NUMBER}
+echo "Pushing the Image to ECR"
+docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO_NAME}:latest
+docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO_NAME}:${BUILD_NUMBER}
 
