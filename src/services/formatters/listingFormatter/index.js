@@ -76,3 +76,7 @@ export const formatListingIdToObjectId = (
     propertyCategory: listingDetail.category,
   };
 };
+
+export const formatListingActive = (status: string): boolean => {
+  return status === 'Online';
+};

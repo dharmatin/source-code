@@ -25,46 +25,63 @@ export const formatProjectProfile = (
   }
 };
 
-const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
+export const formatProject = (
+  projectProfilePage: Object,
+  lister: Object
+): Listing => {
   const response = {};
-  const featureDescription = projectProfilePage[config.lang + '_key_point'];
+
   response.channels = ['new'];
 
-  const banner = listingFormatter.formatBannerSponsorship({
-    link: projectProfilePage.url_sponsor,
-    title: projectProfilePage['sponsor_name_' + config.lang],
-  });
+  if (!_.isNil(projectProfilePage.url_sponsor)) {
+    const banner = listingFormatter.formatBannerSponsorship({
+      link: projectProfilePage.url_sponsor,
+      title: projectProfilePage['sponsor_name_' + config.lang],
+    });
 
-  const attachments = !_.isEmpty(projectProfilePage.attachments) ?
-    JSON.parse(projectProfilePage.attachments) :
-    {};
-
-  if (!_.isEmpty(banner)) {
-    response.banner = banner;
+    if (!_.isEmpty(banner)) {
+      response.banner = banner;
+    }
   }
 
   response.cover = mediaFormatter.formatImageCover(
     JSON.parse(projectProfilePage.image)[0]
   );
-  response.description = projectProfilePage.description;
 
-  if (!_.isEmpty(projectProfilePage.project_brandcolor)) {
+  if (!_.isNil(projectProfilePage.description)) {
+    response.description = projectProfilePage.description;
+  }
+
+  if (
+    !_.isNil(projectProfilePage.project_brandcolor) &&
+    !_.isEmpty(projectProfilePage.project_brandcolor)
+  ) {
     response.color = projectProfilePage.project_brandcolor;
   }
 
   response.id = projectProfilePage.id;
-  response.isReferralActive = Boolean(projectProfilePage.is_referral);
+
+  if (!_.isNil(projectProfilePage.is_referral)) {
+    response.isReferralActive = Boolean(projectProfilePage.is_referral);
+  }
   response.title = projectProfilePage.project_name;
   response.subtitle = projectProfilePage.tagline;
   response.propertyType = listingFormatter.formatPropertyType(
     projectProfilePage.subtype
   );
-  response.address = addressFormatter.formatAddressInfo({
-    district: projectProfilePage.district_name,
-    city: projectProfilePage.city_name,
-    province: projectProfilePage.province_name,
-    geoCoordinate: _.split(projectProfilePage.latlng, ','),
-  });
+
+  if (!_.isNil(projectProfilePage.latlng)) {
+    response.address = addressFormatter.formatAddressInfo({
+      district: projectProfilePage.district_name,
+      city: projectProfilePage.city_name,
+      province: projectProfilePage.province_name,
+      geoCoordinate: _.split(projectProfilePage.latlng, ','),
+    });
+  }
+
+  const attachments = !_.isEmpty(projectProfilePage.attachments) ?
+    JSON.parse(projectProfilePage.attachments) :
+    {};
 
   response.attributes = listingAttributeFormatter.formatAttributesInfo({
     bedroomMin: projectProfilePage.bedroom_min,
@@ -89,10 +106,13 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     response.listers = [{ ...lister }];
   }
 
-  response.logo = mediaFormatter.formatLogo(
-    JSON.parse(projectProfilePage.logo)[0],
-    config.image.baseUrl
-  );
+  if (!_.isNil(projectProfilePage.logo)) {
+    response.logo = mediaFormatter.formatLogo(
+      JSON.parse(projectProfilePage.logo)[0],
+      config.image.baseUrl
+    );
+  }
+
   response.multilanguagePlace = addressFormatter.formatMultiLanguageAddressInfo(
     {
       district: projectProfilePage.district_name,
@@ -127,6 +147,11 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
     city: projectProfilePage.city_name,
     id: projectProfilePage.id,
   });
+
+  response.active = listingFormatter.formatListingActive(
+    projectProfilePage.status
+  );
+
   response.tier = listingFormatter.formatTierOfPrimaryListing(
     projectProfilePage.is_premium,
     projectProfilePage.is_gts
@@ -134,48 +159,65 @@ const formatProject = (projectProfilePage: Object, lister: Object): Listing => {
   response.updatedAt = moment(projectProfilePage.updated_date).format(
     'YYYY-MM-DDThh:mm:ssZ'
   );
-  response.medias = mediaFormatter.formatListingImages(
-    projectProfilePage.all_listing_images
-  );
 
-  const youtubeIds = mediaFormatter.formatYoutubeIds(
-    projectProfilePage.all_video
-  );
-  if (!_.isEmpty(youtubeIds)) {
-    response.youtubeIds = youtubeIds;
+  if (!_.isNil(projectProfilePage.all_listing_images)) {
+    response.medias = mediaFormatter.formatListingImages(
+      projectProfilePage.all_listing_images
+    );
   }
 
-  if (!_.isEmpty(featureDescription)) {
-    response.featureDescription = _.map(
-      featureDescription,
-      (desc: string): string => {
-        const descriptions = _.split(desc, ':');
-        return `<b>${descriptions[0]}</b><p>${descriptions[1]}</p>`;
-      }
-    ).join('</br></br>');
+  if (!_.isNil(projectProfilePage.all_video)) {
+    const youtubeIds = mediaFormatter.formatYoutubeIds(
+      projectProfilePage.all_video
+    );
+    if (!_.isEmpty(youtubeIds)) {
+      response.youtubeIds = youtubeIds;
+    }
   }
 
-  if (!_.isEmpty(projectProfilePage.website)) {
+  if (!_.isNil(projectProfilePage[config.lang + '_key_point'])) {
+    const featureDescription = projectProfilePage[config.lang + '_key_point'];
+    if (!_.isEmpty(featureDescription)) {
+      response.featureDescription = _.map(
+        featureDescription,
+        (desc: string): string => {
+          const descriptions = _.split(desc, ':');
+          return `<b>${descriptions[0]}</b><p>${descriptions[1]}</p>`;
+        }
+      ).join('</br></br>');
+    }
+  }
+
+  if (
+    !_.isNil(projectProfilePage.website) &&
+    !_.isEmpty(projectProfilePage.website)
+  ) {
     response.website = projectProfilePage.website;
   }
 
-  const image360s = mediaFormatter.formatThreeSixtyVideos(
-    projectProfilePage.all_360_video
-  );
-  if (!_.isEmpty(image360s)) {
-    response.image360s = image360s;
+  if (!_.isNil(projectProfilePage.all_360_video)) {
+    const image360s = mediaFormatter.formatThreeSixtyVideos(
+      projectProfilePage.all_360_video
+    );
+    if (!_.isEmpty(image360s)) {
+      response.image360s = image360s;
+    }
   }
 
-  const floorPlanImages = mediaFormatter.formatFloorPlanImages(
-    projectProfilePage.all_image_floorplan
-  );
-  if (!_.isEmpty(floorPlanImages)) {
-    response.floorPlanImages = floorPlanImages;
+  if (!_.isNil(projectProfilePage.all_image_floorplan)) {
+    const floorPlanImages = mediaFormatter.formatFloorPlanImages(
+      projectProfilePage.all_image_floorplan
+    );
+    if (!_.isEmpty(floorPlanImages)) {
+      response.floorPlanImages = floorPlanImages;
+    }
   }
 
-  response.features = listingFormatter.formatFeatures(
-    projectProfilePage[config.lang + '_project_facilities']
-  );
+  if (!_.isNil(projectProfilePage[config.lang + '_project_facilities'])) {
+    response.features = listingFormatter.formatFeatures(
+      projectProfilePage[config.lang + '_project_facilities']
+    );
+  }
 
   return response;
 };
