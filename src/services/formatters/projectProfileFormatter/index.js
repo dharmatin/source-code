@@ -79,28 +79,36 @@ export const formatProject = (
     });
   }
 
+  const attributes = {};
+  attributes.bedroomMin = projectProfilePage.bedroom_min;
+  attributes.bedroomMax = projectProfilePage.bedroom_max;
+  attributes.bathroomMin = projectProfilePage.bathroom_min;
+  attributes.bathroomMax = projectProfilePage.bathroom_max;
+  attributes.carParkMin = projectProfilePage.garage_min;
+  attributes.carParkMax = projectProfilePage.garage_max;
+  attributes.totalUnits = projectProfilePage.qty_unit;
+  attributes.completionDate = projectProfilePage.completion_date;
+  attributes.architectName = projectProfilePage.architect_name;
+  attributes.contractorName = projectProfilePage.contractor_name;
+  attributes.promotion = projectProfilePage.project_promotion;
+  attributes.builtUpMin = projectProfilePage.building_size_min;
+  attributes.builtUpMax = projectProfilePage.building_size_max;
+  attributes.landAreaMin = projectProfilePage.land_size_min;
+  attributes.landAreaMax = projectProfilePage.land_size_max;
+
   const attachments = !_.isEmpty(projectProfilePage.attachments) ?
     JSON.parse(projectProfilePage.attachments) :
     {};
 
-  response.attributes = listingAttributeFormatter.formatAttributesInfo({
-    bedroomMin: projectProfilePage.bedroom_min,
-    bedroomMax: projectProfilePage.bedroom_max,
-    bathroomMin: projectProfilePage.bathroom_min,
-    bathroomMax: projectProfilePage.bathroom_max,
-    carParkMin: projectProfilePage.garage_min,
-    carParkMax: projectProfilePage.garage_max,
-    totalUnits: projectProfilePage.qty_unit,
-    completionDate: projectProfilePage.completion_date,
-    architectName: projectProfilePage.architect_name,
-    contractorName: projectProfilePage.contractor_name,
-    promotion: projectProfilePage.project_promotion,
-    builtUpMin: projectProfilePage.building_size_min,
-    builtUpMax: projectProfilePage.building_size_max,
-    landAreaMin: projectProfilePage.land_size_min,
-    landAreaMax: projectProfilePage.land_size_max,
-    downloadUrl: !_.isEmpty(attachments.brochure) ? attachments.brochure : '',
-  });
+  if (!_.isEmpty(attachments)) {
+    attributes.downloadUrl = !_.isEmpty(attachments.brochure) ?
+      attachments.brochure :
+      '';
+  }
+
+  response.attributes = listingAttributeFormatter.formatAttributesInfo(
+    attributes
+  );
 
   if (!_.isEmpty(lister)) {
     response.listers = [{ ...lister }];

@@ -22,7 +22,10 @@ const formatConfigAttributeRangeValues = (dataAttributes: Object): string => {
 
 export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
   const attribute = {};
-  if (!_.isNil(dataAttributes.totalUnits)) {
+  if (
+    !_.isNil(dataAttributes.totalUnits) &&
+    !_.isEmpty(dataAttributes.totalUnits)
+  ) {
     attribute.totalUnits = dataAttributes.totalUnits.toString();
   }
 
