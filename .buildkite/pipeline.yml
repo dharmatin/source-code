@@ -31,27 +31,11 @@ steps:
       queue: ipp-regional-web:ci
       env: development
       market: rumah123
-
   - wait
-  - label: deploy to dev
-    command: "./scripts/deploy.sh"
-    agents:
-      queue: ipp-regional-web:ci
-      env: development
-      market: rumah123
-
-  - block: deploy to staging
-  - label: ':rocket:'
-    command: "./scripts/deploy.sh"
-    agents:
-      queue: ipp-regional-web:ci
-      env: staging
-      market: rumah123
-
-  - block: deploy to production
-  - label: ':rocket:'
-    command: "./scripts/deploy.sh"
-    agents:
-      queue: ipp-regional-web:ci
-      env: production
-      market: rumah123
+  - trigger: "new-launch-API-deploy"
+    label: ":rocket: Deploy to stag"
+    async: true
+    build:
+     message: "${BUILDKITE_MESSAGE}-${BUILDKITE_BUILD_NUMBER}"
+     env:
+       BUILDKITE_BUILD_ECR: "${BUILDKITE_BUILD_NUMBER}"
