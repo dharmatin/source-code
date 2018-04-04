@@ -4,8 +4,8 @@ apps:
     args : "NODE_ICU_DATA=./node_modules/full-icu"
     instances: 0
     env:
-      NODE_ENV: production
+      NODE_ENV: prod
     env:
-      NODE_ENV: staging
+      NODE_ENV: stag
     env:
       NODE_ENV: local
