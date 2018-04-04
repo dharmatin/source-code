@@ -5,3 +5,7 @@ apps:
     instances: 0
     env:
       NODE_ENV: production
+    env:
+      NODE_ENV: staging
+    env:
+      NODE_ENV: local
