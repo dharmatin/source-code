@@ -10,7 +10,7 @@ const common = {
       sharpieUrl: 'https://img.rea-asia.com/rumah123',
     },
   },
-  staging: {
+  stag: {
     url: {
       base: 'https://dev.sg.rumah123.com',
       newlaunch: 'https://newlaunch.dev.rumah123.com',
@@ -21,7 +21,7 @@ const common = {
       sharpieUrl: 'https://img.rea-asia.com/rumah123',
     },
   },
-  production: {
+  prod: {
     url: {
       base: 'https://www.rumah123.com',
       newlaunch: 'https://newlaunch.rumah123.com',
