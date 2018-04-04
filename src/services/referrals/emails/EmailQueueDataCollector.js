@@ -13,6 +13,7 @@ import {
   formatOrganisation,
 } from '../../formatters/emailQueueDataCollectorFormatter';
 import config from '../../../config';
+import { formatUrlReferral } from '../../formatters/referralFormatter';
 
 const EMAIL_FROM = config.EMAIL_FROM;
 const DEFAULT_PAGE_TOKEN = 1;
@@ -35,6 +36,7 @@ export default class EmailQueueDataCollector {
       id: params.listingId,
       referralCode: params.referralCode,
     });
+    project.shareLink = formatUrlReferral(project.shareLink, params.referralCode);
     const lister = await this.getListerProfile(params.listerId);
     const listerFormatted = formatLister(lister);
     let similarProject = [];
