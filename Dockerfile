@@ -1,11 +1,24 @@
-FROM node:8-alpine
+FROM node:8
 
-COPY . /source
-WORKDIR /source
-EXPOSE 9000
+#Install Updates
+RUN apt-get update -y
 
-RUN npm install && npm install -g pm2
+
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+ADD package*.json /tmp/
+
+# Install app dependencies
+RUN cd /tmp && npm install && npm install -g pm2
+RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
+
+WORKDIR /usr/src/app
+
+ADD . /usr/src/app
+
+
+#Re-compile all the JS files
 RUN npm run build
+EXPOSE 9000
 
 ENV NODE_ENV stag
 
