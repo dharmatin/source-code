@@ -4,7 +4,7 @@ import common from './common';
 import constants from './constants';
 
 const config = {
-  isProduction: process.env.NODE_ENV === 'production',
+  isProduction: process.env.NODE_ENV === 'prod',
   env: process.env.NODE_ENV,
 };
 

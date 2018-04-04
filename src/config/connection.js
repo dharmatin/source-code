@@ -18,7 +18,7 @@ const common = {
       },
     },
   },
-  staging: {
+  stag: {
     solr: {
       host: 'internal-id-stgsolr-1117783231.ap-southeast-1.elb.amazonaws.com',
       port: '8080',
@@ -37,7 +37,7 @@ const common = {
       },
     },
   },
-  production: {
+  prod: {
     solr: {
       host:
         'internal-id-pro-solr-slave-2145060194.ap-southeast-1.elb.amazonaws.com',

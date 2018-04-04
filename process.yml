@@ -3,9 +3,9 @@ apps:
     exec_mode: cluster
     args : "NODE_ICU_DATA=./node_modules/full-icu"
     instances: 0
-    env:
-      NODE_ENV: prod
-    env:
+    env_stag:
       NODE_ENV: stag
-    env:
+    env_prod:
+      NODE_ENV: prod
+    env_local:
       NODE_ENV: local
