@@ -50,3 +50,7 @@ const getLabelStatusReferral = (status: number): string => {
 
   return result;
 };
+
+export const formatUrlReferral = (pppUrl: string, referralCode: string): string => {
+  return (!_.isEmpty(referralCode)) ? `${pppUrl}/?referralcode=${referralCode}` : pppUrl;
+};
