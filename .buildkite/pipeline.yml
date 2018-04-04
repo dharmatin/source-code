@@ -32,7 +32,7 @@ steps:
       env: development
       market: rumah123
   - wait
-  - trigger: "new-launch-API-deploy"
+  - trigger: "new-launch-api-deploy"
     label: ":rocket: Deploy to stag"
     async: true
     build:
