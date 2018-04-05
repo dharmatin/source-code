@@ -154,6 +154,7 @@ export default class EmailQueueDataCollector {
   }
 
   setDefaultEmailQueueData() {
+    config.translator = require('../../../config/locales/id.json');
     this.emailQueueData = {
       from: EMAIL_FROM,
       to: '',
