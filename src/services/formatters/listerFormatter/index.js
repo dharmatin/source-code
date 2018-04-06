@@ -20,6 +20,7 @@ export const formatListerProfile = (lister: Object): Lister => {
       moment.unix(dataLister.register).format('YYYY-MM-DD HH:mm:ss')
     ).format('YYYY-MM-DDThh:mm:ssZ');
     response.image = {
+      type: 'image',
       url: dataLister.photo_url,
     };
     response.website = formatlisterPageLink({

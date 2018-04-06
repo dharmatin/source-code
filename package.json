@@ -4,7 +4,7 @@
   "description": "for newlaunch API",
   "main": "app.js",
   "scripts": {
-    "precommit": "lint-staged",
+    "precommit": "npm run flow && lint-staged",
     "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\"",
     "test": "mocha ./test/unit --require babel-register --require babel-polyfill",
     "test:unit": "cross-env NODE_ENV=local mocha --require babel-register --require babel-polyfill ./tests/unit/*.spec.js --exit",
