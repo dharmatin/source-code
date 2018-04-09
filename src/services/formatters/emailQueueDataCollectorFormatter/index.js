@@ -181,7 +181,7 @@ const membershipSince = (registeredDate: Date): string => {
 };
 
 const getWhatsAppNumber = (organisationsContact: Object): string => {
-  const whatsApp = (organisationsContact.phones).filter((value: Object): Object => {
+  const whatsApp = (organisationsContact.phones).filter((value: Object): Array => {
     return value.label === 'Whatsapp';
   });
 
