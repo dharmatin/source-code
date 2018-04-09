@@ -181,9 +181,10 @@ const membershipSince = (registeredDate: Date): string => {
 };
 
 const getWhatsAppNumber = (organisationsContact: Object): string => {
-  const whatsApp = (organisationsContact.phones).filter((value: Object): Array => {
-    return value.label === 'Whatsapp';
-  });
+  // const whatsApp = (organisationsContact.phones).filter((value: Object): string => {
+  //   return value.label === 'Whatsapp';
+  // });
 
-  return (!_.isNil(whatsApp[0]) && !_.isNil(whatsApp[0].number)) ? whatsApp[0].number : '';
+  // return (!_.isNil(whatsApp[0]) && !_.isNil(whatsApp[0].number)) ? whatsApp[0].number : '';
+  return '';
 };
