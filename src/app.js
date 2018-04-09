@@ -12,6 +12,10 @@ import referralController from './controllers/referrals';
 import amenitiesController from './controllers/amenities';
 import articlesController from './controllers/articles';
 
+if (process.env.NEW_RELIC_LICENSE_KEY) {
+  require('newrelic');
+}
+
 const app = express();
 
 app.use(logger('dev'));
