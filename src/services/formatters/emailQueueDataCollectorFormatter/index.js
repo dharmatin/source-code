@@ -75,8 +75,8 @@ export const formatOrganisation = (project: Object): Organisation => {
         '',
     whatsappNumber:
       !_.isNil(project.organisations) &&
-      !_.isNil(project.organisations[0].contact.phones[1]) ?
-        project.organisations[0].contact.phones[1].number :
+      !_.isNil(project.organisations[0].contact) ?
+        getWhatsAppNumber(project.organisations[0].contact) :
         '',
     email:
       !_.isNil(project.organisations) &&
@@ -178,4 +178,12 @@ const membershipSince = (registeredDate: Date): string => {
       }`;
 
   return registeredSince;
+};
+
+const getWhatsAppNumber = (organisationsContact: Object): string => {
+  const whatsApp = (organisationsContact.phones).filter((value: Object): Array => {
+    return value.label === 'Whatsapp';
+  });
+
+  return (!_.isNil(whatsApp[0]) && !_.isNil(whatsApp[0].number)) ? whatsApp[0].number : '';
 };
