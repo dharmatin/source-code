@@ -41,7 +41,7 @@ export const formatAttributesReferral = (
 
       referralLister.lister = formatListerProfile(formatLister);
       referralLister.listing = {
-        id: item.ads_project_id.toString(),
+        id: 'nps' + item.ads_project_id.toString(),
         title: item.ads_name,
       };
 
