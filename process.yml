@@ -5,7 +5,11 @@ apps:
     instances: 0
     env_stag:
       NODE_ENV: stag
+      NEW_RELIC_APP_NAME: "id-stg-newlaunch-api"
+      NEW_RELIC_LICENSE_KEY: 566728cdfcce12ad0fef0741a0b24d5bbd4ee3df
     env_prod:
       NODE_ENV: prod
+      NEW_RELIC_APP_NAME: "id-newlaunch-api"
+      NEW_RELIC_LICENSE_KEY: 566728cdfcce12ad0fef0741a0b24d5bbd4ee3df
     env_local:
       NODE_ENV: local
