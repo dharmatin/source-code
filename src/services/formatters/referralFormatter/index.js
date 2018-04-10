@@ -29,6 +29,7 @@ export const formatStatusReferral = (
         projectName: dataListing.project_name,
         city: dataListing.city_name,
         id: dataListing.id,
+        referralCode: dataReferral.referralCode,
       });
     }
     response.status = getLabelStatusReferral(dataReferral.referralStatus);
@@ -51,6 +52,11 @@ const getLabelStatusReferral = (status: number): string => {
   return result;
 };
 
-export const formatUrlReferral = (pppUrl: string, referralCode: string): string => {
-  return (!_.isEmpty(referralCode)) ? `${pppUrl}/?referralCode=${referralCode.toUpperCase()}` : pppUrl;
+export const formatUrlReferral = (
+  pppUrl: string,
+  referralCode: string
+): string => {
+  return !_.isEmpty(referralCode) ?
+    `${pppUrl}/?referralCode=${referralCode.toUpperCase()}` :
+    pppUrl;
 };
