@@ -52,5 +52,5 @@ const getLabelStatusReferral = (status: number): string => {
 };
 
 export const formatUrlReferral = (pppUrl: string, referralCode: string): string => {
-  return (!_.isEmpty(referralCode)) ? `${pppUrl}/?referralcode=${referralCode}` : pppUrl;
+  return (!_.isEmpty(referralCode)) ? `${pppUrl}/?referralCode=${referralCode.toUpperCase()}` : pppUrl;
 };
