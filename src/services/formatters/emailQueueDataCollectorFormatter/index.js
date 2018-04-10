@@ -168,14 +168,20 @@ const membershipSince = (registeredDate: Date): string => {
     moment(registeredDate),
     'months'
   );
-  const yearsRegistered = Math.ceil(monthsRegistered / 12);
+  const floorYearsRegistered = Math.floor(monthsRegistered / 12);
+  const hasHalf = (monthsRegistered - (12 * floorYearsRegistered)) >= 6 ? 0.5 : 0;
+  const yearsRegistered = floorYearsRegistered + hasHalf;
 
-  registeredSince =
-    yearsRegistered === 1 && (monthsRegistered >= 0 && monthsRegistered <= 6) ?
-      `6 ${config.translator.period.month} ${config.translator.ago}` :
-      `${yearsRegistered} ${config.translator.period.year} ${
-        config.translator.ago
-      }`;
+  if (yearsRegistered) {
+    registeredSince =
+      yearsRegistered === 1 && (monthsRegistered >= 0 && monthsRegistered < 12) ?
+        `${monthsRegistered} ${config.translator.period.month} ${config.translator.ago}` :
+        `${yearsRegistered} ${config.translator.period.year} ${
+          config.translator.ago
+        }`;
+  } else {
+    registeredSince = config.translator.new_member;
+  }
 
   return registeredSince;
 };
