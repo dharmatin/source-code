@@ -163,28 +163,27 @@ const priceFormat = (price: number): string => {
 };
 
 const membershipSince = (registeredDate: Date): string => {
-  let registeredSince = '';
-  const monthsRegistered = moment(new Date()).diff(
-    moment(registeredDate),
-    'months'
-  );
-  const floorYearsRegistered = Math.floor(monthsRegistered / 12);
-  const hasHalf = (monthsRegistered - (12 * floorYearsRegistered)) >= 6 ? 0.5 : 0;
-  const yearsRegistered = floorYearsRegistered + hasHalf;
+   let registeredSince = '';
+   const  totalRegisteredMonth = moment(new Date()).diff(
+     moment(registeredDate),
+     'months'
+   );
 
-  if (yearsRegistered) {
-    registeredSince =
-      yearsRegistered === 1 && (monthsRegistered >= 0 && monthsRegistered < 12) ?
-        `${monthsRegistered} ${config.translator.period.month} ${config.translator.ago}` :
-        `${yearsRegistered} ${config.translator.period.year} ${
-          config.translator.ago
-        }`;
-  } else {
-    registeredSince = config.translator.new_member;
-  }
+   const yearlyPeriod = Math.floor( totalRegisteredMonth / 12);
+   const hasHalf = ( totalRegisteredMonth - (12 * yearlyPeriod)) >= 6 ? 0.5 : 0;
+   const yearsRegistered = yearlyPeriod + hasHalf;
 
-  return registeredSince;
-};
+   if (yearsRegistered) {
+     registeredSince =
+       yearsRegistered === 1 && ( totalRegisteredMonth >= 0 &&  totalRegisteredMonth < 12) ?
+         `${ totalRegisteredMonth} ${config.translator.period.month} ${config.translator.ago}` :
+         `${yearsRegistered} ${config.translator.period.year} ${
+           config.translator.ago
+         }`;
+   } else {
+     registeredSince = config.translator.new_member;
+   }
+}
 
 const getWhatsAppNumber = (organisationsContact: Object): string => {
   const whatsApp = (organisationsContact.phones).filter((value: Object): boolean => {
