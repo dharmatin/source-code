@@ -6,7 +6,7 @@ const common = {
       article: 'https://article.dev.rumah123.com',
     },
     image: {
-      baseUrl: 'https://d3p0bla3numw14.cloudfront.net',
+      baseUrl: 'https://dm38pn59zg67e.cloudfront.net',
       sharpieUrl: 'https://img.rea-asia.com/rumah123',
     },
   },
@@ -17,7 +17,7 @@ const common = {
       article: 'https://article.dev.rumah123.com',
     },
     image: {
-      baseUrl: 'https://d3p0bla3numw14.cloudfront.net',
+      baseUrl: 'https://dm38pn59zg67e.cloudfront.net',
       sharpieUrl: 'https://img.rea-asia.com/rumah123',
     },
   },
