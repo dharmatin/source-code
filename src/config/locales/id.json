@@ -48,5 +48,6 @@
         "referral_request_granted": "Selamat! Permintaan Anda telah disetujui",
         "referral_request_deny": "Maaf permintaan Anda ditolak",
         "referral_request_remove": "Maaf, Anda tidak lagi memiliki akses"
-    }
+    },
+    "new_member": "Anggota Baru"
 }

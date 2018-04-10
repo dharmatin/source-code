@@ -48,5 +48,6 @@
         "referral_request_granted": "Access Granted",
         "referral_request_deny": "Sorry, your request is denied",
         "referral_request_remove": "Sorry, you no longer have access"
-    }
+    },
+    "new_member": "New Member"
 }
