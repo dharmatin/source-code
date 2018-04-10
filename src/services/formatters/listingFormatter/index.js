@@ -58,10 +58,14 @@ export const formatPropertyType = (propertyType: Array<string>): string => {
 export const formatProjectProfilePageLink = (
   projectProfile: Object
 ): string => {
-  const { projectName, city, id } = projectProfile;
+  const { projectName, city, id, referralCode } = projectProfile;
 
   let formatUrl = config.lang === 'id' ? '/properti/' : '/en/property/';
   formatUrl += slugify(city) + '/' + slugify(projectName) + '/' + id;
+
+  if (!_.isNil(referralCode)) {
+    formatUrl += `?referralCode=${referralCode}`;
+  }
 
   return config.url.newlaunch + formatUrl;
 };
