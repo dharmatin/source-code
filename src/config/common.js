@@ -3,7 +3,7 @@ const common = {
     url: {
       base: 'localhost',
       newlaunch: 'localhost',
-      article: 'https://article.dev.rumah123.com',
+      article: 'https://artikel.dev.rumah123.com',
     },
     image: {
       baseUrl: 'https://dm38pn59zg67e.cloudfront.net',
@@ -14,7 +14,7 @@ const common = {
     url: {
       base: 'https://dev.sg.rumah123.com',
       newlaunch: 'https://newlaunch.dev.rumah123.com',
-      article: 'https://article.dev.rumah123.com',
+      article: 'https://artikel.dev.rumah123.com',
     },
     image: {
       baseUrl: 'https://dm38pn59zg67e.cloudfront.net',
@@ -25,7 +25,7 @@ const common = {
     url: {
       base: 'https://www.rumah123.com',
       newlaunch: 'https://newlaunch.rumah123.com',
-      article: 'https://article.rumah123.com',
+      article: 'https://artikel.rumah123.com',
     },
     image: {
       baseUrl: 'https://d3p0bla3numw14.cloudfront.net',
