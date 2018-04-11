@@ -190,8 +190,8 @@ class ReferralDao {
         `INNER JOIN developer_company_v2 D ON D.developer_company_id= AP.developer_company_id ` +
         `INNER JOIN company_v2 C ON U.company_id=C.company_id ` +
         `WHERE D.developer_company_id = :companyId ` +
-        `AND AR.referral_status IN (:referralStatus) ${limitQuery}` +
-        `ORDER BY AR.created_date DESC`,
+        `AND AR.referral_status IN (:referralStatus) ` +
+        `ORDER BY AR.created_date DESC ${limitQuery}`,
       {
         replacements: {
           companyId: companyId,
