@@ -45,7 +45,7 @@ export const formatProject = (
   }
 
   response.cover = mediaFormatter.formatImageCover(
-    JSON.parse(projectProfilePage.background_image)[0]
+    JSON.parse(projectProfilePage.background_image || '[]')[0]
   );
 
   if (!_.isNil(projectProfilePage.description)) {
