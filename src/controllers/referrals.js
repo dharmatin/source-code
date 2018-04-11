@@ -26,7 +26,7 @@ class ReferralsController extends BaseController {
       const result = await referralRequestService.requestReferral({
         listingId: req.params.listingId,
         listerId: req.userInfo.userID,
-        messageRequest: req.body.Message,
+        messageRequest: req.body.message,
         isSubscribed: Number(req.body.isSubscribed),
       });
       if (result === config.RESPONSE_TXT.SUCCESS) {
