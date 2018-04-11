@@ -170,24 +170,33 @@ const membershipSince = (registeredDate: Date): string => {
   );
 
   const yearlyPeriod = Math.floor(totalRegisteredMonth / 12);
-  const hasHalf = (totalRegisteredMonth - (12 * yearlyPeriod)) >= 6 ? 0.5 : 0;
+  const hasHalf = totalRegisteredMonth - 12 * yearlyPeriod >= 6 ? 0.5 : 0;
   const yearsRegistered = yearlyPeriod + hasHalf;
 
   if (yearsRegistered) {
     registeredSince =
-      yearsRegistered === 1 && (totalRegisteredMonth >= 0 && totalRegisteredMonth < 12) ?
-        `${totalRegisteredMonth} ${config.translator.period.month} ${config.translator.ago}` :
-        `${yearsRegistered} ${config.translator.period.year} ${config.translator.ago}`;
+      yearsRegistered === 1 &&
+      (totalRegisteredMonth >= 0 && totalRegisteredMonth < 12) ?
+        `${totalRegisteredMonth} ${config.translator.period.month} ${
+          config.translator.ago
+        }` :
+        `${yearsRegistered} ${config.translator.period.year} ${
+          config.translator.ago
+        }`;
   } else {
     registeredSince = config.translator.new_member;
   }
   return registeredSince;
-}
+};
 
 const getWhatsAppNumber = (organisationsContact: Object): string => {
-  const whatsApp = (organisationsContact.phones).filter((value: Object): boolean => {
-    return value.label === 'Whatsapp';
-  });
+  const whatsApp = organisationsContact.phones.filter(
+    (value: Object): boolean => {
+      return value.label === 'Whatsapp';
+    }
+  );
 
-  return (!_.isNil(whatsApp[0]) && !_.isNil(whatsApp[0].number)) ? whatsApp[0].number : '';
+  return !_.isNil(whatsApp[0]) && !_.isNil(whatsApp[0].number) ?
+    whatsApp[0].number :
+    '';
 };
