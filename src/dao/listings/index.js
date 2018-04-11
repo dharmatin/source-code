@@ -37,7 +37,7 @@ export default {
       'developer_company_id, developer_name, developer_brandcolor, ads_email, ads_email2, ads_contact, ' +
       'ads_contact2, project_whatsapp, developer_city, developer_province, developer_district, ' +
       'developer_address, developer_logo, price_min, price_max, is_premium, is_gts, ' +
-      'updated_date, image, status ';
+      'updated_date, image, status, background_image ';
     const pageStart = (paging.pageToken - 1) * paging.pageSize;
     const queryListingById = listingClient
       .createQuery()
