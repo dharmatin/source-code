@@ -173,7 +173,7 @@ export const formatProject = (
   if (!_.isNil(projectProfilePage.all_listing_images)) {
     let mediaImages = projectProfilePage.all_listing_images;
     const backgroundImages = JSON.parse(projectProfilePage.background_image);
-    _.map(backgroundImages, (value: string) => {
+    _.forEachRight(backgroundImages, (value: string) => {
       mediaImages.unshift(`"${value}";${projectProfilePage.project_name}`);
     });
 
