@@ -7,19 +7,19 @@ steps:
       market: rumah123
 
   - wait
-  - label: unit test
-    command: "echo unittest " #"./scripts/unit_test.sh"
-    agents:
-      queue: ipp-regional-web:ci
-      env: development
-      market: rumah123
-  - wait
-  - label: integration test
-    command: "echo integration test " #"./scripts/integration_test.sh"
-    agents:
-      queue: ipp-regional-web:ci
-      env: development
-      market: rumah123
+#  - label: unit test
+#    command: "echo unittest " #"./scripts/unit_test.sh"
+#    agents:
+#      queue: ipp-regional-web:ci
+#      env: development
+#      market: rumah123
+#  - wait
+#  - label: integration test
+#    command: "echo integration test " #"./scripts/integration_test.sh"
+#    agents:
+#      queue: ipp-regional-web:ci
+#      env: development
+#      market: rumah123
 
   - wait
   - label: " :package:"
