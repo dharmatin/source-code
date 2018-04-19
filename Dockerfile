@@ -21,5 +21,6 @@ RUN npm run build
 EXPOSE 9000
 
 ENV NODE_ENV stag
+ENV NODE_ICU_DATA=./node_modules/full-icu
 
-CMD ["sh", "-c", "pm2-docker start process.yml --env ${NODE_ENV}"]
+CMD ["sh", "-c", "pm2-docker start process.yml"]

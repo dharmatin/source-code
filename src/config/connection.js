@@ -48,8 +48,8 @@ const common = {
       port: 6379,
     },
     mysql: {
-      username: 'webmaster',
-      password: 'Pr0W3br321REA',
+      username: 'neptunus',
+      password: 'Pr0R123NepTu1D3c94',
       host: 'id-master.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
