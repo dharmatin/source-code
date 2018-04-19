@@ -73,16 +73,19 @@ export class ListingService {
   async saveDailyTracking(response: Object): Object {
     /* eslint camelcase: ["error", {properties: "never"}] */
     if (!_.isEmpty(response)) {
-      const { id, category, type } = extractListingId(response.id);
-      await dailyTrackingDAO.saveDailyTrackingView({
-        project_id: parseInt(id),
-        type: type,
-        category: category,
-        client_type: 22,
-        d_date: moment().format('YYYY-MM-DD'),
-      });
+      if (response.active === true) {
+        const { id, category, type } = extractListingId(response.id);
+        await dailyTrackingDAO.saveDailyTrackingView({
+          project_id: parseInt(id),
+          type: type,
+          category: category,
+          client_type: 22,
+          d_date: moment().format('YYYY-MM-DD'),
+          productStatus: response.productStatus,
+        });
 
-      await projectTrackingDAO.saveProjectTrackingView(parseInt(id));
+        await projectTrackingDAO.saveProjectTrackingView(parseInt(id));
+      }
     }
   }
 

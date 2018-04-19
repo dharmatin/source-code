@@ -162,6 +162,7 @@ export const formatProject = (
     projectProfilePage.status
   );
 
+  response.productStatus = projectProfilePage.product_status;
   response.tier = listingFormatter.formatTierOfPrimaryListing(
     projectProfilePage.is_premium,
     projectProfilePage.is_gts

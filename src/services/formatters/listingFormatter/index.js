@@ -16,7 +16,7 @@ export const formatTierOfPrimaryListing = (
     return config.TIER.STANDARD;
   } else {
     if (isGTS === 1) {
-      return config.TIER.FEATURE;
+      return config.TIER.FEATURED;
     } else {
       return config.TIER.PREMIUM;
     }
