@@ -24,7 +24,7 @@ export default {
     excludeProjectId: string,
     paging: Object
   ): Object => {
-    let conditionQ = `developer_company_id:${id}`;
+    let conditionQ = `developer_company_id:${id} AND status:Online`;
     if (!_.isEmpty(excludeProjectId)) {
       conditionQ += ` AND -id:${excludeProjectId}`;
     }

@@ -40,6 +40,7 @@ export type Listing = {
   price?: Price,
   prices?: Array<Price>,
   promotion?: string,
+  productStatus?: string,
   propertyType?: string,
   shareLink?: string,
   status?: boolean,
