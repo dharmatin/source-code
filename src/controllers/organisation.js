@@ -3,7 +3,6 @@ import _ from 'lodash';
 import BaseController from './base';
 import projectProfileService from '../services/projectProfileService';
 import {
-  handleNotFound,
   handleInternalServerError,
   handleSuccess,
 } from '../libs/responseHandler';
@@ -26,11 +25,7 @@ class OrganisationController extends BaseController {
         pagingRequest
       );
 
-      if (_.isEmpty(listings)) {
-        handleNotFound(res);
-      } else {
-        handleSuccess(res, listings);
-      }
+      handleSuccess(res, listings);
     } catch (e) {
       handleInternalServerError(res);
       throw new Error(e);
