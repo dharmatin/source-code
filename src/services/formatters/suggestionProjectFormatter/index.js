@@ -8,11 +8,7 @@ export const formatSuggestionProjects = (
   pagingRequest: Object
 ): SuggestionProject => {
   if (projectListing.numFound === 0) {
-    return {};
-  } else if (projectListing.docs.length === 0) {
-    return {
-      totalCount: 0,
-    };
+    return { totalCount: 0 };
   } else {
     return formatRelatedProjects(
       projectListing.docs,
