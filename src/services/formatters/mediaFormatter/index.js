@@ -65,8 +65,9 @@ export const formatThreeSixtyVideos = (
 
   _.map(_.compact(threeSixtyLinks), (item: string) => {
     const [url] = _.split(item, ';');
-
-    image360s.push(url);
+    if (!_.isEmpty(url)) {
+      image360s.push(url);
+    }
   });
 
   return image360s;
@@ -79,7 +80,9 @@ export const formatYoutubeIds = (
 
   _.map(_.compact(youtubeLinks), (item: string) => {
     const [url] = _.split(item, ';');
-    youtubeIds.push(getYoutubeId(url));
+    if (!_.isEmpty(url)) {
+      youtubeIds.push(getYoutubeId(url));
+    }
   });
 
   return youtubeIds;
