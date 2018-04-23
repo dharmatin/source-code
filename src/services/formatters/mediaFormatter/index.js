@@ -11,15 +11,17 @@ export const formatFloorPlanImages = (
   _.map(floorPlansWithDescription, (item: string) => {
     const floorPlan = {};
     const [img, description] = _.split(item, ';');
-    floorPlan.type = 'image';
-    /* eslint-disable no-template-curly-in-string */
-    floorPlan.urlTemplate =
-      config.image.sharpieUrl +
-      '/premium/${width}x${height}-${scale}/' +
-      _.trim(img, '"');
-    floorPlan.description = description;
+    if (!_.isEmpty(img)) {
+      floorPlan.type = 'image';
+      /* eslint-disable no-template-curly-in-string */
+      floorPlan.urlTemplate =
+        config.image.sharpieUrl +
+        '/premium/${width}x${height}-${scale}/' +
+        _.trim(img, '"');
+      floorPlan.description = description;
 
-    floorPlanImages.push(floorPlan);
+      floorPlanImages.push(floorPlan);
+    }
   });
 
   return floorPlanImages;
