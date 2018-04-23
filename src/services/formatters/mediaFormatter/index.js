@@ -42,17 +42,37 @@ export const formatListingImages = (
   _.map(imagesWithDescription, (item: string) => {
     const image = {};
     const [img, description] = _.split(item, ';');
-    image.type = 'image';
-    /* eslint-disable no-template-curly-in-string */
-    image.urlTemplate =
-      config.image.sharpieUrl +
-      '/premium/${width}x${height}-${scale}/' +
-      _.trim(img, '"');
-    if (!_.isEmpty(description)) {
-      image.description = description;
-    }
+    if (!_.isEmpty(img)) {
+      const nestedImages = _.split(img, ',');
 
-    medias.push(image);
+      if (nestedImages.length > 1) {
+        _.map(nestedImages, (nestedImg: string) => {
+          image.type = 'image';
+          image.urlTemplate =
+            config.image.sharpieUrl +
+            '/premium/${width}x${height}-${scale}/' +
+            _.trim(nestedImg, '"');
+
+          /* eslint-disable no-template-curly-in-string */
+          if (!_.isEmpty(description)) {
+            image.description = description;
+          }
+        });
+      } else {
+        image.type = 'image';
+        image.urlTemplate =
+          config.image.sharpieUrl +
+          '/premium/${width}x${height}-${scale}/' +
+          _.trim(img, '"');
+
+        /* eslint-disable no-template-curly-in-string */
+        if (!_.isEmpty(description)) {
+          image.description = description;
+        }
+      }
+
+      medias.push(image);
+    }
   });
 
   return medias;
