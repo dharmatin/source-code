@@ -46,7 +46,6 @@ export const formatListingImages = (
     const [img, description] = _.split(item, ';');
     if (!_.isEmpty(img)) {
       const nestedImages = _.split(img, ',');
-
       if (nestedImages.length > 1) {
         _.map(nestedImages, (nestedImg: string) => {
           image.type = 'image';
@@ -59,6 +58,7 @@ export const formatListingImages = (
           if (!_.isEmpty(description)) {
             image.description = description;
           }
+          medias.push(image);
         });
       } else {
         image.type = 'image';
@@ -71,9 +71,8 @@ export const formatListingImages = (
         if (!_.isEmpty(description)) {
           image.description = description;
         }
+        medias.push(image);
       }
-
-      medias.push(image);
     }
   });
 
