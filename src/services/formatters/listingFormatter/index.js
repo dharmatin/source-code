@@ -30,7 +30,6 @@ export const formatFeatures = (facilities: Array<string>): Array<Features> => {
     let dataFacility = _.split(facility, ':');
     medias.description = dataFacility[2];
     medias.title = dataFacility[0];
-
     /* eslint-disable no-template-curly-in-string */
     medias.media = {
       type: 'image',
