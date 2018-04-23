@@ -28,7 +28,6 @@ export const formatFeatures = (facilities: Array<string>): Array<Features> => {
   _.map(facilities, (facility: string) => {
     const medias = {};
     let dataFacility = _.split(facility, ':');
-
     medias.description = dataFacility[2];
     medias.title = dataFacility[0];
     /* eslint-disable no-template-curly-in-string */
