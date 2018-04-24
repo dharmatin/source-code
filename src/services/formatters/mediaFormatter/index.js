@@ -42,12 +42,13 @@ export const formatListingImages = (
   const medias = [];
 
   _.map(imagesWithDescription, (item: string) => {
-    const image = {};
+    let image = {};
     const [img, description] = _.split(item, ';');
     if (!_.isEmpty(img)) {
       const nestedImages = _.split(img, ',');
       if (nestedImages.length > 1) {
         _.map(nestedImages, (nestedImg: string) => {
+          image = {};
           image.type = 'image';
           image.urlTemplate =
             config.image.sharpieUrl +
