@@ -171,14 +171,12 @@ export const formatProject = (
     'YYYY-MM-DDThh:mm:ssZ'
   );
 
-  if (!_.isNil(projectProfilePage.all_listing_images)) {
-    let mediaImages = projectProfilePage.all_listing_images;
-    const backgroundImages = JSON.parse(projectProfilePage.background_image);
-    _.forEachRight(backgroundImages, (value: string) => {
-      mediaImages.unshift(`"${value}";${projectProfilePage.project_name}`);
+  if (!_.isNil(projectProfilePage.background_image)) {
+    const backgroundImages = _.map(JSON.parse(projectProfilePage.background_image), (imageUrl: string): any => {
+      return `"${imageUrl}";${projectProfilePage.project_name}`;
     });
 
-    response.medias = mediaFormatter.formatListingImages(mediaImages);
+    response.medias = mediaFormatter.formatListingImages(backgroundImages);
   }
 
   if (!_.isNil(projectProfilePage.all_video)) {
