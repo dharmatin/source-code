@@ -1,6 +1,9 @@
 steps:
-  - label: eslint
-    command: "echo eslint " #"./scripts/eslint.sh"
+  - label: ":package: Build & Push"
+    command: "./scripts/package.sh"
+    env:
+      ENV: stag
+      REGION: ap-southeast-1
     agents:
       queue: ipp-regional-web:ci
       env: development
@@ -22,8 +25,8 @@ steps:
 #      market: rumah123
 
   - wait
-  - label: " :package:"
-    command: "./scripts/package.sh"
+  - label: ":white_check_mark: Test Lint & Test Unit test"
+    command: "./scripts/eslint.sh"
     env:
       ENV: stag
       REGION: ap-southeast-1

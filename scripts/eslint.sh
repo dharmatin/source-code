@@ -7,4 +7,10 @@ echo "Need to fix the eslint first."
 echo "----------Eslint Skipped---------"
 echo -e '\033[0m'
 
-#docker run --rm -v $(pwd):/source -w /source node:8-alpine npm run eslint
+. $(dirname $0)/env.sh
+
+# eslint docker
+docker run --rm --name ${ECR_REPO_NAME}-es_lint ${REPOSITORY_URI} npm run eslint
+
+# flow docker
+docker run --rm --name ${ECR_REPO_NAME}-flow ${REPOSITORY_URI} npm run flow
