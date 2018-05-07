@@ -10,7 +10,7 @@ export BUILD_COMMIT=${BUILDKITE_COMMIT:=snapshot}
 export ECR_REPO_NAME="newlaunch-api-id"
 export DEPLOYER_ECR_URL="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/deployer:latest"
 
-ecr_url={ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
+ecr_url=${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
 export REPOSITORY_URI="${ecr_url}/${ECR_REPO_NAME}:${BUILD_NUMBER}"
 export REPOSITORY_URI_LATEST="${ecr_url}/${ECR_REPO_NAME}:latest"
 

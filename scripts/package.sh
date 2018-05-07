@@ -15,6 +15,5 @@ docker tag ${ECR_REPO_NAME}:latest ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
 docker tag ${ECR_REPO_NAME}:latest ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO_NAME}:${BUILD_NUMBER}
 
 echo "Pushing the Image to ECR"
-docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO_NAME}:latest
-docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO_NAME}:${BUILD_NUMBER}
-
+docker push ${REPOSITORY_URI_LATEST}
+docker push ${REPOSITORY_URI}
