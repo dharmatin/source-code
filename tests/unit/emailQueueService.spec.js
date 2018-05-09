@@ -1,4 +1,3 @@
-// @flow
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
@@ -14,34 +13,52 @@ chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
 const { expect } = chai;
-const sandbox = sinon.createSandbox();
+let sandbox = null;
 
 describe('Email Queue services', () => {
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
     sandbox.restore();
   });
-  it('Should be return true if the data success save to database', async(): any => {
-    const emailQueueService = new EmailQueueService(EmailQueueDao);
-    const result = await emailQueueService
-      .to('dharmatin@gmail.com')
-      .from('Rumah123.com')
-      .subject('Referral Success')
-      .template('/test')
-      .jsonData({ ucok: 'baba' })
-      .save();
-    expect(result).to.equal(true);
-  });
 
-  it('Should be return false if the data failed save to database', async(): any => {
-    sandbox.stub(EmailQueueDao, 'save').callsFake((): boolean => false);
-    const emailQueueService = new EmailQueueService(EmailQueueDao);
-    const result = await emailQueueService
-      .to('dharmatin@gmail.com')
-      .from('Rumah123.com')
-      .subject('Referral Success')
-      .template('/test')
-      .jsonData({ ucok: 'baba' })
-      .save();
-    expect(result).to.equal(false);
+  context('#save', () => {
+    /* eslint camelcase: ["error", {properties: "never"}] */
+    const successFake = {
+      email_queue: {
+        dataValues: {},
+      },
+    };
+
+    it('Should be return true if the data success save to database', async(): any => {
+      sandbox.stub(EmailQueueDao, 'save').callsFake(() => successFake);
+
+      const emailQueueService = new EmailQueueService(EmailQueueDao);
+      const result = await emailQueueService
+        .to('dharmatin@gmail.com')
+        .from('Rumah123.com')
+        .subject('Referral Success')
+        .template('/test')
+        .jsonData({ ucok: 'baba' })
+        .save();
+
+      expect(result).to.equal(true);
+    });
+
+    const failedFake = {};
+    it('Should be return false if the data failed save to database', async(): any => {
+      sandbox.stub(EmailQueueDao, 'save').callsFake(() => failedFake);
+      const emailQueueService = new EmailQueueService(EmailQueueDao);
+      const result = await emailQueueService
+        .to('dharmatin@gmail.com')
+        .from('Rumah123.com')
+        .subject('Referral Success')
+        .template('/test')
+        .jsonData({ ucok: 'baba' })
+        .save();
+      expect(result).to.equal(false);
+    });
   });
 });

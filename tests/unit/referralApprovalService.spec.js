@@ -1,4 +1,3 @@
-// @flow
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
@@ -32,7 +31,7 @@ describe('Referral approve services', () => {
     config.translator = require(`../../src/config/locales/${config.lang}.json`);
   });
 
-  describe('#getReferralCode', () => {
+  context('#getReferralCode', () => {
     it('Should return unique 8 characters alphanumeric with uppercase', (): any => {
       const referralCode = generateReferralCode();
       const regex = new RegExp(/^[A-Z0-9]+$/i);
@@ -40,7 +39,8 @@ describe('Referral approve services', () => {
       expect(referralCode.length).equal(8);
     });
   });
-  describe('#requestApprove', () => {
+
+  context('#requestApprove', () => {
     const referral: AgentReferral = {
       agentReferralId: 1,
       userId: 70491,

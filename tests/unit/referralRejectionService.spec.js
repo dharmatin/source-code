@@ -34,13 +34,13 @@ describe('Referral reject services', () => {
     createdDate: new Date(),
     approvedDate: new Date(),
     rejectedDate: new Date(),
-    removedDate: new Date()
+    removedDate: new Date(),
   };
 
   const rejectRequest: Object = {
     listerId: requestReferralApproval.listerId,
     listingId: requestReferralApproval.listingId,
-    referralReason: 'reason'
+    referralReason: 'reason',
   };
 
   afterEach(() => {
@@ -48,7 +48,9 @@ describe('Referral reject services', () => {
   });
 
   it('Should be return true if the update process last request affected more than 0', (): any => {
-    sandbox.stub(ReferralDao, 'getLatestReferralRequest').callsFake((): AgentReferral => referral);
+    sandbox
+      .stub(ReferralDao, 'getLatestReferralRequest')
+      .callsFake((): AgentReferral => referral);
     sandbox.stub(ReferralDao, 'updateRefferalById').callsFake((): number => 1);
     const referralApprovalService = new ReferralRejectionService(ReferralDao);
     const result = referralApprovalService.rejectReferral(rejectRequest);
@@ -57,7 +59,9 @@ describe('Referral reject services', () => {
   });
 
   it('Should be return false if the update process last request affected equal 0', (): any => {
-    sandbox.stub(ReferralDao, 'getLatestReferralRequest').callsFake((): AgentReferral => referral);
+    sandbox
+      .stub(ReferralDao, 'getLatestReferralRequest')
+      .callsFake((): AgentReferral => referral);
     sandbox.stub(ReferralDao, 'updateRefferalById').callsFake((): number => 0);
     const referralApprovalService = new ReferralRejectionService(ReferralDao);
     const result = referralApprovalService.rejectReferral(rejectRequest);
@@ -79,7 +83,7 @@ describe('Referral reject services', () => {
     const result = referralApprovalService.rejectReferral({
       listerId: requestReferralApproval.listerId,
       listingId: requestReferralApproval.listingId,
-      referralReason: undefined
+      referralReason: undefined,
     });
 
     return expect(result).to.be.eventually.to.be.eventually.equal(false);
