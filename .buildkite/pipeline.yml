@@ -8,24 +8,8 @@ steps:
       queue: ipp-regional-web:ci
       env: development
       market: rumah123
-
   - wait
-#  - label: unit test
-#    command: "echo unittest " #"./scripts/unit_test.sh"
-#    agents:
-#      queue: ipp-regional-web:ci
-#      env: development
-#      market: rumah123
-#  - wait
-#  - label: integration test
-#    command: "echo integration test " #"./scripts/integration_test.sh"
-#    agents:
-#      queue: ipp-regional-web:ci
-#      env: development
-#      market: rumah123
-
-  - wait
-  - label: ":white_check_mark: Test Lint & Test Unit test"
+  - label: ":white_check_mark: Test Lint & flow"
     command: "./scripts/eslint.sh"
     env:
       ENV: stag
@@ -35,6 +19,20 @@ steps:
       env: development
       market: rumah123
   - wait
+  - label: ":white_check_mark: Unit Test"
+    command: "./scripts/unit_test.sh"
+    agents:
+      queue: ipp-regional-web:ci
+      env: development
+      market: rumah123
+  - wait
+#  - label: integration test
+#    command: "echo integration test " #"./scripts/integration_test.sh"
+#    agents:
+#      queue: ipp-regional-web:ci
+#      env: development
+#      market: rumah123
+#  - wait
   - trigger: "new-launch-api-deploy"
     label: ":rocket: Deploy to stag"
     async: true
