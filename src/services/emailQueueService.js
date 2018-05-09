@@ -67,7 +67,6 @@ export class EmailQueueService {
   }
 
   setEmailQueue(self: Object) {
-    console.log('DATE', self.emailSendDate);
     this.emailQueue.queueId = Sequelize.DEFAULT;
     this.emailQueue.subject = self.emailSubject;
     this.emailQueue.from = self.emailFrom;

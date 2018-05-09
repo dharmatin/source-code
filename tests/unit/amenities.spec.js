@@ -16,7 +16,7 @@ describe('Response Amenities Service', () => {
     sandbox.restore();
   });
 
-  describe('#getAmenitiesById', () => {
+  context('#getAmenitiesById', () => {
     it('Should be return array object', async() => {
       /* eslint camelcase: ["error", {properties: "never"}] */
       const formatResponse = {
