@@ -21,6 +21,9 @@ steps:
   - wait
   - label: ":white_check_mark: Unit Test"
     command: "./scripts/unit_test.sh"
+    env:
+      ENV: stag
+      REGION: ap-southeast-1
     agents:
       queue: ipp-regional-web:ci
       env: development
