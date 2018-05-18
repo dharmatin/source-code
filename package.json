@@ -8,7 +8,7 @@
     "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\"",
     "test": "mocha ./test/unit --require babel-register --require babel-polyfill",
     "test:unit": "cross-env NODE_ENV=local mocha --require babel-register --require babel-polyfill ./tests/unit/*.spec.js --exit",
-    "test:integration": "cross-env NODE_ENV=local mocha ./tests/integration/*.spec.js --require babel-register --require babel-polyfill --exit",
+    "test:integration": "cross-env NODE_ENV=test mocha ./tests/integration/*.spec.js --require babel-register --require babel-polyfill --exit",
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=local NODE_ICU_DATA=./node_modules/full-icu node dist/bin/server.js",
     "start:local": "cross-env NODE_ENV=local NODE_ICU_DATA=./node_modules/full-icu nodemon --exec babel-node ./src/bin/server.js ",

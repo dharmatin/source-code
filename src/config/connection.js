@@ -57,7 +57,25 @@ const common = {
       },
     },
   },
-  test: {},
+  test: {
+    solr: {
+      host: 'solr',
+      port: '8983',
+    },
+    redis: {
+      host: 'redis',
+      port: 6379,
+    },
+    mysql: {
+      username: 'webmaster',
+      password: 'Pr0W3br321REA',
+      host: 'mysql',
+      port: '3306',
+      database: {
+        default: 'ds_real',
+      },
+    },
+  },
 };
 
 export default common;

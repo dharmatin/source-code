@@ -29,7 +29,7 @@ export default class MysqlClient {
         useUTC: false, // for reading from database
       },
       timezone: '+07:00',
-      logging: config.isProduction ? '' : console.log,
+      logging: config.isProduction || config.isTesting ? '' : console.log,
     });
   }
 }

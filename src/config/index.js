@@ -5,6 +5,7 @@ import constants from './constants';
 
 const config = {
   isProduction: process.env.NODE_ENV === 'prod',
+  isTesting: process.env.NODE_ENV === 'test',
   env: process.env.NODE_ENV,
 };
 

@@ -32,7 +32,17 @@ const common = {
       sharpieUrl: 'https://img.rea-asia.com/rumah123',
     },
   },
-  test: {},
+  test: {
+    url: {
+      base: 'https://www.rumah123.com',
+      newlaunch: 'https://newlaunch.rumah123.com',
+      article: 'https://artikel.rumah123.com',
+    },
+    image: {
+      baseUrl: 'https://d3p0bla3numw14.cloudfront.net',
+      sharpieUrl: 'https://img.rea-asia.com/rumah123',
+    },
+  },
 };
 
 export default common;
