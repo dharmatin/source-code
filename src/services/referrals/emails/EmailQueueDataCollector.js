@@ -36,7 +36,10 @@ export default class EmailQueueDataCollector {
       id: params.listingId,
       referralCode: params.referralCode,
     });
-    project.shareLink = formatUrlReferral(project.shareLink, params.referralCode);
+    project.shareLink = formatUrlReferral(
+      project.shareLink,
+      params.referralCode
+    );
     const lister = await this.getListerProfile(params.listerId);
     const listerFormatted = formatLister(lister);
     let similarProject = [];

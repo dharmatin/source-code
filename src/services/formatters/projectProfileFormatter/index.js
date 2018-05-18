@@ -172,9 +172,12 @@ export const formatProject = (
   );
 
   if (!_.isNil(projectProfilePage.background_image)) {
-    const backgroundImages = _.map(JSON.parse(projectProfilePage.background_image), (imageUrl: string): any => {
-      return `"${imageUrl}";${projectProfilePage.project_name}`;
-    });
+    const backgroundImages = _.map(
+      JSON.parse(projectProfilePage.background_image),
+      (imageUrl: string): any => {
+        return `"${imageUrl}";${projectProfilePage.project_name}`;
+      }
+    );
 
     response.medias = mediaFormatter.formatListingImages(backgroundImages);
   }

@@ -46,8 +46,6 @@ describe('Authentication Middleware', () => {
     });
     it('Should return status code 200 if Authorization header is not set', done => {
       requester.get('/listing/v1/listings/nps499').end((err, res) => {
-        console.log(err);
-        console.log(res);
         expect(err).to.be.a('null');
         expect(res).have.status(200);
         done();

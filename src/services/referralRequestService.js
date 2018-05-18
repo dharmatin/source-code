@@ -132,7 +132,7 @@ export class ReferralRequestService {
     ) {
       referral = await this.referrals.getLatestReferralRequest({
         userId: listerId,
-        adsProjectId: extractListingId(listingId).id
+        adsProjectId: extractListingId(listingId).id,
       });
     }
 

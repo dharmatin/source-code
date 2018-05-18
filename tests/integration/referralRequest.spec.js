@@ -2,7 +2,7 @@ import getPort from 'get-port';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../src/app';
-import userInfo from '../fixture/userInfo.json';
+import userGroup from '../fixture/userGroup.json';
 
 chai.use(chaiHttp);
 const requester = chai.request(app);
@@ -21,10 +21,14 @@ describe('Referral Request', () => {
 
   describe('POST /v1/referrals/listings/:listingId/apply', () => {
     it('Should return status code 200 if Authorization header is valid', (done) => {
-      const token = userInfo.access_token;
+      const token = userGroup.accessTokenCustomer;
       requester
-        .post('/v1/referrals/listings/nps499/apply')
+        .post('/v1/referrals/listings/nps1503/apply')
         .set('Authorization', token)
+        .send({
+          'isSubscribed': 0,
+          'message': 'ada ajah'
+        })
         .end((err, res) => {
           expect(err).to.be.a('null');
           expect(res).have.status(200);
@@ -34,7 +38,7 @@ describe('Referral Request', () => {
 
     it('Should return status code 401 if Authorization header is not valid', (done) => {
       requester
-        .post('/v1/referrals/listings/nps499/apply')
+        .post('/v1/referrals/listings/nps1503/apply')
         .set('Authorization', '123')
         .end((err, res) => {
           expect(err).have.status(401);
