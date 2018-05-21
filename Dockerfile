@@ -3,6 +3,10 @@ FROM node:8
 #Install Updates
 RUN apt-get update -y
 
+# shush for encrpyt and decrypyt
+RUN curl -sL -o /usr/local/bin/shush \
+    https://github.com/realestate-com-au/shush/releases/download/v1.3.0/shush_linux_amd64 \
+    && chmod +x /usr/local/bin/shush
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 ADD package*.json /tmp/
