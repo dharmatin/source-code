@@ -5,9 +5,9 @@ steps:
       ENV: stag
       REGION: ap-southeast-1
     agents:
-      queue: ipp-regional-web:ci
+      queue: ipp-group:ci
       env: development
-      market: rumah123
+      market: Group
   - wait
   - label: ":white_check_mark: Test Lint & flow"
     command: "./scripts/eslint.sh"
@@ -15,9 +15,9 @@ steps:
       ENV: stag
       REGION: ap-southeast-1
     agents:
-      queue: ipp-regional-web:ci
+      queue: ipp-group:ci
       env: development
-      market: rumah123
+      market: Group
   - wait
   - label: ":white_check_mark: Unit Test"
     command: "./scripts/unit_test.sh"
@@ -25,9 +25,9 @@ steps:
       ENV: stag
       REGION: ap-southeast-1
     agents:
-      queue: ipp-regional-web:ci
+      queue: ipp-group:ci
       env: development
-      market: rumah123
+      market: Group
   - wait
 #  - label: integration test
 #    command: "echo integration test " #"./scripts/integration_test.sh"
