@@ -1,11 +1,14 @@
 FROM node:8
 
 #Install Updates
-RUN apt-get update -y
+RUN apt-get update -q
 
-# shush for encrpyt and decrypyt
+#Install net-tools
+RUN apt-get install -qy  python-pip  python-dev
+RUN pip install awscli
+
 RUN curl -sL -o /usr/local/bin/shush \
-    https://github.com/realestate-com-au/shush/releases/download/v1.3.0/shush_linux_amd64 \
+    https://github.com/realestate-com-au/shush/releases/download/v1.3.4/shush_linux_amd64 \
     && chmod +x /usr/local/bin/shush
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -16,7 +19,6 @@ RUN cd /tmp && npm install && npm install -g pm2
 RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
 
 WORKDIR /usr/src/app
-
 ADD . /usr/src/app
 
 
