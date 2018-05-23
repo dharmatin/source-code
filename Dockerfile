@@ -21,6 +21,9 @@ RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
 WORKDIR /usr/src/app
 ADD . /usr/src/app
 
+COPY scripts/entrypoint.sh /scripts/entrypoint.sh
+RUN chmod +x /scripts/entrypoint.sh
+RUN /scripts/entrypoint.sh
 
 #Re-compile all the JS files
 RUN npm run build
