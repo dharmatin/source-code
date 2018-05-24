@@ -12,16 +12,20 @@ db_database=AQICAHj1keVeoA9wgQiW1BgXe6UsTUpVjgI7V6Mt9byC0bH+PQHwV2l19YL1zZl9V/Qe
 
 
 ###   Application will start from here
-export DB_USER_NAME=$(/usr/local/bin/shush --region $REGION decrypt ${db_username})
-export DB_PASSWORD=$(/usr/local/bin/shush --region $REGION decrypt ${db_password})
-export DB_DATABASE=$(/usr/local/bin/shush --region $REGION decrypt ${db_database})
-export NEW_RELIC_LICENSE_KEY=$(/usr/local/bin/shush --region $REGION decrypt ${NEWRELIC_KEY})
+if [ "${RUNTIME}" == "server" ];
+  then
+    export DB_USER_NAME=$(/usr/local/bin/shush --region $REGION decrypt ${db_username})
+    export DB_PASSWORD=$(/usr/local/bin/shush --region $REGION decrypt ${db_password})
+    export DB_DATABASE=$(/usr/local/bin/shush --region $REGION decrypt ${db_database})
+    export NEW_RELIC_LICENSE_KEY=$(/usr/local/bin/shush --region $REGION decrypt ${NEWRELIC_KEY})
 
-touch /tmp/sample-configuration-file.conf                                              #  For sample
+    touch /tmp/sample-configuration-file.conf                                              #  For sample
 
-/bin/sed -i "s|DB_USER_NAME|${DB_USER_NAME}|g" /tmp/sample-configuration-file.conf     #   File for credential
-/bin/sed -i "s|DB_PASSWORD|${DB_PASSWORD}|g"   /tmp/sample-configuration-file.conf     #   File for credential
-/bin/sed -i "s|DB_DATABASE|${DB_DATABASE}|g"   /tmp/sample-configuration-file.conf     #   File for credential
+    /bin/sed -i "s|DB_USER_NAME|${DB_USER_NAME}|g" /tmp/sample-configuration-file.conf     #   File for credential
+    /bin/sed -i "s|DB_PASSWORD|${DB_PASSWORD}|g"   /tmp/sample-configuration-file.conf     #   File for credential
+    /bin/sed -i "s|DB_DATABASE|${DB_DATABASE}|g"   /tmp/sample-configuration-file.conf     #   File for credential
+else
+  echo  "Let the develop first "
+fi
 
 echo ${REGION}
-

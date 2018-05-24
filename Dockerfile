@@ -22,10 +22,12 @@ WORKDIR /usr/src/app
 ADD . /usr/src/app
 
 ARG REGION=ap-southeast-1
+ARG RUNTIME=server
 
 ENV NEWRELIC_KEY AQICAHj1keVeoA9wgQiW1BgXe6UsTUpVjgI7V6Mt9byC0bH+PQGTngzwJufitleBeVQPKwzxAAAAhzCBhAYJKoZIhvcNAQcGoHcwdQIBADBwBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDNatzBwqvri+exxUVQIBEIBDisZhk0sB+yWgpjzkswgMoLJw0dnlunGinvGQwDkMUCEOmCtcRnGp2US4sMMPQ+Jc4w4TWtMmuKJ5sh5N6ykEQKv4HQ==
 ENV NODE_ENV stag
 ENV NODE_ICU_DATA=./node_modules/full-icu
+
 
 COPY scripts/entrypoint.sh /scripts/entrypoint.sh
 RUN chmod +x /scripts/entrypoint.sh
