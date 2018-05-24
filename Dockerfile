@@ -30,7 +30,7 @@ ENV NODE_ICU_DATA=./node_modules/full-icu
 COPY scripts/entrypoint.sh /scripts/entrypoint.sh
 RUN chmod +x /scripts/entrypoint.sh
 RUN /scripts/entrypoint.sh
-RUN cat /tmp/secret.txt
+
 
 #Re-compile all the JS files
 RUN npm run build
