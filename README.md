@@ -6,11 +6,12 @@ API for New launch PPP and referral dashboard.
 run service on local 
 > `npm run start:local`
 
-### run service with docker
+### run service locally with docker
 * build docker first
-> `docker build . -t new-launch-api:latest`
+> `docker build . -t new-launch-api:latest  --build-arg RUNTIME=local `
 * running docker 
 > `docker run -t -d -p 9000:9000 --name container_newlaunch new-launch-api:latest`
+
 
 ## End Point
 List end point for new launch api
