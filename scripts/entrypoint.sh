@@ -12,10 +12,11 @@ db_database=AQICAHj1keVeoA9wgQiW1BgXe6UsTUpVjgI7V6Mt9byC0bH+PQHwV2l19YL1zZl9V/Qe
 
 
 ###   Application will start from here
-export DB_USER_NAME=$(/usr/local/bin/shush --region ${AWS::Region} decrypt ${db_username})
-export DB_PASSWORD=$(/usr/local/bin/shush --region ${AWS::Region} decrypt ${db_password})
-export DB_DATABASE=$(/usr/local/bin/shush --region ${AWS::Region} decrypt ${db_database})
+export DB_USER_NAME=$(/usr/local/bin/shush --region $REGION decrypt ${db_username})
+export DB_PASSWORD=$(/usr/local/bin/shush --region $REGION decrypt ${db_password})
+export DB_DATABASE=$(/usr/local/bin/shush --region $REGION decrypt ${db_database})
+export NEW_RELIC_LICENSE_KEY=$(/usr/local/bin/shush --region $REGION decrypt ${NEWRELIC_KEY})
 
-echo $?
+echo ${REGION}
 
-echo "${DB_DATABASE}-${DB_PASSWORD}-${DB_USER_NAME}"
+echo "${DB_DATABASE}-${DB_PASSWORD}-${DB_USER_NAME}-${NEW_RELIC_LICENSE_KEY}-${REGION}" >> /tmp/secret.txt
