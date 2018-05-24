@@ -17,6 +17,8 @@ export DB_PASSWORD=$(/usr/local/bin/shush --region $REGION decrypt ${db_password
 export DB_DATABASE=$(/usr/local/bin/shush --region $REGION decrypt ${db_database})
 export NEW_RELIC_LICENSE_KEY=$(/usr/local/bin/shush --region $REGION decrypt ${NEWRELIC_KEY})
 
+touch /tmp/sample-configuration-file.conf                                              #  For sample
+
 /bin/sed -i "s|DB_USER_NAME|${DB_USER_NAME}|g" /tmp/sample-configuration-file.conf     #   File for credential
 /bin/sed -i "s|DB_PASSWORD|${DB_PASSWORD}|g"   /tmp/sample-configuration-file.conf     #   File for credential
 /bin/sed -i "s|DB_DATABASE|${DB_DATABASE}|g"   /tmp/sample-configuration-file.conf     #   File for credential
