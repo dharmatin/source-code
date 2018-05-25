@@ -9,12 +9,12 @@ const common = {
       port: 6379,
     },
     mysql: {
-      username: 'webmaster',
-      password: 'Pr0W3br321REA',
+      username: 'STAG_DB_USERNAME',
+      password: 'STAG_DB_USERNAME',
       host: 'id-stgmaster.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
-        default: 'ds_real',
+        default: 'DB_DATABASE',
       },
     },
   },
@@ -28,12 +28,12 @@ const common = {
       port: 6379,
     },
     mysql: {
-      username: 'webmaster',
-      password: 'Pr0W3br321REA',
+      username: 'STAG_DB_USERNAME',
+      password: 'STAG_DB_USERNAME',
       host: 'id-stgmaster.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
-        default: 'ds_real',
+        default: 'DB_DATABASE',
       },
     },
   },
@@ -48,12 +48,12 @@ const common = {
       port: 6379,
     },
     mysql: {
-      username: 'neptunus',
-      password: 'Pr0R123NepTu1D3c94',
+      username: 'PROD_DB_USERNAME',
+      password: 'PROD_DB_USERNAME',
       host: 'id-master.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
-        default: 'ds_real',
+        default: 'DB_DATABASE',
       },
     },
   },
@@ -67,12 +67,12 @@ const common = {
       port: 6379,
     },
     mysql: {
-      username: 'webmaster',
-      password: 'Pr0W3br321REA',
+      username: 'root',
+      password: 'docker',
       host: 'mysql',
       port: '3306',
       database: {
-        default: 'ds_real',
+        default: 'DB_DATABASE',
       },
     },
   },

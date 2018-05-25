@@ -4,11 +4,13 @@ API for New launch PPP and referral dashboard.
 ## Development
 ### run service with npm
 run service on local 
-> `npm run start:local`
+* Create your own connection.js configuration from example.connection.js
+* `npm run start:local`
 
 ### run service locally with docker
 * build docker first
 > `docker build . -t new-launch-api:latest  --build-arg RUNTIME=local `
+
 * running docker 
 > `docker run -t -d -p 9000:9000 --name container_newlaunch new-launch-api:latest`
 

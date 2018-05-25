@@ -12,3 +12,6 @@ dist/
 .buildpath
 .project
 .settings
+
+# credential file
+src/config/connection.js
