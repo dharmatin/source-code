@@ -10,7 +10,7 @@ const common = {
     },
     mysql: {
       username: 'STAG_DB_USERNAME',
-      password: 'STAG_DB_USERNAME',
+      password: 'STAG_DB_PASSWORD',
       host: 'id-stgmaster.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
@@ -29,7 +29,7 @@ const common = {
     },
     mysql: {
       username: 'STAG_DB_USERNAME',
-      password: 'STAG_DB_USERNAME',
+      password: 'STAG_DB_PASSWORD',
       host: 'id-stgmaster.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
@@ -49,7 +49,7 @@ const common = {
     },
     mysql: {
       username: 'PROD_DB_USERNAME',
-      password: 'PROD_DB_USERNAME',
+      password: 'PROD_DB_PASSWORD',
       host: 'id-master.cjretgqtdl2a.ap-southeast-1.rds.amazonaws.com',
       port: '3306',
       database: {
