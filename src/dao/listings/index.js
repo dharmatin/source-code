@@ -68,4 +68,19 @@ export default {
       .rows(row);
     return listingClient.searchAsync(queryListingByUserId);
   },
+  searchOrganisationById: async(id: string): Object => {
+    let conditionQ = `developer_company_id:${id} AND status:Online`;
+
+    const fields =
+      'id:developer_company_id, name:developer_name, color:developer_brandcolor, email:ads_email , additionalEmail:ads_email2, mainContact:ads_contact, ' +
+      'secondaryContact:ads_contact2 , whatsapp:project_whatsapp , city:developer_city , province:developer_province , district:developer_district , ' +
+      'address:developer_address, logo:developer_logo  ';
+
+    const queryListingById = listingClient
+      .createQuery()
+      .q(conditionQ)
+      .fl(fields)
+      .rows(1);
+    return listingClient.searchAsync(queryListingById);
+  },
 };

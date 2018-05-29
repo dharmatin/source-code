@@ -3,6 +3,7 @@ import listingCore from '../dao/listings';
 import dailyTrackingDAO from '../dao/listings/dailytrackingViews';
 import projectTrackingDAO from '../dao/listings/projectTrackingViews';
 import { formatProjectProfile } from './formatters/projectProfileFormatter';
+import { formatOrganisationInfo } from './formatters/organisationFormatter';
 import { formatSuggestionProjects } from './formatters/suggestionProjectFormatter';
 import { formatMultiLanguageAmenities } from './formatters/amenitiesFormatter';
 import { extractListingId } from '../libs/utility';
@@ -116,6 +117,17 @@ export class ListingService {
     }
 
     return formatMultiLanguageAmenities(result.response);
+  }
+
+  async getOrganisationById(organisationId: string): Object {
+    const result = await this.listings.searchOrganisationById(organisationId);
+
+    const status = result.responseHeader.status;
+    if (status !== 0) {
+      throw new Error('Solr search error!');
+    }
+
+    return formatOrganisationInfo(result.response);
   }
 }
 

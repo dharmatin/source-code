@@ -11,6 +11,13 @@ export const formatDeveloperInfo = (
   dataDeveloper: Object
 ): Array<Organisation> => {
   const organisations = [];
+
+  organisations.push(formatDeveloperInfoById(dataDeveloper));
+
+  return organisations;
+};
+
+const formatDeveloperInfoById = (dataDeveloper: Object): Organisation => {
   const organisation = {};
 
   organisation.id = dataDeveloper.id;
@@ -44,9 +51,7 @@ export const formatDeveloperInfo = (
     address: dataDeveloper.address,
   });
 
-  organisations.push(organisation);
-
-  return organisations;
+  return organisation;
 };
 
 export const formatDeveloperLink = (developer: Object): string => {
@@ -57,4 +62,14 @@ export const formatDeveloperLink = (developer: Object): string => {
   formatUrl += slugify(developer.name) + '/' + developer.id;
 
   return config.url.base + formatUrl;
+};
+
+export const formatOrganisationInfo = (
+  dataDeveloper: Object
+): Organisation | Object => {
+  if (dataDeveloper.numFound === 0) {
+    return {};
+  } else {
+    return formatDeveloperInfoById(dataDeveloper.docs[0]);
+  }
 };

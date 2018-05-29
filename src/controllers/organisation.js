@@ -5,11 +5,30 @@ import projectProfileService from '../services/projectProfileService';
 import {
   handleInternalServerError,
   handleSuccess,
+  handleNotFound,
 } from '../libs/responseHandler';
 import { getRequestForPagingParam } from '../libs/utility';
 
 @web.basePath('/v1/organisations')
 class OrganisationController extends BaseController {
+  @web.get('/:id')
+  async findAllOrganisationByIdAction(req, res) {
+    try {
+      const organisation = await projectProfileService.getOrganisationById(
+        req.params.id
+      );
+
+      if (_.isEmpty(organisation)) {
+        handleNotFound(res);
+      } else {
+        handleSuccess(res, organisation);
+      }
+    } catch (e) {
+      handleInternalServerError(res);
+      throw new Error(e);
+    }
+  }
+
   @web.get('/:id/projects')
   async findAllProjectByOrganisationIdAction(req, res) {
     try {
