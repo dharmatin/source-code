@@ -19,7 +19,7 @@ if [ "${RUNTIME}" == "server" ];
   then
     cp -pv /usr/src/app/src/config/example.connection.js /usr/src/app/src/config/connection.js
     configuration_file=/usr/src/app/src/config/connection.js
-
+    echo -e "RUNTIME---${RUNTIME}--${REGION}   For infra code \n\n"
     export STAG_DB_USERNAME=$(/usr/local/bin/shush --region $REGION decrypt ${stag_db_username})
     export STAG_DB_PASSWORD=$(/usr/local/bin/shush --region $REGION decrypt ${stag_db_password})
 
@@ -37,7 +37,7 @@ if [ "${RUNTIME}" == "server" ];
 
     /bin/sed -i "s|DB_DATABASE|${DB_DATABASE}|g"   ${configuration_file}     #   File for credential
 else
-  echo  "Let the develop first "
+  echo  "Let them develop first "
 fi
 
 echo ${REGION}
