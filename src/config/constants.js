@@ -35,6 +35,14 @@ const constants = {
     DEVELOPER: 32,
   },
   EMAIL_FROM: 'no-reply@rumah123.com',
+  LISTER_TYPE: {
+    DEVELOPER: 'agency',
+    AGENT: 'agent'
+  },
+  FORMAT_LISTING_TYPE: {
+    SERP: 'serp',
+    DETAIL: 'detail'
+  }
 };
 
 export default constants;
