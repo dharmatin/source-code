@@ -94,3 +94,8 @@ export const base64Decode = (data: string): string => {
 export const isValidDate = (date: string): boolean => {
   return moment(date).isValid();
 };
+
+export const timeStampToISOFormatting = (timestamp: number): string => {
+  const dateFormatted: string = moment.unix(timestamp).format('YYYY-MM-DD HH:mm:ss');
+  return toISOFormatting(dateFormatted);
+};
