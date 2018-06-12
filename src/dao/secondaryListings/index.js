@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 import SolrClient from '../../libs/connections/SolrClient';
-import type { SimilarityCriteria, RangeTolerance } from '../../services/formatters/listingFormatter/type';
+import type { SimilarityCriteria, RangeTolerance } from '../../services/formatters/secondaryListingFormatter/listingFormatter/type';
 
 const CORE = 'listing';
 const { client: solrClient } = new SolrClient(CORE);

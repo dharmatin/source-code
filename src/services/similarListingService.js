@@ -1,6 +1,6 @@
 // @flow
 import _ from 'lodash';
-import type { Listing, SimilarityCriteria, RangeTolerance, SearchResponse } from './formatters/listingFormatter/type';
+import type { Listing, SimilarityCriteria, RangeTolerance, SearchResponse } from './formatters/secondaryListingFormatter/listingFormatter/type';
 import formatListing from './formatters/secondaryListingFormatter/listingFormatter';
 import { SecondaryListingDao } from '../dao/secondaryListings';
 import config from '../config';
