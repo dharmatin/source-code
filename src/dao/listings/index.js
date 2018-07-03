@@ -15,6 +15,7 @@ export default {
     const queryListingById = listingClient
       .createQuery()
       .q(conditionQ)
+      .sort({'created_date': 'asc'})
       .start(0)
       .rows(100);
     return listingClient.searchAsync(queryListingById);
