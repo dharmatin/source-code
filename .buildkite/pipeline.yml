@@ -8,6 +8,8 @@ steps:
         projectname: "Rumah123-NewLaunch"
         exclusions: "test/**,node_modules/**"
         breakbuild: false
+    agents:
+      queue: ipp-group:ci
 
   - label: ":package: Build & Push"
     command: "./scripts/package.sh"
