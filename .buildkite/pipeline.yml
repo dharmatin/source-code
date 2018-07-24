@@ -1,4 +1,14 @@
 steps:
+
+  - label: "Run Sonar Scan and Check the Quality Gate Status"
+    branches: master
+    plugins:
+      ssh://git@git.realestate.com.au/cide/sonar-buildkite-plugin#a6d8d17d7c3dceb2223d119b992d7759e557c7a5:
+        projectkey: rumah123-newlaunch
+        projectname: "Rumah123-NewLaunch"
+        exclusions: "test/**,node_modules/**"
+        breakbuild: false
+
   - label: ":package: Build & Push"
     command: "./scripts/package.sh"
     env:
