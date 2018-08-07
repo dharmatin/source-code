@@ -103,7 +103,7 @@ export const formatProject = (
     {};
 
   if (!_.isEmpty(attachments)) {
-    listingAttributes.downloadUrl = !_.isEmpty(attachments.brochure) ?
+    listingAttributes.downloadUrl = !_.isEmpty(attachments.brochure) && projectProfilePage.is_attachment ?
       attachments.brochure :
       '';
   }
