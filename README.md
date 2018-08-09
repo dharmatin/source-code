@@ -5,7 +5,14 @@ API for New launch PPP and referral dashboard.
 ### run service with npm
 run service on local 
 * Create your own connection.js configuration from example.connection.js
-* `npm run start:local`
+> `npm run start:local`
+
+### solve the error for `windows` users
+* get error : `MSBUILD : error MSB3428: Could not load the Visual C++ component "VCBuild.exe". To fix this, 1) install the .NET Framework 2.0 SDK, 2) install Microsoft Visual Studio 2005 or 3) add the location of the component to the system path if it is installed elsewhere.`
+> solve : install visual studio community, web installer (https://go.microsoft.com/fwlink/?LinkId=532606&clcid=0x409) or iso file (https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409)
+
+* get error : `gyp ERR! stack Error: Can't find Python executable "python", you can set the PYTHON env variable.`
+> solve : install python version 2.7.10 (https://www.python.org/ftp/python/2.7.10/python-2.7.10.amd64.msi) and set environment options in environment variable.
 
 ### run service locally with docker
 * build docker first

@@ -24,7 +24,8 @@
       "git add"
     ]
   },
-  "author": "",
+  "author": "Rumah123 Squad Team",
+  "private": true,
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
