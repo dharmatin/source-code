@@ -68,7 +68,7 @@ export const formatAttributesInfo = (dataAttributes: Object): Attributes => {
     attribute.phoneLine = dataAttributes.phoneLine.toString();
   }
 
-  if (!_.isNil(dataAttributes.internet)) {
+  if (!_.isNil(dataAttributes.internet) && dataAttributes.internet) {
     attribute.internet = 'Broadband';
   }
 
