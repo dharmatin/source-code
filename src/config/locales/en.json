@@ -49,5 +49,9 @@
         "referral_request_deny": "Sorry, your request is denied",
         "referral_request_remove": "Sorry, you no longer have access"
     },
-    "new_member": "New Member"
+    "new_member": "New Member",
+    "location": "Location",
+    "developer": "Developer",
+    "development": "Project",
+    "unit": "Unit"
 }

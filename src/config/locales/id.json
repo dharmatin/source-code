@@ -49,5 +49,9 @@
         "referral_request_deny": "Maaf permintaan Anda ditolak",
         "referral_request_remove": "Maaf, Anda tidak lagi memiliki akses"
     },
-    "new_member": "Anggota Baru"
+    "new_member": "Anggota Baru",
+    "location": "Lokasi",
+    "developer": "Pengembang",
+    "development": "Proyek",
+    "unit": "Unit"
 }

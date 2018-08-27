@@ -1,6 +1,7 @@
 // @flow
 import _ from 'lodash';
 import constant from '../../../config/constants';
+import config from '../../../config';
 
 export default class SuggestionSearchFormatter {
   formatLocationLevel = (params: Array): Object => {
@@ -9,7 +10,7 @@ export default class SuggestionSearchFormatter {
       type: constant.LOCATION_LEVEL.TITLE,
       title: item.province_name,
       subtitle: constant.LOCATION_LEVEL.PROVINCE,
-      label: 'Location',
+      label: config.translator.location,
       multilanguagePlace: {
         'en-GB': {
           level1: item.province_name,
@@ -25,7 +26,7 @@ export default class SuggestionSearchFormatter {
       type: constant.LOCATION_LEVEL.TITLE,
       title: item.city_province,
       subtitle: constant.LOCATION_LEVEL.CITY,
-      label: 'Location',
+      label: config.translator.location,
       multilanguagePlace: {
         'en-GB': {
           level1: item.province_name,
@@ -43,7 +44,7 @@ export default class SuggestionSearchFormatter {
       type: constant.LOCATION_LEVEL.TITLE,
       title: item.district_city,
       subtitle: constant.LOCATION_LEVEL.DISTRICT,
-      label: 'Location',
+      label: config.translator.location,
       multilanguagePlace: {
         'en-GB': {
           level1: item.province_name,
@@ -66,7 +67,7 @@ export default class SuggestionSearchFormatter {
       id: item.id,
       type: 'developer',
       title: item.developer_name,
-      label: 'Developer',
+      label: config.translator.developer,
       multilanguagePlace: {
         'en-GB': {
           level1: item.province_name,
@@ -89,7 +90,7 @@ export default class SuggestionSearchFormatter {
       id: item.developer_company_id,
       type: 'development',
       title: item.project_name,
-      label: 'Development',
+      label: config.translator.development,
       multilanguagePlace: {
         'en-GB': {
           level1: item.province_name,
@@ -113,7 +114,7 @@ export default class SuggestionSearchFormatter {
       type: 'unit',
       title: `${item.subproject_name} - ${item.tagline}`,
       subtitle: item.project_category,
-      label: 'Unit',
+      label: config.translator.unit,
       multilanguagePlace: {
         'en-GB': {
           level1: item.province_name,
