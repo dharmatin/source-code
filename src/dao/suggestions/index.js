@@ -135,13 +135,13 @@ export default {
     const responseDevelopment = await searchByDevelopment(query);
     const responseSubUnits = await searchBySubUnits(query);
 
-    return [
-      resolveSolrResponse(responseLocationProvince),
-      resolveSolrResponse(responseLocationCity),
-      resolveSolrResponse(responseLocationDistrict),
-      resolveSolrResponse(responseDeveloper),
-      resolveSolrResponse(responseDevelopment),
-      resolveSolrResponse(responseSubUnits),
-    ];
+    return {
+      provinces: resolveSolrResponse(responseLocationProvince),
+      cities: resolveSolrResponse(responseLocationCity),
+      district: resolveSolrResponse(responseLocationDistrict),
+      developer: resolveSolrResponse(responseDeveloper),
+      development: resolveSolrResponse(responseDevelopment),
+      subunit: resolveSolrResponse(responseSubUnits)
+    };
   },
 };

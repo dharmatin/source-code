@@ -4,8 +4,8 @@ import constant from '../../../config/constants';
 import config from '../../../config';
 
 export default class SuggestionSearchFormatter {
-  formatLocationLevel = (params: Array): Object => {
-    const provinces = _.map(params[0], (item: string): Object => ({
+  formatLocationLevel = ({provinces, cities, district}: Object): Object => {
+    const province = _.map(provinces, (item: string): Object => ({
       id: '',
       type: constant.LOCATION_LEVEL.TITLE,
       title: item.province_name,
@@ -21,7 +21,7 @@ export default class SuggestionSearchFormatter {
       },
     }));
 
-    const cities = _.map(params[1], (item: string): Object => ({
+    const city = _.map(cities, (item: string): Object => ({
       id: '',
       type: constant.LOCATION_LEVEL.TITLE,
       title: item.city_province,
@@ -39,7 +39,7 @@ export default class SuggestionSearchFormatter {
       },
     }));
 
-    const district = _.map(params[2], (item: string): Object => ({
+    const districts = _.map(district, (item: string): Object => ({
       id: '',
       type: constant.LOCATION_LEVEL.TITLE,
       title: item.district_city,
@@ -59,11 +59,11 @@ export default class SuggestionSearchFormatter {
       },
     }));
 
-    return [...provinces, ...cities, ...district];
+    return [...province, ...city, ...districts];
   };
 
-  formatDeveloper = (params: Array): Object => {
-    const developer = _.map(params[3], (item: string): Object => ({
+  formatDeveloper = ({developer}: Array): Object => {
+    const developers = _.map(developer, (item: string): Object => ({
       id: item.id,
       type: 'developer',
       title: item.developer_name,
@@ -82,11 +82,11 @@ export default class SuggestionSearchFormatter {
       },
     }));
 
-    return [...developer];
+    return [...developers];
   };
 
-  formatDevelopment = (params: Array): Object => {
-    const development = _.map(params[4], (item: string): Object => ({
+  formatDevelopment = ({development}: Array): Object => {
+    const developments = _.map(development, (item: string): Object => ({
       id: item.developer_company_id,
       type: 'development',
       title: item.project_name,
@@ -105,11 +105,11 @@ export default class SuggestionSearchFormatter {
       },
     }));
 
-    return [...development];
+    return [...developments];
   };
 
-  formatSubUnit = (params: Array): Object => {
-    const subUnit = _.map(params[5], (item: string): Object => ({
+  formatSubUnit = ({subunit}: Array): Object => {
+    const subUnit = _.map(subunit, (item: string): Object => ({
       id: item.parent_id,
       type: 'unit',
       title: `${item.subproject_name} - ${item.tagline}`,
