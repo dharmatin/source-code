@@ -1,8 +1,9 @@
 // @flow
 import _ from 'lodash';
 import SolrClient from '../../libs/connections/SolrClient';
-const LISTING_CORE = 'listing_v2';
-const { client: listingClient } = new SolrClient(LISTING_CORE);
+import constants from '../../config/constants';
+
+const { client: listingClient } = new SolrClient(constants.SOLR_TABLE.LISTING_CORE);
 
 export default {
   searchProject: async(id: string): Object => {

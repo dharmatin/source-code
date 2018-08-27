@@ -42,6 +42,32 @@ const constants = {
   FORMAT_LISTING_TYPE: {
     SERP: 'serp',
     DETAIL: 'detail'
+  },
+  SOLR_TABLE: {
+    LISTING_CORE: 'listing_v2'
+  },
+  SUB_UNIT_NEWLAUNCH: {
+    TOWER: 'tower',
+    BLOCK: 'block',
+    CLUSTER: 'cluster'
+  },
+  COMMON: {
+    BLANK_SPACE: ' ',
+    ASTERISK: '*',
+    BLANK: ''
+  },
+  DEFAULT_QUERY: {
+    LIMIT_SUGGESTION: 20
+  },
+  LOCATION_LEVEL: {
+    PROVINCE: 'province',
+    CITY: 'city',
+    DISTRICT: 'district',
+    TITLE: 'location'
+  },
+  SORTING: {
+    ASCENDING: 'ASC',
+    DESCENDING: 'DESC'
   }
 };
 
