@@ -4,11 +4,18 @@ import _ from 'lodash';
 import constants from '../../config/constants';
 import { resolveSolrResponse } from '../../helpers/resolver';
 
+const {
+  COMMON: { BLANK_SPACE, ASTERISK },
+  LOCATION_LEVEL: { PROVINCE, CITY, DISTRICT },
+  SORTING: { ASCENDING, DESCENDING },
+  NEWLAUNCH: { SUB_UNIT: { TOWER, CLUSTER, BLOCK } },
+  SOLR_TABLE: {LISTING_CORE}
+} = constants;
 const { client: listingClient } = new SolrClient(
-  constants.SOLR_TABLE.LISTING_CORE
+  LISTING_CORE
 );
 const replaceSpaceWithAsterisk = (query: string): string =>
-  _.replace(query, constants.COMMON.BLANK_SPACE, constants.COMMON.ASTERISK);
+  _.replace(query, BLANK_SPACE, ASTERISK);
 const field = [
   'district_name',
   'city_name',
@@ -37,11 +44,11 @@ const searchByLocation = (query: string, type: string): Array => {
   let caseCondition, groupField, sort;
 
   switch (type) {
-  case constants.LOCATION_LEVEL.PROVINCE:
+  case PROVINCE:
     caseCondition = `province_name:(*${replaceSpaceWithAsterisk(query)}*)`;
     groupField = sort = 'province_name';
     break;
-  case constants.LOCATION_LEVEL.CITY:
+  case CITY:
     caseCondition = `city_province:(*${replaceSpaceWithAsterisk(query)}*)`;
     groupField = sort = 'city_name';
     break;
@@ -55,7 +62,7 @@ const searchByLocation = (query: string, type: string): Array => {
     .createQuery()
     .q(baseCondition + caseCondition)
     .group({on: true, field: groupField, main: true})
-    .sort({[sort]: constants.SORTING.ASCENDING})
+    .sort({[sort]: ASCENDING})
     .fl(field);
 
   return listingClient.searchAsync(createQuery);
@@ -71,7 +78,7 @@ const searchByDeveloper = (query: string): Array => {
     .q(condition)
     .fl(field)
     .sort({
-      active: constants.SORTING.DESCENDING,
+      active: DESCENDING,
     });
 
   return listingClient.searchAsync(createQuery);
@@ -90,7 +97,7 @@ const searchByDevelopment = (query: string): Array => {
     .q(condition)
     .fl(field)
     .sort({
-      active: constants.SORTING.DESCENDING,
+      active: DESCENDING,
     });
 
   return listingClient.searchAsync(createQuery);
@@ -102,9 +109,9 @@ const searchBySubUnits = (query: string): Array => {
     tagline:(*${replaceSpaceWithAsterisk(query)}*)) AND 
     (developer_company_id:0 AND status:Online AND -ads_project_id:0 AND 
     project_category:(
-    ${constants.SUB_UNIT_NEWLAUNCH.TOWER} 
-    ${constants.SUB_UNIT_NEWLAUNCH.BLOCK} 
-    ${constants.SUB_UNIT_NEWLAUNCH.CLUSTER}
+    ${TOWER} 
+    ${BLOCK} 
+    ${CLUSTER}
     ))
   `;
 
@@ -121,15 +128,15 @@ export default {
   searchQuery: async(query: string): Object => {
     const responseLocationProvince = await searchByLocation(
       query,
-      constants.LOCATION_LEVEL.PROVINCE
+      PROVINCE
     );
     const responseLocationCity = await searchByLocation(
       query,
-      constants.LOCATION_LEVEL.CITY
+      CITY
     );
     const responseLocationDistrict = await searchByLocation(
       query,
-      constants.LOCATION_LEVEL.DISTRICT
+      DISTRICT
     );
     const responseDeveloper = await searchByDeveloper(query);
     const responseDevelopment = await searchByDevelopment(query);

@@ -16,14 +16,12 @@ export class SuggestionsService extends formatter {
 
   async getSuggestionsList(query: string, limit: number): Object {
     const suggestionSearch = await this.suggestions.searchQuery(query, limit);
-
     const suggestionItems = [
       ...this.formatLocationLevel(suggestionSearch),
       ...this.formatDeveloper(suggestionSearch),
       ...this.formatDevelopment(suggestionSearch),
       ...this.formatSubUnit(suggestionSearch),
     ];
-
     const limitItems = this.setLimitItems(suggestionItems, limit);
 
     return {

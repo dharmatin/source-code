@@ -19,7 +19,6 @@ class SuggestionController extends BaseController {
         query,
         limit || constant.DEFAULT_QUERY.LIMIT_SUGGESTION,
       );
-
       return suggestions.totalCount > 0 ?
         handleSuccess(res, suggestions) :
         handleNotFound(res);

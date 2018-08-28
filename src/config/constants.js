@@ -46,10 +46,15 @@ const constants = {
   SOLR_TABLE: {
     LISTING_CORE: 'listing_v2'
   },
-  SUB_UNIT_NEWLAUNCH: {
-    TOWER: 'tower',
-    BLOCK: 'block',
-    CLUSTER: 'cluster'
+  NEWLAUNCH: {
+    SUB_UNIT: {
+      TOWER: 'tower',
+      BLOCK: 'block',
+      CLUSTER: 'cluster'
+    },
+    DEVELOPER: 'developer',
+    DEVELOPMENT: 'development',
+    UNIT: 'unit'
   },
   COMMON: {
     BLANK_SPACE: ' ',
