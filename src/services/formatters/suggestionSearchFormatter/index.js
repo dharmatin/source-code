@@ -2,6 +2,8 @@
 import _ from 'lodash';
 import constant from '../../../config/constants';
 import config from '../../../config';
+import type { MultiLanguagePlace } from '../addressFormatter/types';
+import type { Suggestion } from './types';
 
 const {
   LOCATION_LEVEL: { TITLE, PROVINCE, CITY, DISTRICT },
@@ -9,7 +11,7 @@ const {
 } = constant;
 
 export default class SuggestionSearchFormatter {
-  multilanguagesPlaceFormat = ({ level1, level2, level3 }: string): Object => ({
+  multilanguagesPlaceFormat = ({ level1, level2, level3 }: string): MultiLanguagePlace => ({
     'en-GB': {
       level1,
       level2,
@@ -22,8 +24,8 @@ export default class SuggestionSearchFormatter {
     },
   });
 
-  formatLocationLevel = ({ provinces, cities, district }: Object): Object => {
-    const province = _.map(provinces, (item: string): Object => {
+  formatLocationLevel = ({ provinces, cities, district }: Object): Suggestion => {
+    const province = _.map(provinces, (item: string): Suggestion => {
       const { province_name, province_id } = item;
       return {
         id: province_id,
@@ -37,7 +39,7 @@ export default class SuggestionSearchFormatter {
       };
     });
 
-    const city = _.map(cities, (item: string): Object => {
+    const city = _.map(cities, (item: string): Suggestion => {
       const { province_name, city_name, city_province, city_id } = item;
       return {
         id: city_id,
@@ -52,7 +54,7 @@ export default class SuggestionSearchFormatter {
       };
     });
 
-    const districts = _.map(district, (item: string): Object => {
+    const districts = _.map(district, (item: string): Suggestion => {
       const {
         district_city,
         district_id,
@@ -77,8 +79,8 @@ export default class SuggestionSearchFormatter {
     return [...province, ...city, ...districts];
   };
 
-  formatDeveloper = ({ developer }: Array): Object => {
-    const developers = _.map(developer, (item: string): Object => {
+  formatDeveloper = ({ developer }: Array): Suggestion => {
+    const developers = _.map(developer, (item: string): Suggestion => {
       const {
         id,
         developer_name,
@@ -102,8 +104,8 @@ export default class SuggestionSearchFormatter {
     return [...developers];
   };
 
-  formatDevelopment = ({ development }: Array): Object => {
-    const developments = _.map(development, (item: string): Object => {
+  formatDevelopment = ({ development }: Array): Suggestion => {
+    const developments = _.map(development, (item: string): Suggestion => {
       const {
         developer_company_id,
         project_name,
@@ -127,8 +129,8 @@ export default class SuggestionSearchFormatter {
     return [...developments];
   };
 
-  formatSubUnit = ({ subunit }: Array): Object => {
-    const subUnit = _.map(subunit, (item: string): Object => {
+  formatSubUnit = ({ subunit }: Array): Suggestion => {
+    const subUnit = _.map(subunit, (item: string): Suggestion => {
       const {
         id,
         subproject_name: subProjectName,
