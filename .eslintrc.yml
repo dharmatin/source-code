@@ -25,8 +25,9 @@ rules:
     - "always"
   camelcase: 
     - 2
-    - properties: "always"
-  comma-dangle: 
+    - properties: "never"
+      ignoreDestructuring: true
+  comma-dangle:
     - 2
     - "only-multiline"
   indent: 
