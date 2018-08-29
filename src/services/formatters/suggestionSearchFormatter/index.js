@@ -11,7 +11,11 @@ const {
 } = constant;
 
 export default class SuggestionSearchFormatter {
-  multilanguagesPlaceFormat = ({ level1, level2, level3 }: string): MultiLanguagePlace => ({
+  _multilanguagesPlaceFormat = ({
+    level1,
+    level2,
+    level3,
+  }: Object): MultiLanguagePlace => ({
     'en-GB': {
       level1,
       level2,
@@ -24,8 +28,12 @@ export default class SuggestionSearchFormatter {
     },
   });
 
-  formatLocationLevel = ({ provinces, cities, district }: Object): Suggestion => {
-    const province = _.map(provinces, (item: string): Suggestion => {
+  formatLocationLevel = ({
+    provinces,
+    cities,
+    district,
+  }: Object): Array<Suggestion> => {
+    const province = _.map(provinces, (item: Object): Object => {
       const { province_name, province_id } = item;
       return {
         id: province_id,
@@ -33,13 +41,13 @@ export default class SuggestionSearchFormatter {
         title: province_name,
         subtitle: PROVINCE,
         label: config.translator.location,
-        multilanguagePlace: this.multilanguagesPlaceFormat({
+        multilanguagePlace: this._multilanguagesPlaceFormat({
           level1: province_name,
         }),
       };
     });
 
-    const city = _.map(cities, (item: string): Suggestion => {
+    const city = _.map(cities, (item: Object): Object => {
       const { province_name, city_name, city_province, city_id } = item;
       return {
         id: city_id,
@@ -47,14 +55,14 @@ export default class SuggestionSearchFormatter {
         title: city_province,
         subtitle: CITY,
         label: config.translator.location,
-        multilanguagePlace: this.multilanguagesPlaceFormat({
+        multilanguagePlace: this._multilanguagesPlaceFormat({
           level1: province_name,
           level2: city_name,
         }),
       };
     });
 
-    const districts = _.map(district, (item: string): Suggestion => {
+    const districts = _.map(district, (item: Object): Object => {
       const {
         district_city,
         district_id,
@@ -68,7 +76,7 @@ export default class SuggestionSearchFormatter {
         title: district_city,
         subtitle: DISTRICT,
         label: config.translator.location,
-        multilanguagePlace: this.multilanguagesPlaceFormat({
+        multilanguagePlace: this._multilanguagesPlaceFormat({
           level1: province_name,
           level2: city_name,
           level3: district_name,
@@ -79,8 +87,8 @@ export default class SuggestionSearchFormatter {
     return [...province, ...city, ...districts];
   };
 
-  formatDeveloper = ({ developer }: Array): Suggestion => {
-    const developers = _.map(developer, (item: string): Suggestion => {
+  formatDeveloper = ({ developer }: Object): Array<Suggestion> => {
+    const developers = _.map(developer, (item: Object): Object => {
       const {
         id,
         developer_name,
@@ -93,7 +101,7 @@ export default class SuggestionSearchFormatter {
         type: DEVELOPER,
         title: developer_name,
         label: config.translator.developer,
-        multilanguagePlace: this.multilanguagesPlaceFormat({
+        multilanguagePlace: this._multilanguagesPlaceFormat({
           level1: province_name,
           level2: city_name,
           level3: district_name,
@@ -104,8 +112,8 @@ export default class SuggestionSearchFormatter {
     return [...developers];
   };
 
-  formatDevelopment = ({ development }: Array): Suggestion => {
-    const developments = _.map(development, (item: string): Suggestion => {
+  formatDevelopment = ({ development }: Object): Array<Suggestion> => {
+    const developments = _.map(development, (item: Object): Object => {
       const {
         developer_company_id,
         project_name,
@@ -118,7 +126,7 @@ export default class SuggestionSearchFormatter {
         type: DEVELOPMENT,
         title: project_name,
         label: config.translator.development,
-        multilanguagePlace: this.multilanguagesPlaceFormat({
+        multilanguagePlace: this._multilanguagesPlaceFormat({
           level1: province_name,
           level2: city_name,
           level3: district_name,
@@ -129,8 +137,8 @@ export default class SuggestionSearchFormatter {
     return [...developments];
   };
 
-  formatSubUnit = ({ subunit }: Array): Suggestion => {
-    const subUnit = _.map(subunit, (item: string): Suggestion => {
+  formatSubUnit = ({ subunit }: Object): Array<Suggestion> => {
+    const subUnit = _.map(subunit, (item: Object): Object => {
       const {
         id,
         subproject_name: subProjectName,
@@ -146,7 +154,7 @@ export default class SuggestionSearchFormatter {
         title: `${subProjectName} - ${tagline}`,
         subtitle: project_category,
         label: config.translator.unit,
-        multilanguagePlace: this.multilanguagesPlaceFormat({
+        multilanguagePlace: this._multilanguagesPlaceFormat({
           level1: province_name,
           level2: city_name,
           level3: district_name,

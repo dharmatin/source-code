@@ -2,6 +2,7 @@
 import suggestionDao from '../dao/suggestions';
 import formatter from './formatters/suggestionSearchFormatter';
 import _ from 'lodash';
+import type { Suggestion } from './formatters/suggestionSearchFormatter/types';
 
 export class SuggestionsService extends formatter {
   suggestions: Object;
@@ -11,8 +12,10 @@ export class SuggestionsService extends formatter {
     this.suggestions = suggestions;
   }
 
-  setLimitItems = (items: Array, limit: number): Object =>
-    items.slice(0, limit);
+  setLimitItems = (
+    items: Array<Suggestion>,
+    limit: number
+  ): Array<Suggestion> => items.slice(0, limit);
 
   async getSuggestionsList(query: string, limit: number): Object {
     const suggestionSearch = await this.suggestions.searchQuery(query, limit);

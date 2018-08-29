@@ -5,7 +5,7 @@ export type Suggestion = {
   id: string,
   type: string,
   title: string,
-  subtitle: string,
+  subtitle?: string,
   label: string,
-  multilanguagePlace: MultiLanguagePlace
+  multilanguagePlace: MultiLanguagePlace,
 };
