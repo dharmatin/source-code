@@ -28,6 +28,7 @@ describe('Authentication middleware', () => {
 
       return expect(result).to.deep.equal({
         userID: result.userID,
+        developerCompanyId: result.developerCompanyId,
         userGroup: result.userGroup,
         accessToken: result.accessToken,
       });
