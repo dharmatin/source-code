@@ -117,7 +117,7 @@ const searchBySubUnits = (query: string): Object => {
     .createQuery()
     .q(condition)
     .fl(field)
-    .sort({ project_category: 'ASC' });
+    .sort({ project_category: ASCENDING });
 
   return listingClient.searchAsync(createQuery);
 };
