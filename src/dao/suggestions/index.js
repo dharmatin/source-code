@@ -22,7 +22,6 @@ const field = [
   'city_id',
   'district_id',
   'developer_name',
-  'developer_company_id',
   'tagline',
   'city_province',
   'district_city',

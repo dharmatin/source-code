@@ -97,7 +97,7 @@ export default class SuggestionSearchFormatter {
         district_name,
       } = item;
       return {
-        id: id,
+        id,
         type: DEVELOPER,
         title: developer_name,
         label: config.translator.developer,
@@ -115,14 +115,14 @@ export default class SuggestionSearchFormatter {
   formatDevelopment = ({ development }: Object): Array<Suggestion> => {
     const developments = _.map(development, (item: Object): Object => {
       const {
-        developer_company_id,
+        id,
         project_name,
         province_name,
         city_name,
         district_name,
       } = item;
       return {
-        id: developer_company_id,
+        id,
         type: DEVELOPMENT,
         title: project_name,
         label: config.translator.development,
@@ -140,7 +140,7 @@ export default class SuggestionSearchFormatter {
   formatSubUnit = ({ subunit }: Object): Array<Suggestion> => {
     const subUnit = _.map(subunit, (item: Object): Object => {
       const {
-        id,
+        parent_id,
         subproject_name: subProjectName,
         tagline,
         project_category,
@@ -149,7 +149,7 @@ export default class SuggestionSearchFormatter {
         district_name,
       } = item;
       return {
-        id: id,
+        id: parent_id,
         type: UNIT,
         title: `${subProjectName} - ${tagline}`,
         subtitle: project_category,
