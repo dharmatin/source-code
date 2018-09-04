@@ -64,7 +64,7 @@ const searchByLocation = (query: string, type: string): Object => {
 
 const searchByDeveloper = (query: string): Object => {
   const condition = `
-    developer_name:*${replaceSpaceWithAsterisk(query)}* AND 
+    developer_name:*${query}* AND 
     ${conditionForDevelopmentDeveloper}
   `;
   const createQuery = listingClient
@@ -72,7 +72,7 @@ const searchByDeveloper = (query: string): Object => {
     .q(condition)
     .fl(field)
     .sort({
-      active: DESCENDING,
+      score: DESCENDING,
     });
 
   return listingClient.searchAsync(createQuery);
@@ -80,9 +80,7 @@ const searchByDeveloper = (query: string): Object => {
 
 const searchByDevelopment = (query: string): Object => {
   const condition = `
-    (project_name:(*${replaceSpaceWithAsterisk(query)}*) OR 
-    (project_name:*${replaceSpaceWithAsterisk(query)}* AND 
-    area_exact:(*${replaceSpaceWithAsterisk(query)}*))) AND 
+    project_name:(*${query}*) AND 
     ${conditionForDevelopmentDeveloper}
   `;
 
@@ -91,7 +89,7 @@ const searchByDevelopment = (query: string): Object => {
     .q(condition)
     .fl(field)
     .sort({
-      active: DESCENDING,
+      score: DESCENDING,
     });
 
   return listingClient.searchAsync(createQuery);
@@ -113,7 +111,7 @@ const searchBySubUnits = (query: string): Object => {
     .createQuery()
     .q(condition)
     .fl(field)
-    .sort({ project_category: ASCENDING });
+    .sort({ score: DESCENDING });
 
   return listingClient.searchAsync(createQuery);
 };
