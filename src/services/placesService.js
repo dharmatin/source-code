@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import placesDao from '../dao/places';
 import formatter from './formatters/placesFormatter';
 
@@ -12,10 +13,12 @@ export class PlacesService extends formatter {
 
   async getExplorePopularLocationList(): Object {
     const dataResult = await this.places.getDataExplorePopularLocation();
-
+    const formatPopularLocations = this.formatExplorePopularLocation(
+      dataResult
+    );
     return {
-      items: this.formatExplorePopularLocation(dataResult),
-      totalCount: 0,
+      items: formatPopularLocations,
+      totalCount: _.size(formatPopularLocations),
     };
   }
 }
