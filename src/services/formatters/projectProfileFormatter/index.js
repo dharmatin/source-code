@@ -1,7 +1,6 @@
 // @flow
 import _ from 'lodash';
 import config from '../../../config';
-import moment from 'moment';
 import type { ProjectProfilePage } from './types';
 import type { Listing } from '../listingFormatter/types';
 import * as priceFormatter from '../listingPriceFormatter';
@@ -10,6 +9,7 @@ import * as addressFormatter from '../addressFormatter';
 import * as mediaFormatter from '../mediaFormatter';
 import * as listingAttributeFormatter from '../listingAttributeFormatter';
 import * as organisationFormatter from '../organisationFormatter';
+import { updatedAtFormat } from '../../../libs/utility';
 
 export const formatProjectProfile = (
   projectListing: Object,
@@ -103,9 +103,10 @@ export const formatProject = (
     {};
 
   if (!_.isEmpty(attachments)) {
-    listingAttributes.downloadUrl = !_.isEmpty(attachments.brochure) && projectProfilePage.is_attachment ?
-      attachments.brochure :
-      '';
+    listingAttributes.downloadUrl =
+      !_.isEmpty(attachments.brochure) && projectProfilePage.is_attachment ?
+        attachments.brochure :
+        '';
   }
 
   response.attributes = listingAttributeFormatter.formatAttributesInfo(
@@ -167,9 +168,7 @@ export const formatProject = (
     projectProfilePage.is_premium,
     projectProfilePage.is_gts
   );
-  response.updatedAt = moment(projectProfilePage.updated_date).format(
-    'YYYY-MM-DDThh:mm:ssZ'
-  );
+  response.updatedAt = updatedAtFormat(projectProfilePage.updated_date);
 
   if (!_.isNil(projectProfilePage.background_image)) {
     const backgroundImages = _.map(

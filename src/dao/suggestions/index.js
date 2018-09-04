@@ -1,19 +1,16 @@
 // @flow
 import SolrClient from '../../libs/connections/SolrClient';
-import _ from 'lodash';
 import constants from '../../config/constants';
 import { resolveSolrResponse } from '../../helpers/resolver';
+import { replaceSpaceWithAsterisk } from '../../helpers/stringHelper';
 
 const {
-  COMMON: { BLANK_SPACE, ASTERISK },
   LOCATION_LEVEL: { PROVINCE, CITY, DISTRICT },
   SORTING: { ASCENDING, DESCENDING },
   NEWLAUNCH: { SUB_UNIT: { TOWER, CLUSTER, BLOCK } },
   SOLR_TABLE: { LISTING_CORE },
 } = constants;
 const { client: listingClient } = new SolrClient(LISTING_CORE);
-const replaceSpaceWithAsterisk = (query: string): string =>
-  _.replace(query, BLANK_SPACE, ASTERISK);
 const field = [
   'district_name',
   'city_name',

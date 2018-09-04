@@ -37,43 +37,48 @@ const constants = {
   EMAIL_FROM: 'no-reply@rumah123.com',
   LISTER_TYPE: {
     DEVELOPER: 'agency',
-    AGENT: 'agent'
+    AGENT: 'agent',
   },
   FORMAT_LISTING_TYPE: {
     SERP: 'serp',
-    DETAIL: 'detail'
+    DETAIL: 'detail',
   },
   SOLR_TABLE: {
-    LISTING_CORE: 'listing_v2'
+    LISTING_CORE: 'listing_v2',
+    LISTING_AREA: 'area_r123',
   },
   NEWLAUNCH: {
     SUB_UNIT: {
       TOWER: 'tower',
       BLOCK: 'block',
-      CLUSTER: 'cluster'
+      CLUSTER: 'cluster',
     },
     DEVELOPER: 'developer',
     DEVELOPMENT: 'development',
-    UNIT: 'unit'
+    UNIT: 'unit',
+    CHANNELS: 'new',
   },
   COMMON: {
     BLANK_SPACE: ' ',
     ASTERISK: '*',
-    BLANK: ''
+    BLANK: '',
+    TEXT_OR_WITH_SPACE: ' OR ',
   },
   DEFAULT_QUERY: {
-    LIMIT_SUGGESTION: 20
+    LIMIT_SUGGESTION: 20,
+    SEARCH_PAGE_SIZE: 20,
+    PAGE_TOKEN: 1,
   },
   LOCATION_LEVEL: {
     PROVINCE: 'province',
     CITY: 'city',
     DISTRICT: 'district',
-    TITLE: 'location'
+    TITLE: 'location',
   },
   SORTING: {
     ASCENDING: 'ASC',
-    DESCENDING: 'DESC'
-  }
+    DESCENDING: 'DESC',
+  },
 };
 
 export default constants;

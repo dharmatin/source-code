@@ -96,6 +96,11 @@ export const isValidDate = (date: string): boolean => {
 };
 
 export const timeStampToISOFormatting = (timestamp: number): string => {
-  const dateFormatted: string = moment.unix(timestamp).format('YYYY-MM-DD HH:mm:ss');
+  const dateFormatted: string = moment
+    .unix(timestamp)
+    .format('YYYY-MM-DD HH:mm:ss');
   return toISOFormatting(dateFormatted);
 };
+
+export const updatedAtFormat = (updatedDate: string): string =>
+  moment(updatedDate).format('YYYY-MM-DDThh:mm:ssZ');
