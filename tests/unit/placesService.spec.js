@@ -4,7 +4,7 @@ import { PlacesService } from '../../src/services/placesService';
 import PlacesFormatter from '../../src/services/formatters/placesFormatter';
 import redis, { RedisClient } from 'redis';
 
-describe.only('Place Services', (): any => {
+describe('Place Services', (): any => {
   let redisClient;
   beforeEach(() => {
     redisClient = sandbox.createStubInstance(RedisClient);
