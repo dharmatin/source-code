@@ -104,3 +104,7 @@ export const timeStampToISOFormatting = (timestamp: number): string => {
 
 export const updatedAtFormat = (updatedDate: string): string =>
   moment(updatedDate).format('YYYY-MM-DDThh:mm:ssZ');
+
+export const isJson = (str: string): boolean => {
+  return !_.isError(_.attempt(JSON.parse, str));
+};
