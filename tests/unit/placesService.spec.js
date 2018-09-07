@@ -3,6 +3,7 @@ import placeDao from '../../src/dao/places';
 import { PlacesService } from '../../src/services/placesService';
 import PlacesFormatter from '../../src/services/formatters/placesFormatter';
 import redis, { RedisClient } from 'redis';
+import config from '../../src/config';
 
 describe('Place Services', (): any => {
   let redisClient;
@@ -41,9 +42,12 @@ describe('Place Services', (): any => {
             level2: 'Bekasi',
             slugId: 'jawa-barat_bekasi',
             cover: {
+              type: 'image',
               urlTemplate:
                 'https://img.rea-asia.com/rumah123/premium/${width}x${height}-${scale}/popular-location/20180905020900_bekasi.jpeg',
-              url: '/popular-location/20180905020900_bekasi.jpeg',
+              url:
+                config.image.baseUrl +
+                '/popular-location/20180905020900_bekasi.jpeg',
             },
           },
         ],
