@@ -1,7 +1,7 @@
 // @flow
 import constants from '../config/constants';
-import PriceSorter from './listings_sorter/PriceSorter';
-import DefaultSorter from './listings_sorter/DefaultSorter';
+import PriceSorter from './listing_sorter/factories/PriceSorter';
+import DefaultSorter from './listing_sorter/factories/DefaultSorter';
 import type { RequestQueryParameters } from '../dao/search/type';
 
 export default class SortListingFactory {
