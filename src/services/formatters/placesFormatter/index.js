@@ -40,10 +40,11 @@ export default class PlacesFormatter {
       parse(url) :
       { pathname: '' };
     return {
+      type: 'image',
       urlTemplate: `${
         config.image.sharpieUrl
       }/premium/\${width}x\${height}-\${scale}${parsedUrl.pathname}`,
-      url: parsedUrl.pathname,
+      url: config.image.baseUrl + parsedUrl.pathname,
     };
   };
 }

@@ -1,6 +1,7 @@
 // @flow
 
 export type coverImage = {
+  type: string,
   url: string,
   urlTemplate: string,
 };
