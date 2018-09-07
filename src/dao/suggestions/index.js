@@ -3,11 +3,14 @@ import SolrClient from '../../libs/connections/SolrClient';
 import constants from '../../config/constants';
 import { resolveSolrResponse } from '../../helpers/resolver';
 import { replaceSpaceWithAsterisk } from '../../helpers/stringHelper';
+import _ from 'lodash';
 
 const {
   LOCATION_LEVEL: { PROVINCE, CITY, DISTRICT },
   SORTING: { ASCENDING, DESCENDING },
-  NEWLAUNCH: { SUB_UNIT: { TOWER, CLUSTER, BLOCK } },
+  NEWLAUNCH: {
+    SUB_UNIT: { TOWER, CLUSTER, BLOCK },
+  },
   SOLR_TABLE: { LISTING_CORE },
 } = constants;
 const { client: listingClient } = new SolrClient(LISTING_CORE);
@@ -63,8 +66,12 @@ const searchByLocation = (query: string, type: string): Object => {
 };
 
 const searchByDeveloper = (query: string): Object => {
+  if (_.isEmpty(query)) {
+    return {};
+  }
+
   const condition = `
-    developer_name:*${query}* AND 
+    developer_name:(*${query}*) AND 
     ${conditionForDevelopmentDeveloper}
   `;
   const createQuery = listingClient
@@ -79,6 +86,10 @@ const searchByDeveloper = (query: string): Object => {
 };
 
 const searchByDevelopment = (query: string): Object => {
+  if (_.isEmpty(query)) {
+    return {};
+  }
+
   const condition = `
     project_name:(*${query}*) AND 
     ${conditionForDevelopmentDeveloper}
