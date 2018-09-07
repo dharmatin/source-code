@@ -1,4 +1,4 @@
-import type { ISortListing } from '../interfaces/ISortListing';
+import type { ISortListing } from './interfaces/ISortListing';
 import searchDao from '../../../dao/search/index';
 import type { RequestQueryParameters } from '../../../dao/search/type';
 
