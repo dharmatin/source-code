@@ -63,6 +63,7 @@ const constants = {
     ASTERISK: '*',
     BLANK: '',
     TEXT_OR_WITH_SPACE: ' OR ',
+    TEXT_AND_WITH_SPACE: ' AND ',
   },
   DEFAULT_QUERY: {
     LIMIT_SUGGESTION: 20,

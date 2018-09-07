@@ -2,6 +2,7 @@
 import searchDao from '../dao/search';
 import _ from 'lodash';
 import formatter from './formatters/primaryListingFormatter';
+import SortListingFactory from './sortListingsFactory';
 
 export class SearchListingService extends formatter {
   search: Object;
@@ -12,7 +13,12 @@ export class SearchListingService extends formatter {
   }
 
   async getListingList(body: Object, query: Object): Object {
-    const listingList = await this.search.searchListing(body, query);
+    const sortBy = _.isUndefined(body.sortBy) ? 'default' : body.sortBy;
+    const listingList = await SortListingFactory.searchAndSort(sortBy, {
+      body: body,
+      query: query,
+    });
+
     return {
       nextPageToken: _.toNumber(query.nextPageToken),
       totalCount: _.size(listingList),
