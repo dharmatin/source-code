@@ -10,3 +10,14 @@ export const resolveRedisResponse = respons => {
     throw new Error('Cannot parse data Redis object, Data is invalid');
   }
 };
+
+export const resolveSolrGroupResponse = (
+  response: Object,
+  groupBy: string
+): Object => {
+  const { grouped } = response;
+  return _.map(
+    grouped[groupBy].groups,
+    (group: Array): any => group.groupValue
+  );
+};

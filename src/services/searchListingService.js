@@ -13,7 +13,9 @@ export class SearchListingService extends formatter {
   }
 
   async getListingList(body: Object, query: Object): Object {
-    const sortBy = _.isUndefined(body.sortBy) ? 'default' : body.sortBy;
+    const sortBy = _.isUndefined(body.sortBy) ?
+      'default' :
+      _.toLower(body.sortBy);
     const listingList = await SortListingFactory.searchAndSort(sortBy, {
       body: body,
       query: query,

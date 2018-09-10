@@ -1,7 +1,10 @@
 // @flow
 import SolrClient from '../../libs/connections/SolrClient';
 import constant from '../../config/constants';
-import { resolveSolrResponse } from '../../helpers/resolver';
+import {
+  resolveSolrResponse,
+  resolveSolrGroupResponse,
+} from '../../helpers/resolver';
 import { replaceSpaceWithAsterisk } from '../../helpers/stringHelper';
 import _ from 'lodash';
 import type { RequestQueryParameters } from './type';
@@ -11,6 +14,15 @@ const { client: listingClient } = new SolrClient(
 );
 
 const baseSolrQuery = '(type:np AND status:Online AND -developer_company_id:0)';
+const defaultChildListingQuery =
+  '(type: np AND developer_company_id:0 AND -ads_project_id:0 AND status:Online)';
+const SORT_FIELD_MAP = {
+  price: 'price_sort',
+  landSize: 'land_size',
+  builtUp: 'building_size',
+  published: 'active',
+  posted: 'created_date',
+};
 
 const buildQueryByDeveloper = (placeIds: Array<string>): string => {
   const numberIds = _.filter(
@@ -116,36 +128,127 @@ export const makeQuery = (body: Object): string => {
   return concatQuery.join(constant.COMMON.TEXT_AND_WITH_SPACE);
 };
 
-export const searchByProject = (
+export const buildSortQuery = async(
+  queryParameters: RequestQueryParameters,
+  sortBy: string,
+  direction: string
+): Promise<string> => {
+  const { body } = queryParameters;
+  const sortedAdsProjectIds = await findSortedAdsProjectId(
+    queryParameters,
+    sortBy,
+    direction
+  );
+  const boostQueryAdsProjectId = buildMultipleAdsProjectIdBoostQuery(
+    sortedAdsProjectIds
+  );
+  return [makeQuery(body), boostQueryAdsProjectId].join(
+    constant.COMMON.TEXT_AND_WITH_SPACE
+  );
+};
+
+const buildChildListingQuery = (
   queryParameters: RequestQueryParameters
+): string => {
+  const { body } = queryParameters;
+  const baseQuery = _.replace(makeQuery(body), baseSolrQuery, '');
+  return `(${defaultChildListingQuery})${baseQuery}`;
+};
+
+export const findSortedAdsProjectId = async(
+  queryParameters: RequestQueryParameters,
+  sortBy: string,
+  direction: string
+): Promise<Array<Object>> => {
+  const query = buildChildListingQuery(queryParameters);
+  const { pageSize, nextPageToken } = queryParameters.query;
+  const createQuery = listingClient
+    .createQuery()
+    .q(query)
+    .fl('ads_project_id')
+    .start((nextPageToken - 1) * pageSize)
+    .rows(pageSize)
+    .groupBy('ads_project_id')
+    .sort({ [SORT_FIELD_MAP[sortBy]]: direction });
+  const result = await listingClient.searchAsync(createQuery);
+  return resolveSolrGroupResponse(result, 'ads_project_id');
+};
+
+const buildMultipleAdsProjectIdBoostQuery = (
+  adsProjectIds: Array<Object>
+): string => {
+  let exponent = _.size(adsProjectIds);
+  const boostAdsProjectId = _.map(adsProjectIds, (id: any): any => {
+    exponent--;
+    return `${id}^${Math.pow(5, exponent)}`;
+  });
+
+  return _.size(adsProjectIds) > 0 ?
+    `ads_project_id:(${_.join(boostAdsProjectId, ' ')})` :
+    '';
+};
+
+export const searchByProject = async(
+  queryParameters: RequestQueryParameters,
+  sortBy: string,
+  direction: string
 ): Promise<Object> => {
   const { body } = queryParameters;
   const { pageSize, nextPageToken } = queryParameters.query;
+  const sortField = SORT_FIELD_MAP[sortBy];
+  const sort = !_.isUndefined(SORT_FIELD_MAP[sortBy]) ?
+    {
+      [sortField]: direction,
+    } :
+    {
+      product_status: constant.SORTING.DESCENDING,
+      is_premium: constant.SORTING.DESCENDING,
+      score: constant.SORTING.DESCENDING,
+    };
+
   const createQuery = listingClient
     .createQuery()
     .start((nextPageToken - 1) * pageSize)
     .rows(pageSize)
     .q(makeQuery(body))
-    .sort({
-      product_status: constant.SORTING.DESCENDING,
-      is_premium: constant.SORTING.DESCENDING,
-      score: constant.SORTING.DESCENDING,
-    });
+    .sort(sort);
+  return listingClient.searchAsync(createQuery);
+};
+
+export const searchAndSortProject = async(
+  queryParameters: RequestQueryParameters,
+  sortBy: string,
+  direction: string
+): Promise<Object> => {
+  const { pageSize, nextPageToken } = queryParameters.query;
+  const sortQuery = await buildSortQuery(queryParameters, sortBy, direction);
+  const createQuery = listingClient
+    .createQuery()
+    .start((nextPageToken - 1) * pageSize)
+    .rows(pageSize)
+    .q(sortQuery);
   return listingClient.searchAsync(createQuery);
 };
 
 export default {
   defaultSearchAndSort: async(
-    queryParameters: RequestQueryParameters
+    queryParameters: RequestQueryParameters,
+    sortBy: string = 'default',
+    direction: string = 'asc'
   ): Promise<Array<Object>> => {
-    const listings = await searchByProject(queryParameters);
+    const listings = await searchByProject(queryParameters, sortBy, direction);
     return [...resolveSolrResponse(listings)];
   },
   searchAndSort: async(
+    queryParameters: RequestQueryParameters,
     sortBy: string,
-    direction: string,
-    queryParameters: RequestQueryParameters
+    direction: string
   ): Promise<Array<Object>> => {
-    return [];
+    const listings = await searchAndSortProject(
+      queryParameters,
+      sortBy,
+      direction
+    );
+    return [...resolveSolrResponse(listings)];
   },
 };
