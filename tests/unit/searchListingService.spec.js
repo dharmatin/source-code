@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { makeQuery } from '../../src/dao/search';
+import { makeQuery, buildFilterQuery } from '../../src/dao/search';
 
 describe('Search Listings', () => {
   describe('Query search by placeIds', () => {
@@ -114,6 +114,34 @@ describe('Search Listings', () => {
         places: [],
       };
       expect(makeQuery(body)).to.equalIgnoreSpaces(defaultQuery);
+    });
+  });
+
+  describe('Filter query', () => {
+    it('Should return query with filters parameter', () => {
+      const request = {
+        filters: {
+          builtupSizeRange: {
+            min: '10',
+            max: '1000',
+          },
+          landSizeRange: {
+            min: '10',
+            max: '1000',
+          },
+          bedroomRange: {
+            min: '10',
+            max: '1000',
+          },
+          bathroomRange: {
+            min: '10',
+            max: '1000',
+          },
+        },
+      };
+      const query =
+        'building_size: [10 TO 1000] AND land_size: [10 TO 1000] AND bedroom: [10 TO 1000] AND bathroom: [10 TO 1000]';
+      expect(buildFilterQuery({ body: request })).to.equalIgnoreSpaces(query);
     });
   });
 });

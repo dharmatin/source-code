@@ -16,12 +16,14 @@ const { client: listingClient } = new SolrClient(
 const baseSolrQuery = '(type:np AND status:Online AND -developer_company_id:0)';
 const defaultChildListingQuery =
   '(type: np AND developer_company_id:0 AND -ads_project_id:0 AND status:Online)';
-const SORT_FIELD_MAP = {
+const FIELD_MAP = {
   price: 'price_sort',
   landSize: 'land_size',
   builtUp: 'building_size',
   published: 'active',
   posted: 'created_date',
+  bedroom: 'bedroom',
+  bathroom: 'bathroom',
 };
 
 const buildQueryByDeveloper = (placeIds: Array<string>): string => {
@@ -161,15 +163,22 @@ export const findSortedAdsProjectId = async(
   direction: string
 ): Promise<Array<Object>> => {
   const query = buildChildListingQuery(queryParameters);
+  const filterQuery = !_.isEmpty(buildFilterQuery(queryParameters)) ?
+    constant.COMMON.TEXT_AND_WITH_SPACE + buildFilterQuery(queryParameters) :
+    '';
   const { pageSize, nextPageToken } = queryParameters.query;
   const createQuery = listingClient
     .createQuery()
-    .q(query)
+    .q(query + filterQuery)
     .fl('ads_project_id')
     .start((nextPageToken - 1) * pageSize)
     .rows(pageSize)
     .groupBy('ads_project_id')
-    .sort({ [SORT_FIELD_MAP[sortBy]]: direction });
+    .sort(
+      !_.isUndefined(FIELD_MAP[sortBy]) ?
+        { [FIELD_MAP[sortBy]]: direction } :
+        {}
+    );
   const result = await listingClient.searchAsync(createQuery);
   return resolveSolrGroupResponse(result, 'ads_project_id');
 };
@@ -193,10 +202,13 @@ export const searchByProject = async(
   sortBy: string,
   direction: string
 ): Promise<Object> => {
+  if (!_.isEmpty(buildFilterQuery(queryParameters))) {
+    return searchAndSortProject(queryParameters, sortBy, direction);
+  }
   const { body } = queryParameters;
   const { pageSize, nextPageToken } = queryParameters.query;
-  const sortField = SORT_FIELD_MAP[sortBy];
-  const sort = !_.isUndefined(SORT_FIELD_MAP[sortBy]) ?
+  const sortField = FIELD_MAP[sortBy];
+  const sort = !_.isUndefined(FIELD_MAP[sortBy]) ?
     {
       [sortField]: direction,
     } :
@@ -229,6 +241,30 @@ export const searchAndSortProject = async(
     .q(sortQuery);
   return listingClient.searchAsync(createQuery);
 };
+
+export const buildFilterQuery = (
+  queryParameters: RequestQueryParameters
+): string => {
+  const { filters } = queryParameters.body;
+  const fieldRangeMapping = {
+    priceRange: 'price',
+    landSizeRange: 'landSize',
+    builtupSizeRange: 'builtUp',
+    bedroomRange: 'bedroom',
+    bathroomRange: 'bathroom',
+  };
+  return _.reduce(
+    filters,
+    (result: Array<string>, value: Object, key: string): Array<string> => {
+      result.push(rangeQuery(fieldRangeMapping[key], value.min, value.max));
+      return result;
+    },
+    []
+  ).join(constant.COMMON.TEXT_AND_WITH_SPACE);
+};
+
+const rangeQuery = (field: string, min: number = 0, max: number = 0): string =>
+  `${FIELD_MAP[field]}: [${min > 0 ? min : '*'} TO ${max > 0 ? max : '*'}]`;
 
 export default {
   defaultSearchAndSort: async(
