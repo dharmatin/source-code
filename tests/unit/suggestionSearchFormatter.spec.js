@@ -108,7 +108,7 @@ describe('Suggestion Response', () => {
           province_id: '1',
           city_name: 'test',
           district_name: 'test2',
-          id: '11',
+          developer_company_id: '11',
           developer_name: 'dev name',
         },
       ],

@@ -31,6 +31,7 @@ const field = [
   'subproject_name',
   'parent_id',
   'project_category',
+  'developer_company_id',
 ];
 const conditionForDevelopmentDeveloper =
   '-developer_company_id:0 AND status:Online AND -ads_project_id:0';
