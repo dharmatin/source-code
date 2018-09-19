@@ -18,6 +18,12 @@ export class SuggestionsService extends formatter {
   ): Array<Suggestion> => items.slice(0, limit);
 
   async getSuggestionsList(query: string, limit: number): Object {
+    if (_.isEmpty(query)) {
+      return {
+        totalCount: 0,
+      };
+    }
+
     const suggestionSearch = await this.suggestions.searchQuery(query, limit);
     const suggestionItems = [
       ...this.formatLocationLevel(suggestionSearch),

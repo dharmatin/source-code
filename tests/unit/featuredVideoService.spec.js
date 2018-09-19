@@ -4,7 +4,7 @@ import FeaturedVideoDao from '../../src/dao/featuredVideo';
 import { FeaturedVideoService } from '../../src/services/featuredVideoService';
 import constants from '../../src/config/constants';
 
-describe.only('Featured Videos', () => {
+describe('Featured Videos', () => {
   afterEach(() => {
     sandbox.restore();
   });
