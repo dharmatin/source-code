@@ -217,7 +217,6 @@ export const searchByProject = async(
       is_premium: constant.SORTING.DESCENDING,
       score: constant.SORTING.DESCENDING,
     };
-
   const createQuery = listingClient
     .createQuery()
     .start((nextPageToken - 1) * pageSize)
@@ -256,7 +255,9 @@ export const buildFilterQuery = (
   return _.reduce(
     filters,
     (result: Array<string>, value: Object, key: string): Array<string> => {
-      result.push(rangeQuery(fieldRangeMapping[key], value.min, value.max));
+      if (!_.isUndefined(fieldRangeMapping[key])) {
+        result.push(rangeQuery(fieldRangeMapping[key], value.min, value.max));
+      }
       return result;
     },
     []
