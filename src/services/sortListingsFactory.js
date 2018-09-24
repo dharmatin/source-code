@@ -12,7 +12,7 @@ export default class SortListingFactory {
   static async searchAndSort(
     sortBy: string,
     queryParameters: RequestQueryParameters
-  ): Promise<Array<Object>> {
+  ): Promise<Object> {
     let listings: Array<Object> = [];
     switch (sortBy) {
     case 'price-asc':

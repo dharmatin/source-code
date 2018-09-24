@@ -1,7 +1,12 @@
 import _ from 'lodash';
 
-export const resolveSolrResponse = respons =>
-  _.get(respons, 'response.docs', []);
+export const resolveSolrResponse = respons => {
+  const items = _.get(respons, 'response.docs', []);
+  return {
+    items: items,
+    numFound: respons.response.numFound,
+  };
+};
 
 export const resolveRedisResponse = respons => {
   try {
@@ -16,8 +21,13 @@ export const resolveSolrGroupResponse = (
   groupBy: string
 ): Object => {
   const { grouped } = response;
-  return _.map(
+  const nGroups = grouped[groupBy].ngroups;
+  const items = _.map(
     grouped[groupBy].groups,
     (group: Array): any => group.groupValue
   );
+  return {
+    numFound: nGroups,
+    items: items,
+  };
 };

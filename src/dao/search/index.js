@@ -26,6 +26,8 @@ const FIELD_MAP = {
   bathroom: 'bathroom',
 };
 
+let ngroups = 0;
+
 const buildQueryByDeveloper = (placeIds: Array<string>): string => {
   const numberIds = _.filter(
     placeIds,
@@ -141,12 +143,19 @@ export const buildSortQuery = async(
     sortBy,
     direction
   );
+
+  ngroups = sortedAdsProjectIds.numFound;
+
   const boostQueryAdsProjectId = buildMultipleAdsProjectIdBoostQuery(
-    sortedAdsProjectIds
+    sortedAdsProjectIds.items
   );
-  return [makeQuery(body), boostQueryAdsProjectId].join(
-    constant.COMMON.TEXT_AND_WITH_SPACE
-  );
+  if (!_.isEmpty(boostQueryAdsProjectId)) {
+    return [makeQuery(body), boostQueryAdsProjectId].join(
+      constant.COMMON.TEXT_AND_WITH_SPACE
+    );
+  }
+
+  return '';
 };
 
 const buildChildListingQuery = (
@@ -161,7 +170,7 @@ export const findSortedAdsProjectId = async(
   queryParameters: RequestQueryParameters,
   sortBy: string,
   direction: string
-): Promise<Array<Object>> => {
+): Promise<Object> => {
   const query = buildChildListingQuery(queryParameters);
   const filterQuery = !_.isEmpty(buildFilterQuery(queryParameters)) ?
     constant.COMMON.TEXT_AND_WITH_SPACE + buildFilterQuery(queryParameters) :
@@ -173,7 +182,10 @@ export const findSortedAdsProjectId = async(
     .fl('ads_project_id')
     .start((nextPageToken - 1) * pageSize)
     .rows(pageSize)
-    .groupBy('ads_project_id')
+    .group({
+      field: 'ads_project_id',
+      ngroups: true,
+    })
     .sort(
       !_.isUndefined(FIELD_MAP[sortBy]) ?
         { [FIELD_MAP[sortBy]]: direction } :
@@ -184,7 +196,7 @@ export const findSortedAdsProjectId = async(
 };
 
 const buildMultipleAdsProjectIdBoostQuery = (
-  adsProjectIds: Array<Object>
+  adsProjectIds: Array<string>
 ): string => {
   let exponent = _.size(adsProjectIds);
   const boostAdsProjectId = _.map(adsProjectIds, (id: any): any => {
@@ -231,11 +243,10 @@ export const searchAndSortProject = async(
   sortBy: string,
   direction: string
 ): Promise<Object> => {
-  const { pageSize, nextPageToken } = queryParameters.query;
+  const { pageSize } = queryParameters.query;
   const sortQuery = await buildSortQuery(queryParameters, sortBy, direction);
   const createQuery = listingClient
     .createQuery()
-    .start((nextPageToken - 1) * pageSize)
     .rows(pageSize)
     .q(sortQuery);
   return listingClient.searchAsync(createQuery);
@@ -264,6 +275,12 @@ export const buildFilterQuery = (
   ).join(constant.COMMON.TEXT_AND_WITH_SPACE);
 };
 
+const forceNumFound = (solrResult: Object, pageSize: number): Object => {
+  if (ngroups > pageSize) solrResult.response.numFound = ngroups;
+  ngroups = 0;
+  return solrResult;
+};
+
 const rangeQuery = (field: string, min: number = 0, max: number = 0): string =>
   `${FIELD_MAP[field]}: [${min > 0 ? min : '*'} TO ${max > 0 ? max : '*'}]`;
 
@@ -273,19 +290,23 @@ export default {
     sortBy: string = 'default',
     direction: string = 'asc'
   ): Promise<Array<Object>> => {
-    const listings = await searchByProject(queryParameters, sortBy, direction);
-    return [...resolveSolrResponse(listings)];
+    let listings = await searchByProject(queryParameters, sortBy, direction);
+    const { pageSize } = queryParameters.query;
+    listings = forceNumFound(listings, pageSize);
+    return resolveSolrResponse(listings);
   },
   searchAndSort: async(
     queryParameters: RequestQueryParameters,
     sortBy: string,
     direction: string
   ): Promise<Array<Object>> => {
-    const listings = await searchAndSortProject(
+    let listings = await searchAndSortProject(
       queryParameters,
       sortBy,
       direction
     );
-    return [...resolveSolrResponse(listings)];
+    const { pageSize } = queryParameters.query;
+    listings = forceNumFound(listings, pageSize);
+    return resolveSolrResponse(listings);
   },
 };

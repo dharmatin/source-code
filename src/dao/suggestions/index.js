@@ -8,9 +8,7 @@ import _ from 'lodash';
 const {
   LOCATION_LEVEL: { PROVINCE, CITY, DISTRICT },
   SORTING: { ASCENDING, DESCENDING },
-  NEWLAUNCH: {
-    SUB_UNIT: { TOWER, CLUSTER, BLOCK },
-  },
+  NEWLAUNCH: { SUB_UNIT: { TOWER, CLUSTER, BLOCK } },
   SOLR_TABLE: { LISTING_CORE },
 } = constants;
 const { client: listingClient } = new SolrClient(LISTING_CORE);
@@ -138,12 +136,12 @@ export default {
     const responseSubUnits = await searchBySubUnits(query);
 
     return {
-      provinces: resolveSolrResponse(responseLocationProvince),
-      cities: resolveSolrResponse(responseLocationCity),
-      district: resolveSolrResponse(responseLocationDistrict),
-      developer: resolveSolrResponse(responseDeveloper),
-      development: resolveSolrResponse(responseDevelopment),
-      subunit: resolveSolrResponse(responseSubUnits),
+      provinces: resolveSolrResponse(responseLocationProvince).items,
+      cities: resolveSolrResponse(responseLocationCity).items,
+      district: resolveSolrResponse(responseLocationDistrict).items,
+      developer: resolveSolrResponse(responseDeveloper).items,
+      development: resolveSolrResponse(responseDevelopment).items,
+      subunit: resolveSolrResponse(responseSubUnits).items,
     };
   },
 };

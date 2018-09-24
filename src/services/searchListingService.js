@@ -21,10 +21,16 @@ export class SearchListingService extends formatter {
       query: query,
     });
 
+    const nextPage = (query.nextPageToken * query.pageSize >=
+    listingList.numFound ?
+      query.nextPageToken :
+      parseInt(query.nextPageToken) + 1
+    ).toString();
+
     return {
-      nextPageToken: _.toNumber(query.nextPageToken),
-      totalCount: _.size(listingList),
-      items: this.primaryListingFormatter(listingList),
+      nextPageToken: nextPage,
+      totalCount: _.size(listingList.items),
+      items: this.primaryListingFormatter(listingList.items),
     };
   }
 }
