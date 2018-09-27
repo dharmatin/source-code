@@ -41,7 +41,7 @@ export default class PrimaryListingFormatter {
         is_premium,
         is_gts,
         subtype,
-        project_brandcolor,
+        project_brandcolor: projectBrandColor,
         price_min,
         price_max,
         city_name: city,
@@ -92,7 +92,7 @@ export default class PrimaryListingFormatter {
         subtitle: tagline,
         tier: formatTierOfPrimaryListing(is_premium, is_gts),
         propertyType: formatPropertyType(subtype),
-        color: project_brandcolor,
+        color: _.isEmpty(projectBrandColor) ? '#FFFFFF' : projectBrandColor,
         prices: formatPrices({ priceMin: price_min, priceMax: price_max }),
         cover: formatImageCover(_.head(JSON.parse(bgImage || '[]'))),
         medias: formatListingImages(
