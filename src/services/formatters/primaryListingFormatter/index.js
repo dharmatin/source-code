@@ -80,7 +80,7 @@ export default class PrimaryListingFormatter {
         url_sponsor,
       } = items;
       return {
-        channel: [constants.NEWLAUNCH.CHANNELS],
+        channels: [constants.NEWLAUNCH.CHANNELS],
         kind: 'property',
         id,
         shareLink: formatProjectProfilePageLink({
