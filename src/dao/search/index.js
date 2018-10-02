@@ -267,7 +267,8 @@ export const buildFilterQuery = (
     filters,
     (result: Array<string>, value: Object, key: string): Array<string> => {
       if (!_.isUndefined(fieldRangeMapping[key])) {
-        result.push(rangeQuery(fieldRangeMapping[key], value.min, value.max));
+        const rQuery = rangeQuery(fieldRangeMapping[key], value.min, value.max);
+        if (!_.isUndefined(rQuery)) result.push(rQuery);
       }
       return result;
     },
@@ -281,8 +282,12 @@ const forceNumFound = (solrResult: Object, pageSize: number): Object => {
   return solrResult;
 };
 
-const rangeQuery = (field: string, min: number = 0, max: number = 0): string =>
-  `${FIELD_MAP[field]}: [${min > 0 ? min : '*'} TO ${max > 0 ? max : '*'}]`;
+const rangeQuery = (field: string, min: number = 0, max: number = 0): any => {
+  if (_.isEmpty(max) && _.isEmpty(min)) return;
+  return `${FIELD_MAP[field]}: [${min > 0 ? min : '*'} TO ${
+    max > 0 ? max : '*'
+  }]`;
+};
 
 export default {
   defaultSearchAndSort: async(
