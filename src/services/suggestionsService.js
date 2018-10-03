@@ -29,7 +29,7 @@ export class SuggestionsService extends formatter {
       ...this.formatLocationLevel(suggestionSearch),
       ...this.formatDeveloper(suggestionSearch),
       ...this.formatDevelopment(suggestionSearch),
-      ...this.formatSubUnit(suggestionSearch),
+      // ...this.formatSubUnit(suggestionSearch),
     ];
     const limitItems = this.setLimitItems(suggestionItems, limit);
 
