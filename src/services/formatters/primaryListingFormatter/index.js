@@ -78,6 +78,8 @@ export default class PrimaryListingFormatter {
         developer_address,
         developer_logo,
         url_sponsor,
+        completion_date: completionDate,
+        qty_unit: qtyUnit,
       } = items;
       return {
         channels: [constants.NEWLAUNCH.CHANNELS],
@@ -128,6 +130,8 @@ export default class PrimaryListingFormatter {
           electricity: electricity,
           phoneLine: phoneline,
           carPark: garage,
+          completionDate: completionDate,
+          totalUnits: qtyUnit,
         }),
         organisations: formatDeveloperInfo({
           id: developer_company_id,
