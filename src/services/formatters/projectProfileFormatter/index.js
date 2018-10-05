@@ -166,7 +166,7 @@ export const formatProject = (
   response.productStatus = projectProfilePage.product_status;
   response.tier = listingFormatter.formatTierOfPrimaryListing(
     projectProfilePage.is_premium,
-    projectProfilePage.is_gts
+    projectProfilePage.product_status
   );
   response.updatedAt = updatedAtFormat(projectProfilePage.updated_date);
 

@@ -10,12 +10,12 @@ export const formatBannerSponsorship = (banner: Object): BannerSponsorship => {
 
 export const formatTierOfPrimaryListing = (
   isPremium: number,
-  isGTS: number
+  productStatus: number
 ): number => {
   if (isPremium === 0) {
     return config.TIER.STANDARD;
   } else {
-    if (isGTS === 1) {
+    if (productStatus === 1) {
       return config.TIER.FEATURED;
     } else {
       return config.TIER.PREMIUM;

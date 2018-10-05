@@ -39,7 +39,6 @@ export default class PrimaryListingFormatter {
         project_name: projectName,
         tagline,
         is_premium,
-        is_gts,
         subtype,
         project_brandcolor: projectBrandColor,
         price_min,
@@ -80,6 +79,7 @@ export default class PrimaryListingFormatter {
         url_sponsor,
         completion_date: completionDate,
         qty_unit: qtyUnit,
+        product_status: productStatus,
       } = items;
       return {
         channels: [constants.NEWLAUNCH.CHANNELS],
@@ -92,7 +92,7 @@ export default class PrimaryListingFormatter {
         }),
         title: projectName,
         subtitle: tagline,
-        tier: formatTierOfPrimaryListing(is_premium, is_gts),
+        tier: formatTierOfPrimaryListing(is_premium, productStatus),
         propertyType: formatPropertyType(subtype),
         color: _.isEmpty(projectBrandColor) ? '#FFFFFF' : projectBrandColor,
         prices: formatPrices({ priceMin: price_min, priceMax: price_max }),
