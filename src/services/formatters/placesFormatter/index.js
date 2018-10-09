@@ -1,12 +1,19 @@
 // @flow
 import _ from 'lodash';
 import { parse } from 'url';
-import type { ExplorePopularLocation, coverImage } from './types';
+import type {
+  ExplorePopularLocation,
+  coverImage,
+  PopularPlaces,
+} from './types';
 import { isJson, slugify } from '../../../libs/utility';
 import config from '../../../config';
 
 export default class PlacesFormatter {
-  formatExplorePopularLocation = (popularLocation: Object): Object => {
+  formatExplorePopularLocation = (
+    popularLocation: Object,
+    options: Object
+  ): Object => {
     const filteredLocations = _.filter(
       popularLocation,
       (item: Object): boolean => isJson(item.landing_page)
@@ -24,7 +31,9 @@ export default class PlacesFormatter {
           level2: city,
           level3: district,
           slugId: this.createSlugId(province, city, district),
-          cover: this.formatImageCover(item.image),
+          cover: _.get(options, 'shouldHideCoverImage') ?
+            undefined :
+            this.formatImageCover(item.image),
         },
         (item: any): boolean => !_.isUndefined(item)
       );
@@ -47,4 +56,14 @@ export default class PlacesFormatter {
       url: config.image.baseUrl + parsedUrl.pathname,
     };
   };
+
+  formatPopularPlaces = (popularPlaces: Array<Object>): PopularPlaces =>
+    _.map(popularPlaces, (item: Object): PopularPlaces => {
+      const { province_name, city_name } = item;
+      return {
+        level1: province_name,
+        level2: city_name,
+        slugId: this.createSlugId(province_name, city_name),
+      };
+    });
 }

@@ -11,14 +11,24 @@ export class PlacesService extends formatter {
     this.places = places;
   }
 
-  async getExplorePopularLocationList(): Object {
+  async getExplorePopularLocationList(options: Object): Object {
     const dataResult = await this.places.getDataExplorePopularLocation();
     const formatPopularLocations = this.formatExplorePopularLocation(
-      dataResult
+      dataResult,
+      options
     );
     return {
       items: formatPopularLocations,
       totalCount: _.size(formatPopularLocations),
+    };
+  }
+
+  async getPopularPlacesList(): Object {
+    const dataResult = await this.places.getDataPopularPlaces();
+    const formatPopularPlaces = this.formatPopularPlaces(dataResult);
+    return {
+      items: formatPopularPlaces,
+      totalCount: _.size(formatPopularPlaces),
     };
   }
 }

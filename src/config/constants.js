@@ -57,6 +57,7 @@ const constants = {
     DEVELOPMENT: 'development',
     UNIT: 'unit',
     CHANNELS: 'new',
+    EXPLORE_POPULAR_LOCATIONS_ALL: 'all',
   },
   COMMON: {
     BLANK_SPACE: ' ',
