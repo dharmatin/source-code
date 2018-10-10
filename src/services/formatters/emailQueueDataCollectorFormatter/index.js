@@ -83,6 +83,11 @@ export const formatOrganisation = (project: Object): Organisation => {
       !_.isNil(project.organisations[0].contact.emails[0]) ?
         project.organisations[0].contact.emails[0] :
         '',
+    additionalEmail:
+      !_.isNil(project.organisations) &&
+      !_.isNil(project.organisations[0].contact.emails[1]) ?
+        project.organisations[0].contact.emails[1] :
+        '',
     logo:
       !_.isNil(project.organisations) &&
       !_.isNil(project.organisations[0].logo.url) ?

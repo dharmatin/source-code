@@ -107,7 +107,7 @@ export default class EmailQueueDataCollector {
       subject: '',
       template: '',
       from: EMAIL_FROM,
-      to: organisationsFormatted.email,
+      to: organisationsFormatted.additionalEmail,
       jsonData: jsonData,
     };
   }

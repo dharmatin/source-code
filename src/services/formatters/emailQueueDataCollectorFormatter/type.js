@@ -34,5 +34,6 @@ export type Organisation = {
   phoneNumber: string,
   whatsappNumber: string,
   email: string,
+  additionalEmail: string,
   logo: string,
 };

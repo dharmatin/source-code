@@ -66,6 +66,9 @@ export class ReferralRequestService {
     );
     emailToDeveloper
       .then((data: Object) => {
+        if (_.isEmpty(data.to)) {
+          return;
+        }
         const queuedEmail = emailQueueService
           .to(data.to)
           .from(data.from)
