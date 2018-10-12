@@ -22,15 +22,6 @@ export class PlacesService extends formatter {
       totalCount: _.size(formatPopularLocations),
     };
   }
-
-  async getPopularPlacesList(): Object {
-    const dataResult = await this.places.getDataPopularPlaces();
-    const formatPopularPlaces = this.formatPopularPlaces(dataResult);
-    return {
-      items: formatPopularPlaces,
-      totalCount: _.size(formatPopularPlaces),
-    };
-  }
 }
 
 export default new PlacesService(placesDao);

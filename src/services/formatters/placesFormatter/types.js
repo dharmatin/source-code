@@ -13,9 +13,3 @@ export type ExplorePopularLocation = {
   slugId: string,
   cover?: coverImage,
 };
-
-export type PopularPlaces = {
-  level1: string,
-  level2: string,
-  slugId: string,
-};

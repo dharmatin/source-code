@@ -27,19 +27,13 @@ class PlacesController extends BaseController {
   async getPopularPlaces(req, res) {
     const { query: { channel, level1 } } = req;
     try {
-      if (channel === CHANNELS) {
-        let response;
-        if (level1 === EXPLORE_POPULAR_LOCATIONS_ALL) {
-          response = await placesService.getExplorePopularLocationList({
-            shouldHideCoverImage: true,
-          });
-        } else {
-          response = await placesService.getPopularPlacesList();
-        }
+      if (channel === CHANNELS && level1 === EXPLORE_POPULAR_LOCATIONS_ALL) {
+        const response = await placesService.getExplorePopularLocationList({
+          shouldHideCoverImage: true,
+        });
         handleSuccess(res, response);
-      } else {
-        handleNotFound(res);
       }
+      handleNotFound(res);
     } catch (err) {
       handleInternalServerError(res, err);
       throw new Error(err);

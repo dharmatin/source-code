@@ -1,11 +1,7 @@
 // @flow
 import _ from 'lodash';
 import { parse } from 'url';
-import type {
-  ExplorePopularLocation,
-  coverImage,
-  PopularPlaces,
-} from './types';
+import type { ExplorePopularLocation, coverImage } from './types';
 import { isJson, slugify } from '../../../libs/utility';
 import config from '../../../config';
 
@@ -56,14 +52,4 @@ export default class PlacesFormatter {
       url: config.image.baseUrl + parsedUrl.pathname,
     };
   };
-
-  formatPopularPlaces = (popularPlaces: Array<Object>): PopularPlaces =>
-    _.map(popularPlaces, (item: Object): PopularPlaces => {
-      const { province_name, city_name } = item;
-      return {
-        level1: province_name,
-        level2: city_name,
-        slugId: this.createSlugId(province_name, city_name),
-      };
-    });
 }
