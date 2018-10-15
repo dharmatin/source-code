@@ -53,5 +53,10 @@
     "location": "Lokasi",
     "developer": "Pengembang",
     "development": "Proyek",
-    "unit": "Unit"
+    "unit": "Unit",
+    "location_level": {
+      "province": "Provinsi",
+      "city": "Kota",
+      "district": "Area"
+    }
 }
