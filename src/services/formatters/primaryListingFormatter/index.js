@@ -25,6 +25,7 @@ import { formatDeveloperInfo } from '../organisationFormatter';
 import config from '../../../config';
 import { updatedAtFormat } from '../../../libs/utility';
 import type { PrimaryListing } from './types';
+import type { MultiLanguagePlace } from '../addressFormatter/types';
 
 export default class PrimaryListingFormatter {
   _getListMedias = ({ bgImage, projectName }: Object): Array<string> =>
@@ -154,4 +155,43 @@ export default class PrimaryListingFormatter {
         }),
       };
     });
+
+  parseParamsLocationLevel = (firstItems: Object, body: Object): Object => {
+    const { level3, level2 } = _.get(body, 'places.0', {});
+    const placeIds = _.head(body.placeIds);
+    const {
+      city_name: city,
+      district_name: district,
+      province_name: province,
+      province_id: provinceId,
+      city_id: cityId,
+      district_id: districtId,
+    } = firstItems;
+
+    if (level3 || placeIds === districtId) {
+      return { district, city, province, placeId: districtId };
+    } else if (level2 || placeIds === cityId) {
+      return { city, province, placeId: cityId };
+    }
+
+    return { province, placeId: provinceId };
+  };
+
+  multilanguagePlacesFormatter = (
+    response: Object,
+    body: Object
+  ): Array<MultiLanguagePlace> => {
+    if (
+      _.size(body.placeIds) > 1 ||
+      (_.isEmpty(body.placeIds) && _.isEmpty(body.places))
+    ) {
+      return [];
+    }
+    return [
+      formatMultiLanguageAddressInfo(
+        this.parseParamsLocationLevel(_.head(response), body),
+        { shouldShowPlaceId: true }
+      ),
+    ];
+  };
 }

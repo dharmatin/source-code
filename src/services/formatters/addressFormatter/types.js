@@ -12,6 +12,7 @@ export type PlaceLevel = {
 };
 
 export type MultiLanguagePlace = {
+  placeId?: string,
   'en-GB': PlaceLevel,
   'id-ID': PlaceLevel,
 };

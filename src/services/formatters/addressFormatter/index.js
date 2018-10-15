@@ -30,8 +30,10 @@ export const formatAddressInfo = (area: Object): Address => {
 };
 
 export const formatMultiLanguageAddressInfo = (
-  area: Object
+  area: Object,
+  options: Object = {}
 ): MultiLanguagePlace => {
+  const shouldShowPlaceId = _.get(options, 'shouldShowPlaceId');
   const levelLocation = {
     level1: area.province,
     level2: area.city,
@@ -39,6 +41,7 @@ export const formatMultiLanguageAddressInfo = (
   };
 
   return {
+    placeId: shouldShowPlaceId ? area.placeId : undefined,
     'en-GB': levelLocation,
     'id-ID': levelLocation,
   };

@@ -31,6 +31,10 @@ export class SearchListingService extends formatter {
       nextPageToken: nextPage,
       totalCount: _.size(listingList.items),
       items: this.primaryListingFormatter(listingList.items),
+      multilanguagePlaces: this.multilanguagePlacesFormatter(
+        listingList.items,
+        body
+      ),
     };
   }
 }
