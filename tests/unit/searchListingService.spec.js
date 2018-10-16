@@ -398,5 +398,33 @@ describe('Format Response Search Listing', () => {
       );
       expect(response).to.deep.equal([]);
     });
+    it('Should be response multilanguagePlaces level2 when input by project id', () => {
+      const response = new Formatter().multilanguagePlacesFormatter(
+        listings,
+        parsingBodyParams({ placeIds: ['nps1045'], places: [] })
+      );
+      expect(response).to.deep.equal([
+        {
+          placeId: 'city06',
+          'en-GB': {
+            level1: 'Banten',
+            level2: 'Tangerang',
+            level3: undefined,
+          },
+          'id-ID': {
+            level1: 'Banten',
+            level2: 'Tangerang',
+            level3: undefined,
+          },
+        },
+      ]);
+    });
+    it('Should be empty response when input by developer id', () => {
+      const response = new Formatter().multilanguagePlacesFormatter(
+        listings,
+        parsingBodyParams({ placeIds: ['58'], places: [] })
+      );
+      expect(response).to.deep.equal([]);
+    });
   });
 });

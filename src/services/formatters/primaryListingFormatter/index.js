@@ -157,7 +157,7 @@ export default class PrimaryListingFormatter {
     });
 
   parseParamsLocationLevel = (firstItems: Object, body: Object): Object => {
-    const { level3, level2 } = _.get(body, 'places.0', {});
+    const { level3, level2, level1 } = _.get(body, 'places.0', {});
     const placeIds = _.head(body.placeIds);
     const {
       city_name: city,
@@ -170,20 +170,41 @@ export default class PrimaryListingFormatter {
 
     if (level3 || placeIds === districtId) {
       return { district, city, province, placeId: districtId };
-    } else if (level2 || placeIds === cityId) {
-      return { city, province, placeId: cityId };
+    } else if ((level1 && !level2) || placeIds === provinceId) {
+      return { province, placeId: provinceId };
     }
 
-    return { province, placeId: provinceId };
+    return { city, province, placeId: cityId };
+  };
+
+  isSearchByDeveloperId = (locationId: string, firstItems: Object): boolean => {
+    const {
+      province_id: provinceId,
+      city_id: cityId,
+      district_id: districtId,
+    } = firstItems;
+    if (
+      provinceId === locationId ||
+      cityId === locationId ||
+      districtId === locationId ||
+      (!_.isEmpty(locationId) && locationId.substring(0, 3)) ===
+        constants.NEWLAUNCH.PROJECT_PREFIX_ID
+    ) {
+      return false;
+    }
+    return true;
   };
 
   multilanguagePlacesFormatter = (
     response: Object,
     body: Object
   ): Array<MultiLanguagePlace> => {
+    const { placeIds, places } = body;
     if (
-      _.size(body.placeIds) > 1 ||
-      (_.isEmpty(body.placeIds) && _.isEmpty(body.places))
+      _.size(placeIds) > 1 ||
+      (_.isEmpty(placeIds) && _.isEmpty(places)) ||
+      (_.isEmpty(places) &&
+        this.isSearchByDeveloperId(_.head(placeIds), _.head(response)))
     ) {
       return [];
     }

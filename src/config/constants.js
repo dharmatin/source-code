@@ -58,6 +58,7 @@ const constants = {
     UNIT: 'unit',
     CHANNELS: 'new',
     EXPLORE_POPULAR_LOCATIONS_ALL: 'all',
+    PROJECT_PREFIX_ID: 'nps',
   },
   COMMON: {
     BLANK_SPACE: ' ',
