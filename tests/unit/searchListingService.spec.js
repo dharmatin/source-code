@@ -222,7 +222,7 @@ describe('Format Response Search Listing', () => {
           },
           description:
             'Aeropolis is an integrated mixed use area comprising facilities for residential, office, hotel, commercial area, and retail with an area of 105 hectare. The project is strategically located, a mere 500 meters from Soekarno-Hatta international airport, Tangerang. For the first phase of development, the company constructed Aeropolis Residence apartment, Aeropolis Commercial Park, and Aeropolis Crystal Residence.\n\nThe latest development in the area consisting Residence apartment, Boutique Hotel, and Technopark, an integrated warehousing area. The development is set to improve the synergy between Aeropolis and Soekarno-Hatta airport.',
-          updatedAt: '2017-08-01T02:15:26+07:00',
+          updatedAt: 'Invalid date',
           address: {
             formattedAddress: 'Daan Mogot, Tangerang, Banten',
           },
