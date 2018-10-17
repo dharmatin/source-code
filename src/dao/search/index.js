@@ -195,7 +195,11 @@ export const findSortedAdsProjectId = async(
     .sort(
       !_.isUndefined(FIELD_MAP[sortBy]) ?
         { [FIELD_MAP[sortBy]]: direction } :
-        {}
+        {
+          product_status: constant.SORTING.DESCENDING,
+          is_premium: constant.SORTING.DESCENDING,
+          score: constant.SORTING.DESCENDING,
+        }
     );
   const result = await listingClient.searchAsync(createQuery);
   return resolveSolrGroupResponse(result, 'ads_project_id');
