@@ -259,6 +259,15 @@ export const searchAndSortProject = async(
     .createQuery()
     .rows(pageSize)
     .q(sortQuery);
+
+  if (sortBy === 'default') {
+    createQuery.sort({
+      product_status: constant.SORTING.DESCENDING,
+      is_premium: constant.SORTING.DESCENDING,
+      score: constant.SORTING.DESCENDING,
+    });
+  }
+
   return listingClient.searchAsync(createQuery);
 };
 
