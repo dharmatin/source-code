@@ -30,11 +30,14 @@ export class SearchListingService extends formatter {
     return {
       nextPageToken: nextPage,
       totalCount: listingList.numFound,
-      items: this.primaryListingFormatter(listingList.items),
-      multilanguagePlaces: this.multilanguagePlacesFormatter(
-        listingList.items,
-        body
-      ),
+      items:
+        _.size(listingList.items) > 0 ?
+          this.primaryListingFormatter(listingList.items) :
+          [],
+      multilanguagePlaces:
+        _.size(listingList.items) > 0 ?
+          this.multilanguagePlacesFormatter(listingList.items, body) :
+          [],
     };
   }
 }

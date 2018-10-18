@@ -20,7 +20,8 @@ class SearchController extends BaseController {
           pageSize: pageSize || constants.DEFAULT_QUERY.SEARCH_PAGE_SIZE,
           nextPageToken: nextPageToken || constants.DEFAULT_QUERY.PAGE_TOKEN,
         });
-        handleSuccess(res, search);
+        const { totalCount } = search;
+        totalCount > 0 ? handleSuccess(res, search) : handleNotFound(res);
       }
       handleNotFound(res);
     } catch (err) {
