@@ -29,7 +29,7 @@ export class SearchListingService extends formatter {
 
     return {
       nextPageToken: nextPage,
-      totalCount: _.size(listingList.items),
+      totalCount: listingList.numFound,
       items: this.primaryListingFormatter(listingList.items),
       multilanguagePlaces: this.multilanguagePlacesFormatter(
         listingList.items,
