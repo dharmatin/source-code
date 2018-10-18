@@ -8,6 +8,7 @@ import {
 import { replaceSpaceWithAsterisk } from '../../helpers/stringHelper';
 import _ from 'lodash';
 import type { RequestQueryParameters } from './type';
+import listingQueryBuilder from '../../helpers/listingQueryBuilder';
 
 const { client: listingClient } = new SolrClient(
   constant.SOLR_TABLE.LISTING_CORE
@@ -308,13 +309,29 @@ const rangeQuery = (field: string, min: number = 0, max: number = 0): any => {
   }]`;
 };
 
+const search = async(
+  queryParameters: RequestQueryParameters
+): Promise<Object> => {
+  const { query: { pageSize, nextPageToken } } = queryParameters;
+  const query = listingQueryBuilder(queryParameters);
+  const { q, sort } = query;
+  const createQuery = listingClient
+    .createQuery()
+    .q(q)
+    .start((nextPageToken - 1) * pageSize)
+    .rows(pageSize)
+    .sort(sort);
+  return listingClient.searchAsync(createQuery);
+};
+
 export default {
   defaultSearchAndSort: async(
     queryParameters: RequestQueryParameters,
     sortBy: string = 'default',
     direction: string = 'asc'
   ): Promise<Array<Object>> => {
-    let listings = await searchByProject(queryParameters, sortBy, direction);
+    // let listings = await searchByProject(queryParameters, sortBy, direction);
+    let listings = await search(queryParameters);
     const { pageSize } = queryParameters.query;
     listings = forceNumFound(listings, pageSize);
     return resolveSolrResponse(listings);
@@ -324,11 +341,12 @@ export default {
     sortBy: string,
     direction: string
   ): Promise<Array<Object>> => {
-    let listings = await searchAndSortProject(
-      queryParameters,
-      sortBy,
-      direction
-    );
+    // let listings = await searchAndSortProject(
+    //   queryParameters,
+    //   sortBy,
+    //   direction
+    // );
+    let listings = await search(queryParameters);
     const { pageSize } = queryParameters.query;
     listings = forceNumFound(listings, pageSize);
     return resolveSolrResponse(listings);
