@@ -37,9 +37,11 @@ const SORT_FIELD = {
   },
   'price-asc': {
     price_min_sort: constant.SORTING.ASCENDING,
+    price_max_sort: constant.SORTING.ASCENDING,
   },
   'price-desc': {
     price_max_sort: constant.SORTING.DESCENDING,
+    price_min_sort: constant.SORTING.DESCENDING,
   },
   'builtup-asc': {
     building_size_min: constant.SORTING.ASCENDING,
