@@ -159,6 +159,14 @@ export default class PrimaryListingFormatter {
   parseParamsLocationLevel = (firstItems: Object, body: Object): Object => {
     const { level3, level2, level1 } = _.get(body, 'places.0', {});
     const placeIds = _.head(body.placeIds);
+    if (_.isEmpty(firstItems)) {
+      return {
+        province: level1 && _.startCase(level1),
+        city: level2 && _.startCase(level2),
+        district: level3 && _.startCase(level3),
+      };
+    }
+
     const {
       city_name: city,
       district_name: district,

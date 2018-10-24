@@ -286,5 +286,28 @@ describe('Format Response Search Listing', () => {
       );
       expect(response).to.deep.equal([]);
     });
+    it('Should be response multiLanguagePlaces when listings not found', () => {
+      const response = new Formatter().multilanguagePlacesFormatter(
+        [],
+        parsingBodyParams({
+          places: [{ level1: 'jawa-tengah', level2: 'surakarta' }],
+        })
+      );
+      expect(response).to.deep.equal([
+        {
+          placeId: undefined,
+          'en-GB': {
+            level1: 'Jawa Tengah',
+            level2: 'Surakarta',
+            level3: undefined,
+          },
+          'id-ID': {
+            level1: 'Jawa Tengah',
+            level2: 'Surakarta',
+            level3: undefined,
+          },
+        },
+      ]);
+    });
   });
 });
