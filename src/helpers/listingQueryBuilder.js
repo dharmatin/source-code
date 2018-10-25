@@ -3,8 +3,6 @@ import constant from '../config/constants';
 import { replaceSpaceWithAsterisk } from './stringHelper';
 
 const baseSolrQuery = '(type:np AND status:Online AND -developer_company_id:0)';
-// const defaultChildListingQuery =
-//   '(type: np AND developer_company_id:0 AND -ads_project_id:0 AND status:Online)';
 
 const FILTER_FIELD = {
   priceRange: {
@@ -185,17 +183,18 @@ const buildFilterQuery = filters => {
     (result: Array<string>, value: Object, key: string): Array<string> => {
       if (!_.isUndefined(FILTER_FIELD[key])) {
         let query = '';
-        const { min, max } = value;
+        const min = _.get(value, 'min', '');
+        const max = _.get(value, 'max', '');
         if (key === 'priceRange') {
           query = buildPriceRangeFilterQuery(min, max);
         } else {
-          if (!_.isEmpty(min) && !_.isEmpty(max)) {
+          if (min && max) {
             query = `${FILTER_FIELD[key].min}:[${min} TO *] AND ${
               FILTER_FIELD[key].max
             }:[* TO ${max}]`;
-          } else if (!_.isEmpty(min)) {
+          } else if (min) {
             query = `${FILTER_FIELD[key].min}:[${min} TO *]`;
-          } else if (!_.isEmpty(max)) {
+          } else if (max) {
             query = `${FILTER_FIELD[key].max}:[* TO ${max}]`;
           }
         }
