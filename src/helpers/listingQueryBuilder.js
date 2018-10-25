@@ -186,14 +186,18 @@ const buildFilterQuery = filters => {
       if (!_.isUndefined(FILTER_FIELD[key])) {
         let query = '';
         const { min, max } = value;
-        if (!_.isEmpty(min) && !_.isEmpty(max)) {
-          query = `${FILTER_FIELD[key].min}:[${min} TO *] AND ${
-            FILTER_FIELD[key].max
-          }:[* TO ${max}]`;
-        } else if (!_.isEmpty(min)) {
-          query = `${FILTER_FIELD[key].min}:[${min} TO *]`;
-        } else if (!_.isEmpty(max)) {
-          query = `${FILTER_FIELD[key].max}:[* TO ${max}]`;
+        if (key === 'priceRange') {
+          query = buildPriceRangeFilterQuery(min, max);
+        } else {
+          if (!_.isEmpty(min) && !_.isEmpty(max)) {
+            query = `${FILTER_FIELD[key].min}:[${min} TO *] AND ${
+              FILTER_FIELD[key].max
+            }:[* TO ${max}]`;
+          } else if (!_.isEmpty(min)) {
+            query = `${FILTER_FIELD[key].min}:[${min} TO *]`;
+          } else if (!_.isEmpty(max)) {
+            query = `${FILTER_FIELD[key].max}:[* TO ${max}]`;
+          }
         }
 
         if (!_.isEmpty(query)) result.push(query);
@@ -202,6 +206,28 @@ const buildFilterQuery = filters => {
     },
     []
   ).join(constant.COMMON.TEXT_AND_WITH_SPACE);
+};
+
+const buildPriceRangeFilterQuery = (min, max) => {
+  let queryMin = '';
+  let queryMax = '';
+  if (!_.isEmpty(min) && !_.isEmpty(max)) {
+    queryMin = `(${FILTER_FIELD['priceRange'].min}:[${min} TO *] AND ${
+      FILTER_FIELD['priceRange'].min
+    }:[* TO ${max}])`;
+    queryMax = `(${FILTER_FIELD['priceRange'].max}:[${min} TO *] AND ${
+      FILTER_FIELD['priceRange'].max
+    }:[* TO ${max}])`;
+  } else if (!_.isEmpty(min)) {
+    queryMin = `(${FILTER_FIELD['priceRange'].min}:[${min} TO *])`;
+    queryMax = `(${FILTER_FIELD['priceRange'].max}:[${min} TO *])`;
+  } else if (!_.isEmpty(max)) {
+    queryMax = `(${FILTER_FIELD['priceRange'].max}:[* TO ${max}])`;
+    queryMin = `(${FILTER_FIELD['priceRange'].min}:[* TO ${max}])`;
+  }
+  return _.compact([queryMin, queryMax]).join(
+    constant.COMMON.TEXT_OR_WITH_SPACE
+  );
 };
 
 const buildSortQuery = sortType => {
