@@ -1,14 +1,77 @@
 /* eslint-disable */
+import chai from 'chai';
+import sinon from 'sinon';
 import { makeQuery, buildFilterQuery } from '../../src/dao/search';
-import listings from '../fixture/listingsSearch.json';
+import listingsSolr from '../fixture/listingsSearchSolr.json';
 import Formatter from '../../src/services/formatters/primaryListingFormatter';
-
-describe('Query Search Listings', () => {});
+import sinonChai from 'sinon-chai';
+import listingSearchResponse from '../fixture/listingSearchResponse';
+import SortListingFactory from '../../src/services/sortListingsFactory';
+import { SearchListingService } from '../../src/services/searchListingService';
+import searchDao from '../../src/dao/search';
 
 describe('Format Response Search Listing', () => {
+  context('#Listing Response', () => {
+    chai.use(sinonChai);
+    const { expect } = chai;
+    const sandbox = sinon.createSandbox();
+    afterEach(() => {
+      sandbox.restore();
+    });
+    const body = {
+      channels: ['new'],
+      placeIds: [],
+      places: [{ level1: 'jawa-tengah' }],
+      sortBy: null,
+      filters: {
+        propertyTypes: [],
+        bedroomRange: {},
+        bathroomRange: {},
+        priceRange: { min: null, max: null },
+        builtupSizeRange: { min: null, max: null },
+        landSizeRange: { min: null, max: null },
+        auction: false,
+        transactedIncluded: false,
+        isOwner: false,
+      },
+      customTexts: [],
+    };
+    const query = {
+      pageSize: '20',
+      nextPageToken: '1',
+    };
+    it('#Should response multilanguagePlaces when not found data', async () => {
+      const baseResponse = listingSearchResponse;
+      sandbox
+        .stub(SortListingFactory, 'searchAndSort')
+        .callsFake(() => listingSearchResponse);
+      const searchListingService = new SearchListingService(searchDao);
+      const result = await searchListingService.getListingList(body, query);
+      return expect(result).to.deep.equal({
+        nextPageToken: '1',
+        totalCount: 0,
+        items: [],
+        multilanguagePlaces: [
+          {
+            placeId: undefined,
+            'en-GB': {
+              level1: 'Jawa Tengah',
+              level2: undefined,
+              level3: undefined,
+            },
+            'id-ID': {
+              level1: 'Jawa Tengah',
+              level2: undefined,
+              level3: undefined,
+            },
+          },
+        ],
+      });
+    });
+  });
   context('#Items response', () => {
     it('Should be deep equals with items formatter response', () => {
-      const response = new Formatter().primaryListingFormatter(listings);
+      const response = new Formatter().primaryListingFormatter(listingsSolr);
       expect(response).to.deep.equal([
         {
           channels: ['new'],
@@ -183,7 +246,7 @@ describe('Format Response Search Listing', () => {
     };
     it('Should be deep equals with multilanguagePlaces level 2', () => {
       const response = new Formatter().multilanguagePlacesFormatter(
-        listings,
+        listingsSolr,
         parsingBodyParams()
       );
       expect(response).to.deep.equal([
@@ -204,7 +267,7 @@ describe('Format Response Search Listing', () => {
     });
     it('Should be deep equals with multilanguagePlaces level 1', () => {
       const response = new Formatter().multilanguagePlacesFormatter(
-        listings,
+        listingsSolr,
         parsingBodyParams({ places: [{ level1: 'banten' }] })
       );
       expect(response).to.deep.equal([
@@ -225,7 +288,7 @@ describe('Format Response Search Listing', () => {
     });
     it('Should be deep equals with multilanguagePlaces level 1 with placeIds', () => {
       const response = new Formatter().multilanguagePlacesFormatter(
-        listings,
+        listingsSolr,
         parsingBodyParams({ placeIds: ['province07'], places: [] })
       );
       expect(response).to.deep.equal([
@@ -246,21 +309,21 @@ describe('Format Response Search Listing', () => {
     });
     it('Should be empty response when no parsing places & placeIds', () => {
       const response = new Formatter().multilanguagePlacesFormatter(
-        listings,
+        listingsSolr,
         parsingBodyParams({ placeIds: [], places: [] })
       );
       expect(response).to.deep.equal([]);
     });
     it('Should be empty response when no multi places', () => {
       const response = new Formatter().multilanguagePlacesFormatter(
-        listings,
+        listingsSolr,
         parsingBodyParams({ placeIds: ['city11', 'city10'], places: [] })
       );
       expect(response).to.deep.equal([]);
     });
     it('Should be response multilanguagePlaces level2 when input by project id', () => {
       const response = new Formatter().multilanguagePlacesFormatter(
-        listings,
+        listingsSolr,
         parsingBodyParams({ placeIds: ['nps1045'], places: [] })
       );
       expect(response).to.deep.equal([
@@ -281,7 +344,7 @@ describe('Format Response Search Listing', () => {
     });
     it('Should be empty response when input by developer id', () => {
       const response = new Formatter().multilanguagePlacesFormatter(
-        listings,
+        listingsSolr,
         parsingBodyParams({ placeIds: ['58'], places: [] })
       );
       expect(response).to.deep.equal([]);

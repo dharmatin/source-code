@@ -34,10 +34,10 @@ export class SearchListingService extends formatter {
         _.size(listingList.items) > 0 ?
           this.primaryListingFormatter(listingList.items) :
           [],
-      multilanguagePlaces:
-        _.size(listingList.items) > 0 ?
-          this.multilanguagePlacesFormatter(listingList.items, body) :
-          [],
+      multilanguagePlaces: this.multilanguagePlacesFormatter(
+        listingList.items,
+        body
+      ),
     };
   }
 }
