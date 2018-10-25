@@ -1,7 +1,4 @@
 /* eslint-disable */
-import chai from 'chai';
-import sinon from 'sinon';
-import { makeQuery, buildFilterQuery } from '../../src/dao/search';
 import listingsSolr from '../fixture/listingsSearchSolr.json';
 import Formatter from '../../src/services/formatters/primaryListingFormatter';
 import sinonChai from 'sinon-chai';
@@ -9,15 +6,19 @@ import listingSearchResponse from '../fixture/listingSearchResponse';
 import SortListingFactory from '../../src/services/sortListingsFactory';
 import { SearchListingService } from '../../src/services/searchListingService';
 import searchDao from '../../src/dao/search';
+import areaDao from '../../src/dao/area';
+import config from '../../src/config';
 
 describe('Format Response Search Listing', () => {
+  beforeEach(() => {
+    config.lang = 'id';
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   context('#Listing Response', () => {
-    chai.use(sinonChai);
-    const { expect } = chai;
-    const sandbox = sinon.createSandbox();
-    afterEach(() => {
-      sandbox.restore();
-    });
     const body = {
       channels: ['new'],
       placeIds: [],
@@ -45,6 +46,16 @@ describe('Format Response Search Listing', () => {
       sandbox
         .stub(SortListingFactory, 'searchAndSort')
         .callsFake(() => listingSearchResponse);
+      sandbox.stub(areaDao, 'findByLevel').returns({
+        response: {
+          docs: [
+            {
+              placeId: 'jawaTengah1',
+              province: 'Jawa Tengah',
+            },
+          ],
+        },
+      });
       const searchListingService = new SearchListingService(searchDao);
       const result = await searchListingService.getListingList(body, query);
       return expect(result).to.deep.equal({
@@ -53,7 +64,7 @@ describe('Format Response Search Listing', () => {
         items: [],
         multilanguagePlaces: [
           {
-            placeId: undefined,
+            placeId: 'jawaTengah1',
             'en-GB': {
               level1: 'Jawa Tengah',
               level2: undefined,
@@ -244,14 +255,220 @@ describe('Format Response Search Listing', () => {
         ...newParams,
       };
     };
-    it('Should be deep equals with multilanguagePlaces level 2', () => {
-      const response = new Formatter().multilanguagePlacesFormatter(
-        listingsSolr,
+
+    it('Should get multilanguage place when listing is empty based on multiple place id parameters', async () => {
+      const body = parsingBodyParams({
+        placeIds: [
+          'eb54b6d15b55853a116f29ef41034c44',
+          '3abe124ecc82bf2c2e22e6058f38c50c',
+        ],
+        places: [],
+      });
+      const service = new SearchListingService(searchDao);
+      sandbox.stub(areaDao, 'findByPlaceIds').returns({
+        response: {
+          docs: [
+            {
+              placeId: 'eb54b6d15b55853a116f29ef41034c44',
+              province: 'jawa barat',
+            },
+            {
+              placeId: '3abe124ecc82bf2c2e22e6058f38c50c',
+              province: 'dki jakarta',
+              city: 'jakarta timur',
+              district: 'cijantung',
+            },
+          ],
+        },
+      });
+      const result = await service.getMultilanguagePlaces([], body);
+      expect(result).to.deep.equal([
+        {
+          placeId: 'eb54b6d15b55853a116f29ef41034c44',
+          'en-GB': {
+            level1: 'jawa barat',
+            level2: undefined,
+            level3: undefined,
+          },
+          'id-ID': {
+            level1: 'jawa barat',
+            level2: undefined,
+            level3: undefined,
+          },
+        },
+        {
+          placeId: '3abe124ecc82bf2c2e22e6058f38c50c',
+          'en-GB': {
+            level1: 'dki jakarta',
+            level2: 'jakarta timur',
+            level3: 'cijantung',
+          },
+          'id-ID': {
+            level1: 'dki jakarta',
+            level2: 'jakarta timur',
+            level3: 'cijantung',
+          },
+        },
+      ]);
+    });
+
+    it('Should get multilanguage place when listing is empty based on place level1 parameters', async () => {
+      const body = parsingBodyParams({
+        places: [{ level1: 'dki-jakarta' }],
+      });
+      const service = new SearchListingService(searchDao);
+      sandbox.stub(areaDao, 'findByLevel').returns({
+        response: {
+          docs: [
+            {
+              placeId: 'dki01',
+              province: 'DKI Jakarta',
+            },
+          ],
+        },
+      });
+      const result = await service.getMultilanguagePlaces([], body);
+      expect(result).to.be.deep.equal([
+        {
+          placeId: 'dki01',
+          'en-GB': {
+            level1: 'DKI Jakarta',
+            level2: undefined,
+            level3: undefined,
+          },
+          'id-ID': {
+            level1: 'DKI Jakarta',
+            level2: undefined,
+            level3: undefined,
+          },
+        },
+      ]);
+    });
+
+    it('Should get multilanguage place when listing is empty based on place level2 parameters', async () => {
+      const body = parsingBodyParams({
+        places: [{ level2: 'jakarta-timur' }],
+      });
+      const service = new SearchListingService(searchDao);
+      sandbox.stub(areaDao, 'findByLevel').returns({
+        response: {
+          docs: [
+            {
+              placeId: '02',
+              province: 'DKI Jakarta',
+              city: 'Jakarta Timur',
+            },
+          ],
+        },
+      });
+      const result = await service.getMultilanguagePlaces([], body);
+      expect(result).to.be.deep.equal([
+        {
+          placeId: '02',
+          'en-GB': {
+            level1: 'DKI Jakarta',
+            level2: 'Jakarta Timur',
+            level3: undefined,
+          },
+          'id-ID': {
+            level1: 'DKI Jakarta',
+            level2: 'Jakarta Timur',
+            level3: undefined,
+          },
+        },
+      ]);
+    });
+
+    it('Should get multilanguage place when listing is empty based on place level2, level1 parameters', async () => {
+      const body = parsingBodyParams({
+        places: [{ level1: 'dki-jakarta', level2: 'jakarta-timur' }],
+      });
+      const service = new SearchListingService(searchDao);
+      sandbox.stub(areaDao, 'findByLevel').returns({
+        response: {
+          docs: [
+            {
+              placeId: '02',
+              province: 'DKI Jakarta',
+              city: 'Jakarta Timur',
+            },
+          ],
+        },
+      });
+      const result = await service.getMultilanguagePlaces([], body);
+      expect(result).to.be.deep.equal([
+        {
+          placeId: '02',
+          'en-GB': {
+            level1: 'DKI Jakarta',
+            level2: 'Jakarta Timur',
+            level3: undefined,
+          },
+          'id-ID': {
+            level1: 'DKI Jakarta',
+            level2: 'Jakarta Timur',
+            level3: undefined,
+          },
+        },
+      ]);
+    });
+
+    it('Should get multilanguage place when listing is empty based on place level3, level2 parameters', async () => {
+      const body = parsingBodyParams({
+        places: [{ level2: 'jakarta-timur', level3: 'cijantung' }],
+      });
+      const service = new SearchListingService(searchDao);
+      sandbox.stub(areaDao, 'findByLevel').returns({
+        response: {
+          docs: [
+            {
+              placeId: '003',
+              province: 'DKI Jakarta',
+              city: 'Jakarta Timur',
+              district: 'Cijantung',
+            },
+          ],
+        },
+      });
+      const result = await service.getMultilanguagePlaces([], body);
+      expect(result).to.be.deep.equal([
+        {
+          placeId: '003',
+          'en-GB': {
+            level1: 'DKI Jakarta',
+            level2: 'Jakarta Timur',
+            level3: 'Cijantung',
+          },
+          'id-ID': {
+            level1: 'DKI Jakarta',
+            level2: 'Jakarta Timur',
+            level3: 'Cijantung',
+          },
+        },
+      ]);
+    });
+
+    it('Should get multilanguage place if listing is not empty', async () => {
+      const service = new SearchListingService(searchDao);
+      sandbox.stub(areaDao, 'findByLevel').returns({
+        response: {
+          docs: [
+            {
+              placeId: '003',
+              province: 'Banten',
+              city: 'Tangerang',
+            },
+          ],
+        },
+      });
+      const formattedItems = service.primaryListingFormatter(listingsSolr);
+      const result = await service.getMultilanguagePlaces(
+        formattedItems,
         parsingBodyParams()
       );
-      expect(response).to.deep.equal([
+      expect(result).to.be.deep.equal([
         {
-          placeId: 'city06',
+          placeId: '003',
           'en-GB': {
             level1: 'Banten',
             level2: 'Tangerang',
@@ -260,113 +477,6 @@ describe('Format Response Search Listing', () => {
           'id-ID': {
             level1: 'Banten',
             level2: 'Tangerang',
-            level3: undefined,
-          },
-        },
-      ]);
-    });
-    it('Should be deep equals with multilanguagePlaces level 1', () => {
-      const response = new Formatter().multilanguagePlacesFormatter(
-        listingsSolr,
-        parsingBodyParams({ places: [{ level1: 'banten' }] })
-      );
-      expect(response).to.deep.equal([
-        {
-          placeId: 'province07',
-          'en-GB': {
-            level1: 'Banten',
-            level2: undefined,
-            level3: undefined,
-          },
-          'id-ID': {
-            level1: 'Banten',
-            level2: undefined,
-            level3: undefined,
-          },
-        },
-      ]);
-    });
-    it('Should be deep equals with multilanguagePlaces level 1 with placeIds', () => {
-      const response = new Formatter().multilanguagePlacesFormatter(
-        listingsSolr,
-        parsingBodyParams({ placeIds: ['province07'], places: [] })
-      );
-      expect(response).to.deep.equal([
-        {
-          placeId: 'province07',
-          'en-GB': {
-            level1: 'Banten',
-            level2: undefined,
-            level3: undefined,
-          },
-          'id-ID': {
-            level1: 'Banten',
-            level2: undefined,
-            level3: undefined,
-          },
-        },
-      ]);
-    });
-    it('Should be empty response when no parsing places & placeIds', () => {
-      const response = new Formatter().multilanguagePlacesFormatter(
-        listingsSolr,
-        parsingBodyParams({ placeIds: [], places: [] })
-      );
-      expect(response).to.deep.equal([]);
-    });
-    it('Should be empty response when no multi places', () => {
-      const response = new Formatter().multilanguagePlacesFormatter(
-        listingsSolr,
-        parsingBodyParams({ placeIds: ['city11', 'city10'], places: [] })
-      );
-      expect(response).to.deep.equal([]);
-    });
-    it('Should be response multilanguagePlaces level2 when input by project id', () => {
-      const response = new Formatter().multilanguagePlacesFormatter(
-        listingsSolr,
-        parsingBodyParams({ placeIds: ['nps1045'], places: [] })
-      );
-      expect(response).to.deep.equal([
-        {
-          placeId: 'city06',
-          'en-GB': {
-            level1: 'Banten',
-            level2: 'Tangerang',
-            level3: undefined,
-          },
-          'id-ID': {
-            level1: 'Banten',
-            level2: 'Tangerang',
-            level3: undefined,
-          },
-        },
-      ]);
-    });
-    it('Should be empty response when input by developer id', () => {
-      const response = new Formatter().multilanguagePlacesFormatter(
-        listingsSolr,
-        parsingBodyParams({ placeIds: ['58'], places: [] })
-      );
-      expect(response).to.deep.equal([]);
-    });
-    it('Should be response multiLanguagePlaces when listings not found', () => {
-      const response = new Formatter().multilanguagePlacesFormatter(
-        [],
-        parsingBodyParams({
-          places: [{ level1: 'jawa-tengah', level2: 'surakarta' }],
-        })
-      );
-      expect(response).to.deep.equal([
-        {
-          placeId: undefined,
-          'en-GB': {
-            level1: 'Jawa Tengah',
-            level2: 'Surakarta',
-            level3: undefined,
-          },
-          'id-ID': {
-            level1: 'Jawa Tengah',
-            level2: 'Surakarta',
             level3: undefined,
           },
         },
