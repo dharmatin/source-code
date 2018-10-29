@@ -10,7 +10,9 @@ export class AreaDao {
   defaultField: string = 'placeId: id, province: province_name, city: city_name, district: district_name';
 
   async findByPlaceIds(ids: Array<string>): Promise<Object> {
-    const q = `id:(${ids.join(constant.COMMON.TEXT_OR_WITH_SPACE)})`;
+    const q = `id:(${this.sortUsingBoostQuery(ids).join(
+      constant.COMMON.TEXT_OR_WITH_SPACE
+    )})`;
     const areaQuery = solrClient
       .createQuery()
       .q(q)
@@ -32,12 +34,20 @@ export class AreaDao {
     const q = _.compact([queryByProvince, queryByCity, queryByDistrict]).join(
       constant.COMMON.TEXT_AND_WITH_SPACE
     );
-    console.log('QUERY', q);
+
     const areaQuery = solrClient
       .createQuery()
       .q(q)
       .fl(this.defaultField);
     return solrClient.searchAsync(areaQuery);
+  }
+
+  sortUsingBoostQuery(fieldToBoost: Array<string>): Array<string> {
+    let maxExponent = _.size(fieldToBoost) + 1;
+    return _.map(fieldToBoost, (id: any): any => {
+      maxExponent--;
+      return `${id}^${Math.pow(10, maxExponent)}`;
+    });
   }
 }
 
