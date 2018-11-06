@@ -1,7 +1,7 @@
 steps:
 
   - label: "Run Sonar Scan and Check the Quality Gate Status"
-    branches: master
+    branches: "master hotfix-*"
     plugins:
       ssh://git@git.realestate.com.au/cide/sonar-buildkite-plugin#1d8c7262f4531c46bba369796bcf3f955846445b:
         projectkey: rumah123-newlaunch
