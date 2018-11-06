@@ -40,7 +40,7 @@ describe('Listing Query Builder Helper', () => {
   const defaultSort = {
     product_status: constant.SORTING.DESCENDING,
     is_premium: constant.SORTING.DESCENDING,
-    score: constant.SORTING.DESCENDING,
+    active: constant.SORTING.DESCENDING,
   };
 
   it('Should return correct query with single place id', () => {
@@ -367,8 +367,8 @@ describe('Listing Query Builder Helper', () => {
     };
     const { sort } = listingQueryBuilder(request);
     expect(sort).to.be.deep.equal({
-      created_date: constant.SORTING.DESCENDING,
-      created_date: constant.SORTING.DESCENDING,
+      active: constant.SORTING.DESCENDING,
+      active: constant.SORTING.DESCENDING,
     });
   });
 });

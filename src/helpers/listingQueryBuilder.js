@@ -31,7 +31,7 @@ const SORT_FIELD = {
   default: {
     product_status: constant.SORTING.DESCENDING,
     is_premium: constant.SORTING.DESCENDING,
-    score: constant.SORTING.DESCENDING,
+    active: constant.SORTING.DESCENDING,
   },
   'price-asc': {
     price_min_sort: constant.SORTING.ASCENDING,
@@ -54,16 +54,16 @@ const SORT_FIELD = {
     land_size_max: constant.SORTING.DESCENDING,
   },
   'posted-asc': {
-    created_date: constant.SORTING.ASCENDING,
-  },
-  'posted-desc': {
-    created_date: constant.SORTING.DESCENDING,
-  },
-  'published-asc': {
     active: constant.SORTING.ASCENDING,
   },
-  'published-desc': {
+  'posted-desc': {
     active: constant.SORTING.DESCENDING,
+  },
+  'published-asc': {
+    updated_date: constant.SORTING.ASCENDING,
+  },
+  'published-desc': {
+    updated_date: constant.SORTING.DESCENDING,
   },
 };
 
