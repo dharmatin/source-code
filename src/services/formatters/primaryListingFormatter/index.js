@@ -50,7 +50,7 @@ export default class PrimaryListingFormatter {
         all_image_floorplan,
         logo,
         description,
-        updated_date,
+        active,
         district_name: district,
         province_name: province,
         latlng,
@@ -108,7 +108,7 @@ export default class PrimaryListingFormatter {
         floorPlanImages: formatFloorPlanImages(all_image_floorplan),
         logo: formatLogo(_.head(JSON.parse(logo)), config.image.baseUrl),
         description,
-        updatedAt: updatedAtFormat(updated_date),
+        updatedAt: updatedAtFormat(active),
         address: formatAddressInfo({
           district,
           city,
