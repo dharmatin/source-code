@@ -13,7 +13,7 @@ const common = {
   stag: {
     url: {
       base: 'https://dev.sg.rumah123.com',
-      newlaunch: 'https://newlaunch.dev.rumah123.com',
+      newlaunch: 'https://dev.sg.rumah123.com',
       article: 'https://artikel.dev.rumah123.com',
     },
     image: {
@@ -24,7 +24,7 @@ const common = {
   prod: {
     url: {
       base: 'https://www.rumah123.com',
-      newlaunch: 'https://newlaunch.rumah123.com',
+      newlaunch: 'https://www.rumah123.com',
       article: 'https://artikel.rumah123.com',
     },
     image: {
@@ -35,7 +35,7 @@ const common = {
   test: {
     url: {
       base: 'https://www.rumah123.com',
-      newlaunch: 'https://newlaunch.rumah123.com',
+      newlaunch: 'https://www.rumah123.com',
       article: 'https://artikel.rumah123.com',
     },
     image: {
