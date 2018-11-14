@@ -59,7 +59,10 @@ export const formatProjectProfilePageLink = (
 ): string => {
   const { projectName, city, id, referralCode } = projectProfile;
 
-  let formatUrl = config.lang === 'id' ? '/properti/' : '/en/property/';
+  let formatUrl =
+    config.lang === 'id' ?
+      '/perumahan-baru/properti/' :
+      '/en/new-launch/property/';
   formatUrl += slugify(city) + '/' + slugify(projectName) + '/' + id;
 
   if (!_.isNil(referralCode)) {

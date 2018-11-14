@@ -88,7 +88,8 @@ describe('Format Response Search Listing', () => {
           channels: ['new'],
           kind: 'property',
           id: 'nps1045',
-          shareLink: 'localhost/properti/tangerang/aeropolis/nps1045',
+          shareLink:
+            'localhost/perumahan-baru/properti/tangerang/aeropolis/nps1045',
           title: 'Aeropolis',
           subtitle:
             'With the vision of becoming airport town, Aeropolis is an area which completes the rapid development of Soekarno-Hatta international airport. ',
