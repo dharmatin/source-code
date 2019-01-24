@@ -1,9 +1,11 @@
 // @flow
 import Sequelize from 'sequelize';
 import MysqlClient from '../../../libs/connections/MysqlClient';
+import constants from '../../../config/constants';
 
-const DATABASE_NAME = 'default';
-const { client: dailyTrackingClient } = new MysqlClient(DATABASE_NAME);
+const { client: dailyTrackingClient } = new MysqlClient(
+  constants.DATABASE_NAME
+);
 
 export default {
   saveDailyTrackingView: async(dailyTrackingData: Object): Object => {

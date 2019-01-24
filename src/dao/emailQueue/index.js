@@ -2,9 +2,9 @@
 import Sequelize from 'sequelize';
 import MysqlClient from '../../libs/connections/MysqlClient';
 import type { EmailQueue } from './type';
+import constants from '../../config/constants';
 
-const DATABASE_NAME = 'default';
-const { client: DBClient } = new MysqlClient(DATABASE_NAME);
+const { client: DBClient } = new MysqlClient(constants.DATABASE_NAME);
 
 class EmailQueueDao {
   emailQueueModel: Object;

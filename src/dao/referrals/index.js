@@ -4,9 +4,9 @@ import _ from 'lodash';
 import MysqlClient from '../../libs/connections/MysqlClient';
 import type { AgentReferral } from './type';
 import config from '../../config';
+import constants from '../../config/constants';
 
-const DATABASE_NAME = 'default';
-const { client: ReferralClient } = new MysqlClient(DATABASE_NAME);
+const { client: ReferralClient } = new MysqlClient(constants.DATABASE_NAME);
 
 class ReferralDao {
   referral: Object;

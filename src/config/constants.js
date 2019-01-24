@@ -82,6 +82,7 @@ const constants = {
     ASCENDING: 'ASC',
     DESCENDING: 'DESC',
   },
+  DATABASE_NAME: 'default',
 };
 
 export default constants;

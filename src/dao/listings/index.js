@@ -3,7 +3,9 @@ import _ from 'lodash';
 import SolrClient from '../../libs/connections/SolrClient';
 import constants from '../../config/constants';
 
-const { client: listingClient } = new SolrClient(constants.SOLR_TABLE.LISTING_CORE);
+const { client: listingClient } = new SolrClient(
+  constants.SOLR_TABLE.LISTING_CORE
+);
 
 export default {
   searchProject: async(id: string): Object => {
@@ -16,7 +18,7 @@ export default {
     const queryListingById = listingClient
       .createQuery()
       .q(conditionQ)
-      .sort({'created_date': 'asc'})
+      .sort({ created_date: 'asc' })
       .start(0)
       .rows(100);
     return listingClient.searchAsync(queryListingById);
@@ -83,6 +85,19 @@ export default {
       .q(conditionQ)
       .fl(fields)
       .rows(1);
+    return listingClient.searchAsync(queryListingById);
+  },
+
+  searchSimilarityReferral: async(
+    id: Array<Object>,
+    priceMin: number,
+    priceMax: number
+  ): Object => {
+    const projectId = _.map(id, (item: Object): string => item.projectId).join(
+      constants.COMMON.BLANK_SPACE
+    );
+    const conditionQ = `id:(${projectId}) AND (price_min_sort: [${priceMin} TO *] AND price_max_sort: [* TO ${priceMax}])`;
+    const queryListingById = listingClient.createQuery().q(conditionQ);
     return listingClient.searchAsync(queryListingById);
   },
 };

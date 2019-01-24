@@ -1,0 +1,296 @@
+{
+  "response": {
+    "numFound": 2,
+    "start": 0,
+    "docs": [
+      {
+        "en_project_neighborhood": [
+          "airport-access:Airport 46 KM",
+          "bank-access:ATM & Bank 5+",
+          "toll-access:Toll Gate 5 KM",
+          "resto-access:Restaurant 20+",
+          "hospital-access:Hospital 0.3 KM",
+          "school-access:School 0.3 KM",
+          "mall-access:Shopping Mall 1.3 KM",
+          "gas-access:Gas Station 3+",
+          "station-access:Train Station 0.2 KM"
+        ],
+        "is_booking": 0,
+        "agent_name": "",
+        "land_width": 0,
+        "agent_phone": "",
+        "project_neighborhood": [
+          "airport-access:AIRPORT 46 KM",
+          "bank-access:ATM & BANK 5+",
+          "toll-access:GERBANG TOL 5 KM",
+          "resto-access:RESTAURANT 20+",
+          "hospital-access:RUMAH SAKIT 0.3 KM",
+          "school-access:SEKOLAH 0.3 KM",
+          "mall-access:SHOPPING MALL 1.3 KM",
+          "gas-access:SPBU 3+",
+          "station-access:STASIUN 0.2 KM"
+        ],
+        "id_project_neighborhood": [
+          "airport-access:AIRPORT 46 KM",
+          "bank-access:ATM & BANK 5+",
+          "toll-access:GERBANG TOL 5 KM",
+          "resto-access:RESTAURANT 20+",
+          "hospital-access:RUMAH SAKIT 0.3 KM",
+          "school-access:SEKOLAH 0.3 KM",
+          "mall-access:SHOPPING MALL 1.3 KM",
+          "gas-access:SPBU 3+",
+          "station-access:STASIUN 0.2 KM"
+        ],
+        "view_listing": "",
+        "type": "np",
+        "project_name": "Female Apartment",
+        "price_min": "635000000",
+        "price_min_sort": 635000000,
+        "is_referral": 1,
+        "connectivity": 0,
+        "hpa_active": "",
+        "price_sort": 0,
+        "price": "0",
+        "developer_district": "Margonda",
+        "developer_district_exact": "Margonda",
+        "all_image": [
+          "\"primary_property/project/1380/1493372980_149337297859031032c1c95ads_images_1730.jpg\";Female Apartemen(Type Azalea)"
+        ],
+        "booking_price": "0",
+        "id": "nps1380",
+        "project_promotion": "* Free kitchen cabinet with hood and hob* Free maintentance* Jogging track with fresh park* More than 1000 unit * Bebas banjir dan udara sejuk perbukitan nan hijau* Lokasi dekat dengan Stasiun, Pasar, Sekolah, Rumah Sakit, SPBU, Mall, Akses ke Jalan Tol Jagorawi",
+        "project_brandcolor": "#00ffe3",
+        "bathroom": 0,
+        "property_condition": "",
+        "period": "",
+        "subproject_name": "",
+        "project_quote": "The first concept Luxurious and Exclusively Apartment for women",
+        "ads_email2": "ecangkem@gmail.com",
+        "active": "2017-01-11 00:00:00",
+        "servbedroom": 0,
+        "building_length": 0,
+        "province_name": "Jawa Barat",
+        "province_exact": "Jawa Barat",
+        "garage_max": 0,
+        "is_premium": 0,
+        "district_city": "Pangkalan Jati, Depok",
+        "district_city_text": "Pangkalan Jati, Depok",
+        "district_city_exact": "Pangkalan Jati, Depok",
+        "listing_images": "[\"1380/galleri/galleri-koran_sindo_nasional_2016-09-14_lifestyle_apartemen_khusus_wanita_1-1483695387.jpg\",\"1380/galleri/galleri-female-apartment-depok-indonesia-1483695388.jpg\",\"1380/galleri/galleri-female-apartment-depok-indonesia-(7)-1483695388.jpg\",\"1380/galleri/galleri-female-apartment-depok-indonesia-(6)-1483695389.jpg\",\"1380/galleri/galleri-female-apartment-depok-indonesia-(5)-1483695390.jpg\",\"1380/galleri/galleri-female-apartment-depok-indonesia-(4)-1483695390.jpg\",\"1380/galleri/galleri-female-apartment-depok-indonesia-(3)-1483695391.jpg\",\"1380/galleri/galleri-female-apartment-depok-indonesia-(2)-1483695391.jpg\",\"1380/galleri/galleri-female-apartment-depok-indonesia-(1)-1483695391.jpg\",\"1380/galleri/galleri-female-apartment--1483695393.jpg\",\"1380/galleri/galleri-1-4-2017-12-10-11-pm-1483695394.jpg\",\"1380/galleri/galleri-gate-1487573726.jpg\",\"1380/galleri/galleri-side-view-r0-fx-1487573752.jpg\"]",
+        "is_attachment": 1,
+        "tagline": "He first concept Luxurious and Exclusively Apartment for women",
+        "building_size_min": 26,
+        "price_max": "635000000",
+        "price_max_sort": 635000000,
+        "developer_company_id": 887,
+        "status": "Online",
+        "is_gts": 0,
+        "developer_city_id": 8,
+        "hpa_expired": "",
+        "attachments": "{\"brochure\":\"primary_property/project/1380/1522049432_pdf_1380.pdf\",\"toc\":\"primary_property/project/1380/1522053715_pdf_1380.pdf\"}",
+        "garage_min": 0,
+        "sponsor_name_en": "Mandiri Mortgage Simulation",
+        "latitude": "-6.3217020000",
+        "product_status": 0,
+        "project_category": "",
+        "district_code_normed": 327609,
+        "en_project_segmentation": [
+          "FAMILY ORIENTED",
+          "INVESTOR",
+          "POTENTIAL HOME BUYER"
+        ],
+        "image_floorplan": "",
+        "building_size_max": 26,
+        "developer_province_exact": "Jawa Barat",
+        "developer_province": "Jawa Barat",
+        "all_image_floorplan": [
+          "\"primary_property/project/1380/1522049502_siteplan_1380.jpg\";Female Apartment",
+          "\"primary_property/project/1380/1495096759_591d5db2804f4floorplan_1730.jpg\";Female Apartemen(Type Azalea)"
+        ],
+        "currency": "IDR",
+        "building_width": 0,
+        "price_step_description": "",
+        "project_access": [
+          "Stasiun Kereta Ul - 10 menit",
+          "Stasiun Universitas Indonesia - 3 menit",
+          "Universitas Indonesia - 5 menit",
+          "Mall Margo City - 10 menit",
+          "Akses langsung menuju Universitas Indonesia - 10 menit"
+        ],
+        "website": "",
+        "ads_email": "wanda.taula@yahoo.com",
+        "address": "Jl. Margonda Raya No. 525 - A RT 02/RW 07, Depok, Jawa Barat\n",
+        "company_id": 0,
+        "developer_logo": "developer/logo/developer-logo-devoloper-glp-1487573786.png",
+        "garage": 0,
+        "electricity": 0,
+        "developer_contactno2": "6289432354323",
+        "developer_regdate": "2017-01-06 16:34:28.0",
+        "developer_contactno1": "6289653464054",
+        "project_facilities": [
+          "Gym:[\"primary_property/project/1380/1522049542_facility_131380.jpg\"]:Gymnastic untuk kesehatan",
+          "Koridor Ramah Lingkungan:[\"primary_property/project/1380/1522049581_facility_81380.jpg\"]:A convention center is a large building that is designed to hold a convention"
+        ],
+        "id_project_facilities": [
+          "Gym:[\"primary_property/project/1380/1522049542_facility_131380.jpg\"]:Gymnastic untuk kesehatan",
+          "Koridor Ramah Lingkungan:[\"primary_property/project/1380/1522049581_facility_81380.jpg\"]:A convention center is a large building that is designed to hold a convention"
+        ],
+        "bedroom_max": 1,
+        "contractor_id": 0,
+        "province_id": "53453c482d4d75c2fcc000cda7f2dd81",
+        "completion_date": "03-2018",
+        "updated_date": "2018-10-18 09:52:33",
+        "facility": "",
+        "first": "",
+        "all_listing_images": [
+          "\"primary_property/project/1380/1493372980_149337297859031032c1c95ads_images_1730.jpg\",\"primary_property/project/1380/1493372991_14933729895903103d99200ads_images_1730.jpg\",\"primary_property/project/1380/1493373004_14933730025903104a807a9ads_images_1730.jpg\";Female Apartemen(Type Azalea)"
+        ],
+        "agent": 0,
+        "developer_district_id": 348,
+        "all_video": [
+          ""
+        ],
+        "is_imb": "",
+        "ads_project_id": 1380,
+        "developer_name": "PT Graha Loka Pangestu",
+        "en_project_facilities": [
+          "Eco Corridor:[\"primary_property/project/1380/1522049581_facility_81380.jpg\"]:A convention center is a large building that is designed to hold a convention",
+          "Gym:[\"primary_property/project/1380/1522049542_facility_131380.jpg\"]:Gymnastic untuk kesehatan"
+        ],
+        "land_size_max": 100,
+        "bathroom_min": 1,
+        "project_whatsapp": "628563531993",
+        "en_project_main": [
+          "fa-star:Premium Location:Berada di kawasan CBD Depok",
+          "fa-map-marker:Strategic Location:Dekat dengan Mall dan Stasiun KRL Universitas Indonesia",
+          "fa-thumbs-o-up:Favourite Location:Dekat dengan Universitas Indonesia"
+        ],
+        "furniture_condition": "",
+        "land_length": 0,
+        "property_ref_id": 0,
+        "developer_description": ".",
+        "logo": "[\"1380/logo/logo-female-apartment-depok-indonesia-(8)-1483695357.jpg\"]",
+        "land_size_min": 100,
+        "stock": 0,
+        "bedroom_min": 1,
+        "bathroom_max": 1,
+        "longitude": "106.8016460000",
+        "group": [
+          ""
+        ],
+        "area_exact": "Pangkalan Jati, Depok, Jawa Barat",
+        "area": "Pangkalan Jati, Depok, Jawa Barat",
+        "image": "[\"1380/galleri/galleri-female-apartment--1483695393.jpg\"]",
+        "pasar_kpr_id": "0",
+        "developer_city": "Depok",
+        "developer_city_exact": "Depok",
+        "siteplan_description": "[\"Coklat : Tipe 41 (16)\",\"Ungu : Tipe 40 (16)\",\"Biru : Tipe 39 (32)\",\"Hijau : Tipe 35 (16)\",\"Krem : Tipe 32 (32)\",\"HIjau Muda : Tipe 31 (240)\",\"Orange : Tipe  30 (80)\",\"Kuning : Tipe 28 (48)\",\"Pink : Tipe 26 (16)\"]",
+        "all_360_video": [
+          "https://my.matterport.com/show/?m=oE1LcJ1xkXM;Female Apartemen(Type Azalea)"
+        ],
+        "architect_id": 0,
+        "background_image": "[\"primary_property/project/1380/1522049399_background_1380.jpg\",\"primary_property/project/1380/1501560183_background_1380.jpg\"]",
+        "ads_propertyname": "",
+        "installment": "0",
+        "id_key_point": [
+          "Kawasan Premium:Berada di kawasan CBD Depok",
+          "Lokasi Strategis:Dekat dengan Mall dan Stasiun KRL Universitas Indonesia",
+          "Lokasi Favorit:Dekat dengan Universitas Indonesia"
+        ],
+        "developer_user_id": 0,
+        "city_id": "727999d580f3708378e3d903ddfa246d",
+        "price_denom": "",
+        "en_key_point": [
+          "Premium Location:Berada di kawasan CBD Depok",
+          "Strategic Location:Dekat dengan Mall dan Stasiun KRL Universitas Indonesia",
+          "Favourite Location:Dekat dengan Universitas Indonesia"
+        ],
+        "developer_website": "",
+        "developer_province_id": 6,
+        "certificate": "",
+        "description": "Dengan mengusung konsep Safe, Secure, Comfort, dan Healthy, Female Apartement telah berkomitmen untuk membangun sebuah hunian yang aman, nyaman, dan sesuai dengan kebutuhan wanita masa kini. Berbagai fasilitas seperti kolam renang, salon, pusat kebugaran, laundry, TV kabel, dan internet akan tersedia untuk menunjang aktifitas Anda. Kami mengerti  bahwa keamanan dan kenyaman adalah hal terpenting bagi wanita, untuk itu sistem keamanan seperti access card, security 24 jam dan dilengkapi dengan cctv hampir tiap sudut akan membuat Anda beristirahat dengan tenang tanpa rasa khawatir. Raih kesempatan Anda, jangan lewatkan untuk memiliki hunian spesial kami.\n",
+        "url_sponsor": "https://www.rumah123.com/kpr-mandiri",
+        "architect_name": "",
+        "video": "",
+        "price_step": "0",
+        "project_segmentation": [
+          "COCOK UNTUK KELUARGA",
+          "INVESTOR",
+          "POTENTIAL HOME BUYER"
+        ],
+        "id_project_segmentation": [
+          "COCOK UNTUK KELUARGA",
+          "INVESTOR",
+          "POTENTIAL HOME BUYER"
+        ],
+        "ads_contact": "628563531993",
+        "qty_unit": 1,
+        "hpa_status": "",
+        "contractor_name": "",
+        "district_exact": "Pangkalan Jati",
+        "district_name": "Pangkalan Jati",
+        "city_exact": "Depok",
+        "city_name": "Depok",
+        "expired": "2022-08-11 09:53:09",
+        "id_project_access": [
+          "STASIUN:Stasiun Kereta Ul:10 KM",
+          "STASIUN:Stasiun Universitas Indonesia:3 KM",
+          "SEKOLAH:Universitas Indonesia:5 KM",
+          "SHOPPING MALL:Mall Margo City:10 KM",
+          "GERBANG TOL:Akses langsung menuju Universitas Indonesia:10 KM"
+        ],
+        "attachment": "",
+        "sponsor_name_id": "Simulasi KPR Mandiri",
+        "subtype": [
+          "ap"
+        ],
+        "is_sold": "",
+        "developer_email": "ecangkem@gmail.com",
+        "phoneline": 0,
+        "company": "",
+        "floor": 0,
+        "views": 16009,
+        "id_project_main": [
+          "fa-star:Kawasan Premium:Berada di kawasan CBD Depok",
+          "fa-map-marker:Lokasi Strategis:Dekat dengan Mall dan Stasiun KRL Universitas Indonesia",
+          "fa-thumbs-o-up:Lokasi Favorit:Dekat dengan Universitas Indonesia"
+        ],
+        "project_main": [
+          "fa-star:Kawasan Premium:Berada di kawasan CBD Depok",
+          "fa-map-marker:Lokasi Strategis:Dekat dengan Mall dan Stasiun KRL Universitas Indonesia",
+          "fa-thumbs-o-up:Lokasi Favorit:Dekat dengan Universitas Indonesia"
+        ],
+        "developer_brandcolor": "#ffffff",
+        "land_size": 0,
+        "en_project_access": [
+          "Train Station:Stasiun Kereta Ul:10 KM",
+          "Train Station:Stasiun Universitas Indonesia:3 KM",
+          "School:Universitas Indonesia:5 KM",
+          "Shopping Mall:Mall Margo City:10 KM",
+          "Toll Gate:Akses langsung menuju Universitas Indonesia:10 KM"
+        ],
+        "image_siteplan": "[\"primary_property/project/1380/1522049502_siteplan_1380.jpg\"]",
+        "architect_logo": "",
+        "city_province": "Depok, Jawa Barat",
+        "city_province_text": "Depok, Jawa Barat",
+        "city_province_exact": "Depok, Jawa Barat",
+        "bedroom": 0,
+        "360_video": "",
+        "contractor_logo": "",
+        "enable_gmaps": "1",
+        "ads_contact2": "",
+        "infloor": 0,
+        "building_size": 0,
+        "featured_event": 0,
+        "district_id": "395f695613e9c058f58069b5f9e172b5",
+        "created_date": "2017-01-06 16:35:57.0",
+        "category": "s",
+        "servbathroom": 0,
+        "latlng": "-6.3217020000,106.8016460000",
+        "developer_address": "Jln. 84f420718e no.584",
+        "_version_": 1623480718909767700
+      }
+    ]
+  }
+}
+

@@ -1,9 +1,11 @@
 // @flow
 import Sequelize from 'sequelize';
 import MysqlClient from '../../../libs/connections/MysqlClient';
+import constants from '../../../config/constants';
 
-const DATABASE_NAME = 'default';
-const { client: projectTrackingClient } = new MysqlClient(DATABASE_NAME);
+const { client: projectTrackingClient } = new MysqlClient(
+  constants.DATABASE_NAME
+);
 
 export default {
   saveProjectTrackingView: async(projectId: number): Object => {

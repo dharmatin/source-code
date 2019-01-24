@@ -33,8 +33,15 @@ export default class PrimaryListingFormatter {
       return `"${imageUrl}";${projectName}`;
     });
 
-  primaryListingFormatter = (response: Object): Array<PrimaryListing> =>
-    _.map(response, (items: Object): Object => {
+  primaryListingFormatter = (
+    response: Object,
+    option: Object = {}
+  ): Array<PrimaryListing> =>
+    _.map(response, (items: Object, index: number): Object => {
+      let referralCode;
+      if (_.get(option, `${index}.referralCode`)) {
+        referralCode = option[index].referralCode;
+      }
       const {
         id,
         project_name: projectName,
@@ -90,6 +97,7 @@ export default class PrimaryListingFormatter {
           projectName,
           city,
           id,
+          referralCode,
         }),
         title: projectName,
         subtitle: tagline,
