@@ -896,7 +896,7 @@ describe('--- Similarity Listing Referral ---', () => {
           },
           description:
             'Dengan mengusung konsep Safe, Secure, Comfort, dan Healthy, Female Apartement telah berkomitmen untuk membangun sebuah hunian yang aman, nyaman, dan sesuai dengan kebutuhan wanita masa kini. Berbagai fasilitas seperti kolam renang, salon, pusat kebugaran, laundry, TV kabel, dan internet akan tersedia untuk menunjang aktifitas Anda. Kami mengerti  bahwa keamanan dan kenyaman adalah hal terpenting bagi wanita, untuk itu sistem keamanan seperti access card, security 24 jam dan dilengkapi dengan cctv hampir tiap sudut akan membuat Anda beristirahat dengan tenang tanpa rasa khawatir. Raih kesempatan Anda, jangan lewatkan untuk memiliki hunian spesial kami.\n',
-          updatedAt: '2017-01-11T12:00:00+07:00',
+          updatedAt: 'Invalid date',
           address: {
             formattedAddress: 'Pangkalan Jati, Depok, Jawa Barat',
             lat: -6.321702,
