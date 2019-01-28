@@ -19,5 +19,5 @@ export type EmailQueueData = {
 };
 
 export interface DataCollector {
-  collect(params: ReferralCollectorData): Promise<EmailQueueData>;
+  collect(params: ReferralCollectorData): Promise<EmailQueueData>,
 }

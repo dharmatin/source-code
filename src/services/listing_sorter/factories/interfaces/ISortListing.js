@@ -1,6 +1,6 @@
 // @flow
 interface ISortListing {
-  searchAndSort(direction: string, options: Object): Array<Object>;
+  searchAndSort(direction: string, options: Object): Array<Object>,
 }
 
 export type { ISortListing };
