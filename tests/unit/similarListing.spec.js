@@ -919,13 +919,12 @@ describe('--- Similarity Listing Referral ---', () => {
           website: '',
           attributes: {
             totalUnits: '1',
-            builtUp: '0',
-            carPark: '0',
+            builtUp: 'Dari 26 - 26',
             phoneLine: '0',
             electricity: '0',
-            bathroom: '0',
-            bedroom: '0',
-            landArea: '0',
+            bathroom: '1',
+            bedroom: '1',
+            landArea: 'Dari 100 - 100',
             completionDate: '03-2018',
           },
           organisations: [

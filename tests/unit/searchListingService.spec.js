@@ -177,13 +177,8 @@ describe('Format Response Search Listing', () => {
           active: true,
           website: '',
           attributes: {
-            bathroom: '0',
-            bedroom: '0',
-            builtUp: '0',
-            carPark: '0',
             completionDate: '04-2018',
             electricity: '0',
-            landArea: '0',
             phoneLine: '0',
             totalUnits: '5',
           },
