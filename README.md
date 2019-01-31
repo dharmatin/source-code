@@ -2,6 +2,11 @@
 
 API for New launch PPP and referral dashboard.
 ## Development
+
+### install depedencies
+we use npm shrinkwrap instead npm install, to install all depedencies you can run :
+> npm shrinkwrap
+
 ### run service with npm
 run service on local 
 * Create your own connection.js configuration from example.connection.js
@@ -32,6 +37,8 @@ List end point for new launch api
 ### Listing
 * End point for getting listing by id : 
 > `{base_url}/listing/v1/listings/:id` (GET)
+* End Point for search listing
+> `{{hostname}}search/v1/search?pageSize=:limit&nextPageToken=:offset` (POST)
 
 ### Article
 * End point for getting article related listing by id :
@@ -63,3 +70,11 @@ End point for getting all project by organisation id :
 
 * End Point for getting all listing referral :
 > `{base_url}/v1/referrals/listings/listers` (GET)
+
+### Similar Listing
+
+* End Point similar listing :
+> `{base_url}/listing/v1/listings/similar/:listingId` (GET)
+
+* End Point similar listing for agent referral :
+> `{{hostname}}listing/v1/listings/similar/referral/:agentId?price=:price` (GET)
