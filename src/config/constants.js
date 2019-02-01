@@ -44,6 +44,7 @@ const constants = {
     DETAIL: 'detail',
   },
   SOLR_TABLE: {
+    LISTING_SECONDARY: 'listing',
     LISTING_CORE: 'listing_v2',
     LISTING_AREA: 'area_r123',
   },

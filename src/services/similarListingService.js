@@ -88,18 +88,32 @@ export class SimilarListingService {
     };
   }
 
+  async getDataListing(listingId: string): Object {
+    const listing = await this.userDao.findAgentByListingId(listingId);
+    const resolveResponse = resolveSolrResponse(listing);
+    if (resolveResponse.numFound > 0) {
+      const { agent, rupiah } = resolveResponse.items[0];
+      return {
+        agentId: agent,
+        price: rupiah,
+      };
+    }
+    return null;
+  }
+
   async searchSimilarityReferralById(
-    userId: string,
-    price: number
+    listingId: string
   ): Promise<SearchResponse> {
-    const { items: userResult } = await this.userDao.findAgentReferralByUserId(
-      userId
-    );
     const response = {
       totalCount: 0,
       items: [],
     };
-
+    const listing = await this.getDataListing(listingId);
+    const agentId = _.get(listing, 'agentId', 0);
+    const price = _.get(listing, 'price', 0);
+    const { items: userResult } = await this.userDao.findAgentReferralByUserId(
+      agentId
+    );
     if (!_.isEmpty(userResult)) {
       const minPrice = this.getRangeTolerance(price, 80).min;
       const maxPrice = this.getRangeTolerance(price, 20).max;

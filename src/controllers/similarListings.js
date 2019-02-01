@@ -28,12 +28,11 @@ class SimilarListingController extends BaseController {
     }
   }
 
-  @web.get('/similar/referral/:userId')
+  @web.get('/similar/referral/:listingId')
   async searchSimilarListingReferralByIdAction(req, res, next) {
     try {
       const similarListings = await similarListingService.searchSimilarityReferralById(
-        req.params.userId,
-        req.query.price || 0
+        req.params.listingId
       );
       if (!_.isEmpty(similarListings.items)) {
         handleSuccess(res, similarListings);

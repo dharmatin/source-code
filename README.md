@@ -77,4 +77,4 @@ End point for getting all project by organisation id :
 > `{base_url}/listing/v1/listings/similar/:listingId` (GET)
 
 * End Point similar listing for agent referral :
-> `{{hostname}}listing/v1/listings/similar/referral/:agentId?price=:price` (GET)
+> `{{hostname}}listing/v1/listings/similar/referral/:listingId` (GET)

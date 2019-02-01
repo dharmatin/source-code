@@ -814,6 +814,57 @@ describe('--- Similarity Listing Referral ---', () => {
     sandbox.restore();
   });
 
+  it('Should be correct response getDataListing on Similar Listing Referral', async(): any => {
+    const response = {
+      response: {
+        numFound: 1,
+        docs: [
+          {
+            id: 'hos2244423',
+            agent: 70491,
+            rupiah: 700000001,
+          },
+        ],
+      },
+    };
+    sandbox
+      .stub(UsersDao, 'findAgentByListingId')
+      .callsFake((): Object => response);
+
+    const service = new SimilarListingService(
+      PrimaryListingDao,
+      secondaryListingDao,
+      UsersDao
+    );
+
+    const result = await service.getDataListing('hos2244423');
+    return expect(result).to.deep.equal({
+      agentId: 70491,
+      price: 700000001,
+    });
+  });
+
+  it('Should be empty response getDataListing on Similar Listing Referral', async(): any => {
+    const response = {
+      response: {
+        numFound: 0,
+        docs: [],
+      },
+    };
+    sandbox
+      .stub(UsersDao, 'findAgentByListingId')
+      .callsFake((): Object => response);
+
+    const service = new SimilarListingService(
+      PrimaryListingDao,
+      secondaryListingDao,
+      UsersDao
+    );
+
+    const result = await service.getDataListing('hos224442311');
+    return expect(result).to.deep.equal(null);
+  });
+
   it('Should be correct response Similar Listing Referral', async(): any => {
     sandbox
       .stub(UsersDao, 'findAgentReferralByUserId')
@@ -828,10 +879,7 @@ describe('--- Similarity Listing Referral ---', () => {
       UsersDao
     );
 
-    const result = await service.searchSimilarityReferralById(
-      '783355',
-      675000000
-    );
+    const result = await service.searchSimilarityReferralById('hos2244423');
     return expect(result).to.deep.equal({
       totalCount: 1,
       items: [

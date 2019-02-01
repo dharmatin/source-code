@@ -3,8 +3,12 @@ import MysqlClient from '../../libs/connections/MysqlClient';
 import constants from '../../config/constants';
 import { map, assign, toString } from 'lodash';
 import Sequelize from 'sequelize';
+import SolrClient from '../../libs/connections/SolrClient';
 
 const { client: userClient } = new MysqlClient(constants.DATABASE_NAME);
+const { client: listingSecondaryClient } = new SolrClient(
+  constants.SOLR_TABLE.LISTING_SECONDARY
+);
 
 export class UsersDao {
   async findAgentReferralByUserId(userId: string): any {
@@ -32,6 +36,15 @@ export class UsersDao {
         console.log('error query: ', error);
       });
     return results;
+  }
+
+  async findAgentByListingId(listingId: string): Object {
+    const conditionQ = `id:${listingId}`;
+    const queryListingById = listingSecondaryClient
+      .createQuery()
+      .q(conditionQ)
+      .fl('id, agent, rupiah');
+    return listingSecondaryClient.searchAsync(queryListingById);
   }
 }
 
