@@ -89,13 +89,14 @@ export default {
   },
 
   searchSimilarityReferral: async(
-    id: Array<Object>,
+    referralResult: Array<Object>,
     priceMin: number,
     priceMax: number
   ): Object => {
-    const projectId = _.map(id, (item: Object): string => item.projectId).join(
-      constants.COMMON.BLANK_SPACE
-    );
+    const projectId = _.map(
+      referralResult,
+      (item: Object): string => item.projectId
+    ).join(constants.COMMON.BLANK_SPACE);
     const conditionQ = `id:(${projectId}) AND (price_min_sort: [${priceMin} TO *] AND price_max_sort: [* TO ${priceMax}])`;
     const queryListingById = listingClient.createQuery().q(conditionQ);
     return listingClient.searchAsync(queryListingById);

@@ -111,20 +111,20 @@ export class SimilarListingService {
     const listing = await this.getDataListing(listingId);
     const agentId = _.get(listing, 'agentId', 0);
     const price = _.get(listing, 'price', 0);
-    const { items: userResult } = await this.userDao.findAgentReferralByUserId(
-      agentId
-    );
-    if (!_.isEmpty(userResult)) {
+    const {
+      items: referralResult,
+    } = await this.userDao.findAgentReferralByUserId(agentId);
+    if (!_.isEmpty(referralResult)) {
       const minPrice = this.getRangeTolerance(price, 80).min;
       const maxPrice = this.getRangeTolerance(price, 20).max;
       const projectResult = await this.primaryListingDao.searchSimilarityReferral(
-        userResult,
+        referralResult,
         minPrice,
         maxPrice
       );
       const formatListing = new PrimaryListingFormatter().primaryListingFormatter(
         resolveSolrResponse(projectResult).items,
-        userResult
+        referralResult
       );
       _.assign(response, {
         totalCount: _.size(formatListing),

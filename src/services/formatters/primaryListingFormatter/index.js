@@ -38,10 +38,6 @@ export default class PrimaryListingFormatter {
     option: Object = {}
   ): Array<PrimaryListing> =>
     _.map(response, (items: Object, index: number): Object => {
-      let referralCode;
-      if (_.get(option, `${index}.referralCode`)) {
-        referralCode = option[index].referralCode;
-      }
       const {
         id,
         project_name: projectName,
@@ -99,6 +95,14 @@ export default class PrimaryListingFormatter {
         garage_min,
         garage_max,
       } = items;
+
+      let referralCode;
+      _.map(option, (items: Object) => {
+        if (items.projectId === id) {
+          referralCode = items.referralCode;
+        }
+      });
+
       return {
         channels: [constants.NEWLAUNCH.CHANNELS],
         kind: 'property',
