@@ -4,7 +4,7 @@ import { ListerService } from '../../src/services/listerService';
 import listerCore from '../../src/dao/listers';
 import searchListerResponse from '../fixture/searchListerResponse';
 
-describe('Format Response Search Listing', () => {
+describe('#Lister Service', () => {
   beforeEach(() => {
     config.lang = 'id';
   });
@@ -33,7 +33,7 @@ describe('Format Response Search Listing', () => {
           },
         ],
       },
-      createdAt: '2015-04-10T09:54:39+07:00',
+      createdAt: 'Invalid date',
       id: '70491',
       image: {
         type: 'image',
