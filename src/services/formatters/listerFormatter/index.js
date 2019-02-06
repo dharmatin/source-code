@@ -31,7 +31,7 @@ export const formatListerProfile = (lister: Object): Lister => {
     response.contact = contactFormatter.formatContactInfo({
       mainContact: dataLister.handphone,
       secondaryContact: '',
-      whatsapp: '',
+      whatsapp: dataLister.agent_whatsapp,
       email: dataLister.email,
       additionalEmail: '',
     });

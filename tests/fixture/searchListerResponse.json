@@ -1,0 +1,44 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 0
+  },
+  "response": {
+    "docs": [
+      {
+        "is_internal": 0,
+        "city": "Jakarta Pusat",
+        "language": "",
+        "area_group": "Jakarta Pusat, DKI Jakarta",
+        "handphone": "6282213929253",
+        "province": "DKI Jakarta",
+        "company_logo": "20160406062245_rumah123.jpeg",
+        "agent_whatsapp": "6281294465655",
+        "company": "Rumah & 123.com",
+        "company2": "Rumah & 123.com",
+        "company_autosuggest": "Rumah & 123.com",
+        "id": "70491",
+        "photo_url": "https://dm38pn59zg67e.cloudfront.net/photo/no_photo.jpg",
+        "listing_views": 195,
+        "property_specialist": "",
+        "email": "123.superqa@gmail.com",
+        "website": "",
+        "address": "Jalan  e2d586af3c no.146",
+        "company_id": 13983,
+        "have_building": 0,
+        "profile": "Baik dan pemberani",
+        "area_specialist": "",
+        "total_listing": 1,
+        "photo": "no_photo.jpg",
+        "gcompany": "Rumah & 123.com",
+        "name": "Syela Syahlula",
+        "name_autosuggest": "Syela Syahlula",
+        "username": "123.superqa@gmail.com",
+        "user_name": "123.superqa@gmail.com",
+        "status": "A",
+        "register": 1428634479,
+        "_version_": 1624706669866909700
+      }
+    ]
+  }
+}
