@@ -4,6 +4,7 @@ import * as contactFormatter from '../contactFormatter';
 import { slugify } from '../../../libs/utility';
 import moment from 'moment';
 import config from '../../../config';
+import { get } from 'lodash';
 
 export const formatListerProfile = (lister: Object): Lister => {
   const response = {};
@@ -31,7 +32,7 @@ export const formatListerProfile = (lister: Object): Lister => {
     response.contact = contactFormatter.formatContactInfo({
       mainContact: dataLister.handphone,
       secondaryContact: '',
-      whatsapp: dataLister.agent_whatsapp,
+      whatsapp: get(dataLister, 'agent_whatsapp', ''),
       email: dataLister.email,
       additionalEmail: '',
     });
