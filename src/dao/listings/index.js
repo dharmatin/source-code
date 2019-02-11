@@ -97,7 +97,7 @@ export default {
       referralResult,
       (item: Object): string => item.projectId
     ).join(constants.COMMON.BLANK_SPACE);
-    const conditionQ = `id:(${projectId}) AND (price_min_sort: [${priceMin} TO *] AND price_max_sort: [* TO ${priceMax}])`;
+    const conditionQ = `id:(${projectId}) AND (price_min_sort: [${priceMin} TO *] OR price_max_sort: [* TO ${priceMax}])`;
     const queryListingById = listingClient.createQuery().q(conditionQ);
     return listingClient.searchAsync(queryListingById);
   },
