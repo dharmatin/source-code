@@ -30,29 +30,29 @@ run service on local
 ## End Point
 List end point for new launch api
 
-### Diagnostic
+### Diagnostic :
 * End point for Checking service is up :
 > `{base_url}/status/heartbeat` (GET)
 
-### Listing
+### Listing :
 * End point for getting listing by id : 
 > `{base_url}/listing/v1/listings/:id` (GET)
 * End Point for search listing
 > `{{hostname}}search/v1/search?pageSize=:limit&nextPageToken=:offset` (POST)
 
-### Article
+### Article :
 * End point for getting article related listing by id :
 > `{base_url}/v1/articles/categories/primary-pdp` (GET)
 
-### Amenities
+### Amenities :
 * End point for getting project access related listing by id :
 > `{base_url}/v1/amenities/:id` (GET)
 
-### Organisation
+### Organisation :
 End point for getting all project by organisation id :
 > `{base_url}/v1/organisations/:id/projects` (GET)
 
-### Referrals
+### Referrals :
 * End Point for applying referral listing by id :
 > `{base_url}/v1/referrals/listings/:listingId/apply` (POST)
 
@@ -71,7 +71,7 @@ End point for getting all project by organisation id :
 * End Point for getting all listing referral :
 > `{base_url}/v1/referrals/listings/listers` (GET)
 
-### Similar Listing
+### Similar Listing :
 
 * End Point similar listing :
 > `{base_url}/listing/v1/listings/similar/:listingId` (GET)
