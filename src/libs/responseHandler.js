@@ -2,7 +2,7 @@ export const handleSuccess = (response, data) => {
   return response
     .set('Content-Type', 'application/json')
     .status(200)
-    .send(data)
+    .json(data)
     .end();
 };
 
