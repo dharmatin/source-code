@@ -28,10 +28,15 @@ import type { PrimaryListing } from './types';
 import type { MultiLanguagePlace } from '../addressFormatter/types';
 
 export default class PrimaryListingFormatter {
-  _getListMedias = ({ bgImage, projectName }: Object): Array<string> =>
-    _.map(JSON.parse(bgImage), (imageUrl: string): any => {
-      return `"${imageUrl}";${projectName}`;
-    });
+  _getListMedias = ({ bgImage, projectName }: Object): any => {
+    try {
+      return _.map(JSON.parse(bgImage), (imageUrl: string): any => {
+        return `"${imageUrl}";${projectName}`;
+      });
+    } catch (e) {
+      console.log(`Error when parsing media [${bgImage}]: ${e}`);
+    }
+  };
 
   primaryListingFormatter = (
     response: Object,

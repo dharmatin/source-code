@@ -38,46 +38,49 @@ export const formatImageCover = (image: string): Media => {
 
 export const formatListingImages = (
   imagesWithDescription: Array<string>
-): Array<Media> => {
+): any => {
   const medias = [];
+  try {
+    _.map(imagesWithDescription, (item: string) => {
+      let image = {};
+      const [img, description] = _.split(item, ';');
+      if (!_.isEmpty(img)) {
+        const nestedImages = _.split(img, ',');
+        if (nestedImages.length > 1) {
+          _.map(nestedImages, (nestedImg: string) => {
+            image = {};
+            image.type = 'image';
+            image.urlTemplate =
+              config.image.sharpieUrl +
+              '/premium/${width}x${height}-${scale}/' +
+              _.trim(nestedImg, '"');
 
-  _.map(imagesWithDescription, (item: string) => {
-    let image = {};
-    const [img, description] = _.split(item, ';');
-    if (!_.isEmpty(img)) {
-      const nestedImages = _.split(img, ',');
-      if (nestedImages.length > 1) {
-        _.map(nestedImages, (nestedImg: string) => {
-          image = {};
+            /* eslint-disable no-template-curly-in-string */
+            if (!_.isEmpty(description)) {
+              image.description = description;
+            }
+            medias.push(image);
+          });
+        } else {
           image.type = 'image';
           image.urlTemplate =
             config.image.sharpieUrl +
             '/premium/${width}x${height}-${scale}/' +
-            _.trim(nestedImg, '"');
+            _.trim(img, '"');
 
           /* eslint-disable no-template-curly-in-string */
           if (!_.isEmpty(description)) {
             image.description = description;
           }
           medias.push(image);
-        });
-      } else {
-        image.type = 'image';
-        image.urlTemplate =
-          config.image.sharpieUrl +
-          '/premium/${width}x${height}-${scale}/' +
-          _.trim(img, '"');
-
-        /* eslint-disable no-template-curly-in-string */
-        if (!_.isEmpty(description)) {
-          image.description = description;
         }
-        medias.push(image);
       }
-    }
-  });
+    });
 
-  return medias;
+    return medias;
+  } catch (e) {
+    console.log(`Media formatter Error: ${e}`);
+  }
 };
 
 export const formatThreeSixtyVideos = (
