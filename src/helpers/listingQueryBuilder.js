@@ -146,13 +146,13 @@ const buildQueryByPlace = (places: Array<Object>): string => {
   ).join(constant.COMMON.TEXT_OR_WITH_SPACE);
   const placeQuery = [
     `province_name:(${
-      !_.isEmpty(queryLevel1) ? queryLevel1.replace('-', ' ') : '*'
+      !_.isEmpty(queryLevel1) ? queryLevel1.replace(/-/g, ' ') : '*'
     })`,
     `city_name:(${
-      !_.isEmpty(queryLevel2) ? queryLevel2.replace('-', ' ') : '*'
+      !_.isEmpty(queryLevel2) ? queryLevel2.replace(/-/g, ' ') : '*'
     })`,
     `district_name:(${
-      !_.isEmpty(queryLevel3) ? queryLevel3.replace('-', ' ') : '*'
+      !_.isEmpty(queryLevel3) ? queryLevel3.replace(/-/g, ' ') : '*'
     })`,
   ];
 
