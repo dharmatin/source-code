@@ -12,9 +12,13 @@ export class ReferralListerService {
 
   async getListerByReferralCode(
     referralCode: string,
-    listingId: string
+    listingId?: string
   ): Promise<AgentReferral> {
-    const objListingId = formatListingIdToObjectId(listingId);
+    let objListingId = {};
+    if (listingId) {
+      objListingId = formatListingIdToObjectId(listingId);
+    }
+
     const referral: AgentReferral = await this.referral.getReferralByCodeAndListingId(
       {
         referralCode: referralCode,

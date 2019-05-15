@@ -16,6 +16,7 @@ import SuggestionsController from './controllers/suggestionsController';
 import SearchController from './controllers/searchController';
 import PlacesController from './controllers/placesController';
 import FeaturedController from './controllers/featuredController';
+import Listers from './controllers/listers';
 
 if (process.env.NEW_RELIC_LICENSE_KEY) {
   require('newrelic');
@@ -40,6 +41,7 @@ web.register(app, SuggestionsController);
 web.register(app, SearchController);
 web.register(app, PlacesController);
 web.register(app, FeaturedController);
+web.register(app, Listers);
 
 app.use('*', (req, res, next) => {
   res.status(400).send('No page found!');
