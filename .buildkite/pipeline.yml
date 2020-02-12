@@ -1,37 +1,37 @@
 steps:
 
-  - label: "Run Sonar Scan and Check the Quality Gate Status"
-    branches: master
-    plugins:
-      ssh://git@git.realestate.com.au/cide/sonar-buildkite-plugin#1d8c7262f4531c46bba369796bcf3f955846445b:
-        projectkey: rumah123-newlaunch
-        projectname: "Rumah123-NewLaunch"
-        exclusions: "test/**,node_modules/**"
-        breakbuild: false
-    agents:
-      queue: 99group:ci
+#  - label: "Run Sonar Scan and Check the Quality Gate Status"
+#    branches: master
+#    plugins:
+#      ssh://git@git.realestate.com.au/cide/sonar-buildkite-plugin#1d8c7262f4531c46bba369796bcf3f955846445b:
+#        projectkey: rumah123-newlaunch
+#        projectname: "Rumah123-NewLaunch"
+#        exclusions: "test/**,node_modules/**"
+#        breakbuild: false
+#    agents:
+#      queue: 99group:ci
 
-  - wait
+#  - wait
+#
+#  - label: ":white_check_mark: Test Lint & flow"
+#    command: "./scripts/eslint.sh"
+#    env:
+#      ENV: stag
+#      REGION: ap-southeast-1
+#    agents:
+#      queue: 99group:ci
+#
+#  - wait
+#
+#  - label: ":white_check_mark: Unit Test"
+#    command: "./scripts/unit_test.sh"
+#    env:
+#      ENV: stag
+#      REGION: ap-southeast-1
+#    agents:
+#      queue: 99group:ci
 
-  - label: ":white_check_mark: Test Lint & flow"
-    command: "./scripts/eslint.sh"
-    env:
-      ENV: stag
-      REGION: ap-southeast-1
-    agents:
-      queue: 99group:ci
-
-  - wait
-
-  - label: ":white_check_mark: Unit Test"
-    command: "./scripts/unit_test.sh"
-    env:
-      ENV: stag
-      REGION: ap-southeast-1
-    agents:
-      queue: 99group:ci
-
-  - wait
+#  - wait
 
 #  - label: integration test
 #    command: "echo integration test " #"./scripts/integration_test.sh"
