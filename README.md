@@ -1,4 +1,4 @@
-# new-launch-api
+# new-launch-api [![Build status](https://badge.buildkite.com/52c277936515983f8767772f4ffe673715388ca1916c83e1cb.svg)](https://buildkite.com/rea/new-launch-api)
 
 API for New launch PPP and referral dashboard.
 ## Development
@@ -8,7 +8,7 @@ we use npm shrinkwrap instead npm install, to install all depedencies you can ru
 > npm shrinkwrap
 
 ### run service with npm
-run service on local 
+run service on local
 * Create your own connection.js configuration from example.connection.js
 > `npm run start:local`
 
@@ -23,7 +23,7 @@ run service on local
 * build docker first
 > `docker build . -t new-launch-api:latest  --build-arg RUNTIME=local `
 
-* running docker 
+* running docker
 > `docker run -t -d -p 9000:9000 --name container_newlaunch new-launch-api:latest`
 
 
@@ -35,7 +35,7 @@ List end point for new launch api
 > `{base_url}/status/heartbeat` (GET)
 
 ### Listing :
-* End point for getting listing by id : 
+* End point for getting listing by id :
 > `{base_url}/listing/v1/listings/:id` (GET)
 * End Point for search listing
 > `{{hostname}}search/v1/search?pageSize=:limit&nextPageToken=:offset` (POST)
