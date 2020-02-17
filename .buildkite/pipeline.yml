@@ -48,8 +48,9 @@ steps:
       ENV: stag
       REGION: ap-southeast-1
     agents:
-      queue: 99group:ci
+      queue: dharmatin
 
+  - block: ":rocket: Deploy Staging!"
   - wait
 
   - trigger: "new-launch-api-deploy"

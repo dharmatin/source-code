@@ -4,7 +4,7 @@ set -ex
 
 #  Environment variable from build kite
 echo '--- :house_with_garden: Check the environment here'
-export ACCOUNT_ID=943900301754
+export ACCOUNT_ID=208713043412
 export BUILD_NUMBER=${BUILDKITE_BUILD_NUMBER:=snapshot}
 export BUILD_COMMIT=${BUILDKITE_COMMIT:=snapshot}
 export ECR_REPO_NAME="newlaunch-api-id"
