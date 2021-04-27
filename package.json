@@ -76,7 +76,7 @@
     "mysql2": "^1.5.2",
     "newrelic": "^5.2.0",
     "php-serialization": "0.0.4",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "sequelize": "^4.35.2",
     "solr-client": "^0.7.0",
     "sprintf-js": "^1.1.1"
